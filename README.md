@@ -9,7 +9,7 @@ report hotels, apartments, bed space, dormitories, and transient spaces in Los B
 
 ## Setup
 
-Install nvm
+Install [nvm](https://github.com/nvm-sh/nvm)
 
 ```
 curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.39.3/install.sh | bash
