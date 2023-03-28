@@ -4,7 +4,7 @@
     <summary> GitHub Pull Request (to be updated) </summary>  
     
   #### Developers
-  1. Fork the  deploy/master branch (not clone)
+  1. Fork the  develop/master branch (not clone)
   2. Create a branch on your forked repository.  
   3. git add, commit, and push your changes on your local repository 
   4. Click "Compare & pull request" for your ticket, git pull (pull request) -- for approval by Team Leads
