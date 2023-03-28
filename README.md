@@ -33,6 +33,12 @@ or
 wget -qO- https://raw.githubusercontent.com/nvm-sh/nvm/v0.39.3/install.sh | bash
 ```
 
+Update shell configs
+
+```
+exec $SHELL
+```
+
 Install and use the Nodejs LTS version
 
 ```
