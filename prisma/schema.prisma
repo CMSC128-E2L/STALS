@@ -81,6 +81,15 @@ model Accomodation {
     is_archived     Boolean
 }
 
+model Room{
+    id              String    @id @default(cuid())
+    occupied        Boolean
+    num_of_beds     Int
+    price           Float
+    accomodation    String
+    is_archived     Boolean
+}
+
 model VerificationToken {
     identifier String
     token      String   @unique
