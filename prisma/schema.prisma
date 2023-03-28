@@ -48,27 +48,37 @@ model Session {
 }
 
 model User {
-    id            String    @id @default(cuid())
-    name          String?
-    email         String?   @unique
-    emailVerified DateTime?
-    image         String?
-    accounts      Account[]
-    sessions      Session[]
+    id              String    @id @default(cuid())
+    name            String?
+    email           String?   @unique
+    emailVerified   DateTime?
+    image           String?
+    accounts        Account[]
+    sessions        Session[]
 
-    subtype Int
-    username String
-    password String
-    first_name String
-    middle_name String
-    last_name String
-    contact_number Int
-    email_address String
-    verified Boolean
+    subtype         Int
+    username        String
+    password        String
+    first_name      String
+    middle_name     String
+    last_name       String
+    contact_number  Int
+    email_address   String
+    verified        Boolean
 }
 
 model Accomodation {
-    
+    id              String    @id @default(cuid())
+    name            String
+    address         String
+    location        String
+    landlord        String
+    contact_number  Int
+    fb_page         String?
+    tags            String[]
+    num_of_rooms    Int
+    rooms           String[]
+    is_archived     Boolean
 }
 
 model VerificationToken {
