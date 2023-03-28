@@ -17,23 +17,11 @@ export const listingRouter = createTRPCRouter({
       console.log("error", error);
     }
   }),
-  postMessage: publicProcedure
-    .input(
-      z.object({
-        name: z.string(),
-        location: z.string(),
-      })
-    )
-    .mutation(async ({ ctx, input }) => {
-      try {
-        await ctx.prisma.listing.create({
-          data: {
-            name: input.name,
-            location: input.location,
-          },
-        });
-      } catch (error) {
-        console.log(error);
-      }
-    }),
+  // 
+  getOne: publicProcedure.input(z.string()).query(({ ctx, input }) => {
+    const id = input;
+    return ctx.prisma.listing.findUnique({
+      where: { id },
+    });
+  }),
 });
