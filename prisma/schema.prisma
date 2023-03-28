@@ -67,6 +67,10 @@ model User {
     verified Boolean
 }
 
+model Accomodation {
+    
+}
+
 model VerificationToken {
     identifier String
     token      String   @unique
