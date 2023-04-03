@@ -5,10 +5,32 @@ import { signIn, signOut, useSession } from "next-auth/react";
 
 import { api } from "~/utils/api";
 
-const Home: NextPage = () => {
-  const hello = api.example.hello.useQuery({ text: "from tRPC" });
 
-  return (
+const Home: NextPage = () => {
+  const hello = api.user.hello.useQuery({ text: "from tRPC" });
+  const developer = api.developer.getDeveloper.useQuery();
+
+  if(developer.data === "backend"){
+    return (
+      <>
+      <div>backend</div>
+      </>
+    );
+  }else if(developer.data === "database"){
+    return (
+      <>
+      <div>database</div>
+      </>
+    );
+  }else if(developer.data === "frontend"){
+    return (
+      <>
+      <div>frontend</div>
+      </>
+    );
+  }
+
+  var test = (
     <>
       <Head>
         <title>Create T3 App</title>
@@ -54,6 +76,8 @@ const Home: NextPage = () => {
       </main>
     </>
   );
+
+  return test;
 };
 
 export default Home;
@@ -61,7 +85,7 @@ export default Home;
 const AuthShowcase: React.FC = () => {
   const { data: sessionData } = useSession();
 
-  const { data: secretMessage } = api.example.getSecretMessage.useQuery(
+  const { data: secretMessage } = api.user.getSecretMessage.useQuery(
     undefined, // no input
     { enabled: sessionData?.user !== undefined },
   );
