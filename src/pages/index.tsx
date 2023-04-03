@@ -4,16 +4,20 @@ import Link from "next/link";
 import { signIn, signOut, useSession } from "next-auth/react";
 
 import { api } from "~/utils/api";
+import { stringify } from "superjson";
 
 
 const Home: NextPage = () => {
   const hello = api.user.hello.useQuery({ text: "from tRPC" });
   const developer = api.developer.getDeveloper.useQuery();
+  // const createduser = api.user.createUser.useQuery();
+  const getfirst = api.user.getFirst.useQuery();
 
   if(developer.data === "backend"){
     return (
       <>
       <div>backend</div>
+      {stringify(getfirst.data)}
       </>
     );
   }else if(developer.data === "database"){
