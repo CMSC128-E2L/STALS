@@ -9,7 +9,8 @@ import {
 import { prisma } from "~/server/db";
 
 export const userRouter = createTRPCRouter({
-  createUser: publicProcedure.query(async () => {
+  // example not final
+  manualCreate: publicProcedure.query(async () => {
     try {
       return await prisma.user.create({
         data:{
