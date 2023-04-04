@@ -4,26 +4,17 @@ import Link from "next/link";
 import { signIn, signOut, useSession } from "next-auth/react";
 
 import { api } from "~/utils/api";
-import { stringify } from "superjson";
+import Backend from "./backend";
 
+const DEV_BACKEND = true;
 
 const Home: NextPage = () => {
-  const DEVELOPER = "BACKEND";
-  const hello = api.user.hello.useQuery({ text: "from tRPC" });
-  
-  if(DEVELOPER === "BACKEND"){
-    // const createduser = api.user.createUser.useQuery();
-    // const createUser = api.user.createUser.useQuery();
-    const getfirst = api.user.getFirst.useQuery();
-    return (
-      <>
-      <div>backend</div>
-      {stringify(getfirst.data)}
-      </>
-    );
+  if (DEV_BACKEND) {
+    return <Backend></Backend>;
   }
-
-  var test = (
+  
+  const hello = api.user.hello.useQuery({ text: "from tRPC" });
+  return (
     <>
       <Head>
         <title>Create T3 App</title>
@@ -69,8 +60,6 @@ const Home: NextPage = () => {
       </main>
     </>
   );
-
-  return test;
 };
 
 export default Home;
