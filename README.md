@@ -50,20 +50,11 @@ Check node version
 ```
 node --version
 ```
-> it should be "v18.15.0"
+> it should be "v18.XX.X"
 
-Create .env file (TODO: update for production)
+Get the .env file in the discord channel general-rources
 
-```
-cp .env.example .env
-```
-
-Generate Database (TODO: change sqlite to mysql for production)
-
-```
-npx prisma db push
-```
-
+https://discord.com/channels/1080321297386573915/1089892717905064036/1097765581278687262
 
 ## Usage
 Use Nodejs LTS
