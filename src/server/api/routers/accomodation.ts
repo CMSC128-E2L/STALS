@@ -97,7 +97,9 @@ export const accommodationRouter = createTRPCRouter({
   searchAccomodation: publicProcedure.input(z.string()).query(({ ctx, input }) => {
       const name = input;
       return ctx.prisma.accomodation.findMany({
-        where: { name },
+        where: { name:{
+          contains: name
+        } },
         orderBy: {
           createdAt: "desc",
         },
