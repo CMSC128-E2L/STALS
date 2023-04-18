@@ -72,7 +72,7 @@ model User {
   last_name      String
   contact_number Int
   email_address  String
-  verified       Boolean
+  is_visible     Boolean
 }
 
 model Accomodation {
@@ -96,4 +96,19 @@ model Room {
   price        Float
   accomodation String
   is_archived  Boolean
+}
+
+model Report {
+  id          String @id @default(cuid())
+  type        String
+  reported_id String
+  report      String
+}
+
+model Review {
+  id              String @id @default(cuid())
+  accomodation_id String
+  user_id         String
+  rating          Int
+  review          String
 }
