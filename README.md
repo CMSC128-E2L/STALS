@@ -56,6 +56,11 @@ Get the .env file in the discord channel general-rources
 
 https://discord.com/channels/1080321297386573915/1089892717905064036/1097765581278687262
 
+Then run this command to deploy locally
+```
+npm run dev
+```
+
 ## Usage
 Use Nodejs LTS
 
