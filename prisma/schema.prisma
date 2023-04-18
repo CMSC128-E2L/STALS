@@ -113,5 +113,5 @@ model Review {
   accomodation_id String
   user_id         String
   rating          Int
-  review          String
+  review          String?
 }
