@@ -90,19 +90,22 @@ model Accomodation {
 }
 
 model Room {
-  id           String  @id @default(cuid())
-  occupied     Boolean
-  num_of_beds  Int
-  price        Float
-  accomodation String
-  is_archived  Boolean
+  id             String  @id @default(cuid())
+  occupied       Boolean
+  num_of_beds    Int
+  with_aircon    Boolean
+  price          Float
+  with_utilities Boolean
+  accomodation   String
+  is_archived    Boolean
 }
 
 model Report {
-  id          String @id @default(cuid())
-  type        String
-  reported_id String
-  report      String
+  id            String @id @default(cuid())
+  type_reported String
+  reported_id   String
+  user_id       String
+  report        String
 }
 
 model Review {
