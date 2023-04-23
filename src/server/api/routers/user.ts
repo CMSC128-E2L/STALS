@@ -22,7 +22,7 @@ export const userRouter = createTRPCRouter({
           last_name: "Dayag",
           contact_number: 69,
           email_address: "vcdayag@up.edu.ph",
-          verified: true,
+          is_visible: true
         }
       });
     } catch (error) {

@@ -14,7 +14,7 @@ export default function Login() {
                 <br/>
                 <p className="text-center text-gray-400 text-sm">If you are having issues logging in, please contact an administrator.</p>
                 <br/>
-                <p className="text-center text-gray-400 text-sm">Don't have an account yet? Sign up.</p>
+                <p className="text-center text-gray-400 text-sm">Don&lsquo;t have an account yet? Sign up.</p>
             </div>
             </div>
         </div>
