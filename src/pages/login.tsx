@@ -1,20 +1,4 @@
-import { type NextPage } from "next";
-import Head from "next/head";
-import Link from "next/link";
-import { signIn, signOut, useSession } from "next-auth/react";
-import { api } from "~/utils/api";
-import { stringify } from "superjson";
-
-
-export default function Login() {
-
-    const { isLoading: queryLoading } = api.user.getFirst.useQuery();
-    if (queryLoading){
-        return(
-            <div>Loading...</div>
-        );
-    }
-    
+export default function Login() {    
     return (
         <div className="min-h-full flex content-center justify-center mt-32 py-12 px-4 ">
             <div className="rounded-xl w-1/3 p-20 shadow shadow-gray-400/100">
