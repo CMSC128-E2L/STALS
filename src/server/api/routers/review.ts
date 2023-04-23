@@ -14,31 +14,20 @@ export const reviewRouter = createTRPCRouter({
             accommodationId: z.string(),
             review: z.string(),
             rating: z.number(),
-            username: z.string().optional(),
             })
         )
         .mutation(({ ctx, input }) => {
             const userId = ctx?.session?.user?.id;
             const { accommodationId, review, rating } = input;
-            if (userId) {
+            
                 return ctx.prisma.review.create({
                 data: {
-                    accommodation: { connect: { id: accommodationId } },
-                    review,
-                    rating,
                     user: { connect: { id: userId } },
-                },
-                });
-            } else {
-                return ctx.prisma.review.create({
-                data: {
-                    userName: input.username,
                     accommodation: { connect: { id: accommodationId } },
                     review,
                     rating,
                 },
                 });
-            }
         }),
 
     getMany: publicProcedure.input(z.string()).query(({ ctx, input }) => {
