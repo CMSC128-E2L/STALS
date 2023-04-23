@@ -38,7 +38,7 @@ export const roomRouter = createTRPCRouter({
 
       return ctx.prisma.room.create({
         data: {
-          accommodation: { connect: { id: accommodationId }},
+          accommodation: { connect: { id: accommodationId } },
           occupied,
           num_of_beds,
           with_aircon,
