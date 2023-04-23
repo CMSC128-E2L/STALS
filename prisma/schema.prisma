@@ -65,15 +65,15 @@ model User {
   sessions      Session[]
   
   // STALS
-  subtype        Int
-  username       String
-  password       String
-  first_name     String
-  middle_name    String
-  last_name      String
-  contact_number Int
-  email_address  String
-  is_visible     Boolean
+  subtype        Int?
+  username       String?
+  password       String?
+  first_name     String?
+  middle_name    String?
+  last_name      String?
+  contact_number Int?
+  email_address  String?
+  is_visible     Boolean?
 
   Report         Report[]
   Review         Review[]
