@@ -10,7 +10,6 @@ export const reportRouter = createTRPCRouter({
   report: protectedProcedure
     .input(
         z.object({ 
-            id: z.string(),
             type_reported: z.string(),
             reported_id: z.string(),
             report: z.string() 
@@ -18,13 +17,12 @@ export const reportRouter = createTRPCRouter({
     )
     .mutation(({ ctx, input }) => {
         const user_id = ctx?.session?.user?.id;
-        const { id, type_reported, reported_id, report } = input;
+        const { type_reported, reported_id, report } = input;
         return ctx.prisma.report.create({
             data: {
-                id: { connect: { id: id } },
+                user: { connect: { id: user_id } },
                 type_reported,
                 reported_id,
-                user_id: { connect: { id: user_id } },
                 report,
             }
         });
