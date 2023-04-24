@@ -12,8 +12,8 @@ export const reportRouter = createTRPCRouter({
       z.object({
         type_reported: z.string(),
         reported_id: z.string(),
-        report: z.string()
-      })
+        report: z.string(),
+      }),
     )
     .mutation(({ ctx, input }) => {
       const user_id = ctx?.session?.user?.id;
@@ -24,7 +24,7 @@ export const reportRouter = createTRPCRouter({
           type_reported,
           reported_id,
           report,
-        }
+        },
       });
     }),
 
@@ -54,5 +54,4 @@ export const reportRouter = createTRPCRouter({
     }),
   
   */
-
 });
