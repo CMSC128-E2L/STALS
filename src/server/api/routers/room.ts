@@ -21,7 +21,7 @@ export const roomRouter = createTRPCRouter({
   //   });
   // }),
 
-  addRoom: protectedProcedure             //need to connect to lodging id
+  addRoom: protectedProcedure //need to connect to lodging id
     .input(
       z.object({
         accommodationId: z.string(),
@@ -30,11 +30,19 @@ export const roomRouter = createTRPCRouter({
         with_aircon: z.boolean(),
         price: z.number(),
         with_utilities: z.boolean(),
-        is_archived: z.boolean()
-      })
+        is_archived: z.boolean(),
+      }),
     )
     .mutation(({ ctx, input }) => {
-      const { accommodationId, occupied, num_of_beds, with_aircon, price, with_utilities, is_archived } = input;
+      const {
+        accommodationId,
+        occupied,
+        num_of_beds,
+        with_aircon,
+        price,
+        with_utilities,
+        is_archived,
+      } = input;
 
       return ctx.prisma.room.create({
         data: {
@@ -44,20 +52,19 @@ export const roomRouter = createTRPCRouter({
           with_aircon,
           price,
           with_utilities,
-          is_archived
+          is_archived,
         },
       });
     }),
 
-
   //delete
-  deleteRoom: publicProcedure.input(z.string()).mutation(({ ctx, input }) => {            //delete lodging
+  deleteRoom: publicProcedure.input(z.string()).mutation(({ ctx, input }) => {
+    //delete lodging
     const id = input;
     return ctx.prisma.room.delete({
       where: { id },
     });
   }),
-
 
   //edit
   increaseQuantity: protectedProcedure
@@ -70,8 +77,8 @@ export const roomRouter = createTRPCRouter({
         with_aircon: z.boolean(),
         price: z.number(),
         with_utilities: z.boolean(),
-        is_archived: z.boolean()
-      })
+        is_archived: z.boolean(),
+      }),
     )
     .mutation(({ ctx, input }) => {
       const id = input.id;
@@ -83,7 +90,7 @@ export const roomRouter = createTRPCRouter({
           with_aircon: input.with_aircon,
           price: input.price,
           with_utilities: input.with_utilities,
-          is_archived: input.is_archived
+          is_archived: input.is_archived,
         },
       });
     }),
