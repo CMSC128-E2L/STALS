@@ -74,6 +74,17 @@ nvm use --lts
 npm run dev
 ```
 
+## Commands
+Check for warnings and errors in the codebase.
+```
+npm lint
+```
+
+Format all files in the src/ directory.
+```
+npm format
+```
+
 </details>
 
 <details><summary>Windows (TODO)</summary>

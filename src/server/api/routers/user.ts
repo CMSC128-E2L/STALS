@@ -13,7 +13,7 @@ export const userRouter = createTRPCRouter({
   manualCreate: publicProcedure.query(async () => {
     try {
       return await prisma.user.create({
-        data:{
+        data: {
           subtype: 1,
           username: "vcdayag@up.edu.ph",
           password: "password",
@@ -22,14 +22,14 @@ export const userRouter = createTRPCRouter({
           last_name: "Dayag",
           contact_number: 69,
           email_address: "vcdayag@up.edu.ph",
-          verified: true,
-        }
+          is_visible: true,
+        },
       });
     } catch (error) {
       console.log(error);
     }
   }),
-  getFirst: publicProcedure.query(async ()=>{
+  getFirst: publicProcedure.query(async () => {
     return prisma.user.findFirst();
   }),
   hello: publicProcedure
