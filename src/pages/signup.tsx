@@ -17,48 +17,50 @@ export default function Signup() {
   }
 
   return (
-    <div className="">
-      {/* <img src="../img/bg.jpeg" alt="background image"></img> */}
-      <div className="mt-10 mb-6 flex justify-center"> 
+    <div >
+      <div className="absolute inset-0 bg-slate-600 h-[50%]"></div>
+      <div className="relative left mt-[4%] flex justify-center"> 
         <img src="../img/bg.jpeg" alt="logo"></img>
       </div>
       <div className="font-bold">  
-        <p className="text-center text-4xl text-black">Welcome!</p>
+        <p className="relative text-center text-4xl text-black">
+          Welcome!
+        </p>
+        <p className="relative text-center text-sm text-black">
+          Sign Up to Continue
+        </p>
       </div>
-      <div className="font-bold">
-        <p className="text-center text-sm text-black">Sign Up to Continue</p>
-      </div>
-      <div className="mb-16 flex min-h-full content-center justify-center px-2 pt-6 pb-12">
-        <div className="w-1/3 rounded-xl px-16 pt-10 pb-2 shadow shadow-gray-400/100">
+      <div className="m-2 flex content-center justify-center pt-6">
+        <div className="relative w-1/4 rounded-xl bg-white px-16 pt-10 pb-2 shadow shadow-gray-400/100">
           <form>
-            <div className="flex flex-col space-y-1 text-sm">
-              <div className="flex flex-row space-x-1.5">
+            <div className="flex flex-col space-y-2.5 text-sm">
+              <div className="relative flex-row space-x-1">
                 <input
                   name="Firstname"
                   type="text"
                   placeholder="First Name"
-                  className="w-1/3 rounded-xl px-3 py-3 shadow shadow-gray-400/100"
+                  className="w-[29%] rounded-xl px-3 py-3 shadow shadow-gray-400/100"
                   required
                 />
                 <input
                   name="Middleinitial"
                   type="text"
                   placeholder="M.I."
-                  className="w-1/5 rounded-xl px-3 py-3 shadow shadow-gray-400/100"
+                  className="w-[19%] rounded-xl px-3 py-3 shadow shadow-gray-400/100"
                 />
-              <input
+                <input
                 name="Lastname"
                 type="text"
                 placeholder="Last Name"
-                className="w-1/3 rounded-xl px-3 py-3 shadow shadow-gray-400/100"
+                className="w-[29%] rounded-xl px-3 py-3 shadow shadow-gray-400/100"
                 required
-              />
-              <input
+                />
+                <input
                 name="Suffix"
                 type="text"
                 placeholder="Suffix"
-                className="w-1/5 rounded-xl px-3 py-3 shadow shadow-gray-400/100"
-              />
+                className="w-[19%] rounded-xl px-3 py-3 shadow shadow-gray-400/100"
+                />
               </div>  
             <input
                 name="Username *"

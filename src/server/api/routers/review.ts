@@ -7,11 +7,11 @@ import {
 } from "~/server/api/trpc";
 
 export const reviewRouter = createTRPCRouter({
-  addReview: protectedProcedure
+  add: protectedProcedure
     .input(
       z.object({
         accommodationId: z.string(),
-        review: z.string(),
+        review: z.string().optional(),
         rating: z.number(),
       }),
     )
@@ -29,10 +29,20 @@ export const reviewRouter = createTRPCRouter({
       });
     }),
 
-  getMany: publicProcedure.input(z.string()).query(({ ctx, input }) => {
-    const accommodationId = input;
-    return ctx.prisma.review.findMany({
-      where: { accommodationId },
-    });
-  }),
+  getMany: publicProcedure
+    .input(
+      z.object({
+        accommodationId: z.string(),
+        page: z.number(),
+        multiplier: z.number(),
+      }),
+    )
+    .query(({ ctx, input }) => {
+      const { accommodationId, page, multiplier } = input;
+      return ctx.prisma.review.findMany({
+        skip: page,
+        take: multiplier,
+        where: { accommodationId: accommodationId },
+      });
+    }),
 });
