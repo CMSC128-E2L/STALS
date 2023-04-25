@@ -57,9 +57,8 @@ model VerificationToken {
 
 model User {
   id            String    @id @default(cuid())
-  name          String?
   email         String?   @unique
-  emailVerified DateTime?
+  // emailVerified DateTime?
   image         String?
   accounts      Account[]
   sessions      Session[]
@@ -69,10 +68,8 @@ model User {
   username       String?
   password       String?
   first_name     String?
-  middle_name    String?
   last_name      String?
   contact_number String?
-  email_address  String?
   is_visible     Boolean?
 
   Report         Report[]
