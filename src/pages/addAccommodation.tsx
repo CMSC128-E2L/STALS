@@ -7,18 +7,21 @@ export default function AddAccomodation() {
           </header>
       {/* Container for Accommodation details */}
       <div className="absolute inset-0 mt-32 flex content-center justify-center">
-        <div className="h-[28rem] w-1/3 bg-white rounded-xl p-20 shadow shadow-p-black/50">
+        <div className="h-[28rem] w-1/2 bg-white rounded-xl p-20 shadow shadow-p-black/50">
           <form>
-            <div className="flex flex-col space-y-4">
-                <input
+            <div className="flex flex-wrap space-y-4 bg-color ">
+                {/* Basic thing */}
+                <input 
                     name="lodgename"
                     type="text"
-                    placeholder="Lodge Name">
+                    placeholder="Lodge Name"
+                    className="input-text-field">
                 </input>
                 <input
                     name="address"
                     type="text"
-                    placeholder="Address">
+                    placeholder="Address"
+                    className="input-text-field">
                 </input>
                 <select name="location" id="location">
                     <option value="">Location 1</option>
@@ -28,12 +31,14 @@ export default function AddAccomodation() {
                 <input
                     name="landlordid"
                     type="text"
-                    placeholder="Landlord ID">
+                    placeholder="Landlord ID"
+                    className="input-text-field">
                 </input>
                 <input
                     name="contactno"
                     type="text"
-                    placeholder="Contact Number">
+                    placeholder="Contact Number"
+                    className="input-text-field">
                 </input>
                 <input 
                     type="text"

@@ -4,7 +4,6 @@ export default {
   theme: {
     extend: {
       colors: { // Palette colors
-        'p-white': '#FFFFFF',
         'p-black': '#222222',
         'p-dblue': '#1C5D99', // Dark blue
         'p-blue': '#639FAB',

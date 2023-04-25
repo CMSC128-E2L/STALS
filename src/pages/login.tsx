@@ -18,13 +18,13 @@ export default function Login() {
               name="Email"
               type="email"
               placeholder="Email"
-              className="rounded-xl px-3 py-3 shadow shadow-p-black/50"
+              className="input-text-field"
             />
             <input
               name="Password"
               type="password"
               placeholder="Password"
-              className="rounded-xl px-3 py-3 shadow shadow-p-black/50"
+              className="input-text-field"
             />
           </div>
         </form>
