@@ -7,10 +7,11 @@ export default function AddAccomodation() {
           </header>
       {/* Container for Accommodation details */}
       <div className="absolute inset-0 mt-32 flex content-center justify-center">
-        <div className="h-[28rem] w-1/2 bg-white rounded-xl p-20 shadow shadow-p-black/50">
+        <div className="h-[28rem] w-1/5 bg-white rounded-xl p-20 shadow shadow-p-black/50">
           <form>
             <div className="flex flex-wrap space-y-4 bg-color ">
                 {/* Basic thing */}
+                <h1>-----------About Accommodation--------</h1>
                 <input 
                     name="lodgename"
                     type="text"
@@ -58,6 +59,8 @@ export default function AddAccomodation() {
                     name="availability"
                     placeholder="Availability">
                 </input>
+
+                <h1>-----------TAGS--------</h1>
              
                 <select name="gender" id="gender">
                     <option value="">Coed</option>
