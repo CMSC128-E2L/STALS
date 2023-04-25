@@ -6,13 +6,13 @@ import {
   protectedProcedure,
 } from "~/server/api/trpc";
 /*
- (1) Check lodging list in add Accomodation
+ (1) Check lodging list in add accommodation
 */
 export const accommodationRouter = createTRPCRouter({
-  // Get all accomodation
+  // Get all accommodation
   getAll: publicProcedure.query(async ({ ctx }) => {
     try {
-      return await ctx.prisma.accomodation.findMany({
+      return await ctx.prisma.accommodation.findMany({
         select: {
           name: true,
           location: true,
@@ -26,15 +26,15 @@ export const accommodationRouter = createTRPCRouter({
     }
   }),
 
-  // Get one accomodation
+  // Get one accommodation
   getOne: publicProcedure.input(z.string()).query(({ ctx, input }) => {
     const id = input;
-    return ctx.prisma.accomodation.findUnique({
+    return ctx.prisma.accommodation.findUnique({
       where: { id },
     });
   }),
 
-  // Add a new accomodation
+  // Add a new accommodation
   // add: protectedProcedure
   //   .input(
   //     z.object({
@@ -53,7 +53,7 @@ export const accommodationRouter = createTRPCRouter({
   //     // remove unit quantity as last parameter in input
   //     const { name, address, facebook, email, contactNum, category, rates } =
   //       input;
-  //     return ctx.prisma.accomodation.create({
+  //     return ctx.prisma.accommodation.create({
   //       //need to create id
   //       data: {
   //         name,
@@ -68,14 +68,14 @@ export const accommodationRouter = createTRPCRouter({
   //     });
   //   }),
 
-  // Archive an accomodation
+  // Archive an accommodation
   archive: protectedProcedure
     .input(z.object({ id: z.string(), isArchived: z.boolean() }))
     .mutation(({ ctx, input }) => {
       const userId = ctx.session.user.id;
       const id = input.id;
       const archived = input.isArchived;
-      return ctx.prisma.accomodation.update({
+      return ctx.prisma.accommodation.update({
         where: { userId, id },
         data: {
           isArchived: !archived,
@@ -83,10 +83,10 @@ export const accommodationRouter = createTRPCRouter({
       });
     }),
 
-  // Get All Archived Accomodations
+  // Get All Archived accommodations
   getArchives: protectedProcedure.input(z.string()).query(({ ctx }) => {
     const userId = ctx.session.user.id;
-    return ctx.prisma.accomodation.findMany({
+    return ctx.prisma.accommodation.findMany({
       where: { userId },
       include: {
         isArchived: true,
@@ -94,15 +94,17 @@ export const accommodationRouter = createTRPCRouter({
     });
   }),
 
-  // Delete an accomodation
+  // Delete an accommodation
   delete: protectedProcedure.input(z.string()).mutation(({ ctx, input }) => {
     const id = input;
-    return ctx.prisma.accomodation.delete({
+    return ctx.prisma.accommodation.delete({
       where: { id },
     });
   }),
 
-  // Search an accomodation
+
+
+  // Search an accommodation
   getMany: publicProcedure
     .input(
       z.object({
@@ -112,11 +114,13 @@ export const accommodationRouter = createTRPCRouter({
         landlord: z.string().optional(),
         tags: z.string().optional(),
         num_of_rooms: z.number().optional(),
+        page: z.number(),
+        multiplier: z.number(),
       }),
     )
     .query(({ ctx, input }) => {
       // const name = input;
-      return ctx.prisma.accomodation.findMany({
+      return ctx.prisma.accommodation.findMany({
         where: {
           OR: [
             {
@@ -136,11 +140,13 @@ export const accommodationRouter = createTRPCRouter({
               num_of_rooms: input.num_of_rooms,
             },
           ],
+          skip: input.page,
+          take: input.multiplier,
         },
       });
     }),
 
-  // Edit an accomodation
+  // Edit an accommodation
   edit: protectedProcedure
     .input(
       z.object({
@@ -163,7 +169,7 @@ export const accommodationRouter = createTRPCRouter({
     .mutation(({ ctx, input }) => {
       const { item } = input;
       const { id } = item;
-      return ctx.prisma.accomodation.update({
+      return ctx.prisma.accommodation.update({
         where: { id },
         data: {
           name: item.name,
