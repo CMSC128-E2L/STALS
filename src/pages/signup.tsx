@@ -18,23 +18,21 @@ export default function Signup() {
 
   return (
     <div >
-      <div className="absolute inset-0 bg-slate-600 h-[50%]"></div>
-      <div className="relative left mt-[4%] flex justify-center"> 
-        <img src="../img/bg.jpeg" alt="logo"></img>
-      </div>
-      <div className="font-bold">  
-        <p className="relative text-center text-4xl text-black">
-          Welcome!
-        </p>
-        <p className="relative text-center text-sm text-black">
-          Sign Up to Continue
-        </p>
-      </div>
-      <div className="m-2 flex content-center justify-center pt-6">
-        <div className="relative w-1/4 rounded-xl bg-white px-16 pt-10 pb-2 shadow shadow-gray-400/100">
+      {/* Header design */}
+      <header> 
+          <div className="h-[20rem] bg-[url('https://images.pexels.com/photos/1446378/pexels-photo-1446378.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1')] bg-no-repeat bg-cover">
+            {/* <h1 className="text-center text-white pt-12 text-4xl"><b>Welcome back!</b></h1> */}
+            <div className="h-[100%] bg-gradient-to-b from-transparent to-black opacity-80">
+          </div>
+          </div>
+          <h1 className="absolute inset-10 text-center text-white text-4xl font-bold drop-shadow-md">Welcome back!</h1>
+          <p className="absolute inset-20 text-center text-white text-lg font-bold drop-shadow-md">Login to continue</p>
+        </header>
+      <div className="absolute inset-x-0 top-0 mt-32 flex content-center justify-center">
+        <div className="relative flex w-1/3 rounded-xl bg-white px-12 pt-10 pb-6 shadow shadow-p-black/50">
           <form>
-            <div className="flex flex-col space-y-2.5 text-sm">
-              <div className="relative flex-row space-x-1">
+            <div className="flex flex-col space-y-3">
+              <div className="relative flex-row space-x-[1%]">
                 <input
                   name="Firstname"
                   type="text"
