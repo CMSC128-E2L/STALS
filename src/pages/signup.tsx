@@ -2,7 +2,7 @@
 // import Head from "next/head";
 // import Link from "next/link";
 // import { signIn, signOut, useSession } from "next-auth/react";
-
+import Image from "next/image";
 import { api } from "~/utils/api";
 // import { stringify } from "superjson";
 
@@ -10,11 +10,11 @@ export default function Signup() {
   // const createduser = api.user.createUser.useQuery();
   // const createUser = api.user.createUser.useQuery();
 
-  const { data: firstData, isLoading: queryLoading } =
-    api.user.getFirst.useQuery();
-  if (queryLoading) {
-    return <div>Loading</div>;
-  }
+  // const { data: firstData, isLoading: queryLoading } =
+  //   api.user.getFirst.useQuery();
+  // if (queryLoading) {
+  //   return <div>Loading</div>;
+  // }
 
   return (
     <div >
@@ -67,50 +67,55 @@ export default function Signup() {
                 className="rounded-xl px-3 py-3 shadow shadow-gray-400/100"
                 required
               />
-            <div className="flex flex-col space-y-1">
-              <input
+              <div className="flex flex-col space-y-1">
+                <input
                   name="Password"
                   type="password"
                   placeholder="Password"
                   className="rounded-xl px-3 py-3 shadow shadow-gray-400/100"
                   required
                 />
-              <p className="text-xs px-3"> Password Strength: 
-                <label id="Strength" className="text-green-500"> Good</label>
-              </p>
-            </div>
-            <input
+                <p className="px-3 text-xs">
+                  {" "}
+                  Password Strength:
+                  <label id="Strength" className="text-green-500">
+                    {" "}
+                    Good
+                  </label>
+                </p>
+              </div>
+              <input
                 name="Email"
                 type="email"
                 placeholder="Email"
                 className="rounded-xl px-3 py-3 shadow shadow-gray-400/100"
                 required
               />
-            <input
+              <input
                 name="Contactnumber"
                 type="number"
                 placeholder="Contact Number"
                 className="rounded-xl px-3 py-3 shadow shadow-gray-400/100"
               />
-            <div className="text-gray-400 rounded-xl px-3 py-0.5 shadow shadow-gray-400/100">
-              <div className="flex flex-col space-y-1 text-sm">
-                <label className="">Type of User</label>
-                <div className="flex flex-row space-x-1">
-                  <input
+              <div className="rounded-xl px-3 py-0.5 text-gray-400 shadow shadow-gray-400/100">
+                <div className="flex flex-col space-y-1 text-sm">
+                  <label className="">Type of User</label>
+                  <div className="flex flex-row space-x-1">
+                    <input
                       name="Student"
                       type="radio"
                       className="ml-2 text-sm font-medium text-gray-900 dark:text-gray-300"
                     />
-                  <label>Student</label>
-                  <input
+                    <label>Student</label>
+                    <input
                       name="Landowner"
                       type="radio"
                       // className="shadow-gray-400/100"
                     />
-                  <label>Landowner</label>
+                    <label>Landowner</label>
+                  </div>
                 </div>
               </div>
-            </div>
             </div>
             <br />
             <div>
@@ -119,7 +124,11 @@ export default function Signup() {
               </button>
               <br />
               <p className="text-center text-sm text-gray-400">
-                Already have an account? <a href="login" className="text-blue-600 underline">Login</a>.
+                Already have an account?{" "}
+                <a href="login" className="text-blue-600 underline">
+                  Login
+                </a>
+                .
               </p>
             </div>
           </form>

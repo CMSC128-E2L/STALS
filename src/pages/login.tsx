@@ -41,12 +41,30 @@ export default function Login() {
             If you are having issues logging in, please contact an <a className="underline text-cyan-500" href="">administrator</a>.
           </p>
           <br />
-          <p className="text-center text-sm text-gray-400">
-            Don't have an account yet? <a className="underline text-cyan-500" href="">Sign Up</a>.
-          </p>
+          {/* Log-in, help, sign-up buttons */}
+          <div>
+            <button className="group relative flex w-full justify-center rounded-lg bg-p-dblue px-4 py-2 font-bold text-white">
+              Log In
+            </button>
+            <br />
+            <p className="text-center text-sm text-gray-400">
+              If you are having issues logging in, please contact an{" "}
+              <a className="text-cyan-500 underline" href="">
+                administrator
+              </a>
+              .
+            </p>
+            <br />
+            <p className="text-center text-sm text-gray-400">
+              Don&apos;t have an account yet?{" "}
+              <a className="text-cyan-500 underline" href="">
+                Sign Up
+              </a>
+              .
+            </p>
+          </div>
         </div>
       </div>
-    </div>
     </div>
   );
 }
