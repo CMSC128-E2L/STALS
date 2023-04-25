@@ -3,8 +3,11 @@ export default function Login() {
     <div>
         {/* Header design */}
         <header> 
-        {/* <div className="h-[20rem] bg-[url('https://images.pexels.com/photos/1446378/pexels-photo-1446378.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1')] bg-no-repeat bg-cover"></div> */}
-        <div className="h-[20rem] bg-gradient-to-b from-cyan-500 to-blue-500"></div>
+          <div className="h-[20rem] bg-[url('https://images.pexels.com/photos/1446378/pexels-photo-1446378.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1')] bg-no-repeat bg-cover">
+            {/* <h1 className="text-center text-white pt-12 text-4xl"><b>Welcome back!</b></h1> */}
+            <div className="h-[20rem] bg-gradient-to-b from-transparent to-black opacity-80">
+          </div>
+          </div>
         </header>
     {/* Container for log-in credentials */}
     <div className="absolute inset-0 mt-32 flex content-center justify-center">
