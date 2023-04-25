@@ -79,7 +79,7 @@ model User {
   Review         Review[]
 }
 
-model Accomodation {
+model Accommodation {
   id             String   @id @default(cuid())
   name           String
   address        String
@@ -98,7 +98,7 @@ model Accomodation {
 
 model Room {
   id              String       @id @default(cuid())
-  accommodation   Accomodation @relation(fields: [accommodationId], references: [id])
+  accommodation   Accommodation @relation(fields: [accommodationId], references: [id])
   accommodationId String
 
   occupied       Boolean
@@ -128,7 +128,7 @@ model Review {
   id              String       @id @default(cuid())
   user            User         @relation(fields: [userId], references: [id])
   userId          String
-  accommodation   Accomodation @relation(fields: [accommodationId], references: [id])
+  accommodation   Accommodation @relation(fields: [accommodationId], references: [id])
   accommodationId String
 
   rating Int
