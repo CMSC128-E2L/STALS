@@ -7,7 +7,7 @@ import {
 } from "~/server/api/trpc";
 
 export const reportRouter = createTRPCRouter({
-  report: protectedProcedure
+  add: protectedProcedure
     .input(
       z.object({
         type_reported: z.string(),
@@ -28,8 +28,8 @@ export const reportRouter = createTRPCRouter({
       });
     }),
 
-  /* OH NAURR! not sure daw but don't delete! >__<
-    
+
+  /*    
       reportUser: publicProcedure
           .input(z.object({ text: z.string() }))
           .query(({ input }) => {}),
@@ -37,15 +37,23 @@ export const reportRouter = createTRPCRouter({
       reportReview: publicProcedure
           .input(z.object({ text: z.string() }))
           .query(({ input }) => {}),
-  
   */
 
-  getManyReports: publicProcedure.query(({ ctx }) => {
-    return ctx.prisma.example.findMany();
-  }),
+    getMany: publicProcedure
+      .input(
+        z.object({
+          page: z.number(),
+          multiplier: z.number(),
+        }),
+      )
+      .query(({ ctx,input }) => {
+        return ctx.prisma.report.findMany({
+          skip: input.page,
+          take: input.multiplier,
+        });
+      }),
 
-  /* NAURR hindi rin daw sure!! UGH >__<
-  
+  /* 
     getManyUsers: publicProcedure.query(({ ctx }) => {
       return ctx.prisma.example.findMany();
     }),
@@ -54,4 +62,5 @@ export const reportRouter = createTRPCRouter({
     }),
   
   */
+
 });
