@@ -1,6 +1,6 @@
 import { createTRPCRouter } from "~/server/api/trpc";
 import { userRouter } from "~/server/api/routers/user";
-import { accomodationRouter } from "~/server/api/routers/accomodation";
+import { accommodationRouter } from "~/server/api/routers/accommodation";
 import { roomRouter } from "~/server/api/routers/room";
 import { fileRouter } from "~/server/api/routers/file";
 import { reportRouter } from "./routers/report";
@@ -12,7 +12,7 @@ import { reportRouter } from "./routers/report";
  */
 export const appRouter = createTRPCRouter({
   user: userRouter,
-  accomodation: accomodationRouter,
+  accommodation: accommodationRouter,
   room: roomRouter,
   file: fileRouter,
   report: reportRouter,
