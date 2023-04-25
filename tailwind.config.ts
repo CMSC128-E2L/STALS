@@ -13,7 +13,14 @@ export default {
         'p-yellow': '#F5BB00',
       },
       fontSize: {
-        xs:['10px', '10px']
+        xs:['12px', '12px']
+      },
+      backgroundSize: {
+        'auto': 'auto',
+        'cover': 'cover',
+        'contain': 'contain',
+        '50%': '50%',
+        '16': '4rem',
       }
     },
   },
