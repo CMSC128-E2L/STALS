@@ -50,20 +50,21 @@ Check node version
 ```
 node --version
 ```
-> it should be "v18.15.0"
+> it should be "v18.XX.X"
 
-Create .env file (TODO: update for production)
+Get the .env file in the discord channel general-rources
 
+https://discord.com/channels/1080321297386573915/1089892717905064036/1097765581278687262
+
+Download dependencies
 ```
-cp .env.example .env
-```
-
-Generate Database (TODO: change sqlite to mysql for production)
-
-```
-npx prisma db push
+npm install
 ```
 
+Then run this command to deploy locally
+```
+npm run dev
+```
 
 ## Usage
 Use Nodejs LTS
@@ -71,6 +72,17 @@ Use Nodejs LTS
 ```
 nvm use --lts
 npm run dev
+```
+
+## Commands
+Check for warnings and errors in the codebase.
+```
+npm lint
+```
+
+Format all files in the src/ directory.
+```
+npm format
 ```
 
 </details>

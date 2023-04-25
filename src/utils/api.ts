@@ -43,8 +43,8 @@ export const api = createTRPCNext<AppRouter>({
           url: `${getBaseUrl()}/api/trpc`,
         }),
       ],
-       // Change options globally
-       queryClientConfig: {
+      // Change options globally
+      queryClientConfig: {
         defaultOptions: {
           queries: {
             refetchOnMount: true,

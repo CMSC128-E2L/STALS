@@ -19,7 +19,7 @@ export const fileRouter = createTRPCRouter({
 
     try {
       const data = await s3Client.send(
-        new CreateBucketCommand({ Bucket: params.Bucket })
+        new CreateBucketCommand({ Bucket: params.Bucket }),
       );
       console.log(data);
     } catch (error) {
