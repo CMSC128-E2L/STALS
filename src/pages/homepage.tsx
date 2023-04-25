@@ -1,27 +1,25 @@
 export default function HomePage() {
   return (
     <div>
-      <div className="flex justify-between px-8 py-8 bg-p-dblue"> {/* navigation */ }
-
-        <div className="flex"> {/* left side */ }
-          
-          <img className="h-[50px] " src="https://www.pngfind.com/pngs/m/439-4392840_facebook-link-icon-image-dynamic-spectrum-alliance-pink.png" alt="STALS Logo" />
-
+      <div className="flex justify-between bg-p-dblue px-8 py-8">
+        {" "}
+        {/* navigation */}
+        <div className="flex">
+          {" "}
+          {/* left side */}
+          <img
+            className="h-[50px] "
+            src="https://www.pngfind.com/pngs/m/439-4392840_facebook-link-icon-image-dynamic-spectrum-alliance-pink.png"
+            alt="STALS Logo"
+          />
           <h1 className="text-[30px]">STALS</h1>
         </div>
-      
-
-        <div className="flex"> {/* right side */ }
-          
-        <input className=" rounded-lg " placeholder="Search">
-        </input>
+        <div className="flex">
+          {" "}
+          {/* right side */}
+          <input className=" rounded-lg " placeholder="Search"></input>
           <h1 className="text-[30px]">STALS</h1>
         </div>
-        
-
-
-
-
       </div>
     </div>
   );
