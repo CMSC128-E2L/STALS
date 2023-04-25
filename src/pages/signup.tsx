@@ -17,19 +17,22 @@ export default function Signup() {
   // }
 
   return (
-    <div >
+    <div>
       {/* Header design */}
-      <header> 
-          <div className="h-[20rem] bg-[url('https://images.pexels.com/photos/1446378/pexels-photo-1446378.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1')] bg-no-repeat bg-cover">
-            {/* <h1 className="text-center text-white pt-12 text-4xl"><b>Welcome back!</b></h1> */}
-            <div className="h-[100%] bg-gradient-to-b from-transparent to-black opacity-80">
-          </div>
-          </div>
-          <h1 className="absolute inset-10 text-center text-white text-4xl font-bold drop-shadow-md">Welcome back!</h1>
-          <p className="absolute inset-20 text-center text-white text-lg font-bold drop-shadow-md">Login to continue</p>
-        </header>
+      <header>
+        <div className="h-[20rem] bg-[url('https://images.pexels.com/photos/1446378/pexels-photo-1446378.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1')] bg-cover bg-no-repeat">
+          {/* <h1 className="text-center text-white pt-12 text-4xl"><b>Welcome back!</b></h1> */}
+          <div className="h-[100%] bg-gradient-to-b from-transparent to-black opacity-80"></div>
+        </div>
+        <h1 className="absolute inset-10 text-center text-4xl font-bold text-white drop-shadow-md">
+          Welcome back!
+        </h1>
+        <p className="absolute inset-20 text-center text-lg font-bold text-white drop-shadow-md">
+          Login to continue
+        </p>
+      </header>
       <div className="absolute inset-x-0 top-0 mt-32 flex content-center justify-center">
-        <div className="relative flex w-1/3 rounded-xl bg-white px-12 pt-10 pb-6 shadow shadow-p-black/50">
+        <div className="relative flex w-1/3 rounded-xl bg-white px-12 pb-6 pt-10 shadow shadow-p-black/50">
           <form>
             <div className="flex flex-col space-y-3">
               <div className="relative flex-row space-x-[1%]">
@@ -47,20 +50,20 @@ export default function Signup() {
                   className="w-[19%] rounded-xl px-3 py-3 shadow shadow-gray-400/100"
                 />
                 <input
-                name="Lastname"
-                type="text"
-                placeholder="Last Name"
-                className="w-[29%] rounded-xl px-3 py-3 shadow shadow-gray-400/100"
-                required
+                  name="Lastname"
+                  type="text"
+                  placeholder="Last Name"
+                  className="w-[29%] rounded-xl px-3 py-3 shadow shadow-gray-400/100"
+                  required
                 />
                 <input
-                name="Suffix"
-                type="text"
-                placeholder="Suffix"
-                className="w-[19%] rounded-xl px-3 py-3 shadow shadow-gray-400/100"
+                  name="Suffix"
+                  type="text"
+                  placeholder="Suffix"
+                  className="w-[19%] rounded-xl px-3 py-3 shadow shadow-gray-400/100"
                 />
-              </div>  
-            <input
+              </div>
+              <input
                 name="Username *"
                 type="text"
                 placeholder="Username"
