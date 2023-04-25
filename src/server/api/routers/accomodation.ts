@@ -177,7 +177,7 @@ export const accommodationRouter = createTRPCRouter({
           name: item.name,
           address: item.address,
           location: item.location,
-          contact_number: item.contact_number,
+          // contact_number: item.contact_number,
           tags: item.tags,
           num_of_rooms: item.num_of_rooms,
           rooms: item.rooms,

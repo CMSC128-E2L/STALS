@@ -11,7 +11,7 @@ import { reportRouter } from "./routers/report";
  *
  * All routers added in /api/routers should be manually added here.
  */
-export const appRougitter = createTRPCRouter({
+export const appRouter = createTRPCRouter({
   user: userRouter,
   accommodation: accommodationRouter,
   room: roomRouter,

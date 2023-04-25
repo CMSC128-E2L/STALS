@@ -42,7 +42,7 @@ export default function Login() {
           </p>
           <br />
           <p className="text-center text-sm text-gray-400">
-            Don't have an account yet? <a className="underline text-cyan-500" href="">Sign Up</a>.
+            Don&apos;t have an account yet? <a className="underline text-cyan-500" href="">Sign Up</a>.
           </p>
         </div>
       </div>
