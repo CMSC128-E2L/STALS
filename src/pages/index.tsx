@@ -1,4 +1,5 @@
 import { type NextPage } from "next";
+import Image from "next/image";
 import Head from "next/head";
 import Link from "next/link";
 import { signIn, signOut, useSession } from "next-auth/react";
@@ -16,7 +17,7 @@ const Home: NextPage = () => {
       </Head>
       <main className="flex min-h-screen flex-col items-start justify-start bg-gradient-to-b from-[#174A79] to-[#8FB0DB]">
         <div className="container flex flex-col items-start justify-start gap-8 px-4 py-16">
-          <img
+          <Image
             src="https://mdbootstrap.com//img/Photos/Square/1.jpg"
             className="flex h-40 w-40 flex-col items-start rounded-full object-scale-down object-left"
             alt="STALS Logo"
