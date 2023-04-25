@@ -71,7 +71,7 @@ model User {
   first_name     String?
   middle_name    String?
   last_name      String?
-  contact_number Int?
+  contact_number String?
   email_address  String?
   is_visible     Boolean?
 
@@ -85,7 +85,7 @@ model Accommodation {
   address        String
   location       String
   landlord       String
-  contact_number Int
+  contact_number String
   tags           String
   num_of_rooms   Int
   rooms          String

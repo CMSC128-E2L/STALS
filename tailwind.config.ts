@@ -11,6 +11,9 @@ export default {
         'p-lblue': '#BBCDE5', // Light blue
         'p-red': '#D22B2B',
         'p-yellow': '#F5BB00',
+      },
+      fontSize: {
+        xs:['10px', '10px']
       }
     },
   },
