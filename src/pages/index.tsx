@@ -6,7 +6,7 @@ import { signIn, signOut, useSession } from "next-auth/react";
 import { api } from "~/utils/api";
 
 const Home: NextPage = () => {
-  const hello = api.user.hello.useQuery({ text: "from STALS Developers" });
+  // const hello = api.user.hello.useQuery({ text: "from STALS Developers" });
   return (
     <>
       <Head>
@@ -35,7 +35,7 @@ const Home: NextPage = () => {
           
           <div className="flex flex-col items-start gap-2">
             <p className="text-sm text-white">
-              {hello.data ? hello.data.greeting : "Loading tRPC query..."}
+              {/* {hello.data ? hello.data.greeting : "Loading tRPC query..."} */}
             </p>
             <AuthShowcase />
           </div>
@@ -63,16 +63,16 @@ export default Home;
 const AuthShowcase: React.FC = () => {
   const { data: sessionData } = useSession();
 
-  const { data: secretMessage } = api.user.getSecretMessage.useQuery(
-    undefined, // no input
-    { enabled: sessionData?.user !== undefined },
-  );
+  // const { data: secretMessage } = api.user.getSecretMessage.useQuery(
+  //   undefined, // no input
+  //   { enabled: sessionData?.user !== undefined },
+  // );
 
   return (
     <div className="flex flex-col items-start justify-start gap-4">
       <p className="text-start text-2xl text-white">
         {sessionData && <span>Logged in as {sessionData.user?.name}</span>}
-        {secretMessage && <span> - {secretMessage}</span>}
+        {/* {secretMessage && <span> - {secretMessage}</span>} */}
       </p>
       <button
         className="rounded-full bg-white/10 px-10 py-3 font-semibold text-white no-underline transition hover:bg-white/20"

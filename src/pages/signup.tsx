@@ -10,11 +10,11 @@ export default function Signup() {
   // const createduser = api.user.createUser.useQuery();
   // const createUser = api.user.createUser.useQuery();
 
-  const { data: firstData, isLoading: queryLoading } =
-    api.user.getFirst.useQuery();
-  if (queryLoading) {
-    return <div>Loading</div>;
-  }
+  // const { data: firstData, isLoading: queryLoading } =
+  //   api.user.getFirst.useQuery();
+  // if (queryLoading) {
+  //   return <div>Loading</div>;
+  // }
 
   return (
     <div >
