@@ -76,23 +76,24 @@ export const accommodationRouter = createTRPCRouter({
       const id = input.id;
       const archived = input.isArchived;
       return ctx.prisma.accommodation.update({
-        where: { userId, id },
+        where: { id },
         data: {
-          isArchived: !archived,
+          is_archived: !archived,
         },
       });
     }),
 
   // Get All Archived accommodations
-  getArchives: protectedProcedure.input(z.string()).query(({ ctx }) => {
-    const userId = ctx.session.user.id;
-    return ctx.prisma.accommodation.findMany({
-      where: { userId },
-      include: {
-        isArchived: true,
-      },
-    });
-  }),
+  // getArchives: protectedProcedure.input(z.string()).query(({ ctx }) => {
+  //   const userId = ctx.session.user.id;
+  //   return ctx.prisma.accommodation.findMany({
+  //     where: { landlord: userId },
+  //     include: {
+  //       // : true,
+        
+  //     },
+  //   });
+  // }),
 
   // Delete an accommodation
   delete: protectedProcedure.input(z.string()).mutation(({ ctx, input }) => {
@@ -121,6 +122,8 @@ export const accommodationRouter = createTRPCRouter({
     .query(({ ctx, input }) => {
       // const name = input;
       return ctx.prisma.accommodation.findMany({
+        skip: input.page,
+        take: input.multiplier,
         where: {
           OR: [
             {
@@ -140,8 +143,7 @@ export const accommodationRouter = createTRPCRouter({
               num_of_rooms: input.num_of_rooms,
             },
           ],
-          skip: input.page,
-          take: input.multiplier,
+          
         },
       });
     }),
