@@ -1,3 +1,5 @@
+import Image from "next/image";
+
 export default function HomePage() {
   return (
     <div>
@@ -7,7 +9,7 @@ export default function HomePage() {
         <div className="flex">
           {" "}
           {/* left side */}
-          <img
+          <Image
             className="h-[50px] "
             src="https://www.pngfind.com/pngs/m/439-4392840_facebook-link-icon-image-dynamic-spectrum-alliance-pink.png"
             alt="STALS Logo"

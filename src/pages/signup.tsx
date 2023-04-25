@@ -2,7 +2,7 @@
 // import Head from "next/head";
 // import Link from "next/link";
 // import { signIn, signOut, useSession } from "next-auth/react";
-
+import Image from "next/image";
 import { api } from "~/utils/api";
 // import { stringify } from "superjson";
 
@@ -20,7 +20,7 @@ export default function Signup() {
     <div>
       <div className="absolute inset-0 h-[50%] bg-slate-600"></div>
       <div className="left relative mt-[4%] flex justify-center">
-        <img src="../img/bg.jpeg" alt="logo"></img>
+        <Image src="../img/bg.jpeg" alt="logo" />
       </div>
       <div className="font-bold">
         <p className="relative text-center text-4xl text-black">Welcome!</p>
