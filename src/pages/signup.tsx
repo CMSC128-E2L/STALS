@@ -2,8 +2,8 @@
 // import Head from "next/head";
 // import Link from "next/link";
 // import { signIn, signOut, useSession } from "next-auth/react";
-import Image from "next/image";
-import { api } from "~/utils/api";
+// import Image from "next/image";
+// import { api } from "~/utils/api";
 // import { stringify } from "superjson";
 
 export default function Signup() {
@@ -15,12 +15,11 @@ export default function Signup() {
   // if (queryLoading) {
   //   return <div>Loading</div>;
   // }
-
   return (
-    <div>
+    <div className="">
       {/* Header design */}
       <header>
-        <div className="h-[20rem] bg-[url('https://images.pexels.com/photos/1446378/pexels-photo-1446378.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1')] bg-cover bg-no-repeat">
+        <div className="h-halfscreen bg-[url('https://images.pexels.com/photos/1446378/pexels-photo-1446378.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1')] bg-cover bg-no-repeat">
           {/* <h1 className="text-center text-white pt-12 text-4xl"><b>Welcome back!</b></h1> */}
           <div className="h-[100%] bg-gradient-to-b from-transparent to-black opacity-80"></div>
         </div>
@@ -31,36 +30,38 @@ export default function Signup() {
           Login to continue
         </p>
       </header>
-      <div className="absolute inset-x-0 top-0 mt-32 flex content-center justify-center">
-        <div className="relative flex w-1/3 rounded-xl bg-white px-12 pb-6 pt-10 shadow shadow-p-black/50">
+      <div className="absolute inset-x-0 top-32 flex justify-center">
+        <div className="w-fit rounded-xl bg-white p-10 shadow shadow-p-black/50">
           <form>
-            <div className="flex flex-col space-y-3">
-              <div className="relative flex-row space-x-[1%]">
+            <div className="flex flex-col space-y-2.5">
+              <div className="w-auto flex-row space-x-[2%]">
                 <input
                   name="Firstname"
                   type="text"
                   placeholder="First Name"
-                  className="w-[29%] rounded-xl px-3 py-3 shadow shadow-gray-400/100"
+                  className="w-[60%] rounded-xl px-3 py-3 shadow shadow-gray-400/100"
                   required
                 />
                 <input
                   name="Middleinitial"
                   type="text"
                   placeholder="M.I."
-                  className="w-[19%] rounded-xl px-3 py-3 shadow shadow-gray-400/100"
+                  className="w-[38%] rounded-xl px-3 py-3 shadow shadow-gray-400/100"
                 />
+              </div>
+              <div className="w-auto flex-row space-x-[2%]">
                 <input
                   name="Lastname"
                   type="text"
                   placeholder="Last Name"
-                  className="w-[29%] rounded-xl px-3 py-3 shadow shadow-gray-400/100"
+                  className="w-[60%] rounded-xl px-3 py-3 shadow shadow-gray-400/100"
                   required
                 />
                 <input
                   name="Suffix"
                   type="text"
                   placeholder="Suffix"
-                  className="w-[19%] rounded-xl px-3 py-3 shadow shadow-gray-400/100"
+                  className="w-[38%] rounded-xl px-3 py-3 shadow shadow-gray-400/100"
                 />
               </div>
               <input
@@ -123,7 +124,7 @@ export default function Signup() {
             <br />
             <div>
               <button className="group relative flex w-full justify-center rounded-md bg-p-dblue px-4 py-2 text-white">
-                Signup
+                Sign up
               </button>
               <br />
               <p className="text-center text-sm text-gray-400">
