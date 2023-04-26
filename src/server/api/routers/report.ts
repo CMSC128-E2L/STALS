@@ -28,7 +28,6 @@ export const reportRouter = createTRPCRouter({
       });
     }),
 
-
   /*    
       reportUser: publicProcedure
           .input(z.object({ text: z.string() }))
@@ -39,19 +38,19 @@ export const reportRouter = createTRPCRouter({
           .query(({ input }) => {}),
   */
 
-    getMany: publicProcedure
-      .input(
-        z.object({
-          page: z.number(),
-          multiplier: z.number(),
-        }),
-      )
-      .query(({ ctx,input }) => {
-        return ctx.prisma.report.findMany({
-          skip: input.page,
-          take: input.multiplier,
-        });
+  getMany: publicProcedure
+    .input(
+      z.object({
+        page: z.number(),
+        multiplier: z.number(),
       }),
+    )
+    .query(({ ctx, input }) => {
+      return ctx.prisma.report.findMany({
+        skip: input.page,
+        take: input.multiplier,
+      });
+    }),
 
   /* 
     getManyUsers: publicProcedure.query(({ ctx }) => {
@@ -62,5 +61,4 @@ export const reportRouter = createTRPCRouter({
     }),
   
   */
-
 });
