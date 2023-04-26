@@ -1,0 +1,3 @@
+{
+  "src/**/*": ["next lint","prettier -c ./src/** --write"]
+}

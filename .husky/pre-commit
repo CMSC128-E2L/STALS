@@ -1,4 +1,4 @@
 #!/usr/bin/env sh
 . "$(dirname -- "$0")/_/husky.sh"
 
-npx next lint && npx prettier -c ./src/** --write 
+npx lint-staged
