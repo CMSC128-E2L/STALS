@@ -20,6 +20,9 @@ export default {
         'contain': 'contain',
         '50%': '50%',
         '16': '4rem',
+      },
+      height: {
+        'halfscreen': "50vh",
       }
     },
   },

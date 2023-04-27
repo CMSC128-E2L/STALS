@@ -1,10 +1,10 @@
 export default function AddAccomodation() {
-    return (
-      <div>
-          {/* Header design */}
-          <header> 
-            <p>sample header</p>
-          </header>
+  return (
+    <div>
+      {/* Header design */}
+      <header>
+        <p>sample header</p>
+      </header>
       {/* Container for Accommodation details */}
       <div className="absolute inset-0 mt-32 flex content-center justify-center">
         <div className="h-[28rem] w-1/5 bg-white rounded-xl p-20 shadow shadow-p-black/50">
@@ -95,36 +95,33 @@ export default function AddAccomodation() {
                     name="bathroom">
                 </input>
 
-                <input
-                    type="checkbox" id="withaircon" name="withaircon">
-                </input>
-                <label>With Aircon</label>
-				  
-                <input 
-                    type="checkbox"
-                    name="withparking"></input>
-                <label>With Parking Space</label>
-                
-                <input type="checkbox" name="hascctv"></input>
-                <label>Has CCTV</label>
-                
-                <input type="checkbox" name="hasguards"></input>
-                <label>Has Guards</label>
-                
-                <input type="checkbox" name="withlaundryspace"></input>
-                <label>Laundry Space Available</label>
-                
-                <input type="checkbox" name="withlaundryservice">
-                </input>
-                <label>Laundry Service Available</label>
+              <input type="checkbox" id="withaircon" name="withaircon"></input>
+              <label>With Aircon</label>
 
-                <input type="text" name="customtag1" placeholder="Custom Tags (optional)">
-                </input>
+              <input type="checkbox" name="withparking"></input>
+              <label>With Parking Space</label>
+
+              <input type="checkbox" name="hascctv"></input>
+              <label>Has CCTV</label>
+
+              <input type="checkbox" name="hasguards"></input>
+              <label>Has Guards</label>
+
+              <input type="checkbox" name="withlaundryspace"></input>
+              <label>Laundry Space Available</label>
+
+              <input type="checkbox" name="withlaundryservice"></input>
+              <label>Laundry Service Available</label>
+
+              <input
+                type="text"
+                name="customtag1"
+                placeholder="Custom Tags (optional)"
+              ></input>
             </div>
           </form>
           <br />
 
-          
           {/* Log-in, help, sign-up buttons */}
           <div>
             <button className="group relative flex w-full justify-center rounded-lg bg-p-dblue px-4 py-2 text-white">
@@ -132,16 +129,23 @@ export default function AddAccomodation() {
             </button>
             <br />
             <p className="text-center text-sm text-gray-400">
-              If you are having issues logging in, please contact an <a className="underline text-cyan-500" href="">administrator</a>.
+              If you are having issues logging in, please contact an{" "}
+              <a className="text-cyan-500 underline" href="">
+                administrator
+              </a>
+              .
             </p>
             <br />
             <p className="text-center text-sm text-gray-400">
-              Don&apos;t have an account yet? <a className="underline text-cyan-500" href="">Sign Up</a>.
+              Don&apos;t have an account yet?{" "}
+              <a className="text-cyan-500 underline" href="">
+                Sign Up
+              </a>
+              .
             </p>
           </div>
         </div>
       </div>
-      </div>
-    );
-  }
-  
+    </div>
+  );
+}

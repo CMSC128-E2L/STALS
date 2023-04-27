@@ -1,4 +1,5 @@
 import { type NextPage } from "next";
+import Image from "next/image";
 import Head from "next/head";
 import Link from "next/link";
 import { signIn, signOut, useSession } from "next-auth/react";
@@ -16,23 +17,27 @@ const Home: NextPage = () => {
       </Head>
       <main className="flex min-h-screen flex-col items-start justify-start bg-gradient-to-b from-[#174A79] to-[#8FB0DB]">
         <div className="container flex flex-col items-start justify-start gap-8 px-4 py-16">
-
-          <img
+          <Image
             src="https://mdbootstrap.com//img/Photos/Square/1.jpg"
-            className="object-scale-down object-left h-40 w-40 flex flex-col items-start rounded-full"
-            alt="STALS Logo" />
+            className="flex h-40 w-40 flex-col items-start rounded-full object-scale-down object-left"
+            alt="STALS Logo"
+          />
 
           <h1 className="text-5xl font-extrabold tracking-tight text-white sm:text-[5rem]">
             <span className="text-[#FFFFFF]">WELCOME TO STALS!</span>
           </h1>
 
-          <p className="text-xl font-sans leading-normal tracking-wider text-white pr-80">
-            <span className="text-[#FFFFFF]">Welcome to the Student Accomodation and Lodging System (STALS)! This is an information system that allows users to search, get information, review, and report hotels, apartments, bed spaces,  dormitories, and transient spaces in Los Baños.</span>
+          <p className="pr-80 font-sans text-xl leading-normal tracking-wider text-white">
+            <span className="text-[#FFFFFF]">
+              Welcome to the Student Accomodation and Lodging System (STALS)!
+              This is an information system that allows users to search, get
+              information, review, and report hotels, apartments, bed spaces,
+              dormitories, and transient spaces in Los Baños.
+            </span>
           </p>
 
-
           <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 md:gap-8"></div>
-          
+
           <div className="flex flex-col items-start gap-2">
             <p className="text-sm text-white">
               {/* {hello.data ? hello.data.greeting : "Loading tRPC query..."} */}
@@ -44,7 +49,6 @@ const Home: NextPage = () => {
     </>
   );
 };
-
 
 /* 
 LOGO

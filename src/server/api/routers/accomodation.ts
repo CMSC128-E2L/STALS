@@ -90,7 +90,7 @@ export const accommodationRouter = createTRPCRouter({
   //     where: { landlord: userId },
   //     include: {
   //       // : true,
-        
+
   //     },
   //   });
   // }),
@@ -102,8 +102,6 @@ export const accommodationRouter = createTRPCRouter({
       where: { id },
     });
   }),
-
-
 
   // Search an accommodation
   getMany: publicProcedure
@@ -143,7 +141,6 @@ export const accommodationRouter = createTRPCRouter({
               num_of_rooms: input.num_of_rooms,
             },
           ],
-          
         },
       });
     }),
