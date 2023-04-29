@@ -3,8 +3,8 @@ export default function Login() {
     <div>
         {/* Header design */}
         <header> 
-          <div className="absolute inset-0 bg-[url('https://images.pexels.com/photos/1446378/pexels-photo-1446378.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1')] bg-no-repeat bg-cover h-[50%]">
-            <div className="absolute inset-0 bg-gradient-to-b from-transparent to-black opacity-80 h-[100%]"></div>
+          <div className="absolute inset-0 bg-[url('https://www.camellahomes.net/wp-content/uploads/2022/01/camella-homes-header.jpg')] bg-no-repeat bg-cover h-[50%]">
+            <div className="absolute inset-0 bg-gradient-to-b from-transparent to-p-black opacity-50 h-[100%]"></div>
           </div>
           <h1 className="absolute inset-10 text-center text-white text-4xl font-bold drop-shadow-2xl">Welcome back!</h1>
           <p className="absolute inset-20 text-center text-white text-lg font-bold drop-shadow-2xl">Login to continue</p>
@@ -40,7 +40,7 @@ export default function Login() {
           </p>
           <br />
           <p className="text-center text-sm text-gray-400">
-            Don&apos;t have an account yet? <a className="underline text-cyan-500" href="">Sign Up</a>.
+            Don&apos;t have an account yet? <a className="underline text-cyan-500" href="">Sign up</a>.
           </p>
         </div>
       </div>
