@@ -11,7 +11,7 @@ export default function Login() {
         </header>
     {/* Container for log-in credentials */}
     <div className="absolute inset-0 mt-32 flex content-center justify-center">
-      <div className="h-[28rem] w-1/3 bg-white rounded-xl p-20 shadow shadow-p-black/50">
+      <div className="h-[27rem] w-85 bg-white rounded-xl p-20 shadow shadow-p-black/50">
         <form>
           <div className="flex flex-col space-y-4">
             <input
@@ -40,7 +40,7 @@ export default function Login() {
           </p>
           <br />
           <p className="text-center text-sm text-gray-400">
-            Don't have an account yet? <a className="underline text-cyan-500" href="">Sign Up</a>.
+            Don&apos;t have an account yet? <a className="underline text-cyan-500" href="">Sign Up</a>.
           </p>
         </div>
       </div>
