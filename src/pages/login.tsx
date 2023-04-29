@@ -3,13 +3,11 @@ export default function Login() {
     <div>
         {/* Header design */}
         <header> 
-          <div className="h-[20rem] bg-[url('https://images.pexels.com/photos/1446378/pexels-photo-1446378.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1')] bg-no-repeat bg-cover">
-            {/* <h1 className="text-center text-white pt-12 text-4xl"><b>Welcome back!</b></h1> */}
-            <div className="h-[20rem] bg-gradient-to-b from-transparent to-black opacity-80">
+          <div className="absolute inset-0 bg-[url('https://images.pexels.com/photos/1446378/pexels-photo-1446378.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1')] bg-no-repeat bg-cover h-[50%]">
+            <div className="absolute inset-0 bg-gradient-to-b from-transparent to-black opacity-80 h-[100%]"></div>
           </div>
-          </div>
-          <h1 className="absolute inset-10 text-center text-white text-4xl font-bold drop-shadow-md">Welcome back!</h1>
-          <p className="absolute inset-20 text-center text-white text-lg font-bold">Login to continue</p>
+          <h1 className="absolute inset-10 text-center text-white text-4xl font-bold drop-shadow-lg">Welcome back!</h1>
+          <p className="absolute inset-20 text-center text-white text-lg font-bold drop-shadow-lg">Login to continue</p>
         </header>
     {/* Container for log-in credentials */}
     <div className="absolute inset-0 mt-32 flex content-center justify-center">
