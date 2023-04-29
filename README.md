@@ -87,14 +87,24 @@ npm format
 
 </details>
 
-<details><summary>Windows</summary>
-
-Go to https://nodejs.org/en/download, select LTS, and under Windows Installer (.msi) click 32-bit or 64-bit depending on your device.
-
-
+<details><summary>Windows</summary> 
 
 ## Setup
 
-## Usage
+Go to https://nodejs.org/en/download, select LTS, and under Windows Installer (.msi) click 32-bit or 64-bit depending on your device.
 
-</details>
+Check node version
+```
+node --version
+```
+> it should be "v18.XX.X"
+
+Download dependencies
+```
+npm install
+```
+
+Then run this command to deploy locally
+```
+npm run dev
+```
