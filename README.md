@@ -77,12 +77,12 @@ npm run dev
 ## Commands
 Check for warnings and errors in the codebase.
 ```
-npm lint
+npm run lint
 ```
 
 Format all files in the src/ directory.
 ```
-npm format
+npm run format
 ```
 
 </details>
@@ -107,4 +107,15 @@ npm install
 Then run this command to deploy locally
 ```
 npm run dev
+```
+    
+## Commands
+Check for warnings and errors in the codebase.
+```
+npm run lint
+```
+
+Format all files in the src/ directory.
+```
+npm run format
 ```
