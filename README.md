@@ -87,7 +87,11 @@ npm format
 
 </details>
 
-<details><summary>Windows (TODO)</summary>
+<details><summary>Windows</summary>
+
+Go to https://nodejs.org/en/download, select LTS, and under Windows Installer (.msi) click 32-bit or 64-bit depending on your device.
+
+
 
 ## Setup
 
