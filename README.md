@@ -77,20 +77,45 @@ npm run dev
 ## Commands
 Check for warnings and errors in the codebase.
 ```
-npm lint
+npm run lint
 ```
 
 Format all files in the src/ directory.
 ```
-npm format
+npm run format
 ```
 
 </details>
 
-<details><summary>Windows (TODO)</summary>
+<details><summary>Windows</summary> 
 
 ## Setup
 
-## Usage
+Go to https://nodejs.org/en/download, select LTS, and under Windows Installer (.msi) click 32-bit or 64-bit depending on your device.
 
-</details>
+Check node version
+```
+node --version
+```
+> it should be "v18.XX.X"
+
+Download dependencies
+```
+npm install
+```
+
+Then run this command to deploy locally
+```
+npm run dev
+```
+    
+## Commands
+Check for warnings and errors in the codebase.
+```
+npm run lint
+```
+
+Format all files in the src/ directory.
+```
+npm run format
+```
