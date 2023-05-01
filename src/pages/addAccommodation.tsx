@@ -1,150 +1,307 @@
 export default function AddAccomodation() {
   return (
-    <div>
-      {/* Header design */}
-      <header>
-        <p>sample header</p>
-      </header>
-      {/* Container for Accommodation details */}
-      <div className="absolute inset-0 mt-32 flex content-center justify-center">
-        <div className="h-[28rem] w-1/5 bg-white rounded-xl p-20 shadow shadow-p-black/50">
-          <form>
-            <div className="flex flex-wrap space-y-4 bg-color ">
-                {/* Basic thing */}
-                <h1>-----------About Accommodation--------</h1>
-                <input 
-                    name="lodgename"
-                    type="text"
-                    placeholder="Lodge Name"
-                    className="input-text-field">
-                </input>
-                <input
-                    name="address"
-                    type="text"
-                    placeholder="Address"
-                    className="input-text-field">
-                </input>
-                <select name="location" id="location">
-                    <option value="">Location 1</option>
-                    <option value="">Location 2</option>
-                    <option value="">Location 3</option>
-                </select>
-                <input
-                    name="landlordid"
-                    type="text"
-                    placeholder="Landlord ID"
-                    className="input-text-field">
-                </input>
-                <input
-                    name="contactno"
-                    type="text"
-                    placeholder="Contact Number"
-                    className="input-text-field">
-                </input>
-                <input 
-                    type="text"
-                    name="fbpage"
-                    placeholder="Facebook Page Link (optional)"></input>
-				<input
-                    type="text"
-                    name="rooms"
-                    placeholder="Number of Available Rooms"></input>
-				<input 
-                    type="text" 
-                    name="photos"
-                    placeholder="Photos">
-                </input>
-				<input
-                    type="text"
-                    name="availability"
-                    placeholder="Availability">
-                </input>
+    <div className="thing">
+      {/* Header */}
+      <nav className="border-gray-200 bg-white dark:bg-gray-900">
+        TODO: add navbar
+      </nav>
+      {/* Body */}
+      <div className="flex flex-row content-center items-start">
+        <div className="min-h-screen w-1/4 flex-none bg-yellow-100">01</div>
 
-                <h1>-----------TAGS--------</h1>
-             
-                <select name="gender" id="gender">
-                    <option value="">Coed</option>
-                    <option value="">Male</option>
-                    <option value="">Female</option>
-				</select>
-				
-                
-                {/* TAGS */}
-                <input 
-                    type="checkbox"
-                    name="curfew">
-                </input>
-				 
-				<input
-                    type="checkbox"
-                    name="cookingallowed">
-                </input>
-				  
-                <input 
-                    type="checkbox"
-                    name="visitorsallowed">    
-                </input>
-  
-				<input 
-                    type="checkbox"
-                    name="petsallowed">
-                </input>
-				  
-                <input
-                    type="checkbox"
-                    name="bathroom">
-                </input>
-
-              <input type="checkbox" id="withaircon" name="withaircon"></input>
-              <label>With Aircon</label>
-
-              <input type="checkbox" name="withparking"></input>
-              <label>With Parking Space</label>
-
-              <input type="checkbox" name="hascctv"></input>
-              <label>Has CCTV</label>
-
-              <input type="checkbox" name="hasguards"></input>
-              <label>Has Guards</label>
-
-              <input type="checkbox" name="withlaundryspace"></input>
-              <label>Laundry Space Available</label>
-
-              <input type="checkbox" name="withlaundryservice"></input>
-              <label>Laundry Service Available</label>
-
-              <input
-                type="text"
-                name="customtag1"
-                placeholder="Custom Tags (optional)"
-              ></input>
+        {/* Middle Column Contains Form */}
+        <div className="flex min-h-screen basis-1/2 items-center justify-center bg-blue-500">
+          <div className="margin-40 w-3/4 justify-center rounded-md bg-white p-4 shadow-md">
+            <div className="items-center">
+              <h1 className="flex content-center text-center text-lg">
+                Add Accommodation
+              </h1>
             </div>
-          </form>
-          <br />
+            <form>
+              <h2 className="">Background</h2>
+              {/* Accommodation background deets */}
+              <div className="gap 4 margin-40 grid grid-cols-2">
+                <div>
+                  {/* Left Column */}
+                  <div>
+                    {/* Lodging name */}
+                    <label>Name of Lodging</label>
+                    <input
+                      className="add-acc-input-text-field"
+                      placeholder="Name of Lodging"
+                      type="text"
+                    ></input>
+                  </div>
+                  <div>
+                    {/* Address input field */}
+                    <label>Address</label>
+                    <input
+                      className="add-acc-input-text-field"
+                      placeholder="Address"
+                      type="text"
+                    ></input>
+                  </div>
+                  <div>
+                    {/* dropdown location NOT WORKING PROPERLY*/}
+                    <label>Location</label>
+                    <button
+                      id="locationButton"
+                      data-dropdown-toggle="dropdown"
+                      className="inline-flex items-center rounded-lg bg-blue-700 px-4 py-2.5 text-center text-sm font-medium text-white hover:bg-blue-800 focus:outline-none focus:ring-4 focus:ring-blue-300 dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800"
+                      type="button"
+                    >
+                      Location
+                      <svg
+                        className="ml-2 h-4 w-4"
+                        aria-hidden="true"
+                        viewBox="0 0 24 24"
+                      ></svg>
+                      <path
+                        stroke-linecap="round"
+                        stroke-linejoin="round"
+                        stroke-width="2"
+                        d="M19 9l-7 7-7-7"
+                      ></path>
+                    </button>
 
-          {/* Log-in, help, sign-up buttons */}
-          <div>
-            <button className="group relative flex w-full justify-center rounded-lg bg-p-dblue px-4 py-2 text-white">
-              <b>Log In</b>
-            </button>
-            <br />
-            <p className="text-center text-sm text-gray-400">
-              If you are having issues logging in, please contact an{" "}
-              <a className="text-cyan-500 underline" href="">
-                administrator
-              </a>
-              .
-            </p>
-            <br />
-            <p className="text-center text-sm text-gray-400">
-              Don&apos;t have an account yet?{" "}
-              <a className="text-cyan-500 underline" href="">
-                Sign Up
-              </a>
-              .
-            </p>
+                    <div
+                      id="dropdown"
+                      className="z-10 hidden w-44 divide-y divide-gray-100 rounded-lg bg-white shadow dark:bg-gray-700"
+                    >
+                      <ul
+                        className="py-2 text-sm text-gray-700 dark:text-gray-200"
+                        aria-labelledby="locationButton"
+                      >
+                        <li>
+                          <a
+                            href="#"
+                            className="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white"
+                          >
+                            Dashboard
+                          </a>
+                        </li>
+                        <li>
+                          <a
+                            href="#"
+                            className="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white"
+                          >
+                            Settings
+                          </a>
+                        </li>
+                        <li>
+                          <a
+                            href="#"
+                            className="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white"
+                          >
+                            Earnings
+                          </a>
+                        </li>
+                        <li>
+                          <a
+                            href="#"
+                            className="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white"
+                          >
+                            Sign out
+                          </a>
+                        </li>
+                      </ul>
+                    </div>
+                  </div>
+                  <div>
+                    {/* Landlord ID input field */}
+                    <label>Landlord ID</label>
+                    <input
+                      className="add-acc-input-text-field"
+                      placeholder="Landlord ID"
+                      type="text"
+                    ></input>
+                  </div>
+                  <div>
+                    {/* Contact No input field */}
+                    <label>Contact Number</label>
+                    <input
+                      className="add-acc-input-text-field"
+                      placeholder="Contact No."
+                      type="text"
+                    ></input>
+                  </div>
+                </div>
+
+                {/* Right Column */}
+                <div>
+                  <div>
+                    {/* FB page link*/}
+                    <label>Soc Med</label>
+                    <input
+                      className="add-acc-input-text-field"
+                      placeholder="Facebook Page Link"
+                      type="text"
+                    ></input>
+                  </div>
+
+                  <div>
+                    {/* No of Available Rooms */}
+                    <label>No. of Available Rooms</label>
+                    <input
+                      className="add-acc-input-text-field"
+                      placeholder="No. of Available Rooms"
+                      type="text"
+                    ></input>
+                  </div>
+
+                  <div>
+                    {/* Upload Photos */}
+                    <label>Upload File</label>
+                    <input className="" id="file_input" type="file"></input>
+                  </div>
+
+                  <div>
+                    {/* another damn dropdown NOT WORKING PROPERLY*/}
+                    <label>Availability</label>
+                    <button
+                      id="locationButton"
+                      data-dropdown-toggle="dropdown"
+                      className="inline-flex items-center rounded-lg bg-blue-700 px-4 py-2.5 text-center text-sm font-medium text-white hover:bg-blue-800 focus:outline-none focus:ring-4 focus:ring-blue-300 dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800"
+                      type="button"
+                    >
+                      Location
+                      <svg
+                        className="ml-2 h-4 w-4"
+                        aria-hidden="true"
+                        viewBox="0 0 24 24"
+                      ></svg>
+                      <path
+                        stroke-linecap="round"
+                        stroke-linejoin="round"
+                        stroke-width="2"
+                        d="M19 9l-7 7-7-7"
+                      ></path>
+                    </button>
+
+                    <div
+                      id="dropdown"
+                      className="z-10 hidden w-44 divide-y divide-gray-100 rounded-lg bg-white shadow dark:bg-gray-700"
+                    >
+                      <ul
+                        className="py-2 text-sm text-gray-700 dark:text-gray-200"
+                        aria-labelledby="locationButton"
+                      >
+                        <li>
+                          <a
+                            href="#"
+                            className="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white"
+                          >
+                            Dashboard
+                          </a>
+                        </li>
+                        <li>
+                          <a
+                            href="#"
+                            className="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white"
+                          >
+                            Settings
+                          </a>
+                        </li>
+                        <li>
+                          <a
+                            href="#"
+                            className="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white"
+                          >
+                            Earnings
+                          </a>
+                        </li>
+                        <li>
+                          <a
+                            href="#"
+                            className="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white"
+                          >
+                            Sign out
+                          </a>
+                        </li>
+                      </ul>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              <h2 className="">Tags</h2>
+              {/* TAGS */}
+              <div className="gap 4 margin-40 grid grid-cols-2">
+                {/* LEFT COLUMN */}
+                <div>
+                  <div>
+                    <select name="gender" id="gender">
+                      <option value="">Coed</option>
+                      <option value="">Male</option>
+                      <option value="">Female</option>
+                    </select>
+                  </div>
+
+                  <div>
+                    <input type="checkbox" name="curfew"></input> Curfew
+                  </div>
+                  <div>
+                    <input type="checkbox" name="cooking"></input> Cooking
+                  </div>
+                  <div>
+                    <input type="checkbox" name="visitors"></input> Visitors
+                  </div>
+                  <div>
+                    <input type="checkbox" name="pets"></input> Pets
+                  </div>
+                  <div>
+                    <select name="bathroom" id="bathroom">
+                      <option value="">Common</option>
+                      <option value="">Private</option>
+                    </select>
+                  </div>
+                </div>
+
+                {/* Right COLUMN */}
+                <div>
+                  <div>
+                    <input type="checkbox" name="pets"></input> Aircon
+                  </div>
+                  <div>
+                    <input type="checkbox" name="pets"></input> Parking
+                  </div>
+                  <div>
+                    <input type="checkbox" name="pets"></input> CCTV
+                  </div>
+                  <div>
+                    <input type="checkbox" name="pets"></input> Guards
+                  </div>
+                  <div>
+                    <input type="checkbox" name="pets"></input> Laundry Space
+                  </div>
+                  <div>
+                    <input type="checkbox" name="pets"></input> Laundry Service
+                  </div>
+                </div>
+              </div>
+
+              <div>
+                <label>Custom Tags</label>
+                <input
+                  type="text"
+                  placeholder="custom tags"
+                  className="add-acc-input-text-field"
+                ></input>
+              </div>
+
+              <div className="items-right flex-1">
+                <button type="reset" className="formButton">
+                  Clear
+                </button>
+                <button type="submit" className="formButton">
+                  Submit
+                </button>
+              </div>
+            </form>
           </div>
         </div>
+
+        <div className="min-h-screen w-1/4 flex-none bg-yellow-100">03</div>
       </div>
     </div>
   );
