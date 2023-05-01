@@ -188,7 +188,7 @@ Use Nodejs LTS
 <details> <summary> Sync Repo and Setup New Branch </summary>
 
 1. Check the ISSUES for the features or pages you will add to the website.
-      > [Backend](https://github.com/orgs/CMSC128-E2L/projects/1), [Database](https://github.com/orgs/CMSC128-E2L/projects/2), [Frontend](https://github.com/orgs/CMSC128-E2L/projects/2) 
+      > [Backend](https://github.com/orgs/CMSC128-E2L/projects/1), [Database](https://github.com/orgs/CMSC128-E2L/projects/3), [Frontend](https://github.com/orgs/CMSC128-E2L/projects/2) 
 
 2. In your forked repository, `Sync Fork` your develop branch to the develop branch in the main repository.
 
@@ -262,6 +262,6 @@ Use Nodejs LTS
 3. Else, click `Contribute` then `Open Pull Request`.
   
 4. Link the issue that you have created.
-    > [Backend](https://github.com/orgs/CMSC128-E2L/projects/1), [Database](https://github.com/orgs/CMSC128-E2L/projects/2), [Frontend](https://github.com/orgs/CMSC128-E2L/projects/2) 
+    > [Backend](https://github.com/orgs/CMSC128-E2L/projects/1), [Database](https://github.com/orgs/CMSC128-E2L/projects/3), [Frontend](https://github.com/orgs/CMSC128-E2L/projects/2) 
 
   5. Once your pull request is merged, <b>close</b> the issue and <b>delete</b> the branch containing the merged code. To implement new changes and features, create a new branch and follow the workflow from the start.
