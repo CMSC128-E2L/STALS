@@ -241,15 +241,16 @@ Use Nodejs LTS
           <li> refactor – refactored code that neither fixes a bug nor adds a feature </li>
           <li> docs – updates to documentation such as a the README or other markdown files </li>
         </details>
-  5. Push these changes.
-        ```
-        git push
-        ```
-          
-  6. Publish the NEWBRANCH into your fork.
+  
+  5. If your branch is not in the origin yet, run: 
       ```
-      git push --set-upstream origin
+      git push --set-upstream origin NEWBRANCH
       ```
+  6. If your branch is already existing in the origin, push these changes.
+      ```
+      git push
+      ```
+
   </details>
   
 <details> <summary> Create Pull Request </summary>
