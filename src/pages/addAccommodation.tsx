@@ -25,7 +25,7 @@ export default function AddAccomodation() {
                   {/* Left Column */}
                   <div>
                     {/* Lodging name */}
-                    <label>Name of Lodging</label>
+                    <label>Accommodation Name</label>
                     <input
                       className="add-acc-input-text-field"
                       placeholder="Name of Lodging"
@@ -251,7 +251,7 @@ export default function AddAccomodation() {
                   </div>
                   <div>
                     <select name="bathroom" id="bathroom">
-                      <option value="">Common</option>
+                      <option value="">Communal</option>
                       <option value="">Private</option>
                     </select>
                   </div>
@@ -272,10 +272,23 @@ export default function AddAccomodation() {
                     <input type="checkbox" name="pets"></input> Guards
                   </div>
                   <div>
-                    <input type="checkbox" name="pets"></input> Laundry Space
-                  </div>
-                  <div>
                     <input type="checkbox" name="pets"></input> Laundry Service
+                    <div className="flex grid grid-cols-2">
+                      <div>
+                        <input
+                          type="text"
+                          className="add-acc-input-text-field"
+                          placeholder="Min Service Fee"
+                        ></input>
+                      </div>
+                      <div>
+                        <input
+                          type="text"
+                          className="add-acc-input-text-field"
+                          placeholder="Max Service Fee"
+                        ></input>
+                      </div>
+                    </div>
                   </div>
                 </div>
               </div>

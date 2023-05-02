@@ -2,8 +2,8 @@
 @tailwind components;
 @tailwind utilities;
 
-@layer components{
-    .input-text-field{
-        @apply rounded-xl px-3 py-3 shadow shadow-p-black/50
-    }
+@layer components {
+  .input-text-field {
+    @apply rounded-xl px-3 py-3 shadow shadow-p-black/50;
+  }
 }
