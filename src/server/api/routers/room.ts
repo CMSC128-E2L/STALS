@@ -7,21 +7,46 @@ import {
 } from "~/server/api/trpc";
 
 export const roomRouter = createTRPCRouter({
-  // getRooms: protectedProcedure.query(({ ctx }) => {   //pwede gamitin sa search
-  //   const userId = ctx.session.user.id;
-  //   return ctx.prisma.room.findMany({
-  //     where: { cart: { userId } },
-  //     select: {
-  //       occupied: true,
-  //       num_of_beds: true,
-  //       price: true,
-  //       accommodation: true,
-  //       is_archived: true,
-  //     },
-  //   });
+  // getMany: publicProcedure.query(({ ctx }) => { //pwede gamitin sa search
+  // const userId = ctx.session.user.id;
+  // return ctx.prisma.room.findMany({
+  // where: { cart: { userId } },
+  // select: {
+  // occupied: true,
+  // num_of_beds: true,
+  // price: true,
+  // accommodation: true,
+  // is_archived: true,
+  // },
+  // });
   // }),
 
-  addRoom: protectedProcedure //need to connect to lodging id
+  // Archive Room
+  archiveAccomodation: protectedProcedure
+    .input(z.object({ id: z.string(), is_archived: z.boolean() }))
+    .mutation(({ ctx, input }) => {
+      const id = input.id;
+      const archived = input.is_archived;
+      return ctx.prisma.room.update({
+        where: { id }, //needs to connect to userId?
+        data: {
+          is_archived: !archived,
+        },
+      });
+    }),
+
+  // Get All Archived Rooms
+  getArchived: protectedProcedure.input(z.string()).query(({ ctx }) => {
+    return ctx.prisma.room.findMany({
+      //not sure if find many
+      where: {
+        is_archived: true,
+      },
+    });
+  }),
+
+  // Add Room
+  add: protectedProcedure //need to connect to userid?
     .input(
       z.object({
         accommodationId: z.string(),
@@ -30,7 +55,7 @@ export const roomRouter = createTRPCRouter({
         with_aircon: z.boolean(),
         price: z.number(),
         with_utilities: z.boolean(),
-        is_archived: z.boolean(),
+        is_archived: z.boolean(), //tatanggaling na ba dapat to bc theres archiveRoom?
       }),
     )
     .mutation(({ ctx, input }) => {
@@ -41,24 +66,25 @@ export const roomRouter = createTRPCRouter({
         with_aircon,
         price,
         with_utilities,
-        is_archived,
+        is_archived, //tatanggaling na ba dapat to bc theres archiveRoom?
       } = input;
 
       return ctx.prisma.room.create({
         data: {
           accommodation: { connect: { id: accommodationId } },
-          occupied,
-          num_of_beds,
-          with_aircon,
-          price,
-          with_utilities,
-          is_archived,
+          occupied: input.occupied,
+          num_of_beds: input.num_of_beds,
+          with_aircon: input.with_aircon,
+          price: input.price,
+          with_utilities: input.with_utilities,
+          is_archived: input.is_archived, //tatanggaling na ba dapat to bc theres archiveRoom?
         },
       });
     }),
 
-  //delete
-  deleteRoom: publicProcedure.input(z.string()).mutation(({ ctx, input }) => {
+  // Delete Room
+
+  delete: protectedProcedure.input(z.string()).mutation(({ ctx, input }) => {
     //delete lodging
     const id = input;
     return ctx.prisma.room.delete({
@@ -66,18 +92,18 @@ export const roomRouter = createTRPCRouter({
     });
   }),
 
-  //edit
-  increaseQuantity: protectedProcedure
+  // Edit Room
+  edit: protectedProcedure
     .input(
       z.object({
         id: z.string(),
-        accommodationId: z.string(),
-        occupied: z.boolean(),
-        num_of_beds: z.number(),
-        with_aircon: z.boolean(),
-        price: z.number(),
-        with_utilities: z.boolean(),
-        is_archived: z.boolean(),
+        accommodationId: z.string().optional(),
+        occupied: z.boolean().optional(),
+        num_of_beds: z.number().optional(),
+        with_aircon: z.boolean().optional(),
+        price: z.number().optional(),
+        with_utilities: z.boolean().optional(),
+        is_archived: z.boolean().optional(), //tatanggaling na ba dapat to bc theres archiveRoom?
       }),
     )
     .mutation(({ ctx, input }) => {
@@ -90,7 +116,7 @@ export const roomRouter = createTRPCRouter({
           with_aircon: input.with_aircon,
           price: input.price,
           with_utilities: input.with_utilities,
-          is_archived: input.is_archived,
+          is_archived: input.is_archived, //tatanggaling na ba dapat to bc theres archiveRoom?
         },
       });
     }),
