@@ -1,8 +1,15 @@
 import { type NextPage } from "next";
+import Image from "next/image";
 import Head from "next/head";
+import Link from "next/link";
 import { signIn, signOut, useSession } from "next-auth/react";
+import graphics from "./pic.png";
+import bg from "./bg.png";
+
+import { api } from "~/utils/api";
 
 const Home: NextPage = () => {
+  // const hello = api.user.hello.useQuery({ text: "from STALS Developers" });
   return (
     <>
       <Head>
@@ -11,13 +18,26 @@ const Home: NextPage = () => {
         <link rel="icon" href="/favicon.ico" />
       </Head>
 
-      <main className="flex min-h-screen bg-gradient-to-b from-[#174A79] to-[#8FB0DB]">
+      {/* layout whole page */}
+      <main className="min-h-screen bg-gradient-to-b from-[#174A79] to-[#BBCDE5]">
         {/* landing page whole screen content */}
-        <div className="container flex flex-col gap-8 px-16 py-4">
-          {/* header nav bar [logo name home about contact]*/}
-          <div className="flex justify-between">
+        <div className="flex flex-col">
+          <img
+            src={bg.src}
+            className="absolute bottom-1 right-1/2 h-[100%] translate-x-1/2 opacity-70"
+          />
+          {/* sample image only */}
+          <img
+            className="absolute bottom-1 right-1/2 h-[35%] translate-x-1/2"
+            src={graphics.src}
+            alt="graphics"
+          />
+
+          {/* hindi naka align-center*/}
+          {/* 1 header nav bar [logo name home about contact]*/}
+          <div className="container absolute flex flex-row">
             {/* logo name */}
-            <div className="flex p-5">
+            <div className="absolute left-0 top-1/2 flex p-5">
               <img
                 src="https://mdbootstrap.com//img/Photos/Square/1.jpg"
                 className="flex h-20 w-20 flex-col items-start rounded-full object-scale-down object-scale-down object-left p-4"
@@ -29,29 +49,29 @@ const Home: NextPage = () => {
             </div>
 
             {/* home about contact */}
-            <div className="flex justify-end text-white sm:text-[1rem]">
+            <div className="text-bold text-s absolute right-0 top-1/2 flex p-1 text-white">
               <h4 className="p-10">Home</h4>
               <h4 className="p-10">About Us</h4>
               <h4 className="p-10">Contact</h4>
             </div>
           </div>
 
-          {/* nagsslide yung description [description -> full name] */}
+          {/* optional: nagsslide yung description [description -> full name] */}
 
-          {/* main content after header navbar [title subtitle get started button] */}
-          <div className="flex flex-col justify-center text-center">
+          {/* 2 main content after header navbar [title subtitle get started button] */}
+          <div className="absolute left-1/2 top-1/2 flex -translate-x-1/2 -translate-y-1/2 flex-col justify-center text-center">
             <h1 className="text-5xl font-extrabold tracking-tight text-white sm:text-[5rem]">
               Comfort At Its Best!
             </h1>
 
-            <p className="container p-5 font-sans text-xl leading-normal tracking-wider text-white">
+            <p className="p-5 font-sans text-lg leading-normal tracking-wider text-white">
               You can search, get information, review, and <br />
               rate apartments, bed spaces, hotels, dormitories,
               <br /> and transient spaces in Los Baños.
             </p>
 
-            {/* get started button */}
-            <div className="flex flex-col items-center gap-2">
+            {/* get started button edit color */}
+            <div className="flex flex-col items-center">
               <AuthShowcase />
             </div>
           </div>
@@ -66,13 +86,19 @@ export default Home;
 const AuthShowcase: React.FC = () => {
   const { data: sessionData } = useSession();
 
+  // const { data: secretMessage } = api.user.getSecretMessage.useQuery(
+  //   undefined, // no input
+  //   { enabled: sessionData?.user !== undefined },
+  // );
+
   return (
     <div className="flex flex-col items-start justify-start gap-4">
       <p className="text-start text-2xl text-white">
         {sessionData && <span>Logged in as {sessionData.user?.name}</span>}
+        {/* {secretMessage && <span> - {secretMessage}</span>} */}
       </p>
       <button
-        className="rounded-full bg-white/10 px-10 py-3 font-semibold text-white no-underline transition hover:bg-white/20"
+        className="rounded-full bg-[#1C5D99]/90 px-10 py-3 font-semibold text-white no-underline transition hover:bg-white/20"
         onClick={sessionData ? () => void signOut() : () => void signIn()}
       >
         {sessionData ? "Sign out" : "Get Started"}
