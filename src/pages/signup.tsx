@@ -1,22 +1,6 @@
-// import { type NextPage } from "next";
-// import Head from "next/head";
-// import Link from "next/link";
-// import { signIn, signOut, useSession } from "next-auth/react";
-// import Image from "next/image";
-// import { api } from "~/utils/api";
-// import { stringify } from "superjson";
-import React from "react";
 import logo from "../images/logo.png";
 
 export default function Signup() {
-  // const createduser = api.user.createUser.useQuery();
-  // const createUser = api.user.createUser.useQuery();
-
-  // const { data: firstData, isLoading: queryLoading } =
-  //   api.user.getFirst.useQuery();
-  // if (queryLoading) {
-  //   return <div>Loading</div>;
-  // }
   return (
     <div className="">
       {/* Header design */}
