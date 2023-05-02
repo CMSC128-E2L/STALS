@@ -40,7 +40,6 @@ export const accommodationRouter = createTRPCRouter({
         name: z.string(),
         address: z.string(),
         location: z.string(),
-        landlord: z.string(),
         contact_number: z.string(),
         tags: z.string(),
         num_of_rooms: z.number(),
@@ -50,12 +49,11 @@ export const accommodationRouter = createTRPCRouter({
       }),
     )
     .mutation(({ ctx, input }) => {
-      //const userId = ctx.session.user.id;
+      const userId = ctx.session.user.id;
       const {
         name,
         address,
         location,
-        landlord,
         contact_number,
         tags,
         num_of_rooms,
@@ -68,7 +66,7 @@ export const accommodationRouter = createTRPCRouter({
           name,
           address,
           location,
-          landlord,
+          landlord: userId,
           contact_number,
           tags,
           num_of_rooms,
