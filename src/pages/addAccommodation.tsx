@@ -1,4 +1,4 @@
-export default function AddAccomodation() {
+export default function AddAccommodation() {
   return (
     <div className="thing">
       {/* Header */}
