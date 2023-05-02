@@ -6,11 +6,9 @@ import {
   publicProcedure,
   protectedProcedure,
 } from "~/server/api/trpc";
-/*
- (1) Check lodging list in add accommodation
-*/
+
 export const accommodationRouter = createTRPCRouter({
-  // Get all accommodation
+  // Get all accommodation homepage
   getAll: publicProcedure.query(async ({ ctx }) => {
     try {
       return await ctx.prisma.accommodation.findMany({
@@ -81,33 +79,28 @@ export const accommodationRouter = createTRPCRouter({
       });
     }),
 
-  // Archive an accommodation
-  // archive: protectedProcedure
-  //   .input(
-  //     z.object({
-  //       id: z.string(), is_archived: z.boolean() }))
-  //   .mutation(({ ctx, input }) => {
-  //     const item  = input;
-  //     const id = item;
-  //     return ctx.prisma.accommodation.update({
-  //       where: { id },
-  //       data: {
-  //         is_archived: !archived,
-  //       },
-  //     });
-  //   }),
+  // Archive accommodation
+  archive: protectedProcedure
+    .input(z.object({ id: z.string(), is_archived: z.boolean() }))
+    .mutation(({ ctx, input }) => {
+      const id = input.id;
+      const archived = input.is_archived;
+      return ctx.prisma.accommodation.update({
+        where: { id },
+        data: {
+          is_archived: !archived,
+        },
+      });
+    }),
 
   // Get All Archived accommodations
-  // getArchives: protectedProcedure.input(z.string()).query(({ ctx }) => {
-  //   const userId = ctx.session.user.id;
-  //   return ctx.prisma.accommodation.findMany({
-  //     where: { landlord: userId },
-  //     include: {
-  //       // : true,
-
-  //     },
-  //   });
-  // }),
+  getArchives: protectedProcedure.input(z.string()).query(({ ctx }) => {
+    return ctx.prisma.accommodation.findMany({
+      where: {
+        is_archived: true,
+      },
+    });
+  }),
 
   // Delete an accommodation
   delete: protectedProcedure.input(z.string()).mutation(({ ctx, input }) => {
@@ -132,7 +125,6 @@ export const accommodationRouter = createTRPCRouter({
       }),
     )
     .query(({ ctx, input }) => {
-      // const name = input;
       return ctx.prisma.accommodation.findMany({
         skip: input.page,
         take: input.multiplier,
@@ -169,7 +161,7 @@ export const accommodationRouter = createTRPCRouter({
           address: z.string().optional(),
           location: z.string().optional(),
           landlord: z.string().optional(),
-          contact_number: z.number().optional(),
+          contact_number: z.string().optional(),
           tags: z.string().optional(),
           num_of_rooms: z.number().optional(),
           is_archived: z.boolean().optional(),
@@ -187,7 +179,7 @@ export const accommodationRouter = createTRPCRouter({
           name: item.name,
           address: item.address,
           location: item.location,
-          // contact_number: item.contact_number,
+          contact_number: item.contact_number,
           tags: item.tags,
           num_of_rooms: item.num_of_rooms,
           is_archived: item.is_archived,

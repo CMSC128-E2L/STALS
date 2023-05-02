@@ -49,7 +49,7 @@ export default function Login() {
             <br />
             <p className="text-center text-sm text-gray-400">
               Don&apos;t have an account yet?{" "}
-              <a className="text-cyan-500 underline" href="">
+              <a className="text-cyan-500 underline" href="signup">
                 Sign up
               </a>
               .
