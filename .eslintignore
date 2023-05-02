@@ -1,0 +1,8 @@
+.husky/
+.next/
+.vscode/
+node_modules/
+prisma/
+
+# No need to lint global.css file
+**/*.css
