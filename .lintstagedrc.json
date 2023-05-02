@@ -1,3 +1,4 @@
 {
-  "./src/**/*": ["eslint", "prettier -c ./src/** --write"]
+  "./src/**/*": ["eslint"],
+  "*": ["prettier -c ./src/** --write"]
 }

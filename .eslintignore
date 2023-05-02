@@ -4,5 +4,6 @@
 node_modules/
 prisma/
 
-# No need to lint global.css file
+# No need to lint these type of files
 **/*.css
+**/*.json
