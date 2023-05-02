@@ -1,3 +1,4 @@
+import { AccommodationType } from "@prisma/client";
 import { z } from "zod";
 
 import {
@@ -45,13 +46,13 @@ export const accommodationRouter = createTRPCRouter({
         contact_number: z.string(),
         tags: z.string(),
         num_of_rooms: z.number(),
-        rooms: z.string(),
         is_archived: z.boolean(),
         fb_page: z.string().optional(),
+        type: z.nativeEnum(AccommodationType),
       }),
     )
     .mutation(({ ctx, input }) => {
-      const userId = ctx.session.user.id;
+      //const userId = ctx.session.user.id;
       const {
         name,
         address,
@@ -60,9 +61,9 @@ export const accommodationRouter = createTRPCRouter({
         contact_number,
         tags,
         num_of_rooms,
-        rooms,
         is_archived,
         fb_page,
+        type,
       } = input;
       return ctx.prisma.accommodation.create({
         data: {
@@ -73,9 +74,9 @@ export const accommodationRouter = createTRPCRouter({
           contact_number,
           tags,
           num_of_rooms,
-          rooms,
           is_archived,
           fb_page,
+          type,
         },
       });
     }),
@@ -171,7 +172,6 @@ export const accommodationRouter = createTRPCRouter({
           contact_number: z.number().optional(),
           tags: z.string().optional(),
           num_of_rooms: z.number().optional(),
-          rooms: z.string().optional(),
           is_archived: z.boolean().optional(),
           fb_page: z.string().optional(),
         }),
@@ -190,7 +190,6 @@ export const accommodationRouter = createTRPCRouter({
           // contact_number: item.contact_number,
           tags: item.tags,
           num_of_rooms: item.num_of_rooms,
-          rooms: item.rooms,
           is_archived: item.is_archived,
           fb_page: item.fb_page,
         },
