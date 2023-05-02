@@ -12,18 +12,18 @@ export default {
         'p-yellow': '#F5BB00',
       },
       fontSize: {
-        xs:['12px', '12px']
+        xs: ["12px", "12px"],
       },
       backgroundSize: {
-        'auto': 'auto',
-        'cover': 'cover',
-        'contain': 'contain',
-        '50%': '50%',
-        '16': '4rem',
+        auto: "auto",
+        cover: "cover",
+        contain: "contain",
+        "50%": "50%",
+        "16": "4rem",
       },
       height: {
-        'halfscreen': "50vh",
-      }
+        halfscreen: "50vh",
+      },
     },
   },
   plugins: [],
