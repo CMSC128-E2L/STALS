@@ -1,3 +1,4 @@
+import { AccommodationType } from "@prisma/client";
 import { z } from "zod";
 
 import {
@@ -35,53 +36,66 @@ export const accommodationRouter = createTRPCRouter({
   }),
 
   // Add a new accommodation
-  // add: protectedProcedure
-  //   .input(
-  //     z.object({
-  //       name: z.string(),
-  //       address: z.string(),
-  //       facebook: z.string(),
-  //       email: z.string(),
-  //       contactNum: z.number(),
-  //       category: z.string(),
-  //       rates: z.number(),
-  //       roomQuantity: z.number(),
-  //     }),
-  //   )
-  //   .mutation(({ ctx, input }) => {
-  //     const userId = ctx.session.user.id;
-  //     // remove unit quantity as last parameter in input
-  //     const { name, address, facebook, email, contactNum, category, rates } =
-  //       input;
-  //     return ctx.prisma.accommodation.create({
-  //       //need to create id
-  //       data: {
-  //         name,
-  //         address,
-  //         facebook,
-  //         email,
-  //         contactNum,
-  //         category,
-  //         rates,
-  //         //unitQuantity,
-  //       },
-  //     });
-  //   }),
-
-  // Archive an accommodation
-  archive: protectedProcedure
-    .input(z.object({ id: z.string(), isArchived: z.boolean() }))
+  add: protectedProcedure
+    .input(
+      z.object({
+        name: z.string(),
+        address: z.string(),
+        location: z.string(),
+        landlord: z.string(),
+        contact_number: z.string(),
+        tags: z.string(),
+        num_of_rooms: z.number(),
+        is_archived: z.boolean(),
+        fb_page: z.string().optional(),
+        type: z.nativeEnum(AccommodationType),
+      }),
+    )
     .mutation(({ ctx, input }) => {
-      const userId = ctx.session.user.id;
-      const id = input.id;
-      const archived = input.isArchived;
-      return ctx.prisma.accommodation.update({
-        where: { id },
+      //const userId = ctx.session.user.id;
+      const {
+        name,
+        address,
+        location,
+        landlord,
+        contact_number,
+        tags,
+        num_of_rooms,
+        is_archived,
+        fb_page,
+        type,
+      } = input;
+      return ctx.prisma.accommodation.create({
         data: {
-          is_archived: !archived,
+          name,
+          address,
+          location,
+          landlord,
+          contact_number,
+          tags,
+          num_of_rooms,
+          is_archived,
+          fb_page,
+          type,
         },
       });
     }),
+
+  // Archive an accommodation
+  // archive: protectedProcedure
+  //   .input(
+  //     z.object({
+  //       id: z.string(), is_archived: z.boolean() }))
+  //   .mutation(({ ctx, input }) => {
+  //     const item  = input;
+  //     const id = item;
+  //     return ctx.prisma.accommodation.update({
+  //       where: { id },
+  //       data: {
+  //         is_archived: !archived,
+  //       },
+  //     });
+  //   }),
 
   // Get All Archived accommodations
   // getArchives: protectedProcedure.input(z.string()).query(({ ctx }) => {
@@ -158,7 +172,6 @@ export const accommodationRouter = createTRPCRouter({
           contact_number: z.number().optional(),
           tags: z.string().optional(),
           num_of_rooms: z.number().optional(),
-          rooms: z.string().optional(),
           is_archived: z.boolean().optional(),
           fb_page: z.string().optional(),
         }),
@@ -177,7 +190,6 @@ export const accommodationRouter = createTRPCRouter({
           // contact_number: item.contact_number,
           tags: item.tags,
           num_of_rooms: item.num_of_rooms,
-          rooms: item.rooms,
           is_archived: item.is_archived,
           fb_page: item.fb_page,
         },

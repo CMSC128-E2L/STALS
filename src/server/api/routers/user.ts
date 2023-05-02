@@ -14,7 +14,6 @@ export const userRouter = createTRPCRouter({
     try {
       return await ctx.prisma.user.create({
         data: {
-          subtype: 1,
           username: "vcdayag@up.edu.ph",
           password: "password",
           first_name: "Van Paul Angelo",
@@ -130,7 +129,7 @@ export const userRouter = createTRPCRouter({
     return ctx.prisma.user.findUnique({
       where: { id: userId },
       select: {
-        subtype: true,
+        type: true,
       },
     });
   }),
