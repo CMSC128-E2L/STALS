@@ -17,55 +17,48 @@ const Home: NextPage = () => {
       </Head>
 
       <main className="flex min-h-screen bg-gradient-to-b from-[#174A79] to-[#8FB0DB]">
-        
         {/* landing page whole screen content */}
         <div className="container flex flex-col gap-8 px-16 py-4">
-        
           {/* header nav bar [logo name home about contact]*/}
-          <div className="flex justify-between"> 
-
-          {/* logo name */}
+          <div className="flex justify-between">
+            {/* logo name */}
             <div className="flex p-5">
               <img
                 src="https://mdbootstrap.com//img/Photos/Square/1.jpg"
-                className="flex object-scale-down h-20 w-20 flex-col items-start rounded-full object-scale-down object-left p-4"
-                alt="STALS Logo"/>
-              <h1 className="font-extrabold text-white sm:text-[2rem] p-3">
+                className="flex h-20 w-20 flex-col items-start rounded-full object-scale-down object-scale-down object-left p-4"
+                alt="STALS Logo"
+              />
+              <h1 className="p-3 font-extrabold text-white sm:text-[2rem]">
                 STALS
               </h1>
             </div>
 
-          {/* home about contact */}
+            {/* home about contact */}
             <div className="flex justify-end text-white sm:text-[1rem]">
-              <h4 className="p-10">
-                Home
-              </h4>
-              <h4 className="p-10">
-                About Us
-              </h4>
-              <h4 className="p-10">
-                Contact
-              </h4>
+              <h4 className="p-10">Home</h4>
+              <h4 className="p-10">About Us</h4>
+              <h4 className="p-10">Contact</h4>
             </div>
           </div>
 
-{/* nagsslide yung description [description -> full name] */}
-          
+          {/* nagsslide yung description [description -> full name] */}
+
           {/* main content after header navbar [title subtitle get started button] */}
-          <div className="flex flex-col text-center justify-center">
+          <div className="flex flex-col justify-center text-center">
             <h1 className="text-5xl font-extrabold tracking-tight text-white sm:text-[5rem]">
-                Comfort At Its Best!
+              Comfort At Its Best!
             </h1>
 
-            <p className="container font-sans text-xl leading-normal tracking-wider text-white p-5">
-              You can search, get information, review, and <br/>rate apartments, bed spaces, hotels, dormitories,<br/> and transient spaces in Los Baños.
+            <p className="container p-5 font-sans text-xl leading-normal tracking-wider text-white">
+              You can search, get information, review, and <br />
+              rate apartments, bed spaces, hotels, dormitories,
+              <br /> and transient spaces in Los Baños.
             </p>
 
             {/* get started button */}
             <div className="flex flex-col items-center gap-2">
               <AuthShowcase />
             </div>
-
           </div>
         </div>
       </main>
