@@ -6,4 +6,31 @@
   .input-text-field {
     @apply rounded-xl px-3 py-3 shadow shadow-p-black/50;
   }
+  .add-acc-input-text-field{
+    @apply rounded-md p-1 shadow shadow-p-black/50 w-full h-10
+  }
+  .formButton{
+    @apply rounded-lg px-3 py-1 bg-[#1C5D99] text-white
+    font-bold
+    shadow shadow-p-black/50
+  }
+  .input-text-box-label{
+    @apply text-sm
+  }
+
+  .form-col-deets{
+    @apply grid grid-flow-row auto-rows-max gap-3
+  }
+
+  .form-dropdown{
+    @apply rounded-md p-2 bg-white justify-self-end w-full
+  }
+
+  .form-h1{ 
+    @apply font-bold text-3xl text-center
+  
+  }
+  .form-h2{
+    @apply text-xl font-bold 
+  }
 }
