@@ -46,7 +46,7 @@ export const accommodationRouter = createTRPCRouter({
         tags: z.string(),
         num_of_rooms: z.number(),
         rooms: z.string(),
-        is_archived: z.boolean().optional(),
+        is_archived: z.boolean(),
         fb_page: z.string().optional(),
       }),
     )
@@ -81,19 +81,20 @@ export const accommodationRouter = createTRPCRouter({
     }),
 
   // Archive an accommodation
-  archive: protectedProcedure
-    .input(z.object({ id: z.string(), isArchived: z.boolean() }))
-    .mutation(({ ctx, input }) => {
-      const userId = ctx.session.user.id;
-      const id = input.id;
-      const archived = input.isArchived;
-      return ctx.prisma.accommodation.update({
-        where: { id },
-        data: {
-          is_archived: !archived,
-        },
-      });
-    }),
+  // archive: protectedProcedure
+  //   .input(
+  //     z.object({
+  //       id: z.string(), is_archived: z.boolean() }))
+  //   .mutation(({ ctx, input }) => {
+  //     const item  = input;
+  //     const id = item;
+  //     return ctx.prisma.accommodation.update({
+  //       where: { id },
+  //       data: {
+  //         is_archived: !archived,
+  //       },
+  //     });
+  //   }),
 
   // Get All Archived accommodations
   // getArchives: protectedProcedure.input(z.string()).query(({ ctx }) => {
