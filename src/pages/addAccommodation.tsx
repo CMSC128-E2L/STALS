@@ -19,58 +19,52 @@ export default function AddAccomodation() {
 
           <form className="space-y-4">
             <div>
-              <h2 className="form-h2">Background</h2>
+              <h2 className="form-h2">Accommodation Background</h2>
                 {/* Accommodation background deets */}
-              <div className="gap-4 margin-40 grid grid-cols-2 object-contain">
+              <div className="gap-9 margin-40 grid grid-cols-2 object-contain px-9">
                   <div className="form-col-deets">
                     {/* Left Column */}
                     <div>
                       {/* Lodging name */}
-                      <label>Accommodation Name</label>
+                      
                       <input
                         className="add-acc-input-text-field"
-                        placeholder="Name of Lodging"
+                        placeholder="Name of Accommodation"
                         type="text"
+                        required
                       ></input>
                     </div>
                     <div>
                       {/* Address input field */}
-                      <label>Address</label>
+                      
                       <input
                         className="add-acc-input-text-field"
                         placeholder="Address"
                         type="text"
+                        required
                       ></input>
                     </div>
                     
                     <div>
-                      <label>Location</label>
+                      
                       <div className="bg-white rounded-md p-1 justify-items-stretch w-full h-10 items-center">
-                        <select name="availability" className="form-dropdown">
-                          <option value="">Option 1</option>
-                          <option value="">Option 2</option>
-                          <option value="">Option 3</option>
+                        <select name="availability" className="form-dropdown" placeholder="Location">
+                          <option value="">Location</option>
+                          <option value="">Within UPLB</option>
+                          <option value="">Outside UPLB</option>
                         </select>
 
                       </div>
                     </div>
 
                     <div>
-                      {/* Landlord ID input field */}
-                      <label>Landlord ID</label>
-                      <input
-                        className="add-acc-input-text-field"
-                        placeholder="Landlord ID"
-                        type="text"
-                      ></input>
-                    </div>
-                    <div>
                       {/* Contact No input field */}
-                      <label>Contact Number</label>
+                      
                       <input
                         className="add-acc-input-text-field"
                         placeholder="Contact No."
                         type="text"
+                        required
                       ></input>
                     </div>
                   </div>
@@ -79,7 +73,7 @@ export default function AddAccomodation() {
                   <div className="form-col-deets">
                     <div>
                       {/* FB page link*/}
-                      <label>Soc Med</label>
+                      
                       <input
                         className="add-acc-input-text-field"
                         placeholder="Facebook Page Link"
@@ -89,7 +83,7 @@ export default function AddAccomodation() {
 
                     <div>
                       {/* No of Available Rooms */}
-                      <label>No. of Available Rooms</label>
+                      
                       <input
                         className="add-acc-input-text-field"
                         placeholder="No. of Available Rooms"
@@ -98,7 +92,7 @@ export default function AddAccomodation() {
                     </div>
 
                     <div>
-                      <label>Room Photos</label>
+                      
                       <div className="bg-white rounded-md p-1 grid grid-cols-2 justify-items-stretch w-full h-10 items-center">
                         {/* Upload Photos */}
                         <label className="input-text-box-label px-4">Upload File</label>
@@ -109,12 +103,13 @@ export default function AddAccomodation() {
                     </div>
                     
                     <div>
-                      <label>Availability</label>
+                      
                       <div className="bg-white rounded-md p-1 justify-items-stretch w-full h-10 items-center">
                         <select name="availability" className="form-dropdown">
-                          <option value="">Option 1</option>
-                          <option value="">Option 2</option>
-                          <option value="">Option 3</option>
+                          <option value="">Availability</option>
+                          <option value="">Occupied</option>
+                          <option value="">Not Occupied</option>
+                          <option value="">Bedspace available</option>
                         </select>
 
                       </div>
@@ -130,7 +125,7 @@ export default function AddAccomodation() {
                 {/* LEFT COLUMN */}
                 <div className="form-col-deets">
                   <div>
-                    <label>Gender</label>
+                    
                     <div className="bg-white rounded-md p-1 justify-items-stretch w-full h-10 items-center">
                       <select name="gender" className="form-dropdown">
                         <option value="">Coed</option>
@@ -141,7 +136,10 @@ export default function AddAccomodation() {
                   </div>
                   <div className="text-lg">
                     <div>
-                      <input type="checkbox" name="curfew"></input> Curfew
+                      <input type="checkbox" name="curfew" className="peer"></input> Curfew
+                      <div className="flex-shri invisible peer-checked:visible">
+                        <input type="text" className="add-acc-input-text-field" placeholder="time"></input>
+                      </div>
                     </div>
                     <div>
                       <input type="checkbox" name="cooking"></input> Cooking
@@ -154,7 +152,7 @@ export default function AddAccomodation() {
                     </div>
                   </div>
                   <div>
-                    <label>Type of Bathroom</label>
+                    
                     <div className="bg-white rounded-md p-1 justify-items-stretch w-full h-10 items-center">
                       <select name="gender" className="form-dropdown">
                         <option value="">Communal</option>
@@ -180,12 +178,11 @@ export default function AddAccomodation() {
                       <input type="checkbox" name="pets"></input> Guards
                     </div>
                     <div>
-                      <input type="checkbox" name="pets"></input> Laundry Service
-                  </div>
+                      <input type="checkbox" name="Laundry" className="peer"></input> Laundry Service
+                    
                     {/* MAX AND MIN FEES FOR LAUNDRY SERVICE */}
-                  <div className="flex grid grid-cols-2 gap-4 w-1/2">
+                  <div className="flex grid grid-cols-2 gap-4 w-1/2 invisible peer-checked:visible">
                     <div className="justify-items-end">
-                      <label>Min Service Fee</label>
                       <input
                         type="text"
                         className="add-acc-input-text-field"
@@ -193,7 +190,7 @@ export default function AddAccomodation() {
                       ></input>
                     </div>
                     <div className=" justify-items-end">
-                      <label>Max Service Fee</label>
+                      
                       <input
                         type="text"
                         className="add-acc-input-text-field"
@@ -202,12 +199,13 @@ export default function AddAccomodation() {
                     </div>
                   </div>
                   </div>
+                  </div>
                 </div>
               </div>
 
               {/* CUSTOM TAGS TEXT BOX */}
               <div>
-                <label>Custom Tags</label>
+                
                 <input
                   type="text"
                   placeholder="Custom tags"
