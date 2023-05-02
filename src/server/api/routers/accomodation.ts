@@ -35,38 +35,50 @@ export const accommodationRouter = createTRPCRouter({
   }),
 
   // Add a new accommodation
-  // add: protectedProcedure
-  //   .input(
-  //     z.object({
-  //       name: z.string(),
-  //       address: z.string(),
-  //       facebook: z.string(),
-  //       email: z.string(),
-  //       contactNum: z.number(),
-  //       category: z.string(),
-  //       rates: z.number(),
-  //       roomQuantity: z.number(),
-  //     }),
-  //   )
-  //   .mutation(({ ctx, input }) => {
-  //     const userId = ctx.session.user.id;
-  //     // remove unit quantity as last parameter in input
-  //     const { name, address, facebook, email, contactNum, category, rates } =
-  //       input;
-  //     return ctx.prisma.accommodation.create({
-  //       //need to create id
-  //       data: {
-  //         name,
-  //         address,
-  //         facebook,
-  //         email,
-  //         contactNum,
-  //         category,
-  //         rates,
-  //         //unitQuantity,
-  //       },
-  //     });
-  //   }),
+  add: protectedProcedure
+    .input(
+      z.object({
+        name: z.string(),
+        address: z.string(),
+        location: z.string(),
+        landlord: z.string(),
+        contact_number: z.string(),
+        tags: z.string(),
+        num_of_rooms: z.number(),
+        rooms: z.string(),
+        is_archived: z.boolean().optional(),
+        fb_page: z.string().optional(),
+      }),
+    )
+    .mutation(({ ctx, input }) => {
+      const userId = ctx.session.user.id;
+      const {
+        name,
+        address,
+        location,
+        landlord,
+        contact_number,
+        tags,
+        num_of_rooms,
+        rooms,
+        is_archived,
+        fb_page,
+      } = input;
+      return ctx.prisma.accommodation.create({
+        data: {
+          name,
+          address,
+          location,
+          landlord,
+          contact_number,
+          tags,
+          num_of_rooms,
+          rooms,
+          is_archived,
+          fb_page,
+        },
+      });
+    }),
 
   // Archive an accommodation
   archive: protectedProcedure
