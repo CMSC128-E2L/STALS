@@ -78,8 +78,10 @@ To get a local copy up and running, follow the steps for installation first. If 
   git branch
   ```
 - Displays the state of the working directory and the staging area.
-`    git status
-   `
+  ```
+  git status
+  ```
+
 </details>
 
 <details><summary>Linux, WSL</summary>
@@ -137,9 +139,11 @@ To get a local copy up and running, follow the steps for installation first. If 
 ### Usage
 
 Use Nodejs LTS
-`    nvm use --lts
-    npm run dev
-   `
+
+```
+nvm use --lts
+npm run dev
+```
 
 ### Commands
 
@@ -148,9 +152,10 @@ Use Nodejs LTS
   npm run lint
   ```
 - Format all files in the src/ directory.
-`    npm run format
-   `
-</details>
+  ```
+  npm run format
+  ```
+  </details>
 
 <details><summary>Windows</summary>
 
@@ -185,9 +190,10 @@ Use Nodejs LTS
   npm run lint
   ```
 - Format all files in the src/ directory.
-`    npm run format
-   `
-</details>
+  ```
+  npm run format
+  ```
+  </details>
 
 ## How To Pull Request
 
@@ -224,9 +230,10 @@ Use Nodejs LTS
 5. Start working on your code inside the newly created branch. Make sure that no changes will be done under the develop branch.
 
 6. To check for errors and to format your code, run:
-`     npm run lint
-    `
-</details>
+   ```
+   npm run lint
+   ```
+   </details>
 
 <details> <summary> Publish Code Changes </summary>
 
