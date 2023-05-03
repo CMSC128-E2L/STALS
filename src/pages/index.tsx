@@ -1,12 +1,13 @@
 import { type NextPage } from "next";
 import Image from "next/image";
 import Head from "next/head";
-import Link from "next/link";
+// import Link from "next/link";
 import { signIn, signOut, useSession } from "next-auth/react";
-import graphics from "./pic.png";
-import bg from "./bg.png";
+import graphics from "../images/pic.png";
+import bg from "../images/bg.png";
+import logo from "../images/logo.png";
 
-import { api } from "~/utils/api";
+// import { api } from "~/utils/api";
 
 const Home: NextPage = () => {
   // const hello = api.user.hello.useQuery({ text: "from STALS Developers" });
@@ -22,9 +23,11 @@ const Home: NextPage = () => {
       <main className="min-h-screen bg-gradient-to-b from-[#174A79] to-[#BBCDE5]">
         {/* landing page whole screen content */}
         <div className="flex flex-col">
+          {/* graphics */}
           <img
-            src={bg.src}
             className="absolute bottom-1 right-1/2 h-[100%] translate-x-1/2 opacity-70"
+            src={bg.src}
+            alt="background"
           />
           {/* sample image only */}
           <img
@@ -33,14 +36,13 @@ const Home: NextPage = () => {
             alt="graphics"
           />
 
-          {/* hindi naka align-center*/}
           {/* 1 header nav bar [logo name home about contact]*/}
-          <div className="container absolute flex flex-row">
+          <header className="sticky top-0 justify-between">
             {/* logo name */}
             <div className="absolute left-0 top-1/2 flex p-5">
               <img
-                src="https://mdbootstrap.com//img/Photos/Square/1.jpg"
-                className="flex h-20 w-20 flex-col items-start rounded-full object-scale-down object-scale-down object-left p-4"
+                src={logo.src}
+                className="flex h-20 w-20 flex-col items-start rounded-full object-scale-down object-left pl-1"
                 alt="STALS Logo"
               />
               <h1 className="p-3 font-extrabold text-white sm:text-[2rem]">
@@ -50,14 +52,23 @@ const Home: NextPage = () => {
 
             {/* home about contact */}
             <div className="text-bold text-s absolute right-0 top-1/2 flex p-1 text-white">
-              <h4 className="p-10">Home</h4>
-              <h4 className="p-10">About Us</h4>
-              <h4 className="p-10">Contact</h4>
+              {/* <div className="flex text-white text-bold text-s w-full md:block md:w-auto mt-4 flex flex-col items-center p-4 font-medium md:mt-0 md:flex-row md:space-x-8 md:border-0 md:p-0"> */}
+              <a href="homepage" className="p-10 no-underline hover:underline">
+                Home
+              </a>
+              <a
+                href="contactpage"
+                className="p-10 no-underline hover:underline"
+              >
+                Contact
+              </a>
+              <a href="aboutpage" className="p-10 no-underline hover:underline">
+                About Us
+              </a>
             </div>
-          </div>
+          </header>
 
-          {/* optional: nagsslide yung description [description -> full name] */}
-
+          {/* low prio: nagsslide yung description [description -> full name] */}
           {/* 2 main content after header navbar [title subtitle get started button] */}
           <div className="absolute left-1/2 top-1/2 flex -translate-x-1/2 -translate-y-1/2 flex-col justify-center text-center">
             <h1 className="text-5xl font-extrabold tracking-tight text-white sm:text-[5rem]">
