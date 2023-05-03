@@ -63,10 +63,7 @@ export default function HomePage() {
                 value=""
                 className="h-4 w-4 rounded border-gray-300 bg-gray-100 text-blue-600 focus:ring-2 focus:ring-blue-500 dark:border-gray-600 dark:bg-gray-700 dark:ring-offset-gray-800 dark:focus:ring-blue-600"
               />
-              <label
-                htmlFor="Apartments"
-                className="ml-2 text-sm font-medium text-gray-900 dark:text-gray-300"
-              >
+              <label htmlFor="Apartments" className="ml-2 text-sm font-medium">
                 Apartments
               </label>
             </div>
@@ -78,10 +75,7 @@ export default function HomePage() {
                 value=""
                 className="h-4 w-4 rounded border-gray-300 bg-gray-100 text-blue-600 focus:ring-2 focus:ring-blue-500 dark:border-gray-600 dark:bg-gray-700 dark:ring-offset-gray-800 dark:focus:ring-blue-600"
               />
-              <label
-                htmlFor="Bedspaces"
-                className="ml-2 text-sm font-medium text-gray-900 dark:text-gray-300"
-              >
+              <label htmlFor="Bedspaces" className="ml-2 text-sm font-medium">
                 Bedspaces
               </label>
             </div>
@@ -93,10 +87,7 @@ export default function HomePage() {
                 value=""
                 className="h-4 w-4 rounded border-gray-300 bg-gray-100 text-blue-600 focus:ring-2 focus:ring-blue-500 dark:border-gray-600 dark:bg-gray-700 dark:ring-offset-gray-800 dark:focus:ring-blue-600"
               />
-              <label
-                htmlFor="Dormitories"
-                className="ml-2 text-sm font-medium text-gray-900 dark:text-gray-300"
-              >
+              <label htmlFor="Dormitories" className="ml-2 text-sm font-medium">
                 Dormitories
               </label>
             </div>
@@ -108,10 +99,7 @@ export default function HomePage() {
                 value=""
                 className="h-4 w-4 rounded border-gray-300 bg-gray-100 text-blue-600 focus:ring-2 focus:ring-blue-500 dark:border-gray-600 dark:bg-gray-700 dark:ring-offset-gray-800 dark:focus:ring-blue-600"
               />
-              <label
-                htmlFor="Hotels"
-                className="ml-2 text-sm font-medium text-gray-900 dark:text-gray-300"
-              >
+              <label htmlFor="Hotels" className="ml-2 text-sm font-medium">
                 Hotels
               </label>
             </div>
@@ -123,10 +111,7 @@ export default function HomePage() {
                 value=""
                 className="h-4 w-4 rounded border-gray-300 bg-gray-100 text-blue-600 focus:ring-2 focus:ring-blue-500 dark:border-gray-600 dark:bg-gray-700 dark:ring-offset-gray-800 dark:focus:ring-blue-600"
               />
-              <label
-                htmlFor="Transients"
-                className="ml-2 text-sm font-medium text-gray-900 dark:text-gray-300"
-              >
+              <label htmlFor="Transients" className="ml-2 text-sm font-medium">
                 Transients
               </label>
             </div>
@@ -137,44 +122,38 @@ export default function HomePage() {
             <h2>Price Range</h2>
             <div className="mb-2 mt-2 flex items-center">
               <input
-                id="default-checkbox"
+                id="below-1000"
                 type="checkbox"
                 value=""
                 className="h-4 w-4 rounded border-gray-300 bg-gray-100 text-blue-600 focus:ring-2 focus:ring-blue-500 dark:border-gray-600 dark:bg-gray-700 dark:ring-offset-gray-800 dark:focus:ring-blue-600"
               />
-              <label
-                htmlFor="below-1000"
-                className="ml-2 text-sm font-medium text-gray-900 dark:text-gray-300"
-              >
+              <label htmlFor="below-1000" className="ml-2 text-sm font-medium">
                 Below ₱ 1000
               </label>
             </div>
 
             <div className="mb-2 flex items-center">
               <input
-                id="default-checkbox"
+                id="one-to-two"
                 type="checkbox"
                 value=""
                 className="h-4 w-4 rounded border-gray-300 bg-gray-100 text-blue-600 focus:ring-2 focus:ring-blue-500 dark:border-gray-600 dark:bg-gray-700 dark:ring-offset-gray-800 dark:focus:ring-blue-600"
               />
-              <label
-                htmlFor="one-to-two"
-                className="ml-2 text-sm font-medium text-gray-900 dark:text-gray-300"
-              >
+              <label htmlFor="one-to-two" className="ml-2 text-sm font-medium">
                 ₱ 1000 – ₱ 2000{" "}
               </label>
             </div>
 
             <div className="mb-2 flex items-center">
               <input
-                id="default-checkbox"
+                id="two-to-three"
                 type="checkbox"
                 value=""
                 className="h-4 w-4 rounded border-gray-300 bg-gray-100 text-blue-600 focus:ring-2 focus:ring-blue-500 dark:border-gray-600 dark:bg-gray-700 dark:ring-offset-gray-800 dark:focus:ring-blue-600"
               />
               <label
                 htmlFor="two-to-three"
-                className="ml-2 text-sm font-medium text-gray-900 dark:text-gray-300"
+                className="ml-2 text-sm font-medium"
               >
                 ₱ 2001 – ₱ 3000{" "}
               </label>
@@ -182,14 +161,14 @@ export default function HomePage() {
 
             <div className="mb-2 flex items-center">
               <input
-                id="default-checkbox"
+                id="three-to-four"
                 type="checkbox"
                 value=""
                 className="h-4 w-4 rounded border-gray-300 bg-gray-100 text-blue-600 focus:ring-2 focus:ring-blue-500 dark:border-gray-600 dark:bg-gray-700 dark:ring-offset-gray-800 dark:focus:ring-blue-600"
               />
               <label
                 htmlFor="three-to-four"
-                className="ml-2 text-sm font-medium text-gray-900 dark:text-gray-300"
+                className="ml-2 text-sm font-medium"
               >
                 ₱ 3001 – ₱ 4000{" "}
               </label>
@@ -197,15 +176,12 @@ export default function HomePage() {
 
             <div className="mb-2 flex items-center">
               <input
-                id="default-checkbox"
+                id="above-four"
                 type="checkbox"
                 value=""
                 className="h-4 w-4 rounded border-gray-300 bg-gray-100 text-blue-600 focus:ring-2 focus:ring-blue-500 dark:border-gray-600 dark:bg-gray-700 dark:ring-offset-gray-800 dark:focus:ring-blue-600"
               />
-              <label
-                htmlFor="above-four"
-                className="ml-2 text-sm font-medium text-gray-900 dark:text-gray-300"
-              >
+              <label htmlFor="above-four" className="ml-2 text-sm font-medium">
                 Above ₱ 4001
               </label>
             </div>
@@ -292,26 +268,19 @@ export default function HomePage() {
                 Download PDF
               </button>
 
-              <button className="bg-p-gray mr-4 rounded-lg px-2 py-2 text-xs font-bold text-black hover:bg-gray-400">
+              <button className="mr-4 rounded-lg bg-p-gray px-2 py-2 text-xs font-bold text-black hover:bg-gray-400">
                 See more...
               </button>
             </div>
             <div className="flex flex-row flex-wrap ">
-              <div className="bg-p-gray mr-4 mt-4 h-64 w-64 rounded-xl border p-4"></div>
-              <div className="bg-p-gray mr-4 mt-4 h-64 w-64 rounded-xl border p-4"></div>
-              <div className="bg-p-gray mr-4 mt-4 h-64 w-64 rounded-xl border p-4"></div>
-              <div className="bg-p-gray mr-4 mt-4 h-64 w-64 rounded-xl border p-4"></div>
-              <div className="bg-p-gray mr-4 mt-4 h-64 w-64 rounded-xl border p-4"></div>
-              <div className="bg-p-gray mr-4 mt-4 h-64 w-64 rounded-xl border p-4"></div>
-              <div className="bg-p-gray mr-4 mt-4 h-64 w-64 rounded-xl border p-4"></div>
-              <div className="bg-p-gray mr-4 mt-4 h-64 w-64 rounded-xl border p-4"></div>
-              <div className="bg-p-gray mr-4 mt-4 h-64 w-64 rounded-xl border p-4"></div>
-              <div className="bg-p-gray mr-4 mt-4 h-64 w-64 rounded-xl border p-4"></div>
-              <div className="bg-p-gray mr-4 mt-4 h-64 w-64 rounded-xl border p-4"></div>
-              <div className="bg-p-gray mr-4 mt-4 h-64 w-64 rounded-xl border p-4"></div>
-              <div className="bg-p-gray mr-4 mt-4 h-64 w-64 rounded-xl border p-4"></div>
-              <div className="bg-p-gray mr-4 mt-4 h-64 w-64 rounded-xl border p-4"></div>
-              {/* {Array(5).fill(1).map((x) => <div key={`${x}`} className="bg-p-gray border rounded-xl p-4 h-64 w-64 mr-4 mt-4"></div>)} */}
+              {Array(5)
+                .fill(1)
+                .map((x) => (
+                  <div
+                    key={`x`}
+                    className="mr-4 mt-4 h-64 w-64 rounded-xl border bg-p-gray p-4"
+                  ></div>
+                ))}
             </div>
           </div>
         </div>
