@@ -1,36 +1,26 @@
-// import { type NextPage } from "next";
-// import Head from "next/head";
-// import Link from "next/link";
-// import { signIn, signOut, useSession } from "next-auth/react";
-// import Image from "next/image";
-// import { api } from "~/utils/api";
-// import { stringify } from "superjson";
+import logo from "../images/logo.png";
 
 export default function Signup() {
-  // const createduser = api.user.createUser.useQuery();
-  // const createUser = api.user.createUser.useQuery();
-
-  // const { data: firstData, isLoading: queryLoading } =
-  //   api.user.getFirst.useQuery();
-  // if (queryLoading) {
-  //   return <div>Loading</div>;
-  // }
   return (
     <div className="">
       {/* Header design */}
       <header>
-        <div className="h-halfscreen bg-[url('https://images.pexels.com/photos/1446378/pexels-photo-1446378.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1')] bg-cover bg-no-repeat">
+        <div className="absolute inset-0 h-[50%] bg-[url('https://www.camellahomes.net/wp-content/uploads/2022/01/camella-homes-header.jpg')] bg-cover bg-no-repeat">
           {/* <h1 className="text-center text-white pt-12 text-4xl"><b>Welcome back!</b></h1> */}
           <div className="h-[100%] bg-gradient-to-b from-transparent to-black opacity-80"></div>
         </div>
-        <h1 className="absolute inset-10 text-center text-4xl font-bold text-white drop-shadow-md">
-          Welcome back!
+        <h1 className="absolute inset-10 text-center text-5xl font-bold text-white drop-shadow-md">
+          <div className="flex h-20 w-auto justify-center drop-shadow-md">
+            <img src={logo.src} />
+          </div>
+          Welcome! <br />
+          <p className="text-center text-lg font-bold text-white drop-shadow-md">
+            {" "}
+            Sign up to continue{" "}
+          </p>
         </h1>
-        <p className="absolute inset-20 text-center text-lg font-bold text-white drop-shadow-md">
-          Login to continue
-        </p>
       </header>
-      <div className="absolute inset-x-0 top-32 flex justify-center">
+      <div className="absolute inset-x-0 top-52 flex justify-center">
         <div className="w-fit rounded-xl bg-white p-10 shadow shadow-p-black/50">
           <form>
             <div className="flex flex-col space-y-2.5">
@@ -45,7 +35,7 @@ export default function Signup() {
                 <input
                   name="Middleinitial"
                   type="text"
-                  placeholder="M.I."
+                  placeholder="Middle Initial"
                   className="w-[38%] rounded-xl px-3 py-3 shadow shadow-gray-400/100"
                 />
               </div>
@@ -82,9 +72,9 @@ export default function Signup() {
                 <p className="px-3 text-xs">
                   {" "}
                   Password Strength:
-                  <label id="Strength" className="text-green-500">
+                  <label id="Strength" className="text-red-500">
                     {" "}
-                    Good
+                    Weak
                   </label>
                 </p>
               </div>
@@ -99,27 +89,11 @@ export default function Signup() {
                 name="Contactnumber"
                 type="number"
                 placeholder="Contact Number"
+                // minlength="8"
+                // max="14"
                 className="rounded-xl px-3 py-3 shadow shadow-gray-400/100"
+                required
               />
-              <div className="rounded-xl px-3 py-0.5 text-gray-400 shadow shadow-gray-400/100">
-                <div className="flex flex-col space-y-1 text-sm">
-                  <label className="">Type of User</label>
-                  <div className="flex flex-row space-x-1">
-                    <input
-                      name="Student"
-                      type="radio"
-                      className="ml-2 text-sm font-medium text-gray-900 dark:text-gray-300"
-                    />
-                    <label>Student</label>
-                    <input
-                      name="Landowner"
-                      type="radio"
-                      // className="shadow-gray-400/100"
-                    />
-                    <label>Landowner</label>
-                  </div>
-                </div>
-              </div>
             </div>
             <br />
             <div>
@@ -129,10 +103,16 @@ export default function Signup() {
               <br />
               <p className="text-center text-sm text-gray-400">
                 Already have an account?{" "}
-                <a href="login" className="text-blue-600 underline">
+                <a href="login" className="text-cyan-500 underline">
                   Login
                 </a>
                 .
+              </p>
+              <p className="text-center text-sm text-gray-400">
+                {" "}
+                <a href="homepage" className="text-cyan-500">
+                  Continue as Guest
+                </a>
               </p>
             </div>
           </form>
