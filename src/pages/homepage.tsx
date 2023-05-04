@@ -1,4 +1,7 @@
+/* eslint-disable @next/next/no-img-element */
 // import Image from "next/image";
+
+import { useSession } from "next-auth/react";
 
 export default function HomePage() {
   return (
@@ -27,11 +30,7 @@ export default function HomePage() {
               ></input>
             </li>
             <li>
-              <img
-                src="https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460_1280.png"
-                className="h-12 rounded-3xl"
-                alt="Profile"
-              />
+              <UserImage />
             </li>
           </ul>
         </div>
@@ -288,3 +287,17 @@ export default function HomePage() {
     </div>
   );
 }
+
+const UserImage: React.FC = () => {
+  const { data: sessionData } = useSession();
+  return (
+    <img
+      src={
+        sessionData?.user.image ??
+        "https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460_1280.png"
+      }
+      className="h-12 rounded-3xl"
+      alt="Profile"
+    />
+  );
+};
