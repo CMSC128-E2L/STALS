@@ -1,45 +1,15 @@
 /* eslint-disable @next/next/no-img-element */
 // import Image from "next/image";
-
-import { useSession } from "next-auth/react";
+import NavBar from "~/components/navbar";
 
 export default function HomePage() {
   return (
     <div>
-      {/* Navigation bar */}
-      <header className="sticky top-0 mx-auto mb-5 flex flex-wrap items-center justify-between bg-p-dblue p-4">
-        {/* Left side */}
-        <div className="items-center align-middle">
-          <a href="" className="flex items-center">
-            <img
-              src="https://www.pngfind.com/pngs/m/439-4392840_facebook-link-icon-image-dynamic-spectrum-alliance-pink.png"
-              className="mr-3 h-12 rounded-3xl"
-              alt="STALS Logo"
-            />
-            <h1 className="self-center text-4xl font-bold text-white">STALS</h1>
-          </a>
-        </div>
-
-        {/* Right side */}
-        <div className="w-full md:block md:w-auto">
-          <ul className="mt-4 flex flex-col items-center p-4 font-medium md:mt-0 md:flex-row md:space-x-8 md:border-0 md:p-0 ">
-            <li>
-              <input
-                className="rounded-2xl px-3 py-1"
-                placeholder="Search"
-              ></input>
-            </li>
-            <li>
-              <UserImage />
-            </li>
-          </ul>
-        </div>
-      </header>
+      <NavBar />
 
       {/* Content */}
       <div className="flex flex-row">
         {/* Filters */}
-        {/* fixed left-0 */}
         <div className="max-w-1/6 mr-4 flex h-[90%] flex-col rounded-r-[60px] bg-p-lblue p-10">
           <h1 className="mb-5">Filter</h1>
 
@@ -267,8 +237,12 @@ export default function HomePage() {
                 Download PDF
               </button>
 
-              <button className="mr-4 rounded-lg bg-p-gray px-2 py-2 text-xs font-bold text-black hover:bg-gray-400">
-                See more...
+              <button
+                id="see-more-button"
+                className="mr-4 rounded-lg bg-p-gray px-2 py-2 text-xs font-bold text-black hover:bg-gray-400"
+                onClick={() => toggleShow()}
+              >
+                See More
               </button>
             </div>
             <div className="flex flex-row flex-wrap ">
@@ -281,6 +255,12 @@ export default function HomePage() {
                   ></div>
                 ))}
             </div>
+            <div
+              id="more-content"
+              className="max-h-0 overflow-hidden transition-all"
+            >
+              <p>Additional content here...</p>
+            </div>
           </div>
         </div>
       </div>
@@ -288,16 +268,14 @@ export default function HomePage() {
   );
 }
 
-const UserImage: React.FC = () => {
-  const { data: sessionData } = useSession();
-  return (
-    <img
-      src={
-        sessionData?.user.image ??
-        "https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460_1280.png"
-      }
-      className="h-12 rounded-3xl"
-      alt="Profile"
-    />
-  );
-};
+function toggleShow() {
+  const div = document.querySelector(".max-h-0");
+  div?.classList.toggle("max-h-screen");
+  div?.classList.toggle("overflow-auto");
+  const button = document.getElementById("see-more-button");
+
+  if (button != null) {
+    button.innerHTML =
+      button?.innerHTML === "See More" ? "See Less" : "See More";
+  }
+}
