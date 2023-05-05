@@ -165,7 +165,7 @@ export default function HomePage() {
                 className="form-radio"
                 name="radio-group"
                 value="option1"
-                checked
+                defaultChecked
               />
               <span className="ml-2">Solo</span>
             </label>
@@ -176,7 +176,7 @@ export default function HomePage() {
                 className="form-radio"
                 name="radio-group"
                 value="option1"
-                checked
+                defaultChecked
               />
               <span className="ml-2">2 Persons</span>
             </label>
@@ -187,7 +187,7 @@ export default function HomePage() {
                 className="form-radio"
                 name="radio-group"
                 value="option1"
-                checked
+                defaultChecked
               />
               <span className="ml-2">3 Persons</span>
             </label>
@@ -198,7 +198,7 @@ export default function HomePage() {
                 className="form-radio"
                 name="radio-group"
                 value="option1"
-                checked
+                defaultChecked
               />
               <span className="ml-2">4 Persons</span>
             </label>
@@ -209,7 +209,7 @@ export default function HomePage() {
                 className="form-radio"
                 name="radio-group"
                 value="option1"
-                checked
+                defaultChecked
               />
               <span className="ml-2">More than 4</span>
             </label>
