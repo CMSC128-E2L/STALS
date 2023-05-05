@@ -19,9 +19,9 @@ const server = z.object({
     process.env.VERCEL ? z.string().min(1) : z.string().url(),
   ),
   // Add `.min(1) on ID and SECRET if you want to make sure they're not empty
-  R2_ACCOUNT_ID: z.string(),
-  R2_ACCESS_KEY: z.string(),
-  R2_SECRET_ACCESS_KEY: z.string(),
+  R2_ACCOUNT_ID: z.string().optional(),
+  R2_ACCESS_KEY: z.string().optional(),
+  R2_SECRET_ACCESS_KEY: z.string().optional(),
   DISCORD_CLIENT_ID: z.string().optional(),
   DISCORD_CLIENT_SECRET: z.string().optional(),
   GOOGLE_CLIENT_ID: z.string().optional(),
