@@ -2,7 +2,7 @@ export default function AddAccommodation() {
   return (
     <div className="thing">
       {/* Header */}
-      <header className="sticky top-0 mx-auto mb-5 flex flex-wrap items-center justify-between bg-p-dblue p-4">
+      <header className="navbar-header">
         {/* Left side */}
         <div className="items-center align-middle">
           <a href="" className="flex items-center">

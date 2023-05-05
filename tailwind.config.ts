@@ -7,6 +7,7 @@ export default {
         // Palette colors
         "p-black": "#222222",
         "p-dblue": "#1C5D99", // Dark blue
+        "p-hdblue": "#14416A",
         "p-blue": "#639FAB",
         "p-lblue": "#BBCDE5", // Light blue
         "p-red": "#D22B2B",
