@@ -61,20 +61,23 @@ export default function Accommodation() {
                 </div>
 
                 {/* Right column: the editing thingy ig */}
-                <div className="basis-1/4 justify-end">
+                <div className="basis-1/4">
                   {/* So if a registered user is viewing it (remove hidden to show teehee)*/}
-                  <div className="float-right hidden">
-                    <button
-                      type="button"
-                      className="hover: active-within: static rounded-full bg-transparent fill-p-red p-2 opacity-75 transition hover:bg-p-red"
-                    >
+                  <div className="float-right inline-flex cursor-pointer">
+                    <form>
+                      <input
+                        type="checkbox"
+                        value="favorite"
+                        className="peer sr-only"
+                      ></input>
+                      {/* hover: active-within: static rounded-full bg-transparent fill-p-red p-2 opacity-75 transition hover:bg-p-red */}
                       <svg
                         xmlns="http://www.w3.org/2000/svg"
                         fill="none"
                         viewBox="0 0 24 24"
                         strokeWidth={1.5}
                         stroke="currentColor"
-                        className="h-8 w-8"
+                        className="h-8 w-8 transition hover:h-9 hover:w-9 peer-checked:fill-p-red peer-checked:stroke-p-red"
                       >
                         <path
                           strokeLinecap="round"
@@ -82,11 +85,11 @@ export default function Accommodation() {
                           d="M21 8.25c0-2.485-2.099-4.5-4.688-4.5-1.935 0-3.597 1.126-4.312 2.733-.715-1.607-2.377-2.733-4.313-2.733C5.1 3.75 3 5.765 3 8.25c0 7.22 9 12 9 12s9-4.78 9-12z"
                         />
                       </svg>
-                    </button>
+                    </form>
                   </div>
 
                   {/* If a landlord is viewing the page */}
-                  <div className="float-right flex gap-1">
+                  <div className="float-right flex hidden gap-1">
                     {/* Edit button */}
                     <button type="button" className="accomP-button">
                       <svg
@@ -215,13 +218,21 @@ export default function Accommodation() {
               </div>
 
               {/* DESCRIPTION */}
-              <div className="flex flex-col bg-orange-300">
-                <p className="px-8 py-4">
-                  Lorerrrrrrm ipsum dolor sit amet, consectetur adipiscing elit,
-                  sed do eiusmod tempor incididunt ut labore et dolore magna
-                  aliqua. Ut enim ad minim veniam, quis nostrud exercitation
-                  ullamco laboris nisi ut aliquip ex ea commodo consequat.
-                </p>
+              <div>
+                <div className="peer:checked group flex h-1/4 flex-col overflow-hidden bg-orange-300">
+                  <p className="max-h-3/4 line-clamp-3 max-w-prose break-words break-all px-8 py-4">
+                    Before him, the ten greatest sects in the cultivation world
+                    had divided territories, fought and hoarded against each
+                    other over their domains. With the sects clashing against
+                    one another, there was no one who could rule the world and
+                    call all the shots. And besides, every sect leader were
+                    outstandingly learned, so even if they wanted to grant
+                    themselves a title for fun, they would be wary of what the
+                    historians would pen, afraid they would receive disgrace in
+                    the books of history.
+                  </p>
+                </div>
+                <input type="checkbox peer"></input>Click
               </div>
             </div>
           </div>
