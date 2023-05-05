@@ -39,7 +39,6 @@ export default function HomePage() {
       {/* Content */}
       <div className="flex flex-row">
         {/* Filters */}
-        {/* fixed left-0 */}
         <div className="max-w-1/6 mr-4 flex h-[90%] flex-col rounded-r-[60px] bg-p-lblue p-10">
           <h1 className="mb-5">Filter</h1>
 
@@ -267,8 +266,12 @@ export default function HomePage() {
                 Download PDF
               </button>
 
-              <button className="mr-4 rounded-lg bg-p-gray px-2 py-2 text-xs font-bold text-black hover:bg-gray-400">
-                See more...
+              <button
+                id="see-more-button"
+                className="mr-4 rounded-lg bg-p-gray px-2 py-2 text-xs font-bold text-black hover:bg-gray-400"
+                onClick={() => toggleShow()}
+              >
+                See More
               </button>
             </div>
             <div className="flex flex-row flex-wrap ">
@@ -280,6 +283,12 @@ export default function HomePage() {
                     className="mr-4 mt-4 h-64 w-64 rounded-xl border bg-p-gray p-4"
                   ></div>
                 ))}
+            </div>
+            <div
+              id="more-content"
+              className="max-h-0 overflow-hidden transition-all"
+            >
+              <p>Additional content here...</p>
             </div>
           </div>
         </div>
@@ -301,3 +310,15 @@ const UserImage: React.FC = () => {
     />
   );
 };
+
+function toggleShow() {
+  const div = document.querySelector(".max-h-0");
+  div?.classList.toggle("max-h-screen");
+  div?.classList.toggle("overflow-auto");
+  const button = document.getElementById("see-more-button");
+
+  if (button != null) {
+    button.innerHTML =
+      button?.innerHTML === "See More" ? "See Less" : "See More";
+  }
+}
