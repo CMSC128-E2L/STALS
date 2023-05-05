@@ -1,6 +1,6 @@
 import { createTRPCRouter } from "~/server/api/trpc";
 import { userRouter } from "~/server/api/routers/user";
-import { accommodationRouter } from "~/server/api/routers/accomodation";
+import { accommodationRouter } from "~/server/api/routers/accommodation";
 import { roomRouter } from "~/server/api/routers/room";
 import { fileRouter } from "~/server/api/routers/file";
 import { reviewRouter } from "~/server/api/routers/review";
