@@ -1,3 +1,4 @@
+/* eslint-disable @next/next/no-img-element */
 import bgpic from "public/images/bgpic-01.png";
 import logo from "public/images/logo.png";
 
@@ -6,23 +7,22 @@ export default function Signup() {
     <div className="">
       <img className="bg-cover bg-center" src={bgpic.src} alt="background" />
       {/* Header design */}
-      {/* <header> */}
-      {/* <div className="absolute inset-0 h-[50%] bg-[url('https://www.camellahomes.net/wp-content/uploads/2022/01/camella-homes-header.jpg')] bg-cover bg-no-repeat"> */}
-      {/* <h1 className="text-center text-white pt-12 text-4xl"><b>Welcome back!</b></h1> */}
-      {/* <div className="h-[100%] bg-gradient-to-b from-transparent to-black opacity-80"></div> */}
-      {/* </div> */}
-
-      {/* <h1 className="absolute inset-10 text-center text-5xl font-bold text-white drop-shadow-md">
-          {/* <div className="flex h-20 w-auto justify-center drop-shadow-md">
-            <img src={logo.src} />
-          </div> */}
-      {/* Welcome! <br />
+      <header>
+        <div className="absolute inset-0 h-[50%] bg-[url('https://www.camellahomes.net/wp-content/uploads/2022/01/camella-homes-header.jpg')] bg-cover bg-no-repeat">
+          {/* <h1 className="text-center text-white pt-12 text-4xl"><b>Welcome back!</b></h1> */}
+          <div className="h-[100%] bg-gradient-to-b from-transparent to-black opacity-80"></div>
+        </div>
+        <h1 className="absolute inset-10 text-center text-5xl font-bold text-white drop-shadow-md">
+          <div className="flex h-20 w-auto justify-center drop-shadow-md">
+            <img src={logo.src} alt="logo" />
+          </div>
+          Welcome! <br />
           <p className="text-center text-lg font-bold text-white drop-shadow-md">
             {" "}
             Sign up to continue{" "}
           </p>
-        </h1> */}
-      {/* </header> */}
+        </h1>
+      </header>
       {/* xxxxx */}
       <div className="absolute inset-x-0 top-10 flex justify-center">
         <div className="w-fit rounded-xl bg-white p-10 shadow shadow-p-black/50">

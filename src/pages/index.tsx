@@ -1,16 +1,12 @@
+/* eslint-disable @next/next/no-img-element */
 import { type NextPage } from "next";
-import Image from "next/image";
 import Head from "next/head";
-// import Link from "next/link";
 import { signIn, signOut, useSession } from "next-auth/react";
 import graphics from "public/images/pic.png";
 import bg from "public/images/bg.png";
 import logo from "public/images/logo.png";
 
-// import { api } from "~/utils/api";
-
 const Home: NextPage = () => {
-  // const hello = api.user.hello.useQuery({ text: "from STALS Developers" });
   return (
     <>
       <Head>
@@ -97,16 +93,10 @@ export default Home;
 const AuthShowcase: React.FC = () => {
   const { data: sessionData } = useSession();
 
-  // const { data: secretMessage } = api.user.getSecretMessage.useQuery(
-  //   undefined, // no input
-  //   { enabled: sessionData?.user !== undefined },
-  // );
-
   return (
     <div className="flex flex-col items-start justify-start gap-4">
       <p className="text-start text-2xl text-white">
         {sessionData && <span>Logged in as {sessionData.user?.name}</span>}
-        {/* {secretMessage && <span> - {secretMessage}</span>} */}
       </p>
       <button
         className="rounded-full bg-[#1C5D99]/90 px-10 py-3 font-semibold text-white no-underline transition hover:bg-white/20"
