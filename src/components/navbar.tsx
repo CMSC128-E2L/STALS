@@ -1,6 +1,6 @@
-/* eslint-disable @next/next/no-img-element */
-import { useSession } from "next-auth/react";
+import { useSession, signOut } from "next-auth/react";
 import Link from "next/link";
+import { useState } from "react";
 
 export default function NavBar() {
   return (
@@ -29,7 +29,7 @@ export default function NavBar() {
               ></input>
             </li>
             <li>
-              <UserImage />
+              <UserButton />
             </li>
           </ul>
         </div>
@@ -38,16 +38,76 @@ export default function NavBar() {
   );
 }
 
-const UserImage: React.FC = () => {
+const UserButton: React.FC = () => {
   const { data: sessionData } = useSession();
+  const [showDropdown, setShowDropdown] = useState(false);
+
+  const toggleDropdown = () => {
+    setShowDropdown((prevState) => !prevState);
+  };
+
+  const handleLogout = () => {
+    signOut({ redirect: false });
+    window.location.href = "/login"; // Redirect to login page
+  };
+
+  const handleProfileClick = () => {
+    window.location.href = "/profile"; // Redirect to profile page
+  };
+
+  const handleFavoritesClick = () => {
+    window.location.href = "/favorites"; // Redirect to favorites page
+  };
+
+  const handleArchiveClick = () => {
+    window.location.href = "/archive"; // Redirect to archive page
+  };
+
   return (
-    <img
-      src={
-        sessionData?.user.image ??
-        "https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460_1280.png"
-      }
-      className="h-12 rounded-3xl"
-      alt="Profile"
-    />
+    <div className="relative">
+      <button
+        className="flex items-center justify-center focus:outline-none"
+        onClick={toggleDropdown}
+      >
+        <img
+          src={
+            sessionData?.user.image ??
+            "https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460_1280.png"
+          }
+          className="h-12 rounded-3xl"
+          alt="Profile"
+        />
+      </button>
+      {showDropdown && (
+        <div className="absolute right-0 top-14 z-10 rounded-lg bg-white p-4 shadow-lg">
+          <p className="mb-2 font-medium">{sessionData.user.name}</p>
+          <p className="mb-4 text-gray-500">{sessionData.user.email}</p>
+          <button
+            className="block w-full py-2 text-left hover:bg-gray-100 focus:outline-none"
+            onClick={handleProfileClick}
+          >
+            Profile
+          </button>
+          <button
+            className="block w-full py-2 text-left hover:bg-gray-100 focus:outline-none"
+            onClick={handleFavoritesClick}
+          >
+            Favorites
+          </button>
+          <button
+            className="block w-full py-2 text-left hover:bg-gray-100 focus:outline-none"
+            onClick={handleArchiveClick}
+          >
+            Archive
+          </button>
+          <button
+            className="block w-full py-2 text-left hover:bg-gray-100 focus:outline-none"
+            onClick={handleLogout}
+          >
+            Sign Out
+          </button>
+        </div>
+      )}
+    </div>
   );
 };
