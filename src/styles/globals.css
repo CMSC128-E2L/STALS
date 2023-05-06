@@ -40,4 +40,12 @@
   .navbar-header {
     @apply sticky top-0 mx-auto mb-5 flex flex-wrap items-center justify-between bg-p-dblue p-4;
   }
+
+  .discord {
+    @apply flex w-full justify-center rounded-lg bg-[#5865F2] px-4 py-2 font-bold text-white shadow shadow-gray-400/100;
+  }
+
+  .google {
+    @apply flex w-full justify-center rounded-lg bg-white px-4 py-2 font-bold text-[#4086F4] shadow shadow-gray-400/100;
+  }
 }
