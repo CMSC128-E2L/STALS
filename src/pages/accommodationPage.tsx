@@ -1,60 +1,65 @@
+import NavBar from "~/components/navbar";
+import UserProfile from "~/components/userProfile";
+import StarRow from "~/components/starRow";
+import Link from "next/link";
+import Image from "next/image";
+
 export default function Accommodation() {
   return (
-    <div className="temp">
+    <div className="flex flex-col">
       {/* HEADER */}
-      <header className="navbar-header">
-        {/* Left side */}
-        <div className="items-center align-middle">
-          <a href="" className="flex items-center">
-            <img
-              src="https://www.pngfind.com/pngs/m/439-4392840_facebook-link-icon-image-dynamic-spectrum-alliance-pink.png"
-              className="mr-3 h-12 rounded-3xl"
-              alt="STALS Logo"
-            />
-            <h1 className="self-center text-4xl font-bold text-white">STALS</h1>
-          </a>
-        </div>
+      <div className="max-w-screen">
+        <NavBar />
+      </div>
 
-        {/* Right side */}
-        <div className="w-full md:block md:w-auto">
-          <ul className="mt-4 flex flex-col items-center p-4 font-medium md:mt-0 md:flex-row md:space-x-8 md:border-0 md:p-0 ">
-            <li>
-              <input
-                className="rounded-2xl px-3 py-1"
-                placeholder="Search"
-              ></input>
-            </li>
-            <li>{/* image placeholder */}</li>
-          </ul>
-        </div>
-      </header>
       {/* BODY */}
-      <div>
-        {/* LANDLORD PROFILE */}
-        <div className="position-left ml-10 w-1/4 bg-yellow-100 p-4 py-2">
-          <div className="grid grid-cols-2 rounded-md bg-white px-10 shadow-md">
-            {/* Insert Landlord Image here */}
-            <img
-              src="public/placeholder_1.png"
-              className="mr-3 h-12 rounded-full"
-            ></img>
-            <div>
-              <h1 className="name"> Alfred Santos</h1>
-              <label>Date | time</label>
-            </div>
-          </div>
+      <div className="flex max-h-screen flex-col">
+        {/* LANDLORD PROFILE 
+        CAN BE MADE INTO A COMPONENT */}
+        <div className="position-left ml-10 w-1/4 p-4 py-2">
+          <UserProfile />
         </div>
         {/* cONTAINS THE ACCOMMODATION INFO */}
         <div className="flex min-h-screen justify-center">
           {/* Box that contains the accommodation thingy */}
           <div className="margin-40 flex w-11/12 gap-2 bg-p-lblue p-4 py-4 shadow-md">
             {/* GALLERY */}
-            <div className="w-1/3 flex-none bg-red-100">a</div>
+            <div className="w-1/3 flex-none bg-red-100 p-4">
+              <div className="grid gap-4">
+                <div>
+                  {/* main image */}
+                  <img
+                    className="max-w aspect-square h-auto rounded-lg object-cover"
+                    src="https://flowbite.s3.amazonaws.com/docs/gallery/featured/image.jpg"
+                  ></img>
+                </div>
+                <div className="grid grid-cols-3 gap-1">
+                  <div>
+                    <img
+                      className="max-w aspect-square h-auto rounded-lg object-cover"
+                      src="https://flowbite.s3.amazonaws.com/docs/gallery/featured/image.jpg"
+                    ></img>
+                  </div>
+                  <div>
+                    <img
+                      className="max-w aspect-square h-auto rounded-lg object-cover"
+                      src="https://flowbite.s3.amazonaws.com/docs/gallery/featured/image.jpg"
+                    ></img>
+                  </div>
+                  <div className="blur-sm">
+                    <img
+                      className="max-w aspect-square h-auto rounded-lg object-cover"
+                      src="https://flowbite.s3.amazonaws.com/docs/gallery/featured/image.jpg"
+                    ></img>
+                  </div>
+                </div>
+              </div>
+            </div>
 
             {/* DESCRIPTION */}
             <div className="flex w-3/4 flex-initial flex-col bg-green-100 p-4">
               {/* ACCOMMODATION NAME + edit + delete thngy idk*/}
-              <div className="flex flex-row items-stretch bg-purple-100">
+              <div className="flex flex-row items-stretch">
                 {/* Left column (accommodation name) */}
                 <div className="flex w-3/4 items-center px-3">
                   <h1 className="form-h1">Accommodation Name</h1>
@@ -147,13 +152,11 @@ export default function Accommodation() {
               </div>
 
               {/* ACCOMMODATION DESCRIPTION */}
-              <div className="bg-purple-300 px-4 text-xl italic">
-                Accommodation Type
-              </div>
+              <div className="px-4 text-xl italic">Accommodation Type</div>
 
               {/* STATS */}
-              <div className="flex flex-row gap-2 bg-red-200 px-3 text-sm">
-                <div className="flex flex-row items-center gap-x-1 bg-blue-200 p-1">
+              <div className="flex flex-row gap-2 px-3 text-sm">
+                <div className="flex flex-row items-center gap-x-1 p-1">
                   <div className="rounded-full bg-p-dblue p-1">
                     <svg
                       xmlns="http://www.w3.org/2000/svg"
@@ -172,7 +175,7 @@ export default function Accommodation() {
                   </div>
                   Phone Number
                 </div>
-                <div className="flex flex-row items-center gap-x-1 bg-cyan-200 p-1">
+                <div className="flex flex-row items-center gap-x-1 p-1">
                   <div className="rounded-full bg-p-dblue p-1">
                     <svg
                       xmlns="http://www.w3.org/2000/svg"
@@ -191,7 +194,7 @@ export default function Accommodation() {
                   </div>
                   Email
                 </div>
-                <div className="flex flex-row items-center gap-x-1 bg-yellow-200 p-1">
+                <div className="flex flex-row items-center gap-x-1 p-1">
                   <div className="rounded-full bg-p-dblue p-1">
                     <svg
                       xmlns="http://www.w3.org/2000/svg"
@@ -218,21 +221,83 @@ export default function Accommodation() {
               </div>
 
               {/* DESCRIPTION */}
-              <div>
-                <div className="peer:checked group flex h-1/4 flex-col overflow-hidden bg-orange-300">
-                  <p className="max-h-3/4 line-clamp-3 max-w-prose break-words break-all px-8 py-4">
+              <div className="flex basis-1/2 flex-col">
+                <div className="group basis-1/2 overflow-hidden px-4 py-4">
+                  {/* placeholder description to test line cram thing */}
+                  <p className="">
                     Before him, the ten greatest sects in the cultivation world
                     had divided territories, fought and hoarded against each
                     other over their domains. With the sects clashing against
                     one another, there was no one who could rule the world and
-                    call all the shots. And besides, every sect leader were
-                    outstandingly learned, so even if they wanted to grant
-                    themselves a title for fun, they would be wary of what the
-                    historians would pen, afraid they would receive disgrace in
-                    the books of history.
+                    call all the shots. (kungwari na lang)
                   </p>
+
+                  {/* link to gmaps? */}
+                  <Link href="somewhere" className="text-xxs underline">
+                    Visit them here
+                  </Link>
                 </div>
-                <input type="checkbox peer"></input>Click
+
+                {/* Other deets */}
+                <div className="justify-self-start">
+                  <div className="grid grid-cols-2 px-3">
+                    <div className="flex flex-col gap-2 p-2">
+                      <h1 className="form-h2">Price</h1>
+                      <h1 className="form-h2">Capacity</h1>
+                    </div>
+
+                    <div className="flex flex-col gap-2 p-2">
+                      <p>(min price)-(max price) Pesos</p>
+                      <p>(min) to (max) people</p>
+                    </div>
+                  </div>
+                  {/* Rooms */}
+                  <div className="flex flex-row gap-3 px-3">
+                    <button className="accPButton">Room 1</button>
+                    <button className="accPButton">Room 2</button>
+                    <button className="accPButton">Room 3</button>
+                  </div>
+                  {/* Custom Tags */}
+                  <p className="px-4 py-1 text-sm">(insert custom tags here)</p>
+
+                  <button className="accPButton mx-3 px-3 text-lg">
+                    {" "}
+                    Download{" "}
+                  </button>
+                </div>
+              </div>
+              {/* Rest */}
+              <div className="flex grow flex-row divide-x-2 divide-p-black">
+                <div className="basis-2/3 p-3">
+                  <h1 className="text-start text-2xl">Ratings and Reviews</h1>
+                  <div className="flex flex-row">
+                    <div className="basis-1/2 place-self-center text-center ">
+                      {/* wao */}
+                      <p className="text-5xl font-bold">5.0</p>
+                      <p>out of (n) reviews</p>
+                    </div>
+
+                    {/* the star thing probably could be a component */}
+                    <StarRow />
+                  </div>
+                </div>
+                {/* Review section */}
+                <div className="grow basis-1/2">
+                  <div className="flex flex-col p-2">
+                    <div className="basis-1/8">
+                      <UserProfile />
+                      <StarRow />
+                    </div>
+                    <p className="line-clamp-2 text-sm">
+                      With the sects clashing against one another, there was no
+                      one who could blablahblahblah ye
+                    </p>
+
+                    <Link href="ye" className="text-end text-xxs underline">
+                      See More
+                    </Link>
+                  </div>
+                </div>
               </div>
             </div>
           </div>
