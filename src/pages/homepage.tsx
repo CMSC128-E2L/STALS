@@ -1,6 +1,8 @@
 /* eslint-disable @next/next/no-img-element */
 // import Image from "next/image";
 import NavBar from "~/components/navbar";
+import { api } from "~/utils/api";
+import { useState } from "react";
 
 export default function HomePage() {
   return (
@@ -246,14 +248,7 @@ export default function HomePage() {
               </button>
             </div>
             <div className="flex flex-row flex-wrap ">
-              {Array(5)
-                .fill(1)
-                .map((x) => (
-                  <div
-                    key={`x`}
-                    className="mr-4 mt-4 h-64 w-64 rounded-xl border bg-p-gray p-4"
-                  ></div>
-                ))}
+              <Accoms />
             </div>
             <div
               id="more-content"
@@ -279,3 +274,43 @@ function toggleShow() {
       button?.innerHTML === "See More" ? "See Less" : "See More";
   }
 }
+
+const Accoms: React.FC = () => {
+  const { data: firstData, isLoading: queryLoading } =
+    api.file.r2getfiles.useQuery();
+  const [count, setCount] = useState(false);
+
+  setTimeout(() => setCount(true), 5000);
+
+  // actual output
+  if (!queryLoading && count) {
+    return (
+      <>
+        {firstData?.map((x: string) => (
+          <div
+            key={x}
+            className="mr-4 mt-4 h-64 w-64 rounded-xl border bg-p-gray"
+          >
+            <img
+              src={`${x}`}
+              alt={x}
+              key={x}
+              className="h-64 w-64 object-cover p-4"
+            />
+          </div>
+        ))}
+      </>
+    );
+  }
+
+  // waiting for query output
+  return (
+    <>
+      <div className="mr-4 mt-4 h-64 w-64 animate-pulse rounded-xl border bg-p-gray"></div>
+      <div className="mr-4 mt-4 h-64 w-64 animate-pulse rounded-xl border bg-p-gray"></div>
+      <div className="mr-4 mt-4 h-64 w-64 animate-pulse rounded-xl border bg-p-gray"></div>
+      <div className="mr-4 mt-4 h-64 w-64 animate-pulse rounded-xl border bg-p-gray"></div>
+      <div className="mr-4 mt-4 h-64 w-64 animate-pulse rounded-xl border bg-p-gray"></div>
+    </>
+  );
+};
