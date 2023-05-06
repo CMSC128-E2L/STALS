@@ -1,5 +1,5 @@
-import logo from "../images/logo.png";
-import bgpic from "../images/bgpic-01.png";
+import bgpic from "public/images/bgpic-01.png";
+import logo from "public/images/logo.png";
 
 export default function Signup() {
   return (
