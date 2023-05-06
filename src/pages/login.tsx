@@ -5,7 +5,7 @@ import type {
 import { getProviders, signIn } from "next-auth/react";
 import { getServerSession } from "next-auth/next";
 import { authOptions } from "~/server/auth";
-import logo from "../images/logo.png";
+import logo from "public/images/logo.png";
 
 export default function SignIn({
   providers,

@@ -3,9 +3,9 @@ import Image from "next/image";
 import Head from "next/head";
 // import Link from "next/link";
 import { signIn, signOut, useSession } from "next-auth/react";
-import graphics from "../images/pic.png";
-import bg from "../images/bg.png";
-import logo from "../images/logo.png";
+import graphics from "public/images/pic.png";
+import bg from "public/images/bg.png";
+import logo from "public/images/logo.png";
 
 // import { api } from "~/utils/api";
 
