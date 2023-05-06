@@ -1,3 +1,4 @@
+/* eslint-disable @next/next/no-img-element */
 import type {
   GetServerSidePropsContext,
   InferGetServerSidePropsType,
@@ -5,7 +6,7 @@ import type {
 import { getProviders, signIn } from "next-auth/react";
 import { getServerSession } from "next-auth/next";
 import { authOptions } from "~/server/auth";
-import logo from "../images/logo.png";
+import logo from "public/images/logo.png";
 
 export default function SignIn({
   providers,
@@ -19,7 +20,7 @@ export default function SignIn({
         </div>
         <h1 className="absolute inset-10 text-center text-5xl font-bold text-white drop-shadow-md">
           <div className="flex h-20 w-auto justify-center drop-shadow-md">
-            <img src={logo.src} />
+            <img src={logo.src} alt="logo" />
           </div>
           Welcome back! <br />
           <p className="text-center text-lg font-bold text-white drop-shadow-md">
@@ -40,6 +41,7 @@ export default function SignIn({
                   <img
                     src={`assets/${provider.id}.png`}
                     className="mr-3 mt-0.5 h-5 align-baseline"
+                    alt={`${provider.id} logo`}
                   ></img>
                   Sign in with {provider.name}
                 </button>

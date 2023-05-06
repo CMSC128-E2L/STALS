@@ -1,4 +1,5 @@
-import logo from "../images/logo.png";
+/* eslint-disable @next/next/no-img-element */
+import logo from "public/images/logo.png";
 
 export default function Signup() {
   return (
@@ -11,7 +12,7 @@ export default function Signup() {
         </div>
         <h1 className="absolute inset-10 text-center text-5xl font-bold text-white drop-shadow-md">
           <div className="flex h-20 w-auto justify-center drop-shadow-md">
-            <img src={logo.src} />
+            <img src={logo.src} alt="logo" />
           </div>
           Welcome! <br />
           <p className="text-center text-lg font-bold text-white drop-shadow-md">

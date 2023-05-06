@@ -1,3 +1,4 @@
+/* eslint-disable @next/next/no-img-element */
 import NavBar from "~/components/navbar";
 
 export default function Accommodation() {
@@ -15,7 +16,8 @@ export default function Accommodation() {
             <img
               src="public/placeholder_1.png"
               className="mr-3 h-12 rounded-full"
-            ></img>
+              alt="placeholder"
+            />
             <div>
               <h1 className="name"> Alfred Santos</h1>
               <label>Date | time</label>
