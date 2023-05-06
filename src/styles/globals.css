@@ -53,10 +53,10 @@
   }
 
   .discord {
-    @apply flex w-full justify-center rounded-lg bg-[#5865F2] px-4 py-2 font-bold text-white shadow shadow-gray-400/100;
+    @apply flex w-full justify-center rounded-full bg-[#5865F2] px-4 py-2 font-bold text-white shadow shadow-gray-400/100;
   }
 
   .google {
-    @apply flex w-full justify-center rounded-lg bg-white px-4 py-2 font-bold text-[#4086F4] shadow shadow-gray-400/100;
+    @apply flex w-full justify-center rounded-full bg-white px-4 py-2 font-bold text-[#4086F4] shadow shadow-gray-400/100;
   }
 }
