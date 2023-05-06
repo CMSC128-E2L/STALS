@@ -15,15 +15,6 @@ import {
 } from "@aws-sdk/client-s3";
 import { getSignedUrl } from "@aws-sdk/s3-request-presigner";
 
-// import { v2 as cloudinary } from "cloudinary";
-// import { json } from "stream/consumers";
-// cloudinary.config({
-//   cloud_name: "",
-//   api_key: "",
-//   api_secret: "",
-//   secure: true,
-// });
-
 export const fileRouter = createTRPCRouter({
   r2getfiles: publicProcedure.query(async () => {
     const response = await s3Client.send(
@@ -69,14 +60,4 @@ export const fileRouter = createTRPCRouter({
     //   return error;
     // }
   }),
-
-  // image: publicProcedure.query(async () => {
-  //   let value;
-  //   await cloudinary.search.expression('folder:test/*')
-  //     .max_results(1)
-  //     .execute()
-  //     .then((result: object) => { value = result; console.log(result) });
-
-  //   return value;
-  // })
 });
