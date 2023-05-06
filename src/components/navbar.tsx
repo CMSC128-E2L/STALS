@@ -48,7 +48,7 @@ const UserButton: React.FC = () => {
 
   const handleLogout = () => {
     signOut({ redirect: false });
-    window.location.href = "/login"; // Redirect to login page
+    window.location.href = "/"; // Redirect to login page
   };
 
   const handleProfileClick = () => {
@@ -80,8 +80,8 @@ const UserButton: React.FC = () => {
       </button>
       {showDropdown && (
         <div className="absolute right-0 top-14 z-10 rounded-lg bg-white p-4 shadow-lg">
-          <p className="mb-2 font-medium">{sessionData.user.name}</p>
-          <p className="mb-4 text-gray-500">{sessionData.user.email}</p>
+          <p className="mb-2 font-medium">{sessionData?.user.name}</p>
+          <p className="mb-4 text-gray-500">{sessionData?.user.email}</p>
           <button
             className="block w-full py-2 text-left hover:bg-gray-100 focus:outline-none"
             onClick={handleProfileClick}
