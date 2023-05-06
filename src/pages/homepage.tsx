@@ -2,6 +2,7 @@
 // import Image from "next/image";
 import NavBar from "~/components/navbar";
 import { api } from "~/utils/api";
+import { useState } from "react";
 
 export default function HomePage() {
   return (
@@ -277,24 +278,39 @@ function toggleShow() {
 const Accoms: React.FC = () => {
   const { data: firstData, isLoading: queryLoading } =
     api.file.r2getfiles.useQuery();
+  const [count, setCount] = useState(false);
 
+  setTimeout(() => setCount(true), 5000);
+
+  // actual output
+  if (!queryLoading && count) {
+    return (
+      <>
+        {firstData?.map((x: string) => (
+          <div
+            key={x}
+            className="mr-4 mt-4 h-64 w-64 rounded-xl border bg-p-gray"
+          >
+            <img
+              src={`${x}`}
+              alt={x}
+              key={x}
+              className="h-64 w-64 object-cover p-4"
+            />
+          </div>
+        ))}
+      </>
+    );
+  }
+
+  // waiting for query output
   return (
     <>
-      {!queryLoading
-        ? firstData?.map((x: string) => (
-            <div
-              key={x}
-              className="mr-4 mt-4 h-64 w-64 rounded-xl border bg-p-gray"
-            >
-              <img
-                src={`${x}`}
-                alt={x}
-                key={x}
-                className="h-64 w-64 object-cover p-4"
-              />
-            </div>
-          ))
-        : "test"}
+      <div className="mr-4 mt-4 h-64 w-64 animate-pulse rounded-xl border bg-p-gray"></div>
+      <div className="mr-4 mt-4 h-64 w-64 animate-pulse rounded-xl border bg-p-gray"></div>
+      <div className="mr-4 mt-4 h-64 w-64 animate-pulse rounded-xl border bg-p-gray"></div>
+      <div className="mr-4 mt-4 h-64 w-64 animate-pulse rounded-xl border bg-p-gray"></div>
+      <div className="mr-4 mt-4 h-64 w-64 animate-pulse rounded-xl border bg-p-gray"></div>
     </>
   );
 };
