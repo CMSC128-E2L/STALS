@@ -1,6 +1,8 @@
 import { useSession, signOut } from "next-auth/react";
 import Link from "next/link";
 import { useState } from "react";
+import logo from "public/images/logo.png";
+import user from "public/images/def_user.png";
 
 export default function NavBar() {
   return (
@@ -11,7 +13,7 @@ export default function NavBar() {
         <div className="items-center align-middle">
           <Link href="/homepage" className="flex items-center">
             <img
-              src="https://www.pngfind.com/pngs/m/439-4392840_facebook-link-icon-image-dynamic-spectrum-alliance-pink.png"
+              src={logo.src}
               className="mr-3 h-12 rounded-3xl"
               alt="STALS Logo"
             />
@@ -47,20 +49,8 @@ const UserButton: React.FC = () => {
   };
 
   const handleLogout = () => {
-    signOut({ redirect: false });
+    void signOut();
     window.location.href = "/"; // Redirect to login page
-  };
-
-  const handleProfileClick = () => {
-    window.location.href = "/profile"; // Redirect to profile page
-  };
-
-  const handleFavoritesClick = () => {
-    window.location.href = "/favorites"; // Redirect to favorites page
-  };
-
-  const handleArchiveClick = () => {
-    window.location.href = "/archive"; // Redirect to archive page
   };
 
   return (
@@ -70,10 +60,7 @@ const UserButton: React.FC = () => {
         onClick={toggleDropdown}
       >
         <img
-          src={
-            sessionData?.user.image ??
-            "https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460_1280.png"
-          }
+          src={sessionData?.user.image ?? user.src}
           className="h-12 rounded-3xl"
           alt="Profile"
         />
@@ -82,24 +69,24 @@ const UserButton: React.FC = () => {
         <div className="absolute right-0 top-14 z-10 rounded-lg bg-white p-4 shadow-lg">
           <p className="mb-2 font-medium">{sessionData?.user.name}</p>
           <p className="mb-4 text-gray-500">{sessionData?.user.email}</p>
-          <button
+          <Link
             className="block w-full py-2 text-left hover:bg-gray-100 focus:outline-none"
-            onClick={handleProfileClick}
+            href={"/profile"}
           >
             Profile
-          </button>
-          <button
+          </Link>
+          <Link
             className="block w-full py-2 text-left hover:bg-gray-100 focus:outline-none"
-            onClick={handleFavoritesClick}
+            href={"/favorites"}
           >
             Favorites
-          </button>
-          <button
+          </Link>
+          <Link
             className="block w-full py-2 text-left hover:bg-gray-100 focus:outline-none"
-            onClick={handleArchiveClick}
+            href={"/archive"}
           >
             Archive
-          </button>
+          </Link>
           <button
             className="block w-full py-2 text-left hover:bg-gray-100 focus:outline-none"
             onClick={handleLogout}
