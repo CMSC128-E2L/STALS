@@ -2,19 +2,48 @@ export default function AddAccommodation() {
   return (
     <div className="thing">
       {/* Header */}
-      <nav className="border-gray-200 bg-white dark:bg-gray-900">
-        TODO: add navbar
-      </nav>
+      <header className="navbar-header">
+        {/* Left side */}
+        <div className="items-center align-middle">
+          <a href="" className="flex items-center">
+            <img
+              src="https://www.pngfind.com/pngs/m/439-4392840_facebook-link-icon-image-dynamic-spectrum-alliance-pink.png"
+              className="mr-3 h-12 rounded-3xl"
+              alt="STALS Logo"
+            />
+            <h1 className="self-center text-4xl font-bold text-white">STALS</h1>
+          </a>
+        </div>
+
+        {/* Right side */}
+        <div className="w-full md:block md:w-auto">
+          <ul className="mt-4 flex flex-col items-center p-4 font-medium md:mt-0 md:flex-row md:space-x-8 md:border-0 md:p-0 ">
+            <li>
+              <input
+                className="rounded-2xl px-3 py-1"
+                placeholder="Search"
+              ></input>
+            </li>
+            <li>{/* image placeholder */}</li>
+          </ul>
+        </div>
+      </header>
+
       {/* Body */}
+      <div className="basis-1/8">
+        {/* I HAVE DEEMED THAT WE DON'T NEED A BACK BUTTON BUT JUST UNCOMMENT THIS IF YOU WANT ONE SO BAD IG */}
+        {/* <button></button>
+        <label>Back</label> */}
+      </div>
       {/* Middle Column Contains Form */}
       <div className="basis-6/8 flex min-h-screen items-center justify-center overflow-y-auto bg-white">
         {/* BOX THAT CONTAINS THE FORM */}
-        <div className="margin-40 w-3/4 justify-center rounded-xl bg-p-lblue p-4 py-4 shadow-md">
+        <div className="margin-40 w-3/4 rounded-xl bg-p-lblue p-4 py-4 shadow-md">
           <div>
             <h1 className="form-h1">Add Accommodation</h1>
           </div>
 
-          <form className="space-y-4">
+          <form className="justify-items-stretch space-y-4">
             <div>
               <h2 className="form-h2">Accommodation Background</h2>
               {/* Accommodation background deets */}
@@ -94,9 +123,9 @@ export default function AddAccommodation() {
                     <div className="grid h-10 w-full grid-cols-2 items-center justify-items-stretch rounded-md bg-white p-1">
                       {/* Upload Photos */}
                       <label className="input-text-box-label px-4">
-                        Upload File
+                        Upload Files
                       </label>
-                      <div className="justify-self-end">
+                      <div className="justify-self-end object-contain">
                         <input className="" id="file_input" type="file"></input>
                       </div>
                     </div>
@@ -119,7 +148,7 @@ export default function AddAccommodation() {
             <div>
               <h2 className="form-h2">Tags</h2>
               {/* TAGS */}
-              <div className="margin-40 grid grid-cols-2 gap-4">
+              <div className="margin-40 grid grid-cols-2 gap-4 px-9">
                 {/* LEFT COLUMN */}
                 <div className="form-col-deets">
                   <div>
@@ -139,16 +168,19 @@ export default function AddAccommodation() {
                         className="peer"
                       ></input>{" "}
                       Curfew
-                      <div className="flex-shri invisible peer-checked:visible">
+                      <div className="hidden pb-3 peer-checked:block">
                         <input
-                          type="text"
+                          type="time"
                           className="add-acc-input-text-field"
-                          placeholder="time"
+                          placeholder="Curfew"
                         ></input>
                       </div>
                     </div>
                     <div>
-                      <input type="checkbox" name="cooking"></input> Cooking
+                      <select name="cooking" className="form-dropdown">
+                        <option value="">Communal Kitchen</option>
+                        <option value="">Kitchen in Room</option>
+                      </select>
                     </div>
                     <div>
                       <input type="checkbox" name="visitors"></input> Visitors
@@ -212,26 +244,34 @@ export default function AddAccommodation() {
               </div>
 
               {/* CUSTOM TAGS TEXT BOX */}
-              <div>
-                <input
-                  type="text"
-                  placeholder="Custom tags"
-                  className="add-acc-input-text-field"
-                ></input>
+              <div className="py-5">
+                <h2 className="form-h2">Custom Tags</h2>
+                <div className="px-9">
+                  <label>
+                    Separate custom tags with commas (,). I.e: laundry, canteen,
+                    thing, ...
+                  </label>
+                  <input
+                    type="text"
+                    placeholder="Custom tags"
+                    className="add-acc-input-text-field"
+                  ></input>
+                </div>
               </div>
-            </div>
 
-            <div className="items-right flex-1 space-x-3">
-              <button type="reset" className="formButton">
-                Clear
-              </button>
-              <button type="submit" className="formButton">
-                Submit
-              </button>
+              <div className="float-right space-x-3 px-9">
+                <button type="reset" className="formButton">
+                  Clear
+                </button>
+                <button type="submit" className="formButton">
+                  Submit
+                </button>
+              </div>
             </div>
           </form>
         </div>
       </div>
+      <div className="basis-1/8"></div>
     </div>
   );
 }

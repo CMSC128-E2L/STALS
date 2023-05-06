@@ -27,9 +27,17 @@
   }
 
   .form-h1 {
-    @apply text-center text-3xl font-bold;
+    @apply text-center text-3xl font-bold drop-shadow-md;
   }
   .form-h2 {
     @apply text-xl font-bold;
+  }
+
+  .accomP-button {
+    @apply rounded-full bg-p-dblue p-2 transition hover:bg-p-hdblue;
+  }
+
+  .navbar-header {
+    @apply sticky top-0 mx-auto mb-5 flex flex-wrap items-center justify-between bg-p-dblue p-4;
   }
 }
