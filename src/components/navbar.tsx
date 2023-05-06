@@ -1,6 +1,8 @@
-/* eslint-disable @next/next/no-img-element */
-import { useSession } from "next-auth/react";
+import { useSession, signOut } from "next-auth/react";
 import Link from "next/link";
+import { useState } from "react";
+import logo from "public/images/logo.png";
+import user from "public/images/def_user.png";
 
 export default function NavBar() {
   return (
@@ -11,7 +13,7 @@ export default function NavBar() {
         <div className="items-center align-middle">
           <Link href="/homepage" className="flex items-center">
             <img
-              src="https://www.pngfind.com/pngs/m/439-4392840_facebook-link-icon-image-dynamic-spectrum-alliance-pink.png"
+              src={logo.src}
               className="mr-3 h-12 rounded-3xl"
               alt="STALS Logo"
             />
@@ -29,7 +31,7 @@ export default function NavBar() {
               ></input>
             </li>
             <li>
-              <UserImage />
+              <UserButton />
             </li>
           </ul>
         </div>
@@ -38,16 +40,61 @@ export default function NavBar() {
   );
 }
 
-const UserImage: React.FC = () => {
+const UserButton: React.FC = () => {
   const { data: sessionData } = useSession();
+  const [showDropdown, setShowDropdown] = useState(false);
+
+  const toggleDropdown = () => {
+    setShowDropdown((prevState) => !prevState);
+  };
+
+  const handleLogout = () => {
+    void signOut();
+    window.location.href = "/"; // Redirect to login page
+  };
+
   return (
-    <img
-      src={
-        sessionData?.user.image ??
-        "https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460_1280.png"
-      }
-      className="h-12 rounded-3xl"
-      alt="Profile"
-    />
+    <div className="relative">
+      <button
+        className="flex items-center justify-center focus:outline-none"
+        onClick={toggleDropdown}
+      >
+        <img
+          src={sessionData?.user.image ?? user.src}
+          className="h-12 rounded-3xl"
+          alt="Profile"
+        />
+      </button>
+      {showDropdown && (
+        <div className="absolute right-0 top-14 z-10 rounded-lg bg-white p-4 shadow-lg">
+          <p className="mb-2 font-medium">{sessionData?.user.name}</p>
+          <p className="mb-4 text-gray-500">{sessionData?.user.email}</p>
+          <Link
+            className="block w-full py-2 text-left hover:bg-gray-100 focus:outline-none"
+            href={"/profile"}
+          >
+            Profile
+          </Link>
+          <Link
+            className="block w-full py-2 text-left hover:bg-gray-100 focus:outline-none"
+            href={"/favorites"}
+          >
+            Favorites
+          </Link>
+          <Link
+            className="block w-full py-2 text-left hover:bg-gray-100 focus:outline-none"
+            href={"/archive"}
+          >
+            Archive
+          </Link>
+          <button
+            className="block w-full py-2 text-left hover:bg-gray-100 focus:outline-none"
+            onClick={handleLogout}
+          >
+            Sign Out
+          </button>
+        </div>
+      )}
+    </div>
   );
 };
