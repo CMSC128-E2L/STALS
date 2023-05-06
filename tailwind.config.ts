@@ -16,6 +16,7 @@ export default {
       },
       fontSize: {
         xs: ["12px", "12px"],
+        xxs: ["10px", "10px"],
       },
       backgroundSize: {
         auto: "auto",
