@@ -14,10 +14,10 @@ export default function NavBar() {
           <Link href="/homepage" className="flex items-center">
             <img
               src={logo.src}
-              className="mr-3 h-[4rem] rounded-3xl px-0 py-2"
+              className="mr-3 h-[3.5rem] rounded-3xl px-0 py-2"
               alt="STALS Logo"
             />
-            <h1 className="mb-1 px-1 py-0 text-4xl font-bold text-white">
+            <h1 className="mb-1 px-1 py-0 text-3xl font-bold text-white">
               STALS
             </h1>
           </Link>
@@ -28,7 +28,7 @@ export default function NavBar() {
           <ul className="mt-4 flex flex-col items-center p-4 font-medium md:mt-0 md:flex-row md:space-x-5 md:border-0 md:p-0 ">
             <li>
               <input
-                className="rounded-full px-5 py-1.5"
+                className="rounded-full px-3 py-1"
                 placeholder="Search"
               ></input>
             </li>
@@ -63,7 +63,7 @@ const UserButton: React.FC = () => {
       >
         <img
           src={sessionData?.user.image ?? user.src}
-          className="h-12 rounded-full"
+          className="h-[2.5rem] rounded-full"
           alt="Profile"
         />
       </button>
