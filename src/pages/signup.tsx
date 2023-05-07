@@ -1,4 +1,4 @@
-/* eslint-disable @next/next/no-img-element */
+import Image from "next/image";
 import logo from "public/images/logo.png";
 
 export default function Signup() {
@@ -11,8 +11,13 @@ export default function Signup() {
           <div className="h-[100%] bg-gradient-to-b from-transparent to-black opacity-80"></div>
         </div>
         <h1 className="absolute inset-10 text-center text-5xl font-bold text-white drop-shadow-md">
-          <div className="flex h-20 w-auto justify-center drop-shadow-md">
-            <img src={logo.src} alt="logo" />
+          <div className="relative flex h-20 w-auto justify-center drop-shadow-md">
+            <Image
+              src={logo.src}
+              alt="STALS Logo"
+              fill
+              className="object-contain"
+            />
           </div>
           Welcome! <br />
           <p className="text-center text-lg font-bold text-white drop-shadow-md">

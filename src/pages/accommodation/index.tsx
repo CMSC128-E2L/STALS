@@ -26,31 +26,39 @@ export default function Accommodation() {
             {/* GALLERY */}
             <div className="w-1/3 flex-none bg-red-100 p-4">
               <div className="grid gap-4">
-                <div>
-                  {/* main image */}
-                  <img
-                    className="max-w aspect-square h-auto rounded-lg object-cover"
+                {/* main image */}
+                <div className="max-w relative aspect-video h-auto">
+                  <Image
+                    className="rounded-lg object-cover"
                     src="https://flowbite.s3.amazonaws.com/docs/gallery/featured/image.jpg"
-                  ></img>
+                    alt="image"
+                    fill
+                  />
                 </div>
                 <div className="grid grid-cols-3 gap-1">
-                  <div>
-                    <img
-                      className="max-w aspect-square h-auto rounded-lg object-cover"
+                  <div className="max-w relative aspect-video h-auto">
+                    <Image
+                      className="rounded-lg object-cover"
                       src="https://flowbite.s3.amazonaws.com/docs/gallery/featured/image.jpg"
-                    ></img>
+                      alt="image"
+                      fill
+                    />
                   </div>
-                  <div>
-                    <img
-                      className="max-w aspect-square h-auto rounded-lg object-cover"
+                  <div className="max-w relative aspect-video h-auto">
+                    <Image
+                      className="rounded-lg object-cover"
                       src="https://flowbite.s3.amazonaws.com/docs/gallery/featured/image.jpg"
-                    ></img>
+                      alt="image"
+                      fill
+                    />
                   </div>
-                  <div className="blur-sm">
-                    <img
-                      className="max-w aspect-square h-auto rounded-lg object-cover"
+                  <div className="max-w relative aspect-video h-auto blur-sm">
+                    <Image
+                      className="rounded-lg object-cover"
                       src="https://flowbite.s3.amazonaws.com/docs/gallery/featured/image.jpg"
-                    ></img>
+                      alt="image"
+                      fill
+                    />
                   </div>
                 </div>
               </div>

@@ -1,4 +1,3 @@
-/* eslint-disable @next/next/no-img-element */
 import type {
   GetServerSidePropsContext,
   InferGetServerSidePropsType,
@@ -8,6 +7,7 @@ import { getServerSession } from "next-auth/next";
 import { authOptions } from "~/server/auth";
 import logo from "public/images/logo.png";
 import Link from "next/link";
+import Image from "next/image";
 
 export default function SignIn({
   providers,
@@ -19,8 +19,13 @@ export default function SignIn({
           <div className="h-[100%] bg-gradient-to-b from-transparent to-black opacity-50"></div>
         </div>
         <h1 className="absolute inset-10 text-center text-5xl font-bold text-white drop-shadow-md">
-          <div className="flex h-20 w-auto justify-center drop-shadow-md">
-            <img src={logo.src} alt="STALS Logo" />
+          <div className="relative flex h-20 w-auto justify-center drop-shadow-md">
+            <Image
+              src={logo.src}
+              alt="STALS Logo"
+              fill
+              className="object-contain"
+            />
           </div>
           Welcome back! <br />
           <p className="text-center text-lg font-bold text-white drop-shadow-md">
@@ -34,14 +39,17 @@ export default function SignIn({
             {Object.values(providers).map((provider) => (
               <div key={provider.name}>
                 <button
-                  className={`${provider.id}`}
+                  className={`${provider.id} flex w-full justify-center rounded-full px-4 py-2 font-bold shadow shadow-gray-400/100`}
                   onClick={() => void signIn(provider.id)}
                 >
-                  <img
-                    src={`/assets/${provider.id}.png`}
-                    className="mr-3 mt-0.5 h-5 align-baseline"
-                    alt={`${provider.name} Logo`}
-                  ></img>
+                  <div className="relative mr-3 mt-0.5 h-5 w-7">
+                    <Image
+                      src={`/assets/${provider.id}.png`}
+                      className="object-contain"
+                      alt={`${provider.name} Logo`}
+                      fill
+                    />
+                  </div>
                   Sign in with {provider.name}
                 </button>
               </div>

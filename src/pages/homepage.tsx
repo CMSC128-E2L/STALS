@@ -1,9 +1,5 @@
-/* eslint-disable @next/next/no-img-element */
-// import Image from "next/image";
 import NavBar from "~/components/navbar";
 import SideBar from "~/components/sidebar";
-import { api } from "~/utils/api";
-import { useState } from "react";
 import AccomRow from "~/components/accomRow";
 
 export default function HomePage() {
