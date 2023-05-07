@@ -1,5 +1,6 @@
 import { api } from "~/utils/api";
 import { useState } from "react";
+import Image from "next/image";
 
 export default function AccomRow() {
   return (
@@ -54,12 +55,13 @@ const Accoms: React.FC = () => {
         {firstData?.map((x: string) => (
           <div
             key={x}
-            className="mr-4 mt-4 h-64 w-64 rounded-xl border bg-p-gray"
+            className="relative -z-30 mr-4 mt-4 h-64 w-64 rounded-xl border bg-p-gray"
           >
-            <img
+            <Image
               src={`${x}`}
               alt={x}
               key={x}
+              fill
               className="h-64 w-64 object-cover p-4"
             />
           </div>
@@ -71,10 +73,10 @@ const Accoms: React.FC = () => {
   // waiting for query output
   return (
     <>
-      <div className="mr-4 mt-4 h-64 w-64 animate-pulse rounded-xl border bg-p-gray"></div>
-      <div className="mr-4 mt-4 h-64 w-64 animate-pulse rounded-xl border bg-p-gray"></div>
-      <div className="mr-4 mt-4 h-64 w-64 animate-pulse rounded-xl border bg-p-gray"></div>
-      <div className="mr-4 mt-4 h-64 w-64 animate-pulse rounded-xl border bg-p-gray"></div>
+      <div className="-z-30 mr-4 mt-4 h-64 w-64 animate-pulse rounded-xl border bg-p-gray"></div>
+      <div className="-z-30 mr-4 mt-4 h-64 w-64 animate-pulse rounded-xl border bg-p-gray"></div>
+      <div className="-z-30 mr-4 mt-4 h-64 w-64 animate-pulse rounded-xl border bg-p-gray"></div>
+      <div className="-z-30 mr-4 mt-4 h-64 w-64 animate-pulse rounded-xl border bg-p-gray"></div>
     </>
   );
 };
