@@ -14,6 +14,9 @@
     text-white
     shadow shadow-p-black/50;
   }
+  .accPButton {
+    @apply rounded-md bg-p-gray px-5 py-1 text-sm;
+  }
   .input-text-box-label {
     @apply text-sm;
   }
@@ -27,9 +30,33 @@
   }
 
   .form-h1 {
-    @apply text-center text-3xl font-bold;
+    @apply text-center text-3xl font-bold drop-shadow-md;
   }
   .form-h2 {
     @apply text-xl font-bold;
+  }
+
+  .accomP-button {
+    @apply rounded-full bg-p-dblue p-2 transition hover:bg-p-hdblue;
+  }
+
+  .star-favorite {
+    @apply h-6 w-6 fill-p-yellow stroke-p-yellow;
+  }
+
+  .star-unfavorite {
+    @apply h-6 w-6;
+  }
+
+  .navbar-header {
+    @apply sticky top-0 mx-auto mb-5 flex flex-wrap items-center justify-between bg-p-dblue p-4;
+  }
+
+  .discord {
+    @apply flex w-full justify-center rounded-full bg-[#5865F2] px-4 py-2 font-bold text-white shadow shadow-gray-400/100;
+  }
+
+  .google {
+    @apply flex w-full justify-center rounded-full bg-white px-4 py-2 font-bold text-[#4086F4] shadow shadow-gray-400/100;
   }
 }
