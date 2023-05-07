@@ -68,7 +68,7 @@ const UserButton: React.FC = () => {
         />
       </button>
       {showDropdown && (
-        <div className="absolute right-0 top-14 z-10 rounded-lg bg-white p-4 shadow-lg">
+        <div className="absolute right-0 top-14 z-10 w-[12rem] rounded-lg bg-white p-5 shadow-lg">
           <p className="mb-2 font-medium">{sessionData?.user.name}</p>
           <p className="mb-4 text-gray-500">{sessionData?.user.email}</p>
           <Link
@@ -88,6 +88,12 @@ const UserButton: React.FC = () => {
             href={"/archive"}
           >
             Archive
+          </Link>
+          <Link
+            className="block w-full py-2 text-left hover:bg-gray-100 focus:outline-none"
+            href={"/myAccommodations"}
+          >
+            My Accommodations
           </Link>
           <button
             className="block w-full py-2 text-left hover:bg-gray-100 focus:outline-none"
