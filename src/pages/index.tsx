@@ -1,6 +1,5 @@
-/* eslint-disable @next/next/no-img-element */
 import { type NextPage } from "next";
-// import Image from "next/image";
+import Image from "next/image";
 import Head from "next/head";
 import Link from "next/link";
 import { signIn, signOut, useSession } from "next-auth/react";
@@ -22,27 +21,31 @@ const Home: NextPage = () => {
         {/* landing page whole screen content */}
         <div className="flex flex-col">
           {/* graphics */}
-          <img
-            className="absolute bottom-1 right-1/2 h-[100%] translate-x-1/2 opacity-70"
-            src={bg.src}
-            alt="background"
-          />
+          <div className="absolute bottom-1 right-1/2 h-[100%] w-screen translate-x-1/2 opacity-70">
+            <Image className="object-fill" src={bg.src} alt="background" fill />
+          </div>
           {/* sample image only */}
-          <img
-            className="absolute bottom-1 right-1/2 h-[35%] translate-x-1/2"
-            src={graphics.src}
-            alt="graphics"
-          />
+          <div className="absolute bottom-1 right-1/2 h-[35%] w-screen translate-x-1/2">
+            <Image
+              className="object-contain"
+              src={graphics.src}
+              alt="graphics"
+              fill
+            />
+          </div>
 
           {/* 1 header nav bar [logo name home about contact]*/}
           <header className="sticky top-0 justify-between">
             {/* logo name */}
             <div className="absolute left-0 top-1/2 flex p-5">
-              <img
-                src={logo.src}
-                className="flex h-20 w-20 flex-col items-start rounded-full object-scale-down object-left pl-1"
-                alt="STALS Logo"
-              />
+              <div className="relative flex h-20 w-20 flex-col items-start rounded-full pl-1">
+                <Image
+                  src={logo.src}
+                  className="object-scale-down object-left"
+                  alt="STALS Logo"
+                  fill
+                />
+              </div>
               <h1 className="p-3 font-extrabold text-white sm:text-[2rem]">
                 STALS
               </h1>
