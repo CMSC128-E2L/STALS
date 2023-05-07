@@ -12,6 +12,9 @@ const config = {
       {
         hostname: "**.r2.cloudflarestorage.com",
       },
+      {
+        hostname: "**.s3.amazonaws.com",
+      },
     ],
   },
   /**
