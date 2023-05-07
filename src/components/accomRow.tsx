@@ -1,6 +1,7 @@
 import { api } from "~/utils/api";
 import { useState } from "react";
 import Image from "next/image";
+import Link from "next/link";
 
 export default function AccomRow() {
   return (
@@ -53,18 +54,16 @@ const Accoms: React.FC = () => {
     return (
       <>
         {firstData?.map((x: string) => (
-          <div
-            key={x}
-            className="relative -z-30 mr-4 mt-4 h-64 w-64 rounded-xl border bg-p-gray"
-          >
-            <Image
-              src={`${x}`}
-              alt={x}
-              key={x}
-              fill
-              className="h-64 w-64 object-cover p-4"
-            />
-          </div>
+          <Link key={x} href={"/accommodation"}>
+            <div className="relative -z-30 mr-4 mt-4 h-64 w-64 rounded-xl border bg-p-gray">
+              <Image
+                src={`${x}`}
+                alt={x}
+                fill
+                className="h-64 w-64 object-cover p-4"
+              />
+            </div>
+          </Link>
         ))}
       </>
     );
