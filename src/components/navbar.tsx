@@ -17,7 +17,7 @@ export default function NavBar() {
               className="mr-3 h-[3.5rem] rounded-3xl px-0 py-2"
               alt="STALS Logo"
             />
-            <h1 className="mb-1 px-1 py-0 text-3xl font-bold text-white">
+            <h1 className="mb-0.5 px-1 py-0 text-3xl font-bold text-white">
               STALS
             </h1>
           </Link>
