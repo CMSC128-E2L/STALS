@@ -3,6 +3,7 @@ import Link from "next/link";
 import { useState } from "react";
 import logo from "public/images/logo.png";
 import user from "public/images/def_user.png";
+import Image from "next/image";
 
 export default function NavBar() {
   return (
@@ -12,11 +13,14 @@ export default function NavBar() {
         {/* Left side */}
         <div className="flex space-x-0">
           <Link href="/homepage" className="flex items-center">
-            <img
-              src={logo.src}
-              className="mr-3 h-[3.5rem] rounded-3xl px-0 py-2"
-              alt="STALS Logo"
-            />
+            <div className="relative h-[3.5rem] w-[3.5rem]">
+              <Image
+                src={logo.src}
+                className="rounded-3xl object-contain py-2"
+                alt="STALS Logo"
+                fill
+              />
+            </div>
             <h1 className="mb-0.5 px-1 py-0 text-3xl font-bold text-white">
               STALS
             </h1>
@@ -58,13 +62,14 @@ const UserButton: React.FC = () => {
   return (
     <div className="relative">
       <button
-        className="flex items-center justify-center focus:outline-none"
+        className="relative flex h-[2.5rem] w-[2.5rem] items-center justify-center focus:outline-none"
         onClick={toggleDropdown}
       >
-        <img
+        <Image
           src={sessionData?.user.image ?? user.src}
-          className="h-[2.5rem] rounded-full"
+          className="rounded-full object-cover"
           alt="Profile"
+          fill
         />
       </button>
       {showDropdown && (
