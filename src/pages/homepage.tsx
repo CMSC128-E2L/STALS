@@ -12,11 +12,10 @@ export default function HomePage() {
       <NavBar />
 
       {/* Content */}
-      <div className="flex flex-row">
+      <div className="mb-5 flex flex-row">
         <SideBar />
-
         {/* Accommodations List */}
-        <div className=" flex w-5/6 flex-col p-10">
+        <div className="flex w-5/6 flex-col p-10">
           {/* List of Accommodations */}
           <AccomRow />
           <div className="mb-10"></div>
