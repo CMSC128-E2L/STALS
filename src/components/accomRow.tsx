@@ -9,6 +9,18 @@ export default function AccomRow() {
       <div className="mb-4 flex flex-row items-center">
         <h1 className="mr-4 text-xl font-bold">Batong Malake</h1>
         <button className="mr-2 rounded-lg bg-p-dblue px-2 py-2 text-xs font-bold text-white hover:bg-sky-600">
+          Top Rated
+        </button>
+
+        <button className="mr-2 rounded-lg bg-p-dblue px-2 py-2 text-xs font-bold text-white hover:bg-sky-600">
+          By Availability
+        </button>
+
+        <button className="mr-2 rounded-lg bg-p-dblue px-2 py-2 text-xs font-bold text-white hover:bg-sky-600">
+          By Name
+        </button>
+
+        <button className="mr-2 rounded-lg bg-p-dblue px-2 py-2 text-xs font-bold text-white hover:bg-sky-600">
           Download PDF
         </button>
 
