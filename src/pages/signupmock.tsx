@@ -1,7 +1,5 @@
 // import logo from "../images/logo.png";
-import bgpic from "../images/bgpic-01.png";
-
-// ror
+import bgpic from "public/images/bgpic-01.png";
 
 export default function Signup() {
   return (

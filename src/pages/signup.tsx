@@ -23,13 +23,8 @@ export default function Signup() {
             />
           </div>
           Welcome! <br />
-          <p className="text-center text-lg font-bold text-white drop-shadow-md">
-            {" "}
-            Sign up to continue{" "}
-          </p>
         </h1>
       </header>
-      {/* xxxxx */}
       <div className="absolute inset-x-0 top-10 flex justify-center">
         <div className="w-fit rounded-xl bg-white p-10 shadow shadow-p-black/50">
           <form>
