@@ -84,21 +84,15 @@ const UserButton: React.FC = () => {
           </Link>
           <Link
             className="block w-full py-2 text-left hover:bg-gray-100 focus:outline-none"
-            href={"/favorites"}
-          >
-            Favorites
-          </Link>
-          <Link
-            className="block w-full py-2 text-left hover:bg-gray-100 focus:outline-none"
-            href={"/archive"}
-          >
-            Archive
-          </Link>
-          <Link
-            className="block w-full py-2 text-left hover:bg-gray-100 focus:outline-none"
             href={"/myAccommodations"}
           >
-            My Accommodations
+            Your Accommodations
+          </Link>
+          <Link
+            className="block w-full py-2 text-left hover:bg-gray-100 focus:outline-none"
+            href={"/myArchives"}
+          >
+            Your Archives
           </Link>
           <button
             className="block w-full py-2 text-left hover:bg-gray-100 focus:outline-none"
