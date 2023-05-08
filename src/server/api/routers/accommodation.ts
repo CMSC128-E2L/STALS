@@ -92,12 +92,16 @@ export const accommodationRouter = createTRPCRouter({
     }),
 
   // Get All Archived accommodations
-  getArchives: protectedProcedure.input(z.string()).query(({ ctx }) => {
-    return ctx.prisma.accommodation.findMany({
-      where: {
-        is_archived: true,
-      },
-    });
+  getArchives: publicProcedure.query(async ({ ctx }) => {
+    try {
+      return await ctx.prisma.accommodation.findMany({
+        where: {
+          is_archived: true,
+        },
+      });
+    } catch (error) {
+      console.log("error", error);
+    }
   }),
 
   // Delete an accommodation
@@ -118,8 +122,8 @@ export const accommodationRouter = createTRPCRouter({
         landlord: z.string().optional(),
         tags: z.string().optional(),
         num_of_rooms: z.number().optional(),
-        page: z.number(),
-        multiplier: z.number(),
+        page: z.number().optional(),
+        multiplier: z.number().optional(),
       }),
     )
     .query(({ ctx, input }) => {
@@ -153,35 +157,31 @@ export const accommodationRouter = createTRPCRouter({
   edit: protectedProcedure
     .input(
       z.object({
-        item: z.object({
-          id: z.string(),
-          name: z.string().optional(),
-          address: z.string().optional(),
-          location: z.string().optional(),
-          landlord: z.string().optional(),
-          contact_number: z.string().optional(),
-          tags: z.string().optional(),
-          num_of_rooms: z.number().optional(),
-          is_archived: z.boolean().optional(),
-          fb_page: z.string().optional(),
-        }),
-        name: z.string(),
+        id: z.string(),
+        name: z.string().optional(),
+        address: z.string().optional(),
+        location: z.string().optional(),
+        landlord: z.string().optional(),
+        contact_number: z.string().optional(),
+        tags: z.string().optional(),
+        num_of_rooms: z.number().optional(),
+        is_archived: z.boolean().optional(),
+        fb_page: z.string().optional(),
       }),
     )
     .mutation(({ ctx, input }) => {
-      const { item } = input;
-      const { id } = item;
+      const id = input.id;
       return ctx.prisma.accommodation.update({
         where: { id },
         data: {
-          name: item.name,
-          address: item.address,
-          location: item.location,
-          contact_number: item.contact_number,
-          tags: item.tags,
-          num_of_rooms: item.num_of_rooms,
-          is_archived: item.is_archived,
-          fb_page: item.fb_page,
+          name: input.name,
+          address: input.address,
+          location: input.location,
+          contact_number: input.contact_number,
+          tags: input.tags,
+          num_of_rooms: input.num_of_rooms,
+          is_archived: input.is_archived,
+          fb_page: input.fb_page,
         },
       });
     }),

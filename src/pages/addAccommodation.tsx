@@ -1,22 +1,28 @@
+import NavBar from "~/components/navbar";
+
 export default function AddAccommodation() {
   return (
     <div className="thing">
       {/* Header */}
-      <nav className="border-gray-200 bg-white dark:bg-gray-900">
-        TODO: add navbar
-      </nav>
+      <NavBar />
+
       {/* Body */}
+      <div className="basis-1/8">
+        {/* I HAVE DEEMED THAT WE DON'T NEED A BACK BUTTON BUT JUST UNCOMMENT THIS IF YOU WANT ONE SO BAD IG */}
+        {/* <button></button>
+        <label>Back</label> */}
+      </div>
       {/* Middle Column Contains Form */}
       <div className="basis-6/8 flex min-h-screen items-center justify-center overflow-y-auto bg-white">
         {/* BOX THAT CONTAINS THE FORM */}
-        <div className="margin-40 w-3/4 justify-center rounded-xl bg-p-lblue p-4 py-4 shadow-md">
+        <div className="margin-40 w-3/4 rounded-xl bg-p-lblue p-4 py-4 shadow-md">
           <div>
-            <h1 className="form-h1">Add Accommodation</h1>
+            <h1 className="form-h1">New Accommodation</h1>
           </div>
 
-          <form className="space-y-4">
+          <form className="justify-items-stretch space-y-4">
             <div>
-              <h2 className="form-h2">Accommodation Background</h2>
+              <h2 className="form-h2">Background</h2>
               {/* Accommodation background deets */}
               <div className="margin-40 grid grid-cols-2 gap-9 object-contain px-9">
                 <div className="form-col-deets">
@@ -31,9 +37,26 @@ export default function AddAccommodation() {
                       required
                     ></input>
                   </div>
+
+                  <div>
+                    {/* Subtype input field */}
+                    <div className="h-10 w-full items-center justify-items-stretch rounded-md bg-white p-1">
+                      <select
+                        name="availability"
+                        className="form-dropdown"
+                        placeholder="Type"
+                      >
+                        <option value="">Dormitory</option>
+                        <option value="">Apartment</option>
+                        <option value="">Bedspacer</option>
+                        <option value="">Hotel</option>
+                        <option value="">Transient Space</option>
+                      </select>
+                    </div>
+                  </div>
+
                   <div>
                     {/* Address input field */}
-
                     <input
                       className="add-acc-input-text-field"
                       placeholder="Address"
@@ -66,6 +89,17 @@ export default function AddAccommodation() {
                       required
                     ></input>
                   </div>
+
+                  <div>
+                    {/* Accom Price Range Field */}
+
+                    <input
+                      className="add-acc-input-text-field"
+                      placeholder="Price Range"
+                      type="text"
+                      required
+                    ></input>
+                  </div>
                 </div>
 
                 {/* Right Column */}
@@ -94,9 +128,9 @@ export default function AddAccommodation() {
                     <div className="grid h-10 w-full grid-cols-2 items-center justify-items-stretch rounded-md bg-white p-1">
                       {/* Upload Photos */}
                       <label className="input-text-box-label px-4">
-                        Upload File
+                        Upload Files
                       </label>
-                      <div className="justify-self-end">
+                      <div className="justify-self-end object-contain">
                         <input className="" id="file_input" type="file"></input>
                       </div>
                     </div>
@@ -119,7 +153,7 @@ export default function AddAccommodation() {
             <div>
               <h2 className="form-h2">Tags</h2>
               {/* TAGS */}
-              <div className="margin-40 grid grid-cols-2 gap-4">
+              <div className="margin-40 grid grid-cols-2 gap-4 px-9">
                 {/* LEFT COLUMN */}
                 <div className="form-col-deets">
                   <div>
@@ -139,16 +173,20 @@ export default function AddAccommodation() {
                         className="peer"
                       ></input>{" "}
                       Curfew
-                      <div className="flex-shri invisible peer-checked:visible">
+                      <div className="hidden pb-3 peer-checked:block">
                         <input
-                          type="text"
+                          type="time"
                           className="add-acc-input-text-field"
-                          placeholder="time"
+                          placeholder="Curfew"
                         ></input>
                       </div>
                     </div>
                     <div>
-                      <input type="checkbox" name="cooking"></input> Cooking
+                      <select name="cooking" className="form-dropdown">
+                        <option value="">Communal Kitchen</option>
+                        <option value="">Kitchen in Room</option>
+                        <option value="">Cooking Not Allowed</option>
+                      </select>
                     </div>
                     <div>
                       <input type="checkbox" name="visitors"></input> Visitors
@@ -160,8 +198,8 @@ export default function AddAccommodation() {
                   <div>
                     <div className="h-10 w-full items-center justify-items-stretch rounded-md bg-white p-1">
                       <select name="gender" className="form-dropdown">
-                        <option value="">Communal</option>
-                        <option value="">Private</option>
+                        <option value="">Communal Bathroom</option>
+                        <option value="">Private Bathroom</option>
                       </select>
                     </div>
                   </div>
@@ -172,6 +210,9 @@ export default function AddAccommodation() {
                   <div className="text-lg">
                     <div>
                       <input type="checkbox" name="pets"></input> Aircon
+                    </div>
+                    <div>
+                      <input type="checkbox" name="pets"></input> Utilities
                     </div>
                     <div>
                       <input type="checkbox" name="pets"></input> Parking
@@ -212,26 +253,34 @@ export default function AddAccommodation() {
               </div>
 
               {/* CUSTOM TAGS TEXT BOX */}
-              <div>
-                <input
-                  type="text"
-                  placeholder="Custom tags"
-                  className="add-acc-input-text-field"
-                ></input>
+              <div className="py-5">
+                <h2 className="form-h2">Custom Tags</h2>
+                <div className="px-9">
+                  <label>
+                    Separate custom tags with commas (,). I.e: laundry, canteen,
+                    thing, ...
+                  </label>
+                  <input
+                    type="text"
+                    placeholder="Custom tags"
+                    className="add-acc-input-text-field"
+                  ></input>
+                </div>
               </div>
-            </div>
 
-            <div className="items-right flex-1 space-x-3">
-              <button type="reset" className="formButton">
-                Clear
-              </button>
-              <button type="submit" className="formButton">
-                Submit
-              </button>
+              <div className="float-right space-x-3 px-9">
+                <button type="reset" className="formButton">
+                  Clear
+                </button>
+                <button type="submit" className="formButton">
+                  Submit
+                </button>
+              </div>
             </div>
           </form>
         </div>
       </div>
+      <div className="basis-1/8"></div>
     </div>
   );
 }

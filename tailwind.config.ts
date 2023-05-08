@@ -7,6 +7,7 @@ export default {
         // Palette colors
         "p-black": "#222222",
         "p-dblue": "#1C5D99", // Dark blue
+        "p-hdblue": "#14416A",
         "p-blue": "#639FAB",
         "p-lblue": "#BBCDE5", // Light blue
         "p-red": "#D22B2B",
@@ -15,6 +16,7 @@ export default {
       },
       fontSize: {
         xs: ["12px", "12px"],
+        xxs: ["10px", "10px"],
       },
       backgroundSize: {
         auto: "auto",
@@ -25,6 +27,7 @@ export default {
       },
       height: {
         halfscreen: "50vh",
+        fullscreen: "85vh",
       },
     },
   },

@@ -1,16 +1,13 @@
 import { type NextPage } from "next";
 import Image from "next/image";
 import Head from "next/head";
-// import Link from "next/link";
+import Link from "next/link";
 import { signIn, signOut, useSession } from "next-auth/react";
-import graphics from "../images/pic.png";
-import bg from "../images/bg.png";
-import logo from "../images/logo.png";
-
-// import { api } from "~/utils/api";
+import graphics from "public/images/pic.png";
+import bg from "public/images/bg.png";
+import logo from "public/images/logo.png";
 
 const Home: NextPage = () => {
-  // const hello = api.user.hello.useQuery({ text: "from STALS Developers" });
   return (
     <>
       <Head>
@@ -24,27 +21,31 @@ const Home: NextPage = () => {
         {/* landing page whole screen content */}
         <div className="flex flex-col">
           {/* graphics */}
-          <img
-            className="absolute bottom-1 right-1/2 h-[100%] translate-x-1/2 opacity-70"
-            src={bg.src}
-            alt="background"
-          />
+          <div className="absolute bottom-1 right-1/2 h-[100%] w-screen translate-x-1/2 opacity-70">
+            <Image className="object-fill" src={bg} alt="background" fill />
+          </div>
           {/* sample image only */}
-          <img
-            className="absolute bottom-1 right-1/2 h-[35%] translate-x-1/2"
-            src={graphics.src}
-            alt="graphics"
-          />
+          <div className="absolute bottom-1 right-1/2 h-[35%] w-screen translate-x-1/2">
+            <Image
+              className="object-contain"
+              src={graphics}
+              alt="graphics"
+              fill
+            />
+          </div>
 
           {/* 1 header nav bar [logo name home about contact]*/}
           <header className="sticky top-0 justify-between">
             {/* logo name */}
             <div className="absolute left-0 top-1/2 flex p-5">
-              <img
-                src={logo.src}
-                className="flex h-20 w-20 flex-col items-start rounded-full object-scale-down object-left pl-1"
-                alt="STALS Logo"
-              />
+              <div className="relative flex h-20 w-20 flex-col items-start rounded-full pl-1">
+                <Image
+                  src={logo}
+                  className="object-scale-down object-left"
+                  alt="STALS Logo"
+                  fill
+                />
+              </div>
               <h1 className="p-3 font-extrabold text-white sm:text-[2rem]">
                 STALS
               </h1>
@@ -53,22 +54,28 @@ const Home: NextPage = () => {
             {/* home about contact */}
             <div className="text-bold text-s absolute right-0 top-1/2 flex p-1 text-white">
               {/* <div className="flex text-white text-bold text-s w-full md:block md:w-auto mt-4 flex flex-col items-center p-4 font-medium md:mt-0 md:flex-row md:space-x-8 md:border-0 md:p-0"> */}
-              <a href="homepage" className="p-10 no-underline hover:underline">
+              <Link
+                href="homepage"
+                className="p-10 no-underline hover:underline"
+              >
                 Home
-              </a>
-              <a
+              </Link>
+              <Link
                 href="contactpage"
                 className="p-10 no-underline hover:underline"
               >
                 Contact
-              </a>
-              <a href="aboutpage" className="p-10 no-underline hover:underline">
+              </Link>
+              <Link
+                href="aboutpage"
+                className="p-10 no-underline hover:underline"
+              >
                 About Us
-              </a>
+              </Link>
             </div>
           </header>
 
-          {/* low prio: nagsslide yung description [description -> full name] */}
+          {/* lowest prio: nagsslide yung description [description -> full name] */}
           {/* 2 main content after header navbar [title subtitle get started button] */}
           <div className="absolute left-1/2 top-1/2 flex -translate-x-1/2 -translate-y-1/2 flex-col justify-center text-center">
             <h1 className="text-5xl font-extrabold tracking-tight text-white sm:text-[5rem]">
@@ -97,16 +104,10 @@ export default Home;
 const AuthShowcase: React.FC = () => {
   const { data: sessionData } = useSession();
 
-  // const { data: secretMessage } = api.user.getSecretMessage.useQuery(
-  //   undefined, // no input
-  //   { enabled: sessionData?.user !== undefined },
-  // );
-
   return (
     <div className="flex flex-col items-start justify-start gap-4">
       <p className="text-start text-2xl text-white">
         {sessionData && <span>Logged in as {sessionData.user?.name}</span>}
-        {/* {secretMessage && <span> - {secretMessage}</span>} */}
       </p>
       <button
         className="rounded-full bg-[#1C5D99]/90 px-10 py-3 font-semibold text-white no-underline transition hover:bg-white/20"
