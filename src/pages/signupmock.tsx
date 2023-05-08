@@ -1,6 +1,8 @@
 // import logo from "../images/logo.png";
 import bgpic from "public/images/bgpic-01.png";
 
+// ror
+
 export default function Signup() {
   return (
     <div className="">
