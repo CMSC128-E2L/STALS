@@ -27,7 +27,7 @@ jobs:
           # If you are using yarn, change the line below from "npm" to "yarn"
           pkg-manager: npm
       - restore_cache:
-         key: dependency-cache-{{ checksum "package-lock.json" }}
+          key: dependency-cache-{{ checksum "package-lock.json" }}
       - run:
           name: Install Dependencies
           command: npm install
