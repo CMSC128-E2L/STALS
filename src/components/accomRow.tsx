@@ -73,6 +73,7 @@ const Accoms: React.FC = () => {
                 alt={x}
                 fill
                 className="h-64 w-64 object-cover p-4"
+                unoptimized
               />
             </div>
           </Link>
