@@ -12,17 +12,17 @@ TESTING:
 (7) Edit
 */
 export default function Backend() {
-  const { data: firstData } = api.accommodation.getArchives.useQuery();
-  const getOne = api.accommodation.getOne.useQuery("clhaovx8u000cua9oc93vzie1");
+  // const { data: firstData } = api.accommodation.getArchives.useQuery();
+  // const getOne = api.accommodation.getOne.useQuery("clhaovx8u000cua9oc93vzie1");
 
   const getMany = api.accommodation.getMany.useQuery({
     location: "UPLB",
   });
 
   // mutate
-  const createAccommodation = api.accommodation.add.useMutation();
-  const deleteAccommodation = api.accommodation.delete.useMutation();
-  const archiveAccommodation = api.accommodation.archive.useMutation();
+  // const createAccommodation = api.accommodation.add.useMutation();
+  // const deleteAccommodation = api.accommodation.delete.useMutation();
+  // const archiveAccommodation = api.accommodation.archive.useMutation();
   const editAccommodation = api.accommodation.edit.useMutation();
 
   return (
