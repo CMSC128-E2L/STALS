@@ -55,8 +55,9 @@ const UserButton: React.FC = () => {
   };
 
   const handleLogout = () => {
-    void signOut();
-    window.location.href = "/"; // Redirect to login page
+    void signOut({
+      callbackUrl: "/",
+    });
   };
 
   return (
