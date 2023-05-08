@@ -15,6 +15,9 @@ const config = {
       {
         hostname: "**.s3.amazonaws.com",
       },
+      {
+        hostname: "**.googleusercontent.com",
+      },
     ],
   },
   /**
