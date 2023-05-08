@@ -17,12 +17,12 @@ export default function AddAccommodation() {
         {/* BOX THAT CONTAINS THE FORM */}
         <div className="margin-40 w-3/4 rounded-xl bg-p-lblue p-4 py-4 shadow-md">
           <div>
-            <h1 className="form-h1">Add Accommodation</h1>
+            <h1 className="form-h1">New Accommodation</h1>
           </div>
 
           <form className="justify-items-stretch space-y-4">
             <div>
-              <h2 className="form-h2">Accommodation Background</h2>
+              <h2 className="form-h2">Background</h2>
               {/* Accommodation background deets */}
               <div className="margin-40 grid grid-cols-2 gap-9 object-contain px-9">
                 <div className="form-col-deets">
@@ -37,9 +37,26 @@ export default function AddAccommodation() {
                       required
                     ></input>
                   </div>
+
+                  <div>
+                    {/* Subtype input field */}
+                    <div className="h-10 w-full items-center justify-items-stretch rounded-md bg-white p-1">
+                      <select
+                        name="availability"
+                        className="form-dropdown"
+                        placeholder="Type"
+                      >
+                        <option value="">Dormitory</option>
+                        <option value="">Apartment</option>
+                        <option value="">Bedspacer</option>
+                        <option value="">Hotel</option>
+                        <option value="">Transient Space</option>
+                      </select>
+                    </div>
+                  </div>
+
                   <div>
                     {/* Address input field */}
-
                     <input
                       className="add-acc-input-text-field"
                       placeholder="Address"
@@ -68,6 +85,17 @@ export default function AddAccommodation() {
                     <input
                       className="add-acc-input-text-field"
                       placeholder="Contact No."
+                      type="text"
+                      required
+                    ></input>
+                  </div>
+
+                  <div>
+                    {/* Accom Price Range Field */}
+
+                    <input
+                      className="add-acc-input-text-field"
+                      placeholder="Price Range"
                       type="text"
                       required
                     ></input>
@@ -157,6 +185,7 @@ export default function AddAccommodation() {
                       <select name="cooking" className="form-dropdown">
                         <option value="">Communal Kitchen</option>
                         <option value="">Kitchen in Room</option>
+                        <option value="">Cooking Not Allowed</option>
                       </select>
                     </div>
                     <div>
@@ -169,8 +198,8 @@ export default function AddAccommodation() {
                   <div>
                     <div className="h-10 w-full items-center justify-items-stretch rounded-md bg-white p-1">
                       <select name="gender" className="form-dropdown">
-                        <option value="">Communal</option>
-                        <option value="">Private</option>
+                        <option value="">Communal Bathroom</option>
+                        <option value="">Private Bathroom</option>
                       </select>
                     </div>
                   </div>
@@ -181,6 +210,9 @@ export default function AddAccommodation() {
                   <div className="text-lg">
                     <div>
                       <input type="checkbox" name="pets"></input> Aircon
+                    </div>
+                    <div>
+                      <input type="checkbox" name="pets"></input> Utilities
                     </div>
                     <div>
                       <input type="checkbox" name="pets"></input> Parking
