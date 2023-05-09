@@ -8,33 +8,26 @@ import { authOptions } from "~/server/auth";
 import logo from "public/images/logo.png";
 import Link from "next/link";
 import Image from "next/image";
+import bgpic from "public/images/bgpic-01.png";
 
 export default function SignIn({
   providers,
 }: InferGetServerSidePropsType<typeof getServerSideProps>) {
   return (
     <div>
-      <header>
-        <div className="absolute inset-0 h-[50%] bg-[url('https://www.camellahomes.net/wp-content/uploads/2022/01/camella-homes-header.jpg')] bg-cover bg-no-repeat">
-          <div className="h-[100%] bg-gradient-to-b from-transparent to-black opacity-50"></div>
-        </div>
-        <h1 className="absolute inset-10 text-center text-5xl font-bold text-white drop-shadow-md">
-          <div className="relative flex h-20 w-auto justify-center drop-shadow-md">
-            <Image
-              src={logo.src}
-              alt="STALS Logo"
-              fill
-              className="object-contain"
-            />
+      <img className="bg-cover bg-center" src={bgpic.src} alt="background" />
+
+      <div className="absolute inset-x-0 top-20 flex justify-center">
+        <div className="h-[30%] w-[33%] rounded-xl bg-white px-16 py-8 shadow shadow-p-black/50">
+          <div className="item-center flex justify-center px-2 pb-0 pt-0 drop-shadow-md">
+            <h1 className="text-5xl font-bold text-blue-700">Welcome back!</h1>
           </div>
-          Welcome back! <br />
-          <p className="text-center text-lg font-bold text-white drop-shadow-md">
-            Log in to continue
-          </p>
-        </h1>
-      </header>
-      <div className="absolute inset-x-0 top-52 flex justify-center">
-        <div className="h-[17rem] w-[30rem] rounded-xl bg-white p-10 shadow shadow-p-black/50">
+
+          <div className="flex justify-center pb-4 drop-shadow-md">
+            <p className="text-sm italic text-gray-400">Log in to continue</p>
+          </div>
+          <div className="py-2"></div>
+
           <div className="flex flex-col space-y-4">
             {Object.values(providers).map((provider) => (
               <div key={provider.name}>
