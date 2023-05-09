@@ -1,5 +1,4 @@
-import { api, type RouterOutputs } from "~/utils/api";
-import { parse, stringify } from "superjson";
+import { api } from "~/utils/api";
 import jsPDF from "jspdf";
 import autoTable from "jspdf-autotable";
 
