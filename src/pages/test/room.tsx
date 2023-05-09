@@ -3,7 +3,11 @@ import { stringify } from "superjson";
 
 export default function Backend() {
   const { data: firstData, isLoading: queryLoading } =
-    api.user.getFirst.useQuery();
+    api.room.archives.useQuery({
+      accommodationId: "clhd4giyd0002w2btf12dzr3d",
+      page: 0,
+      multiplier: 2,
+    });
 
   if (queryLoading) {
     return <div>Loading</div>;
