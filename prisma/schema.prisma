@@ -96,7 +96,9 @@ enum AccommodationType {
 model Accommodation {
   id             String  @id @default(cuid())
   name           String
-  address        String
+  street_number  String?
+  subdivision    String?
+  barangay       String
   location       String
   landlord       String
   contact_number String
@@ -104,6 +106,8 @@ model Accommodation {
   num_of_rooms   Int
   is_archived    Boolean
   fb_page        String?
+  price          Float
+  contact_length String
 
   Review Review[]
   Room   Room[]
