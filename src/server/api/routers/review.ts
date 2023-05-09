@@ -29,6 +29,57 @@ export const reviewRouter = createTRPCRouter({
       });
     }),
 
+  edit: protectedProcedure
+    .input(
+      z.object({
+        id: z.string(),
+        review: z.string().optional(),
+        rating: z.number().optional(),
+      }),
+    )
+    .mutation(({ ctx, input }) => {
+      const id = input.id;
+      return ctx.prisma.review.update({
+        where: { id },
+        data: {
+          review: input.review,
+          rating: input.rating,
+        },
+      });
+    }),
+
+  delete: protectedProcedure.input(z.string()).mutation(({ ctx, input }) => {
+    const id = input;
+    return ctx.prisma.review.delete({
+      where: { id },
+    });
+  }),
+
+  // archive: protectedProcedure
+  //   .input(z.object({ id: z.string(), is_archived: z.boolean() }))
+  //   .mutation(({ ctx, input }) => {
+  //     const id = input.id;
+  //     const archived = input.is_archived;
+  //     return ctx.prisma.review.update({
+  //       where: { id },
+  //       data: {
+  //         is_archived: !archived,
+  //       },
+  //     });
+  //   }),
+
+  // getArchives: publicProcedure.query(async ({ ctx }) => {
+  //   try {
+  //     return await ctx.prisma.review.findMany({
+  //       where: {
+  //         is_archived: true,
+  //       },
+  //     });
+  //   } catch (error) {
+  //     console.log("error", error);
+  //   }
+  // }),
+
   getMany: publicProcedure
     .input(
       z.object({

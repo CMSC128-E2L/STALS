@@ -7,7 +7,19 @@ await import("./src/env.mjs");
 /** @type {import("next").NextConfig} */
 const config = {
   reactStrictMode: true,
-
+  images: {
+    remotePatterns: [
+      {
+        hostname: "**.r2.cloudflarestorage.com",
+      },
+      {
+        hostname: "**.s3.amazonaws.com",
+      },
+      {
+        hostname: "**.googleusercontent.com",
+      },
+    ],
+  },
   /**
    * If you have the "experimental: { appDir: true }" setting enabled, then you
    * must comment the below `i18n` config out.

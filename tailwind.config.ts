@@ -27,6 +27,7 @@ export default {
       },
       height: {
         halfscreen: "50vh",
+        fullscreen: "85vh",
       },
     },
   },

@@ -6,6 +6,7 @@ import {
   CreateBucketCommand,
   GetObjectCommand,
   ListObjectsV2Command,
+  PutObjectCommand,
 } from "@aws-sdk/client-s3";
 import { getSignedUrl } from "@aws-sdk/s3-request-presigner";
 
@@ -30,7 +31,7 @@ export const fileRouter = createTRPCRouter({
 
     return output;
   }),
-  fileUploadExample: publicProcedure.query(async () => {
+  createBucket: publicProcedure.query(async () => {
     const params = {
       Bucket: "stals-testing", // The name of the bucket. For example, 'sample-bucket-101'.
       Key: "file1.txt", // The name of the object. For example, 'sample_upload.txt'.
@@ -46,12 +47,20 @@ export const fileRouter = createTRPCRouter({
     } catch (error) {
       console.log(error);
     }
+  }),
+  fileUploadExample: publicProcedure.query(async () => {
+    const params = {
+      Bucket: "stals-testing", // The name of the bucket. For example, 'sample-bucket-101'.
+      Key: "file1.txt", // The name of the object. For example, 'sample_upload.txt'.
+      Body: "Hello world stals!", // The content of the object. For example, 'Hello world!".
+      ACL: "public-read",
+    };
 
-    // try {
-    //   const data = await s3Client.send(new PutObjectCommand(params));
-    //   return data;
-    // } catch (error) {
-    //   return error;
-    // }
+    try {
+      const data = await s3Client.send(new PutObjectCommand(params));
+      return data;
+    } catch (error) {
+      return error;
+    }
   }),
 });
