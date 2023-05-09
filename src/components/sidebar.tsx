@@ -4,11 +4,12 @@ export default function SideBar() {
   return (
     <>
       {/* Filters */}
-      <div className="flex flex-col bg-p-lblue p-5">
-        <h1 className="mb-2 text-xl font-bold">Filter</h1>
+      <div className="flex flex-col rounded-r-[60px] bg-p-lblue p-5">
+        <h1 className="mb-7 text-xl font-bold">Filter</h1>
 
         {/* Location */}
         <div className="mb-4">
+          <h2 className="mb-2 text-base font-bold">Location</h2>
           <Location />
         </div>
 
@@ -213,72 +214,63 @@ export default function SideBar() {
 }
 
 const Location: React.FC = () => {
-  const [showDropdown, setShowDropdown] = useState(false);
-  const toggleDropdown = () => {
-    setShowDropdown((prevState) => !prevState);
-  };
+  // this will be used in the filter button for the location
+  const [value, setValue] = useState("");
+  const [showSuggestions, setShowSuggestions] = useState(false);
+  const suggestions = ["Batong Malaki", "Batong Maliit"]; //! TODO: this is hardcoded
+
+  function handleChange(event: React.ChangeEvent<HTMLInputElement>) {
+    setValue(event.target.value);
+    setShowSuggestions(event.target.value !== "");
+  }
+
+  function handleSuggestionClick(suggestion: string) {
+    setValue(suggestion);
+    setShowSuggestions(false);
+  }
 
   return (
-    <div className="">
-      <button
-        className="flex inline-flex w-full items-center items-center justify-center rounded-lg bg-white px-12 py-1 text-center font-medium text-black hover:bg-p-dblue focus:outline-none focus:outline-none focus:ring-2 focus:ring-p-dblue dark:bg-white dark:hover:bg-p-dblue dark:focus:ring-p-dblue"
-        onClick={toggleDropdown}
-      >
-        Location
-        <svg
-          className="ml-2 h-4 w-4"
-          aria-hidden="true"
-          fill="none"
-          stroke="currentColor"
-          viewBox="0 0 24 24"
-          xmlns="http://www.w3.org/2000/svg"
-        >
-          <path
-            stroke-linecap="round"
-            stroke-linejoin="round"
-            stroke-width="2"
-            d="M19 9l-7 7-7-7"
-          ></path>
-        </svg>
-      </button>
-      {showDropdown && (
-        <div
-          id="dropdownBgHover"
-          className="mt-1 rounded-lg bg-white p-1 shadow shadow-lg dark:bg-white"
-        >
-          <ul
-            className="flex flex-col space-y-1 text-black dark:text-black"
-            aria-labelledby="dropdownBgHoverButton"
-          >
-            <li>
-              <div className="flex h-auto w-auto items-center rounded p-2 hover:bg-gray-500 dark:hover:bg-p-dblue">
-                <input
-                  id="checkbox-item-4"
-                  type="checkbox"
-                  value=""
-                  className="h-4 w-4 rounded border-gray-300 bg-gray-100 text-blue-600 focus:ring-2 focus:ring-blue-500 dark:border-gray-500 dark:bg-gray-600 dark:ring-offset-gray-700 dark:focus:ring-blue-600 dark:focus:ring-offset-gray-700"
-                ></input>
-                <label className="ml-2 rounded text-sm font-medium text-black dark:text-black">
-                  Batong Malake
-                </label>
-              </div>
-            </li>
-            <li>
-              <div className="flex h-auto w-auto items-center rounded p-2 hover:bg-gray-500 dark:hover:bg-p-dblue">
-                <input
-                  id="checkbox-item-4"
-                  type="checkbox"
-                  value=""
-                  className="h-4 w-4 rounded border-gray-300 bg-gray-100 text-blue-600 focus:ring-2 focus:ring-blue-500 dark:border-gray-500 dark:bg-gray-600 dark:ring-offset-gray-700 dark:focus:ring-blue-600 dark:focus:ring-offset-gray-700"
-                ></input>
-                <label className="ml-2 rounded text-sm font-medium text-black dark:text-black">
-                  Batong Maleet
-                </label>
-              </div>
-            </li>
+    <div className="relative">
+      <div>
+        <input
+          type="text"
+          value={value}
+          onChange={handleChange}
+          className="rounded-2xl px-3 py-1"
+          placeholder="Enter a Location"
+        />
+        {showSuggestions && (
+          <ul className="absolute m-2 flex flex-col space-y-1 bg-white p-1 text-black shadow shadow-lg dark:bg-white dark:text-black">
+            {suggestions
+              .filter((suggestion) =>
+                suggestion.toLowerCase().includes(value.toLowerCase()),
+              )
+              .map((suggestion) => (
+                <li
+                  key={suggestion}
+                  onClick={() => handleSuggestionClick(suggestion)}
+                  className="cursor-pointer p-2 dark:hover:bg-p-dblue"
+                >
+                  {highlightMatchedSubstring(suggestion)}
+                </li>
+              ))}
           </ul>
-        </div>
-      )}
+        )}
+      </div>
     </div>
   );
+
+  function highlightMatchedSubstring(suggestion: string) {
+    const index = suggestion.toLowerCase().indexOf(value.toLowerCase());
+    if (index < 0) return suggestion;
+    return (
+      <>
+        {suggestion.substring(0, index)}
+        <span style={{ fontWeight: "bold" }}>
+          {suggestion.substring(index, index + value.length)}
+        </span>
+        {suggestion.substring(index + value.length)}
+      </>
+    );
+  }
 };

@@ -9,7 +9,7 @@ export default function NavBar() {
   return (
     <>
       {/* Navigation bar */}
-      <nav className="sticky top-0 flex flex-wrap items-center justify-between bg-p-dblue p-4 py-1">
+      <nav className="sticky top-0 z-20 mb-5 flex flex-wrap items-center justify-between bg-p-dblue p-4 py-1">
         {/* Left side */}
         <div className="flex space-x-0">
           <Link href="/homepage" className="flex items-center">

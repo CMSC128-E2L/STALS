@@ -4,22 +4,78 @@ import Image from "next/image";
 import Link from "next/link";
 
 export default function AccomRow() {
+  const [showDropdown, setShowDropdown] = useState(false);
+
+  const toggleDropdown = () => {
+    setShowDropdown((prevState) => !prevState);
+  };
+
   return (
     <div className="flex flex-col">
       <div className="mb-4 flex flex-row items-center">
         <h1 className="mr-4 text-xl font-bold">Batong Malake</h1>
-        <button className="mr-2 rounded-lg bg-p-dblue px-2 py-2 text-xs font-bold text-white hover:bg-sky-600">
-          Top Rated
-        </button>
 
-        <button className="mr-2 rounded-lg bg-p-dblue px-2 py-2 text-xs font-bold text-white hover:bg-sky-600">
-          By Availability
+        <button
+          className="mr-2 flex items-center rounded-lg bg-p-dblue px-2 py-2 text-xs font-bold text-white hover:bg-sky-600"
+          // className="flex items-center items-center justify-center rounded-lg mr-2 rounded-lg bg-p-dblue px-1 py-1 text-xs font-bold text-white hover:bg-sky-600"
+          onClick={toggleDropdown}
+        >
+          Sort By
+          <svg
+            className="ml-2 h-3 w-3"
+            aria-hidden="true"
+            fill="none"
+            stroke="currentColor"
+            viewBox="0 0 24 24"
+            xmlns="http://www.w3.org/2000/svg"
+          >
+            <path
+              stroke-linecap="round"
+              stroke-linejoin="round"
+              stroke-width="2"
+              d="M19 9l-7 7-7-7"
+            ></path>
+          </svg>
         </button>
-
-        <button className="mr-2 rounded-lg bg-p-dblue px-2 py-2 text-xs font-bold text-white hover:bg-sky-600">
-          By Name
-        </button>
-
+        {showDropdown && (
+          <div id="dropdownBgHover" className="relative mt-1 rounded-lg">
+            <ul
+              className="absolute m-2 flex flex-col space-y-1 bg-white p-1 text-black shadow shadow-lg dark:bg-white dark:text-black"
+              aria-labelledby="dropdownBgHoverButton"
+            >
+              <li className="">
+                <div className="flex h-auto w-auto items-center rounded p-2 hover:bg-gray-500 dark:hover:bg-p-dblue">
+                  <label
+                    htmlFor="batong-malaki"
+                    className="ml-2 rounded text-sm font-medium text-black dark:text-black"
+                  >
+                    Top Rated
+                  </label>
+                </div>
+              </li>
+              <li>
+                <div className="flex h-auto w-auto items-center rounded p-2 hover:bg-gray-500 dark:hover:bg-p-dblue">
+                  <label
+                    htmlFor="batong-maliit"
+                    className="ml-2 rounded text-sm font-medium text-black dark:text-black"
+                  >
+                    Availability
+                  </label>
+                </div>
+              </li>
+              <li>
+                <div className="flex h-auto w-auto items-center rounded p-2 hover:bg-gray-500 dark:hover:bg-p-dblue">
+                  <label
+                    htmlFor="batong-maliit"
+                    className="ml-2 rounded text-sm font-medium text-black dark:text-black"
+                  >
+                    Name
+                  </label>
+                </div>
+              </li>
+            </ul>
+          </div>
+        )}
         <button className="mr-2 rounded-lg bg-p-dblue px-2 py-2 text-xs font-bold text-white hover:bg-sky-600">
           Download PDF
         </button>
