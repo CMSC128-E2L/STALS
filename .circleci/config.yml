@@ -16,7 +16,7 @@ jobs:
     # A list of available CircleCI Docker Convenience Images are available here: https://circleci.com/developer/images/image/cimg/node
     docker:
       - image: cimg/node:18.16.0
-    resource_class: small
+    resource_class: medium
     # Then run your tests!
     # CircleCI will report the results back to your VCS provider.
     steps:
