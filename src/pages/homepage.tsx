@@ -8,7 +8,7 @@ export default function HomePage() {
       <NavBar />
 
       {/* Content */}
-      <div className="mb-5 flex flex-row">
+      <div className="flex flex-row">
         <SideBar />
         {/* Accommodations List */}
         <div className="flex w-5/6 flex-col p-10">
