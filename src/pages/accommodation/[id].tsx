@@ -6,7 +6,7 @@ import Image from "next/image";
 import { api } from "~/utils/api";
 import { useRouter } from "next/router";
 import { dynamicRouteID } from "~/utils/helpers";
-import { stringify } from "querystring";
+import { stringify } from "superjson";
 
 export default function Accommodation() {
   const { shouldReturn, id } = dynamicRouteID(useRouter());
