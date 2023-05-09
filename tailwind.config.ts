@@ -29,6 +29,9 @@ export default {
         halfscreen: "50vh",
         fullscreen: "85vh",
       },
+      shadow: {
+        "3xl": "0 35px 60px -15px rgba(0, 0, 0, 0.3)",
+      },
     },
   },
   plugins: [],

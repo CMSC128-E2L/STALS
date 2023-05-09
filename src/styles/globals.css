@@ -7,7 +7,7 @@
     @apply rounded-xl px-3 py-3 shadow shadow-p-black/50;
   }
   .add-acc-input-text-field {
-    @apply h-10 w-full rounded-md p-1 shadow shadow-p-black/50;
+    @apply h-10 w-full rounded-md p-4 shadow shadow-p-black/50;
   }
   .formButton {
     @apply rounded-lg bg-[#1C5D99] px-3 py-1 font-bold
@@ -15,7 +15,7 @@
     shadow shadow-p-black/50;
   }
   .accPButton {
-    @apply rounded-md bg-p-gray px-5 py-1 text-sm;
+    @apply rounded-md bg-p-gray px-5 py-1 text-sm shadow shadow-p-black/50;
   }
   .input-text-box-label {
     @apply text-sm;
@@ -37,7 +37,7 @@
   }
 
   .accomP-button {
-    @apply rounded-full bg-p-dblue p-2 transition hover:bg-p-hdblue;
+    @apply rounded-full bg-p-dblue p-2 shadow shadow-p-black/50 transition hover:bg-p-hdblue;
   }
 
   .star-favorite {

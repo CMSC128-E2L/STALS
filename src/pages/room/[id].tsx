@@ -16,38 +16,45 @@ export default function Accommodation() {
     api.accommodation.getOne.useQuery(id);
 
   return (
-    <div className="flex h-screen flex-col object-contain">
+    <div className="flex flex-col">
       {/* HEADER */}
       <div className="max-w-screen">
         <NavBar />
       </div>
 
       {/* BODY */}
-      <div className="flex flex-auto flex-col">
+      <div className="flex max-h-screen flex-col">
         {/* LANDLORD PROFILE 
         CAN BE MADE INTO A COMPONENT */}
         <div className="position-left ml-10 w-1/4 p-4 py-2">
           <UserProfile />
         </div>
-
         {/* cONTAINS THE ACCOMMODATION INFO */}
-        <div className="flex justify-center object-contain">
+        <div className="flex min-h-screen justify-center">
           {/* Box that contains the accommodation thingy */}
           <div className="margin-40 flex w-11/12 gap-2 bg-p-lblue p-4 py-4 shadow-md">
             {/* GALLERY */}
-            <div className="w-1/3 flex-none bg-red-100 p-4">
-              <div className="grid gap-4">
+            <div className="w-1/3 flex-none bg-red-200 p-4">
+              <div className="grid h-5/6 gap-4 bg-blue-200">
+                {/*div containing all images*/}
                 {/* main image */}
-                <div className="max-w relative aspect-square h-auto">
+                <div className="relative aspect-video h-full w-full bg-yellow-200">
+                  {" "}
+                  {/*div for main image*/}
                   <Image
-                    className="rounded-lg object-cover"
+                    className="relative rounded-lg object-cover"
                     src="https://flowbite.s3.amazonaws.com/docs/gallery/featured/image.jpg"
                     alt="image"
                     fill
                   />
                 </div>
-                <div className="grid grid-cols-3 gap-1">
-                  <div className="max-w relative aspect-square h-auto">
+                {/* other images */}
+                <div className="grid grid-cols-3 gap-1 bg-green-200">
+                  {" "}
+                  {/*div for row of bottomimages*/}
+                  <div className="relative aspect-video h-1/2 w-5/6">
+                    {" "}
+                    {/*div for 1 image*/}
                     <Image
                       className="rounded-lg object-cover"
                       src="https://flowbite.s3.amazonaws.com/docs/gallery/featured/image.jpg"
@@ -55,7 +62,7 @@ export default function Accommodation() {
                       fill
                     />
                   </div>
-                  <div className="max-w relative aspect-square h-auto">
+                  <div className="relative aspect-video h-1/2 w-5/6">
                     <Image
                       className="rounded-lg object-cover"
                       src="https://flowbite.s3.amazonaws.com/docs/gallery/featured/image.jpg"
@@ -63,8 +70,7 @@ export default function Accommodation() {
                       fill
                     />
                   </div>
-                  <div className="max-w relative aspect-square h-auto blur-sm">
-                    {/* make this a button that links to a gallery */}
+                  <div className="relative aspect-video h-1/2 w-5/6">
                     <Image
                       className="rounded-lg object-cover"
                       src="https://flowbite.s3.amazonaws.com/docs/gallery/featured/image.jpg"
@@ -94,7 +100,7 @@ export default function Accommodation() {
                 {/* Right column: the editing thingy ig */}
                 <div className="basis-1/4">
                   {/* So if a registered user is viewing it (remove hidden to show teehee)*/}
-                  <div className="float-right inline-flex hidden cursor-pointer">
+                  <div className="float-right inline-flex cursor-pointer">
                     <form>
                       <input
                         type="checkbox"
@@ -120,7 +126,7 @@ export default function Accommodation() {
                   </div>
 
                   {/* If a landlord is viewing the page */}
-                  <div className="float-right flex gap-1">
+                  <div className="float-right flex hidden gap-1">
                     {/* Edit button */}
                     <button type="button" className="accomP-button">
                       <svg
@@ -182,7 +188,6 @@ export default function Accommodation() {
 
               {/* STATS */}
               <div className="flex flex-row gap-2 px-3 text-sm">
-                {/* pHONE NUMBER */}
                 <div className="flex flex-row items-center gap-x-1 p-1">
                   <div className="rounded-full bg-p-dblue p-1">
                     <svg
@@ -208,8 +213,6 @@ export default function Accommodation() {
                     </div>
                   )}
                 </div>
-
-                {/* EMAIL */}
                 <div className="flex flex-row items-center gap-x-1 p-1">
                   <div className="rounded-full bg-p-dblue p-1">
                     <svg
@@ -229,8 +232,6 @@ export default function Accommodation() {
                   </div>
                   Email
                 </div>
-
-                {/* LOCATION */}
                 <div className="flex flex-row items-center gap-x-1 p-1">
                   <div className="rounded-full bg-p-dblue p-1">
                     <svg
@@ -261,30 +262,12 @@ export default function Accommodation() {
                     </div>
                   )}
                 </div>
-
-                {/* SHOULD APPEAR IF SOCIAL MEDIA EXISTS */}
-                <div className="flex flex-row items-center gap-x-1 p-1">
-                  <div className="rounded-full bg-p-dblue p-1">
-                    <svg
-                      xmlns="http://www.w3.org/2000/svg"
-                      width="16"
-                      height="16"
-                      fill="white"
-                      className=""
-                      viewBox="0 0 16 16"
-                    >
-                      <path d="M16 8.049c0-4.446-3.582-8.05-8-8.05C3.58 0-.002 3.603-.002 8.05c0 4.017 2.926 7.347 6.75 7.951v-5.625h-2.03V8.05H6.75V6.275c0-2.017 1.195-3.131 3.022-3.131.876 0 1.791.157 1.791.157v1.98h-1.009c-.993 0-1.303.621-1.303 1.258v1.51h2.218l-.354 2.326H9.25V16c3.824-.604 6.75-3.934 6.75-7.951z" />
-                    </svg>
-                  </div>
-                  Facebook link
-                </div>
               </div>
 
               {/* DESCRIPTION */}
               <div className="flex basis-1/2 flex-col">
-                <div className="group overflow-hidden px-4 py-2">
-                  {/* placeholder description to test line cram thing
-                  WALA PALA DESCRIPTION KIMMY
+                <div className="group basis-1/2 overflow-hidden px-4 py-4">
+                  {/* placeholder description to test line cram thing */}
 
                   {!queryLoading ? (
                     <p className="">{stringify(firstData)}</p>
@@ -300,12 +283,12 @@ export default function Accommodation() {
                         &nbsp;&nbsp;
                       </p>
                     </>
-                  )} */}
-                  {/* Custom Tags */}
-                  <p className="py-1 text-sm">
-                    (insert custom tags here) Never, gonna, give, you, up,
-                    never, gonna, let, you, down
-                  </p>
+                  )}
+
+                  {/* link to gmaps? */}
+                  <Link href="somewhere" className="text-xxs underline">
+                    Visit them here
+                  </Link>
                 </div>
 
                 {/* Other deets */}
@@ -314,32 +297,28 @@ export default function Accommodation() {
                     <div className="flex flex-col gap-2 p-2">
                       <h1 className="form-h2">Price</h1>
                       <h1 className="form-h2">Capacity</h1>
-                      {/* CONTRACT LENGTH IS A CONDITIONAL THAT ONLY APPEARS IF THE ACCOMMODATION IS A DORMITORY */}
-                      <h1 className="form-h2">Contract Length</h1>
                     </div>
 
                     <div className="flex flex-col gap-2 p-2">
                       <p>(min price)-(max price) Pesos</p>
                       <p>(min) to (max) people</p>
-                      <p>1 Academic Year</p>
                     </div>
                   </div>
-                </div>
-                {/* Rooms */}
-                <div className="flex w-full flex-row gap-3 bg-red-100 px-3 py-3">
-                  <button className="accPButton w-1/4 justify-self-start">
-                    <label className="bold text-xl">Room 1</label>
-                    <p className="text-md italic ">Occupied</p>
+                  {/* Rooms */}
+                  <div className="flex flex-row gap-3 px-3">
+                    <button className="accPButton">Room 1</button>
+                    <button className="accPButton">Room 2</button>
+                    <button className="accPButton">Room 3</button>
+                  </div>
+                  {/* Custom Tags */}
+                  <p className="px-4 py-1 text-sm">(insert custom tags here)</p>
+
+                  <button className="accPButton mx-3 px-3 text-lg">
+                    {" "}
+                    Download{" "}
                   </button>
-                  <button className="accPButton">Room 2</button>
-                  <button className="accPButton">Room 3</button>
                 </div>
               </div>
-
-              <button className="accPButton mx-3 w-1/4 px-3 text-lg">
-                {" "}
-                Download{" "}
-              </button>
               {/* Rest */}
               <div className="flex grow flex-row divide-x-2 divide-p-black">
                 <div className="basis-2/3 p-3">
