@@ -55,26 +55,33 @@ function toggleShow() {
 }
 
 const Accoms: React.FC = () => {
+  // const { data: firstData, isLoading: queryLoading } =
+  // api.file.r2getfiles.useQuery();
   const { data: firstData, isLoading: queryLoading } =
-    api.file.r2getfiles.useQuery();
+    api.accommodation.getMany.useQuery({
+      page: 0,
+      multiplier: 5,
+      location: "",
+    });
   const [count, setCount] = useState(false);
 
-  setTimeout(() => setCount(true), 5000);
+  setTimeout(() => setCount(true), 5);
 
   // actual output
   if (!queryLoading && count) {
     return (
       <>
-        {firstData?.map((x: string) => (
-          <Link key={x} href={"/accommodation"}>
+        {firstData?.map(({ id, name }) => (
+          <Link key={id} href={`/accommodation/${id}`}>
             <div className="relative -z-30 mr-4 mt-4 h-64 w-64 rounded-xl border bg-p-gray">
-              <Image
+              {name}
+              {/* <Image
                 src={`${x}`}
                 alt={x}
                 fill
                 className="h-64 w-64 object-cover p-4"
                 unoptimized
-              />
+              /> */}
             </div>
           </Link>
         ))}
