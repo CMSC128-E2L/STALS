@@ -41,6 +41,24 @@ export const reportRouter = createTRPCRouter({
   getMany: publicProcedure
     .input(
       z.object({
+        type: z.string(),
+        page: z.number(),
+        multiplier: z.number(),
+      }),
+    )
+    .query(({ ctx, input }) => {
+      return ctx.prisma.report.findMany({
+        where: {
+          type_reported: input.type,
+        },
+        skip: input.page,
+        take: input.multiplier,
+      });
+    }),
+
+  getAll: publicProcedure
+    .input(
+      z.object({
         page: z.number(),
         multiplier: z.number(),
       }),
