@@ -22,8 +22,6 @@
     "@trpc/next": "^10.25.0",
     "@trpc/react-query": "^10.25.0",
     "@trpc/server": "^10.25.0",
-    "jspdf": "^2.5.1",
-    "jspdf-autotable": "^3.5.28",
     "next": "^13.4.1",
     "next-auth": "^4.22.1",
     "react": "18.2.0",
