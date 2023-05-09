@@ -6,6 +6,7 @@ import Image from "next/image";
 import { api } from "~/utils/api";
 import { useRouter } from "next/router";
 import { dynamicRouteID } from "~/utils/helpers";
+import { stringify } from "querystring";
 
 export default function Accommodation() {
   const { shouldReturn, id } = dynamicRouteID(useRouter());
@@ -259,13 +260,22 @@ export default function Accommodation() {
               <div className="flex basis-1/2 flex-col">
                 <div className="group basis-1/2 overflow-hidden px-4 py-4">
                   {/* placeholder description to test line cram thing */}
-                  <p className="">
-                    Before him, the ten greatest sects in the cultivation world
-                    had divided territories, fought and hoarded against each
-                    other over their domains. With the sects clashing against
-                    one another, there was no one who could rule the world and
-                    call all the shots. (kungwari na lang)
-                  </p>
+
+                  {!queryLoading ? (
+                    <p className="">{stringify(firstData)}</p>
+                  ) : (
+                    <>
+                      <p className="mb-2 animate-pulse rounded-full bg-gray-400">
+                        &nbsp;&nbsp;
+                      </p>
+                      <p className="mb-2 animate-pulse rounded-full bg-gray-400">
+                        &nbsp;&nbsp;
+                      </p>
+                      <p className="mb-2 animate-pulse rounded-full bg-gray-400">
+                        &nbsp;&nbsp;
+                      </p>
+                    </>
+                  )}
 
                   {/* link to gmaps? */}
                   <Link href="somewhere" className="text-xxs underline">
