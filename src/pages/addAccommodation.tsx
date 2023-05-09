@@ -1,6 +1,34 @@
 import NavBar from "~/components/navbar";
+import { useForm } from "react-hook-form";
+import { zodResolver } from "@hookform/resolvers/zod";
+import { z } from "zod";
+import { AccommodationType } from "@prisma/client";
+import { type RouterInputs, api } from "~/utils/api";
+
+const schema = z.object({
+  name: z.string(),
+  address: z.string(),
+  location: z.string(),
+  contact_number: z.string(),
+  tags: z.string(),
+  num_of_rooms: z.number(),
+  is_archived: z.boolean(),
+  fb_page: z.string().optional(),
+  type: z.nativeEnum(AccommodationType),
+});
 
 export default function AddAccommodation() {
+  const {
+    register,
+    handleSubmit,
+
+    formState: { errors },
+  } = useForm({
+    resolver: zodResolver(schema),
+  });
+
+  const createAccommodation = api.accommodation.add.useMutation();
+
   return (
     <div className="thing">
       {/* Header */}
@@ -20,7 +48,15 @@ export default function AddAccommodation() {
             <h1 className="form-h1">New Accommodation</h1>
           </div>
 
-          <form className="justify-items-stretch space-y-4">
+          <form
+            // eslint-disable-next-line
+            onSubmit={handleSubmit((d) =>
+              createAccommodation.mutate(
+                d as RouterInputs["accommodation"]["add"],
+              ),
+            )}
+            className="justify-items-stretch space-y-4"
+          >
             <div>
               <h2 className="form-h2">Background</h2>
               {/* Accommodation background deets */}
@@ -33,8 +69,7 @@ export default function AddAccommodation() {
                     <input
                       className="add-acc-input-text-field"
                       placeholder="Name of Accommodation"
-                      type="text"
-                      required
+                      {...register("name")}
                     ></input>
                   </div>
 
@@ -42,15 +77,23 @@ export default function AddAccommodation() {
                     {/* Subtype input field */}
                     <div className="h-10 w-full items-center justify-items-stretch rounded-md bg-white p-1">
                       <select
-                        name="availability"
                         className="form-dropdown"
                         placeholder="Type"
+                        {...register("type")}
                       >
-                        <option value="">Dormitory</option>
-                        <option value="">Apartment</option>
-                        <option value="">Bedspacer</option>
-                        <option value="">Hotel</option>
-                        <option value="">Transient Space</option>
+                        <option value={AccommodationType.DORMITORY}>
+                          Dormitory
+                        </option>
+                        <option value={AccommodationType.APARTMENT}>
+                          Apartment
+                        </option>
+                        <option value={AccommodationType.BEDSPACER}>
+                          Bedspacer
+                        </option>
+                        <option value={AccommodationType.HOTEL}>Hotel</option>
+                        <option value={AccommodationType.TRANSCIENT}>
+                          Transient Space
+                        </option>
                       </select>
                     </div>
                   </div>
@@ -61,6 +104,7 @@ export default function AddAccommodation() {
                       className="add-acc-input-text-field"
                       placeholder="Address"
                       type="text"
+                      {...register("address")}
                       required
                     ></input>
                   </div>
@@ -68,13 +112,12 @@ export default function AddAccommodation() {
                   <div>
                     <div className="h-10 w-full items-center justify-items-stretch rounded-md bg-white p-1">
                       <select
-                        name="availability"
                         className="form-dropdown"
                         placeholder="Location"
+                        {...register("location")}
                       >
-                        <option value="">Location</option>
-                        <option value="">Within UPLB</option>
-                        <option value="">Outside UPLB</option>
+                        <option value="WITHIN UPLB">Within UPLB</option>
+                        <option value="OUTSIDE UPLB">Outside UPLB</option>
                       </select>
                     </div>
                   </div>
@@ -86,6 +129,7 @@ export default function AddAccommodation() {
                       className="add-acc-input-text-field"
                       placeholder="Contact No."
                       type="text"
+                      {...register("contact_number")}
                       required
                     ></input>
                   </div>
@@ -111,7 +155,12 @@ export default function AddAccommodation() {
                       className="add-acc-input-text-field"
                       placeholder="Facebook Page Link"
                       type="text"
+                      {...register("fb_page")}
                     ></input>
+                  </div>
+
+                  <div>
+                    <input type="checkbox" {...register("is_archived")} />
                   </div>
 
                   <div>
@@ -120,7 +169,8 @@ export default function AddAccommodation() {
                     <input
                       className="add-acc-input-text-field"
                       placeholder="No. of Available Rooms"
-                      type="text"
+                      {...register("num_of_rooms", { valueAsNumber: true })}
+                      type="number"
                     ></input>
                   </div>
 
@@ -263,6 +313,7 @@ export default function AddAccommodation() {
                   <input
                     type="text"
                     placeholder="Custom tags"
+                    {...register("tags")}
                     className="add-acc-input-text-field"
                   ></input>
                 </div>
