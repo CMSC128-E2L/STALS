@@ -101,7 +101,7 @@ model Accommodation {
   barangay        String
   location        String
   landlord        String
-  contract_length String?
+  contract_length String
   contact_number  String
   tags            String
   num_of_rooms    Int
