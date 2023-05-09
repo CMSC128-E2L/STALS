@@ -3,8 +3,17 @@ import UserProfile from "~/components/userProfile";
 import StarRow from "~/components/starRow";
 import Link from "next/link";
 import Image from "next/image";
+import { api } from "~/utils/api";
+import { useRouter } from "next/router";
+import { dynamicRouteID } from "~/utils/helpers";
 
 export default function Accommodation() {
+  const { shouldReturn, id } = dynamicRouteID(useRouter());
+  if (shouldReturn) return;
+
+  const { data: firstData, isLoading: queryLoading } =
+    api.accommodation.getOne.useQuery(id);
+
   return (
     <div className="flex flex-col">
       {/* HEADER */}
@@ -70,7 +79,13 @@ export default function Accommodation() {
               <div className="flex flex-row items-stretch">
                 {/* Left column (accommodation name) */}
                 <div className="flex w-3/4 items-center px-3">
-                  <h1 className="form-h1">Accommodation Name</h1>
+                  {!queryLoading ? (
+                    <h1 className="form-h1">{firstData?.name}</h1>
+                  ) : (
+                    <h1 className="form-h1 w-[100%] animate-pulse rounded-full bg-gray-400">
+                      &nbsp;&nbsp;
+                    </h1>
+                  )}
                 </div>
 
                 {/* Right column: the editing thingy ig */}
@@ -181,7 +196,13 @@ export default function Accommodation() {
                       />
                     </svg>
                   </div>
-                  Phone Number
+                  {!queryLoading ? (
+                    <div className="">{firstData?.contact_number}</div>
+                  ) : (
+                    <div className="w-10 animate-pulse overflow-hidden rounded-full bg-gray-400">
+                      &nbsp;&nbsp;
+                    </div>
+                  )}
                 </div>
                 <div className="flex flex-row items-center gap-x-1 p-1">
                   <div className="rounded-full bg-p-dblue p-1">
@@ -224,7 +245,13 @@ export default function Accommodation() {
                       />
                     </svg>
                   </div>
-                  Address
+                  {!queryLoading ? (
+                    <div className="">{firstData?.location}</div>
+                  ) : (
+                    <div className="w-10 animate-pulse overflow-hidden rounded-full bg-gray-400">
+                      &nbsp;&nbsp;
+                    </div>
+                  )}
                 </div>
               </div>
 
