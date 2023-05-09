@@ -25,39 +25,39 @@ export const roomRouter = createTRPCRouter({
     }),
 
   // Archive Room
-  // archiveAccomodation: protectedProcedure
-  //   .input(z.object({ id: z.string(), is_archived: z.boolean() }))
-  //   .mutation(({ ctx, input }) => {
-  //     const id = input.id;
-  //     const archived = input.is_archived;
-  //     return ctx.prisma.room.update({
-  //       where: { id }, //needs to connect to userId?
-  //       data: {
-  //         is_archived: !archived,
-  //       },
-  //     });
-  //   }),
+  archive: protectedProcedure
+    .input(z.object({ id: z.string(), is_archived: z.boolean() }))
+    .mutation(({ ctx, input }) => {
+      const id = input.id;
+      const archived = input.is_archived;
+      return ctx.prisma.room.update({
+        where: { id },
+        data: {
+          is_archived: !archived,
+        },
+      });
+    }),
 
   // Get All Archived Rooms
-  // getArchived: protectedProcedure
-  //   .input(
-  //     z.object({
-  //       accommodationId: z.string(),
-  //       page: z.number(),
-  //       multiplier: z.number(),
-  //     }),
-  //   )
-  //   .query(({ ctx, input }) => {
-  //     const { accommodationId, page, multiplier } = input;
-  //     return ctx.prisma.room.findMany({
-  //       skip: page,
-  //       take: multiplier,
-  //       where: {
-  //         accommodationId: accommodationId,
-  //         is_archived: true,
-  //       },
-  //     });
-  //   }),
+  archives: protectedProcedure
+    .input(
+      z.object({
+        accommodationId: z.string(),
+        page: z.number(),
+        multiplier: z.number(),
+      }),
+    )
+    .query(({ ctx, input }) => {
+      const { accommodationId, page, multiplier } = input;
+      return ctx.prisma.room.findMany({
+        skip: page,
+        take: multiplier,
+        where: {
+          accommodationId: accommodationId,
+          is_archived: true,
+        },
+      });
+    }),
 
   // Add Room
   add: protectedProcedure //need to connect to userid?
