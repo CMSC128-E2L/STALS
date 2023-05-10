@@ -12,7 +12,8 @@ export default function Backend() {
   accomms?.forEach((i) => {
     info.push([
       i.name,
-      i.address,
+      i.name,
+      // i.address,
       i.landlord,
       i.contact_number,
       i.num_of_rooms,
