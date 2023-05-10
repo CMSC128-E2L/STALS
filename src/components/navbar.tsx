@@ -37,7 +37,7 @@ export default function NavBar() {
               ></input>
             </li>
             <li>
-              <UserButton />
+              <ProfileButton />
             </li>
           </ul>
         </div>
@@ -75,7 +75,7 @@ const UserName: React.FC = () => {
   }
 };
 
-const UserButton: React.FC = () => {
+const ProfileButton: React.FC = () => {
   const { data: sessionData } = useSession();
   const [showDropdown, setShowDropdown] = useState(false);
 
