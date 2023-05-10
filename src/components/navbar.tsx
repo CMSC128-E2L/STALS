@@ -29,7 +29,7 @@ export default function NavBar() {
 
         {/* Right side */}
         <div className="w-full md:block md:w-auto">
-          <ul className="mt-4 flex flex-col items-center p-4 font-medium md:mt-0 md:flex-row md:space-x-5 md:border-0 md:p-0 ">
+          <ul className="mr-2 mt-4 flex flex-col items-center p-4 font-medium md:mt-0 md:flex-row md:space-x-5 md:border-0 md:p-0">
             <li>
               <input
                 className="rounded-full px-3 py-1"
