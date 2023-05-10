@@ -5,8 +5,10 @@ import MyAccom from "~/components/myAccom";
 import MyArchive from "~/components/myArchive";
 import Image from "next/image";
 import user from "public/images/def_user.png";
+import { useSession } from "next-auth/react";
 
 export default function HomePage() {
+  const { data: sessionData } = useSession();
   return (
     <div>
       <NavBar />
@@ -15,9 +17,9 @@ export default function HomePage() {
         <section className="fixed mr-10 flex h-auto h-fullscreen w-2/6 flex-col items-center space-y-2 rounded-3xl bg-white p-10 text-center font-medium shadow-xl">
           <div className="relative mt-10 flex h-[10.5rem] w-[10.5rem]">
             <Image
-              src={user.src}
+              src={sessionData?.user.image ?? user.src}
               className="flex rounded-full object-contain"
-              alt="STALS Logo"
+              alt="User Photo"
               fill
             />
           </div>
@@ -26,7 +28,7 @@ export default function HomePage() {
           </div>
           <div className="m-10  flex ">
             <span className="text-3xl text-black">
-              James Alfred R. Arellano
+              {sessionData?.user.name ?? "Guest"}
             </span>
           </div>
           <div className="m-10  flex ">
@@ -37,7 +39,9 @@ export default function HomePage() {
             <span className="text-xl text-black">Contact no:</span>
             <span className="text-xl text-black">09567163812</span>
             <span className="text-xl text-black">Email Address:</span>
-            <span className="text-xl text-black">jrarellano1@up.edu.ph</span>
+            <span className="text-xl text-black">
+              {sessionData?.user.email}
+            </span>
           </div>
           <div className="flex w-full justify-center rounded-3xl border-2 border-black p-2 shadow-lg">
             <button className="w-full">Edit Account</button>
