@@ -15,15 +15,15 @@ export default function Backend() {
   // const { data: firstData } = api.accommodation.getArchives.useQuery();
   // const getOne = api.accommodation.getOne.useQuery("clhaovx8u000cua9oc93vzie1");
 
-  const getMany = api.accommodation.getMany.useQuery({
-    location: "UPLB",
-  });
+  // const getMany = api.accommodation.getMany.useQuery({
+  //   location: "UPLB",
+  // });
 
   // mutate
   // const createAccommodation = api.accommodation.add.useMutation();
   // const deleteAccommodation = api.accommodation.delete.useMutation();
   // const archiveAccommodation = api.accommodation.archive.useMutation();
-  const editAccommodation = api.accommodation.edit.useMutation();
+  //const editAccommodation = api.accommodation.edit.useMutation();
 
   return (
     <>
@@ -46,10 +46,10 @@ export default function Backend() {
               //   is_archived: false,
               // });
 
-              editAccommodation.mutate({
-                id: "clhaqjdzx0002ua34zhrmj7cq",
-                address: e.currentTarget.value,
-              });
+              // editAccommodation.mutate({
+              //   id: "clhaqjdzx0002ua34zhrmj7cq",
+              //   address: e.currentTarget.value,
+              // });
 
               // archiveAccommodation.mutate({
               //   id: e.currentTarget.value,
@@ -72,7 +72,7 @@ export default function Backend() {
       </div>
       <div>
         <div>BACKEND DATA</div>
-        {stringify(getMany)}
+        {/* {stringify(getMany)} */}
       </div>
     </>
   );
