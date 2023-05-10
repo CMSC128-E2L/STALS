@@ -4,7 +4,7 @@ export default function SideBar() {
   return (
     <>
       {/* Filters */}
-      <div className="flex flex-col rounded-r-[60px] bg-p-lblue p-5">
+      <div className="flex flex-col bg-p-lblue p-5">
         <h1 className="mb-7 text-xl font-bold">Filter</h1>
 
         {/* Location */}
