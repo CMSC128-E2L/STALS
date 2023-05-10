@@ -75,19 +75,18 @@ const UserButton: React.FC = () => {
       </button>
       {showDropdown && (
         <div className="absolute right-0 top-11 z-10 w-[15rem] overflow-hidden rounded-lg bg-white p-5 shadow-lg">
-          <p className="text-lg font-bold text-p-rblue">
-            {sessionData?.user.name ?? "Guest"}
-          </p>
-          <p className="mb-5 mt-1 overflow-hidden truncate text-sm italic text-gray-400">
-            {sessionData?.user.email ?? "Unregistered User"}
-          </p>
-          <hr className="my-2 h-px border-0 bg-gray-200 dark:bg-gray-700"></hr>
           <Link
-            className="block w-full py-2 text-left hover:bg-gray-100 focus:outline-none"
             href={"/profile"}
+            className="block w-full text-left hover:bg-gray-100 focus:outline-none"
           >
-            Profile
+            <p className="text-lg font-bold text-p-rblue">
+              {sessionData?.user.name ?? "Guest"}
+            </p>
+            <p className="mb-5 mt-1 overflow-hidden truncate text-sm italic text-gray-400">
+              {sessionData?.user.email ?? "Unregistered User"}
+            </p>
           </Link>
+          <hr className="my-2 h-px border-0 bg-gray-200 dark:bg-gray-700"></hr>
           <Link
             className="block w-full py-2 text-left hover:bg-gray-100 focus:outline-none"
             href={"/myAccommodations"}
