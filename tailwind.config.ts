@@ -6,10 +6,11 @@ export default {
       colors: {
         // Palette colors
         "p-black": "#222222",
-        "p-dblue": "#1C5D99", // Dark blue
-        "p-hdblue": "#14416A",
         "p-blue": "#639FAB",
         "p-lblue": "#BBCDE5", // Light blue
+        "p-dblue": "#1C5D99", // Dark blue
+        "p-hdblue": "#14416A", // Navy blue
+        "p-rblue": "#1D4ED8", // Royal blue
         "p-red": "#D22B2B",
         "p-yellow": "#F5BB00",
         "p-gray": "#D9D9D9",
