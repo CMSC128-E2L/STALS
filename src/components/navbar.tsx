@@ -92,13 +92,13 @@ const UserButton: React.FC = () => {
             className="block w-full py-2 text-left hover:bg-gray-100 focus:outline-none"
             href={"/myAccommodations"}
           >
-            Your Accommodations
+            My Accommodations
           </Link>
           <Link
             className="block w-full py-2 text-left hover:bg-gray-100 focus:outline-none"
             href={"/myArchives"}
           >
-            Your Archives
+            My Archive
           </Link>
           <button
             className="block w-full py-2 text-left hover:bg-gray-100 focus:outline-none"
