@@ -46,35 +46,6 @@ export default function NavBar() {
   );
 }
 
-const UserName: React.FC = () => {
-  const { data: sessionData } = useSession();
-
-  if (sessionData) {
-    return (
-      <Link
-        href={"/profile"}
-        className="block w-full text-left hover:bg-gray-100 focus:outline-none"
-      >
-        <p className="text-lg font-bold text-p-rblue">
-          {sessionData?.user.name}
-        </p>
-        <p className="mb-5 mt-1 overflow-hidden truncate text-sm italic text-gray-400">
-          {sessionData?.user.email}
-        </p>
-      </Link>
-    );
-  } else {
-    return (
-      <div className="block w-full text-left">
-        <p className="text-lg font-bold text-p-rblue">Guest</p>
-        <p className="mb-5 mt-1 overflow-hidden truncate text-sm italic text-gray-400">
-          Unregistered user
-        </p>
-      </div>
-    );
-  }
-};
-
 const ProfileButton: React.FC = () => {
   const { data: sessionData } = useSession();
   const [showDropdown, setShowDropdown] = useState(false);
@@ -89,22 +60,42 @@ const ProfileButton: React.FC = () => {
     });
   };
 
-  return (
-    <div className="relative">
-      <button
-        className="relative flex h-[2.5rem] w-[2.5rem] items-center justify-center focus:outline-none"
-        onClick={toggleDropdown}
-      >
-        <Image
-          src={sessionData?.user.image ?? user.src}
-          className="rounded-full object-cover"
-          alt="Profile"
-          fill
-        />
-      </button>
-      {showDropdown && (
+  const UserInfo: React.FC = () => {
+    const { data: sessionData } = useSession();
+
+    if (sessionData) {
+      return (
+        <Link
+          href={"/profile"}
+          className="block w-full text-left hover:bg-gray-100 focus:outline-none"
+        >
+          <p className="text-lg font-bold text-p-rblue">
+            {sessionData?.user.name}
+          </p>
+          <p className="mb-5 mt-1 overflow-hidden truncate text-sm italic text-gray-400">
+            {sessionData?.user.email}
+          </p>
+        </Link>
+      );
+    } else {
+      return (
+        <div className="block w-full text-left">
+          <p className="text-lg font-bold text-p-rblue">Guest</p>
+          <p className="mb-5 mt-1 overflow-hidden truncate text-sm italic text-gray-400">
+            Unregistered user
+          </p>
+        </div>
+      );
+    }
+  };
+
+  const UserDropdown: React.FC = () => {
+    const { data: sessionData } = useSession();
+
+    if (sessionData) {
+      return (
         <div className="absolute right-0 top-11 z-10 w-[15rem] overflow-hidden rounded-lg bg-white p-5 shadow-lg">
-          <UserName />
+          <UserInfo />
           <hr className="my-2 h-px border-0 bg-gray-200 dark:bg-gray-700"></hr>
           <Link
             className="block w-full py-2 text-left hover:bg-gray-100 focus:outline-none"
@@ -125,7 +116,43 @@ const ProfileButton: React.FC = () => {
             Sign Out
           </button>
         </div>
-      )}
+      );
+    } else {
+      return (
+        <div className="absolute right-0 top-11 z-10 w-[15rem] overflow-hidden rounded-lg bg-white p-5 shadow-lg">
+          <UserInfo />
+          <hr className="my-2 h-px border-0 bg-gray-200 dark:bg-gray-700"></hr>
+          <Link
+            className="block w-full py-2 text-left hover:bg-gray-100 focus:outline-none"
+            href={"/signup"}
+          >
+            Sign Up
+          </Link>
+          <Link
+            className="block w-full py-2 text-left hover:bg-gray-100 focus:outline-none"
+            href={"/login"}
+          >
+            Log In
+          </Link>
+        </div>
+      );
+    }
+  };
+
+  return (
+    <div className="relative">
+      <button
+        className="relative flex h-[2.5rem] w-[2.5rem] items-center justify-center focus:outline-none"
+        onClick={toggleDropdown}
+      >
+        <Image
+          src={sessionData?.user.image ?? user.src}
+          className="rounded-full object-cover"
+          alt="Profile"
+          fill
+        />
+      </button>
+      {showDropdown && <UserDropdown />}
     </div>
   );
 };
