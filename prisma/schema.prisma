@@ -110,7 +110,6 @@ model Accommodation {
   fb_page         String?
   price           Float?
 
-
   Review Review[]
   Room   Room[]
   type   AccommodationType
@@ -155,9 +154,9 @@ model Review {
   userId          String
   accommodation   Accommodation @relation(fields: [accommodationId], references: [id])
   accommodationId String
-
-  rating Int
-  review String?
+  is_archived     Boolean
+  rating          Int
+  review          String?
 
   @@index([accommodationId])
   @@index([userId])
