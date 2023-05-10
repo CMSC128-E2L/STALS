@@ -9,7 +9,7 @@ export default function NavBar() {
   return (
     <>
       {/* Navigation bar */}
-      <nav className="sticky top-0 z-20 mb-5 flex flex-wrap items-center justify-between bg-p-dblue p-4 py-1">
+      <nav className="sticky top-0 z-20 flex flex-wrap items-center justify-between bg-p-dblue p-4 py-1">
         {/* Left side */}
         <div className="flex space-x-0">
           <Link href="/homepage" className="flex items-center">
@@ -29,7 +29,7 @@ export default function NavBar() {
 
         {/* Right side */}
         <div className="w-full md:block md:w-auto">
-          <ul className="mt-4 flex flex-col items-center p-4 font-medium md:mt-0 md:flex-row md:space-x-5 md:border-0 md:p-0 ">
+          <ul className="mr-2 mt-4 flex flex-col items-center p-4 font-medium md:mt-0 md:flex-row md:space-x-5 md:border-0 md:p-0">
             <li>
               <input
                 className="rounded-full px-3 py-1"
@@ -37,7 +37,7 @@ export default function NavBar() {
               ></input>
             </li>
             <li>
-              <UserButton />
+              <ProfileButton />
             </li>
           </ul>
         </div>
@@ -46,7 +46,7 @@ export default function NavBar() {
   );
 }
 
-const UserButton: React.FC = () => {
+const ProfileButton: React.FC = () => {
   const { data: sessionData } = useSession();
   const [showDropdown, setShowDropdown] = useState(false);
 
@@ -58,6 +58,85 @@ const UserButton: React.FC = () => {
     void signOut({
       callbackUrl: "/",
     });
+  };
+
+  const UserInfo: React.FC = () => {
+    const { data: sessionData } = useSession();
+
+    if (sessionData) {
+      return (
+        <Link
+          href={"/profile"}
+          className="block w-full text-left hover:bg-gray-100 focus:outline-none"
+        >
+          <p className="text-lg font-bold text-p-rblue">
+            {sessionData?.user.name}
+          </p>
+          <p className="mb-5 mt-1 overflow-hidden truncate text-sm italic text-gray-400">
+            {sessionData?.user.email}
+          </p>
+        </Link>
+      );
+    } else {
+      return (
+        <div className="block w-full text-left">
+          <p className="text-lg font-bold text-p-rblue">Guest</p>
+          <p className="mb-5 mt-1 overflow-hidden truncate text-sm italic text-gray-400">
+            Unregistered user
+          </p>
+        </div>
+      );
+    }
+  };
+
+  const UserDropdown: React.FC = () => {
+    const { data: sessionData } = useSession();
+
+    if (sessionData) {
+      return (
+        <div className="absolute right-0 top-11 z-10 w-[15rem] overflow-hidden rounded-lg bg-white p-5 shadow-lg">
+          <UserInfo />
+          <hr className="my-2 h-px border-0 bg-gray-200 dark:bg-gray-700"></hr>
+          <Link
+            className="block w-full py-2 text-left hover:bg-gray-100 focus:outline-none"
+            href={"/myAccommodations"}
+          >
+            My Accommodations
+          </Link>
+          <Link
+            className="block w-full py-2 text-left hover:bg-gray-100 focus:outline-none"
+            href={"/myArchives"}
+          >
+            My Archive
+          </Link>
+          <button
+            className="block w-full py-2 text-left hover:bg-gray-100 focus:outline-none"
+            onClick={handleLogout}
+          >
+            Sign Out
+          </button>
+        </div>
+      );
+    } else {
+      return (
+        <div className="absolute right-0 top-11 z-10 w-[15rem] overflow-hidden rounded-lg bg-white p-5 shadow-lg">
+          <UserInfo />
+          <hr className="my-2 h-px border-0 bg-gray-200 dark:bg-gray-700"></hr>
+          <Link
+            className="block w-full py-2 text-left hover:bg-gray-100 focus:outline-none"
+            href={"/signup"}
+          >
+            Sign Up
+          </Link>
+          <Link
+            className="block w-full py-2 text-left hover:bg-gray-100 focus:outline-none"
+            href={"/login"}
+          >
+            Log In
+          </Link>
+        </div>
+      );
+    }
   };
 
   return (
@@ -73,40 +152,7 @@ const UserButton: React.FC = () => {
           fill
         />
       </button>
-      {showDropdown && (
-        <div className="absolute right-0 top-14 z-10 w-[12rem] overflow-hidden rounded-lg bg-white p-5 shadow-lg">
-          <p className="mb-2 font-medium">
-            {sessionData?.user.name ?? "Guest"}
-          </p>
-          <p className="mb-4 overflow-hidden truncate text-gray-500">
-            {sessionData?.user.email ?? "Unregistered User"}
-          </p>
-          <Link
-            className="block w-full py-2 text-left hover:bg-gray-100 focus:outline-none"
-            href={"/profile"}
-          >
-            Profile
-          </Link>
-          <Link
-            className="block w-full py-2 text-left hover:bg-gray-100 focus:outline-none"
-            href={"/myAccommodations"}
-          >
-            Your Accommodations
-          </Link>
-          <Link
-            className="block w-full py-2 text-left hover:bg-gray-100 focus:outline-none"
-            href={"/myArchives"}
-          >
-            Your Archives
-          </Link>
-          <button
-            className="block w-full py-2 text-left hover:bg-gray-100 focus:outline-none"
-            onClick={handleLogout}
-          >
-            Sign Out
-          </button>
-        </div>
-      )}
+      {showDropdown && <UserDropdown />}
     </div>
   );
 };

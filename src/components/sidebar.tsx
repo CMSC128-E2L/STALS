@@ -4,9 +4,7 @@ export default function SideBar() {
   return (
     <>
       {/* Filters */}
-      <div className="flex flex-col rounded-r-[60px] bg-p-lblue p-5">
-        <h1 className="mb-7 text-xl font-bold">Filter</h1>
-
+      <div className="flex flex-col bg-p-lblue p-5">
         {/* Location */}
         <div className="mb-4">
           <h2 className="mb-2 text-base font-bold">Location</h2>
@@ -217,7 +215,12 @@ const Location: React.FC = () => {
   // this will be used in the filter button for the location
   const [value, setValue] = useState("");
   const [showSuggestions, setShowSuggestions] = useState(false);
-  const suggestions = ["Batong Malaki", "Batong Maliit"]; //! TODO: this is hardcoded
+  const suggestions = [
+    "Brgy. Anos",
+    "Brgy. Batong Malake",
+    "Brgy. Mayondon",
+    "Brgy. Putho-Tuntungin",
+  ]; //! TODO: this is hardcoded
 
   function handleChange(event: React.ChangeEvent<HTMLInputElement>) {
     setValue(event.target.value);
@@ -237,10 +240,10 @@ const Location: React.FC = () => {
           value={value}
           onChange={handleChange}
           className="rounded-2xl px-3 py-1"
-          placeholder="Enter a Location"
+          placeholder="Type for suggestions..."
         />
         {showSuggestions && (
-          <ul className="absolute m-2 flex flex-col space-y-1 bg-white p-1 text-black shadow shadow-lg dark:bg-white dark:text-black">
+          <ul className="absolute mt-1 flex w-full flex-col space-y-1 rounded-xl bg-white p-3 text-black shadow shadow-lg shadow-lg dark:bg-white dark:text-black">
             {suggestions
               .filter((suggestion) =>
                 suggestion.toLowerCase().includes(value.toLowerCase()),
@@ -249,7 +252,7 @@ const Location: React.FC = () => {
                 <li
                   key={suggestion}
                   onClick={() => handleSuggestionClick(suggestion)}
-                  className="cursor-pointer p-2 dark:hover:bg-p-dblue"
+                  className="cursor-pointer p-2 hover:bg-gray-100 focus:outline-none dark:hover:bg-p-dblue"
                 >
                   {highlightMatchedSubstring(suggestion)}
                 </li>
