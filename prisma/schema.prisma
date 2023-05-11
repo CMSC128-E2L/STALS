@@ -154,7 +154,7 @@ model Review {
   userId          String
   accommodation   Accommodation @relation(fields: [accommodationId], references: [id])
   accommodationId String
-  is_archived     Boolean
+  is_archived     Boolean?
   rating          Int
   review          String?
 
