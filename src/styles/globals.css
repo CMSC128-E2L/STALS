@@ -59,4 +59,8 @@
   .google {
     @apply bg-white text-[#4086F4];
   }
+
+  .dropdown-buttons {
+    @apply block w-full rounded-lg p-2 text-left hover:bg-p-gray focus:outline-none;
+  }
 }

@@ -65,10 +65,7 @@ const ProfileButton: React.FC = () => {
 
     if (sessionData) {
       return (
-        <Link
-          href={"/profile"}
-          className="block w-full text-left hover:bg-gray-100 focus:outline-none"
-        >
+        <Link href={"/profile"} className="dropdown-buttons">
           <p className="text-lg font-bold text-p-rblue">
             {sessionData?.user.name}
           </p>
@@ -79,9 +76,9 @@ const ProfileButton: React.FC = () => {
       );
     } else {
       return (
-        <div className="block w-full text-left">
+        <div className="block w-full rounded-lg p-2 text-left">
           <p className="text-lg font-bold text-p-rblue">Guest</p>
-          <p className="mb-5 mt-1 overflow-hidden truncate text-sm italic text-gray-400">
+          <p className="mb-1 overflow-hidden truncate text-sm italic text-gray-400">
             Unregistered user
           </p>
         </div>
@@ -98,19 +95,19 @@ const ProfileButton: React.FC = () => {
           <UserInfo />
           <hr className="my-2 h-px border-0 bg-gray-200 dark:bg-gray-700"></hr>
           <Link
-            className="block w-full py-2 text-left hover:bg-gray-100 focus:outline-none"
+            className="block w-full py-2 text-left hover:bg-p-gray focus:outline-none"
             href={"/myAccommodations"}
           >
             My Accommodations
           </Link>
           <Link
-            className="block w-full py-2 text-left hover:bg-gray-100 focus:outline-none"
+            className="block w-full py-2 text-left hover:bg-p-gray focus:outline-none"
             href={"/myArchives"}
           >
             My Archive
           </Link>
           <button
-            className="block w-full py-2 text-left hover:bg-gray-100 focus:outline-none"
+            className="block w-full py-2 text-left hover:bg-p-gray focus:outline-none"
             onClick={handleLogout}
           >
             Sign Out
@@ -122,16 +119,10 @@ const ProfileButton: React.FC = () => {
         <div className="absolute right-0 top-11 z-10 w-[15rem] overflow-hidden rounded-lg bg-white p-5 shadow-lg">
           <UserInfo />
           <hr className="my-2 h-px border-0 bg-gray-200 dark:bg-gray-700"></hr>
-          <Link
-            className="block w-full py-2 text-left hover:bg-gray-100 focus:outline-none"
-            href={"/signup"}
-          >
+          <Link className="dropdown-buttons" href={"/signup"}>
             Sign Up
           </Link>
-          <Link
-            className="block w-full py-2 text-left hover:bg-gray-100 focus:outline-none"
-            href={"/login"}
-          >
+          <Link className="dropdown-buttons" href={"/login"}>
             Log In
           </Link>
         </div>
