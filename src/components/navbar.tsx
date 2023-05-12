@@ -91,32 +91,23 @@ const ProfileButton: React.FC = () => {
 
     if (sessionData) {
       return (
-        <div className="absolute right-0 top-11 z-10 w-[15rem] overflow-hidden rounded-lg bg-white p-5 shadow-lg">
+        <div className="profile-dropdown">
           <UserInfo />
           <hr className="my-2 h-px border-0 bg-gray-200 dark:bg-gray-700"></hr>
-          <Link
-            className="block w-full py-2 text-left hover:bg-p-gray focus:outline-none"
-            href={"/myAccommodations"}
-          >
+          <Link className="dropdown-buttons" href={"/myAccommodations"}>
             My Accommodations
           </Link>
-          <Link
-            className="block w-full py-2 text-left hover:bg-p-gray focus:outline-none"
-            href={"/myArchives"}
-          >
+          <Link className="dropdown-buttons" href={"/myArchives"}>
             My Archive
           </Link>
-          <button
-            className="block w-full py-2 text-left hover:bg-p-gray focus:outline-none"
-            onClick={handleLogout}
-          >
+          <button className="dropdown-buttons" onClick={handleLogout}>
             Sign Out
           </button>
         </div>
       );
     } else {
       return (
-        <div className="absolute right-0 top-11 z-10 w-[15rem] overflow-hidden rounded-lg bg-white p-5 shadow-lg">
+        <div className="profile-dropdown">
           <UserInfo />
           <hr className="my-2 h-px border-0 bg-gray-200 dark:bg-gray-700"></hr>
           <Link className="dropdown-buttons" href={"/signup"}>

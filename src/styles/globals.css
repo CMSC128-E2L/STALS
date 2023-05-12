@@ -71,4 +71,8 @@
   .filter-search {
     @apply w-full rounded-full px-3 py-1 text-sm;
   }
+
+  .profile-dropdown {
+    @apply absolute right-0 top-11 z-10 w-[15rem] overflow-hidden rounded-lg bg-white p-4 shadow-lg;
+  }
 }
