@@ -5,7 +5,6 @@ import type {
 import { getProviders, signIn } from "next-auth/react";
 import { getServerSession } from "next-auth/next";
 import { authOptions } from "~/server/auth";
-import logo from "public/images/logo.png";
 import Link from "next/link";
 import Image from "next/image";
 import bgpic from "public/images/bgpic-01.png";
@@ -37,7 +36,7 @@ export default function SignIn({
                 >
                   <div className="relative mr-3 mt-0.5 h-5 w-7">
                     <Image
-                      src={`/assets/${provider.id}.png`}
+                      src={`/images/${provider.id}.png`}
                       className="object-contain"
                       alt={`${provider.name} Logo`}
                       fill
