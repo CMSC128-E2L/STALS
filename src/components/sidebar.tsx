@@ -21,7 +21,7 @@ export default function SideBar() {
               value=""
               className="ml-3 h-4 w-4 rounded border-gray-300 bg-gray-100 text-blue-600 focus:ring-2 focus:ring-blue-500 dark:border-gray-600 dark:bg-gray-700 dark:ring-offset-gray-800 dark:focus:ring-blue-600"
             />
-            <label htmlFor="Apartments" className="ml-2 text-sm font-medium">
+            <label htmlFor="Apartments" className="filter-text ">
               Apartments
             </label>
           </div>
@@ -33,7 +33,7 @@ export default function SideBar() {
               value=""
               className="ml-3 h-4 w-4 rounded border-gray-300 bg-gray-100 text-blue-600 focus:ring-2 focus:ring-blue-500 dark:border-gray-600 dark:bg-gray-700 dark:ring-offset-gray-800 dark:focus:ring-blue-600"
             />
-            <label htmlFor="Bedspaces" className="ml-2 text-sm font-medium">
+            <label htmlFor="Bedspaces" className="filter-text">
               Bedspaces
             </label>
           </div>
@@ -45,7 +45,7 @@ export default function SideBar() {
               value=""
               className="ml-3 h-4 w-4 rounded border-gray-300 bg-gray-100 text-blue-600 focus:ring-2 focus:ring-blue-500 dark:border-gray-600 dark:bg-gray-700 dark:ring-offset-gray-800 dark:focus:ring-blue-600"
             />
-            <label htmlFor="Dormitories" className="ml-2 text-sm font-medium">
+            <label htmlFor="Dormitories" className="filter-text">
               Dormitories
             </label>
           </div>
@@ -57,7 +57,7 @@ export default function SideBar() {
               value=""
               className="ml-3 h-4 w-4 rounded border-gray-300 bg-gray-100 text-blue-600 focus:ring-2 focus:ring-blue-500 dark:border-gray-600 dark:bg-gray-700 dark:ring-offset-gray-800 dark:focus:ring-blue-600"
             />
-            <label htmlFor="Hotels" className="ml-2 text-sm font-medium">
+            <label htmlFor="Hotels" className="filter-text">
               Hotels
             </label>
           </div>
@@ -69,7 +69,7 @@ export default function SideBar() {
               value=""
               className="ml-3 h-4 w-4 rounded border-gray-300 bg-gray-100 text-blue-600 focus:ring-2 focus:ring-blue-500 dark:border-gray-600 dark:bg-gray-700 dark:ring-offset-gray-800 dark:focus:ring-blue-600"
             />
-            <label htmlFor="Transients" className="ml-2 text-sm font-medium">
+            <label htmlFor="Transients" className="filter-text">
               Transients
             </label>
           </div>
@@ -85,7 +85,7 @@ export default function SideBar() {
               value=""
               className="ml-3 h-4 w-4 rounded border-gray-300 bg-gray-100 text-blue-600 focus:ring-2 focus:ring-blue-500 dark:border-gray-600 dark:bg-gray-700 dark:ring-offset-gray-800 dark:focus:ring-blue-600"
             />
-            <label htmlFor="below-1000" className="ml-2 text-sm font-medium">
+            <label htmlFor="below-1000" className="filter-text">
               Below ₱ 1000
             </label>
           </div>
@@ -97,7 +97,7 @@ export default function SideBar() {
               value=""
               className="ml-3  h-4 w-4 rounded border-gray-300 bg-gray-100 text-blue-600 focus:ring-2 focus:ring-blue-500 dark:border-gray-600 dark:bg-gray-700 dark:ring-offset-gray-800 dark:focus:ring-blue-600"
             />
-            <label htmlFor="one-to-two" className="ml-2 text-sm font-medium">
+            <label htmlFor="one-to-two" className="filter-text">
               ₱ 1000 – ₱ 2000{" "}
             </label>
           </div>
@@ -109,7 +109,7 @@ export default function SideBar() {
               value=""
               className="ml-3  h-4 w-4 rounded border-gray-300 bg-gray-100 text-blue-600 focus:ring-2 focus:ring-blue-500 dark:border-gray-600 dark:bg-gray-700 dark:ring-offset-gray-800 dark:focus:ring-blue-600"
             />
-            <label htmlFor="two-to-three" className="ml-2 text-sm font-medium">
+            <label htmlFor="two-to-three" className="filter-text">
               ₱ 2001 – ₱ 3000{" "}
             </label>
           </div>
@@ -121,7 +121,7 @@ export default function SideBar() {
               value=""
               className="ml-3 h-4 w-4 rounded border-gray-300 bg-gray-100 text-blue-600 focus:ring-2 focus:ring-blue-500 dark:border-gray-600 dark:bg-gray-700 dark:ring-offset-gray-800 dark:focus:ring-blue-600"
             />
-            <label htmlFor="three-to-four" className="ml-2 text-sm font-medium">
+            <label htmlFor="three-to-four" className="filter-text">
               ₱ 3001 – ₱ 4000{" "}
             </label>
           </div>
@@ -133,7 +133,7 @@ export default function SideBar() {
               value=""
               className="ml-3 h-4 w-4 rounded border-gray-300 bg-gray-100 text-blue-600 focus:ring-2 focus:ring-blue-500 dark:border-gray-600 dark:bg-gray-700 dark:ring-offset-gray-800 dark:focus:ring-blue-600"
             />
-            <label htmlFor="above-four" className="ml-2 text-sm font-medium">
+            <label htmlFor="above-four" className="filter-text">
               Above ₱ 4001
             </label>
           </div>
@@ -150,7 +150,7 @@ export default function SideBar() {
               value="option1"
               defaultChecked
             />
-            <span className="ml-2 font-medium">Solo</span>
+            <span className="filter-text">Solo</span>
           </label>
 
           <label className="mb-1">
@@ -161,7 +161,7 @@ export default function SideBar() {
               value="option1"
               defaultChecked
             />
-            <span className="ml-2 font-medium">2 Persons</span>
+            <span className="filter-text">2 Persons</span>
           </label>
 
           <label className="mb-1">
@@ -172,7 +172,7 @@ export default function SideBar() {
               value="option1"
               defaultChecked
             />
-            <span className="ml-2 font-medium">3 Persons</span>
+            <span className="filter-text">3 Persons</span>
           </label>
 
           <label className="mb-1">
@@ -183,7 +183,7 @@ export default function SideBar() {
               value="option1"
               defaultChecked
             />
-            <span className="ml-2 font-medium">4 Persons</span>
+            <span className="filter-text">4 Persons</span>
           </label>
 
           <label className="">
@@ -194,7 +194,7 @@ export default function SideBar() {
               value="option1"
               defaultChecked
             />
-            <span className="ml-2 font-medium">More than 4</span>
+            <span className="filter-text">More than 4</span>
           </label>
         </div>
 
@@ -202,7 +202,7 @@ export default function SideBar() {
         <div className="mb-4">
           <h2 className="mb-2 text-base font-bold">Include</h2>
           <input
-            className="rounded-2xl px-3 py-1"
+            className="filter-search"
             placeholder="Type for suggestions..."
           ></input>
         </div>
@@ -239,7 +239,7 @@ const Location: React.FC = () => {
           type="text"
           value={value}
           onChange={handleChange}
-          className="rounded-2xl px-3 py-1"
+          className="filter-search"
           placeholder="Type for suggestions..."
         />
         {showSuggestions && (
@@ -252,7 +252,7 @@ const Location: React.FC = () => {
                 <li
                   key={suggestion}
                   onClick={() => handleSuggestionClick(suggestion)}
-                  className="cursor-pointer p-2 hover:bg-gray-100 focus:outline-none dark:hover:bg-p-dblue"
+                  className="dropdown-buttons"
                 >
                   {highlightMatchedSubstring(suggestion)}
                 </li>

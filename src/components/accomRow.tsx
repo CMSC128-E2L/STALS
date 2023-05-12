@@ -12,12 +12,11 @@ export default function AccomRow() {
 
   return (
     <div className="flex flex-col">
-      <div className="mb-4 flex flex-row items-center">
-        <h1 className="mr-4 text-xl font-bold">Batong Malake</h1>
+      <div className="mb-3 flex flex-row items-center">
+        <h1 className="mr-4 text-2xl font-bold">Batong Malake</h1>
 
         <button
-          className="mr-2 flex items-center rounded-lg bg-p-dblue px-2 py-2 text-xs font-bold text-white hover:bg-sky-600"
-          // className="flex items-center items-center justify-center rounded-lg mr-2 rounded-lg bg-p-dblue px-1 py-1 text-xs font-bold text-white hover:bg-sky-600"
+          className="mr-2 flex items-center rounded-full bg-p-dblue px-3 py-2 text-xs font-bold text-white hover:bg-sky-600"
           onClick={toggleDropdown}
         >
           Sort By
@@ -38,51 +37,25 @@ export default function AccomRow() {
           </svg>
         </button>
         {showDropdown && (
-          <div id="dropdownBgHover" className="relative mt-1 rounded-lg">
-            <ul
-              className="absolute m-2 flex flex-col space-y-1 bg-white p-1 text-black shadow shadow-lg dark:bg-white dark:text-black"
-              aria-labelledby="dropdownBgHoverButton"
-            >
-              <li className="">
-                <div className="flex h-auto w-auto items-center rounded p-2 hover:bg-gray-500 dark:hover:bg-p-dblue">
-                  <label
-                    htmlFor="batong-malaki"
-                    className="ml-2 rounded text-sm font-medium text-black dark:text-black"
-                  >
-                    Top Rated
-                  </label>
-                </div>
-              </li>
-              <li>
-                <div className="flex h-auto w-auto items-center rounded p-2 hover:bg-gray-500 dark:hover:bg-p-dblue">
-                  <label
-                    htmlFor="batong-maliit"
-                    className="ml-2 rounded text-sm font-medium text-black dark:text-black"
-                  >
-                    Availability
-                  </label>
-                </div>
-              </li>
-              <li>
-                <div className="flex h-auto w-auto items-center rounded p-2 hover:bg-gray-500 dark:hover:bg-p-dblue">
-                  <label
-                    htmlFor="batong-maliit"
-                    className="ml-2 rounded text-sm font-medium text-black dark:text-black"
-                  >
-                    Name
-                  </label>
-                </div>
-              </li>
-            </ul>
+          <div className="absolute left-[28rem] top-36 w-[10rem] rounded-lg bg-white p-3 pt-0 text-sm shadow-lg">
+            <Link className="dropdown-buttons" href={"/"}>
+              Name
+            </Link>
+            <Link className="dropdown-buttons" href={"/"}>
+              Rating
+            </Link>
+            <Link className="dropdown-buttons" href={"/"}>
+              Availability
+            </Link>
           </div>
         )}
-        <button className="mr-2 rounded-lg bg-p-dblue px-2 py-2 text-xs font-bold text-white hover:bg-sky-600">
+        <button className="mr-2 rounded-full bg-p-dblue px-3 py-2 text-xs font-bold text-white hover:bg-sky-600">
           Download PDF
         </button>
 
         <button
           id="see-more-button"
-          className="mr-4 rounded-lg bg-p-gray px-2 py-2 text-xs font-bold text-black hover:bg-gray-400"
+          className="mr-4 rounded-full bg-p-gray px-3 py-2 text-xs font-bold text-black hover:bg-gray-400"
           onClick={() => toggleShow()}
         >
           See More

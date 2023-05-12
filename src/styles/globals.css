@@ -59,4 +59,20 @@
   .google {
     @apply bg-white text-[#4086F4];
   }
+
+  .dropdown-buttons {
+    @apply block w-full rounded-lg p-2 text-left hover:bg-p-gray focus:outline-none;
+  }
+
+  .filter-text {
+    @apply ml-2 text-sm;
+  }
+
+  .filter-search {
+    @apply w-full rounded-full px-3 py-1 text-sm;
+  }
+
+  .profile-dropdown {
+    @apply absolute right-0 top-11 z-10 w-[15rem] overflow-hidden rounded-lg bg-white p-4 shadow-lg;
+  }
 }
