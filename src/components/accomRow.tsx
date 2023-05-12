@@ -37,7 +37,7 @@ export default function AccomRow() {
           </svg>
         </button>
         {showDropdown && (
-          <div className="absolute left-[30rem] top-36 w-[10rem] rounded-lg bg-white p-3 pt-0 text-sm shadow-lg">
+          <div className="absolute left-[28rem] top-36 w-[10rem] rounded-lg bg-white p-3 pt-0 text-sm shadow-lg">
             <Link className="dropdown-buttons" href={"/"}>
               Name
             </Link>
