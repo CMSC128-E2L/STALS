@@ -1,9 +1,29 @@
 import { api } from "~/utils/api";
-import { useState } from "react";
+import {
+  JSXElementConstructor,
+  PromiseLikeOfReactNode,
+  ReactElement,
+  ReactFragment,
+  ReactNode,
+  ReactPortal,
+  useState,
+} from "react";
 import Image from "next/image";
 import Link from "next/link";
 
-export default function AccomRow() {
+export default function AccomRow(props: {
+  barangay: ReactNode;
+  name:
+    | string
+    | number
+    | boolean
+    | ReactElement<any, string | JSXElementConstructor<any>>
+    | ReactFragment
+    | ReactPortal
+    | PromiseLikeOfReactNode
+    | null
+    | undefined;
+}) {
   const [showDropdown, setShowDropdown] = useState(false);
 
   const toggleDropdown = () => {
@@ -13,7 +33,7 @@ export default function AccomRow() {
   return (
     <div className="flex flex-col">
       <div className="mb-3 flex flex-row items-center">
-        <h1 className="mr-4 text-2xl font-bold">Batong Malake</h1>
+        <h1 className="mr-4 text-2xl font-bold">{props.barangay}</h1>
 
         <button
           className="mr-2 flex items-center rounded-full bg-p-dblue px-3 py-2 text-xs font-bold text-white hover:bg-sky-600"
@@ -62,6 +82,7 @@ export default function AccomRow() {
         </button>
       </div>
       <div className="flex flex-row flex-wrap ">
+        {/* <Accoms barangay={props.barangay} /> */}
         <Accoms />
       </div>
       <div id="more-content" className="max-h-0 overflow-hidden transition-all">
@@ -83,15 +104,24 @@ function toggleShow() {
   }
 }
 
-const Accoms: React.FC = () => {
+// const Accoms: React.FC<{ barangay:string }> = (barangay)  => {
+const Accoms: React.FC<{}> = () => {
   // const { data: firstData, isLoading: queryLoading } =
   // api.file.r2getfiles.useQuery();
   const { data: firstData, isLoading: queryLoading } =
     api.accommodation.getMany.useQuery({
       page: 0,
-      multiplier: 5,
+      multiplier: 8,
       location: "",
     });
+
+  //console.log(barangay)
+
+  // const accommodations =
+  // api.accommodation.getMany.useQuery({
+  //    {barangay},
+  //   });
+
   const [count, setCount] = useState(false);
 
   setTimeout(() => setCount(true), 5);
