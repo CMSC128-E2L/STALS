@@ -7,29 +7,35 @@ export default function HomePage() {
   const { data: barangayEntries, isLoading: queryLoading } =
     api.accommodation.getBarangays.useQuery();
   return (
-    <div>
+    <div className="flex min-h-screen flex-col">
       <NavBar />
 
-      {/* Content */}
-      <div className="flex flex-row">
-        <SideBar />
-        {/* Accommodations List */}
-        <div className="flex w-5/6 flex-col p-10">
-          {/* List of Accommodations */}
-          {/* <AccomRow />
-          <div className="mb-10"></div>
-          <AccomRow />
-          <div className="mb-10"></div>
-          <AccomRow /> */}
+      <div className="flex flex-grow">
+        {/* Sidebar */}
+        <div className="h-screen w-1/6 flex-none overflow-y-auto">
+          <SideBar />
+        </div>
 
-          {barangayEntries?.map((entry, index) => {
-            return (
-              <div key={index}>
-                <AccomRow barangay={entry.barangay} name={undefined} />
-                {/* <p>{entry.barangay}</p> */}
-              </div>
-            );
-          })}
+        {/* Content */}
+
+        {/* Accommodations List */}
+        <div className="flex-grow">
+          <div className="space-y-4 p-10">
+            {/* List of Accommodations */}
+            {/* <AccomRow />
+            <div className="mb-10"></div>
+            <AccomRow />
+            <div className="mb-10"></div>
+            <AccomRow /> */}
+            {barangayEntries?.map((entry, index) => {
+              return (
+                <div key={index}>
+                  <AccomRow barangay={entry.barangay} name={undefined} />
+                  {/* <p>{entry.barangay}</p> */}
+                </div>
+              );
+            })}
+          </div>
         </div>
       </div>
     </div>
