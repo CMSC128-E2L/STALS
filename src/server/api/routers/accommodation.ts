@@ -8,6 +8,40 @@ import {
 } from "~/server/api/trpc";
 
 export const accommodationRouter = createTRPCRouter({
+  getInfiniteExample: publicProcedure
+    .input(
+      z.object({
+        limit: z.number().min(1).max(100).nullish(),
+        cursor: z.string().nullish(), // <-- "cursor" needs to exist, but can be any type
+      }),
+    )
+    .query(async (opts) => {
+      const { input, ctx } = opts;
+      const limit = input.limit ?? 50;
+      const { cursor } = input;
+      const items = await ctx.prisma.accommodation.findMany({
+        take: limit + 1,
+        cursor: cursor ? { id: cursor } : undefined,
+        select: {
+          id: true,
+          name: true,
+          location: true,
+        },
+        orderBy: {
+          location: "asc",
+        },
+      });
+
+      let nextCursor: typeof cursor | undefined = undefined;
+      if (items.length > limit) {
+        const nextItem = items.pop();
+        nextCursor = nextItem?.id;
+      }
+      return {
+        items,
+        nextCursor,
+      };
+    }),
   // Get all accommodation homepage
   getAll: publicProcedure.query(async ({ ctx }) => {
     try {
