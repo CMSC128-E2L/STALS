@@ -24,36 +24,17 @@ export default function Backend() {
 
   return (
     <div className="flex h-[calc(100lvh+2rem)] flex-col">
-      {data?.pages.map((page: { items: any[] }, i: number) => (
+      {data?.pages.map((page, i: number) => (
         <div key={i} className="space-y-3">
-          {page.items.map(
-            (
-              post: {
-                id: React.Key | null | undefined;
-                name:
-                  | string
-                  | number
-                  | boolean
-                  | React.ReactElement<
-                      any,
-                      string | React.JSXElementConstructor<any>
-                    >
-                  | React.ReactFragment
-                  | React.ReactPortal
-                  | React.PromiseLikeOfReactNode
-                  | null
-                  | undefined;
-              },
-              j: number,
-            ) => (
-              <div key={j} className="m-2 h-[250px] w-[250px] bg-blue-300">
-                <div>item #: {(i * NUMBEROFITEMS + j + 1).toString()}</div>
-                <div key={post.id}>Name: {post.name}</div>
-              </div>
-            ),
-          )}
+          {page.items.map((post, j: number) => (
+            <div key={j} className="m-2 h-[250px] w-[250px] bg-blue-300">
+              <div>item #: {(i * NUMBEROFITEMS + j + 1).toString()}</div>
+              <div key={post.id}>Name: {post.name}</div>
+            </div>
+          ))}
         </div>
       ))}
+      {/* debug button just incase the automatic loading is not working */}
       <button
         onClick={() => {
           void fetchNextPage();
