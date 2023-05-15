@@ -25,6 +25,18 @@ export const accommodationRouter = createTRPCRouter({
     }
   }),
 
+  getBarangays: publicProcedure.query(async ({ ctx }) => {
+    try {
+      return await ctx.prisma.accommodation.findMany({
+        select: {
+          barangay: true,
+        },
+      });
+    } catch (error) {
+      console.log("error", error);
+    }
+  }),
+
   // Get one accommodation
   getOne: publicProcedure.input(z.string()).query(({ ctx, input }) => {
     const id = input;
