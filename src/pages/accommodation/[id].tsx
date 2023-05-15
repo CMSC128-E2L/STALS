@@ -15,6 +15,9 @@ export default function Accommodation() {
   const { data: firstData, isLoading: queryLoading } =
     api.accommodation.getOne.useQuery(id);
 
+  const { data: ImageList, isLoading: imageLoading } =
+    api.file.getAccommImages.useQuery({ id });
+
   return (
     <div className="flex h-screen flex-col object-contain">
       {/* HEADER */}
@@ -36,43 +39,52 @@ export default function Accommodation() {
           <div className="margin-40 flex w-11/12 gap-2 bg-p-lblue p-4 py-4 shadow-md">
             {/* GALLERY */}
             <div className="w-1/3 flex-none bg-red-100 p-4">
-              <div className="grid gap-4">
+              <div className="grid grid-cols-2 gap-4">
                 {/* main image */}
-                <div className="max-w relative aspect-square h-auto">
-                  <Image
-                    className="rounded-lg object-cover"
-                    src="https://flowbite.s3.amazonaws.com/docs/gallery/featured/image.jpg"
-                    alt="image"
-                    fill
-                  />
-                </div>
-                <div className="grid grid-cols-3 gap-1">
-                  <div className="max-w relative aspect-square h-auto">
-                    <Image
-                      className="rounded-lg object-cover"
-                      src="https://flowbite.s3.amazonaws.com/docs/gallery/featured/image.jpg"
-                      alt="image"
-                      fill
-                    />
-                  </div>
-                  <div className="max-w relative aspect-square h-auto">
-                    <Image
-                      className="rounded-lg object-cover"
-                      src="https://flowbite.s3.amazonaws.com/docs/gallery/featured/image.jpg"
-                      alt="image"
-                      fill
-                    />
-                  </div>
-                  <div className="max-w relative aspect-square h-auto blur-sm">
-                    {/* make this a button that links to a gallery */}
-                    <Image
-                      className="rounded-lg object-cover"
-                      src="https://flowbite.s3.amazonaws.com/docs/gallery/featured/image.jpg"
-                      alt="image"
-                      fill
-                    />
-                  </div>
-                </div>
+                {!imageLoading && ImageList ? (
+                  ImageList?.length > 0 ? (
+                    ImageList?.map((src, i) => {
+                      if (i == 0) {
+                        return (
+                          <div
+                            key={i}
+                            className="max-w relative col-span-2 aspect-square"
+                          >
+                            <Image
+                              className="rounded-lg object-cover"
+                              src={src}
+                              alt="image"
+                              fill
+                              unoptimized
+                            />
+                          </div>
+                        );
+                      } else {
+                        return (
+                          <div key={i} className="max-w relative aspect-video">
+                            <Image
+                              className="rounded-lg object-cover"
+                              src={src}
+                              alt="image"
+                              fill
+                              unoptimized
+                            />
+                          </div>
+                        );
+                      }
+                    })
+                  ) : (
+                    <div className="max-w relative col-span-2 aspect-square rounded-md bg-gray-400 text-center">
+                      No Image
+                    </div>
+                  )
+                ) : (
+                  <>
+                    <div className="max-w relative col-span-2 aspect-square animate-pulse rounded-md bg-gray-400"></div>
+                    <div className="max-w relative aspect-video animate-pulse rounded-md bg-gray-400"></div>
+                    <div className="max-w relative aspect-video animate-pulse rounded-md bg-gray-400"></div>
+                  </>
+                )}
               </div>
             </div>
 

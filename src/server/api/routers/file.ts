@@ -9,6 +9,7 @@ import {
   PutObjectCommand,
 } from "@aws-sdk/client-s3";
 import { getSignedUrl } from "@aws-sdk/s3-request-presigner";
+import { z } from "zod";
 
 export const fileRouter = createTRPCRouter({
   r2getfiles: publicProcedure.query(async () => {
@@ -31,6 +32,37 @@ export const fileRouter = createTRPCRouter({
 
     return output;
   }),
+  getAccommImages: publicProcedure
+    .input(
+      z.object({
+        id: z.string(),
+        limit: z.number().min(1).nullish(),
+      }),
+    )
+    .query(async ({ input, ctx }) => {
+      const response = await s3Client.send(
+        new ListObjectsV2Command({
+          Bucket: "stals",
+          Prefix: input.id,
+          MaxKeys: input.limit ?? 5,
+        }),
+      );
+      const output: string[] = [];
+
+      if (response.Contents)
+        for (const element of response.Contents) {
+          if (element.Key) {
+            const e: string = await getSignedUrl(
+              s3Client,
+              new GetObjectCommand({ Bucket: "stals", Key: element.Key }),
+              { expiresIn: 3600 },
+            );
+            output.push(e);
+          }
+        }
+
+      return output;
+    }),
   createBucket: publicProcedure.query(async () => {
     const params = {
       Bucket: "stals-testing", // The name of the bucket. For example, 'sample-bucket-101'.
