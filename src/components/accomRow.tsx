@@ -25,9 +25,14 @@ export default function AccomRow(props: {
     | undefined;
 }) {
   const [showDropdown, setShowDropdown] = useState(false);
+  const [multiplier, setMultiplier] = useState(8);
 
   const toggleDropdown = () => {
     setShowDropdown((prevState) => !prevState);
+  };
+
+  const toggleMultiplier = () => {
+    setMultiplier((prevMultiplier) => (prevMultiplier === 8 ? 16 : 8)); // Step 2: Toggle multiplier value
   };
 
   return (
@@ -76,17 +81,17 @@ export default function AccomRow(props: {
         <button
           id="see-more-button"
           className="mr-4 rounded-full bg-p-gray px-3 py-2 text-xs font-bold text-black hover:bg-gray-400"
-          onClick={() => toggleShow()}
+          onClick={() => {
+            toggleShow();
+            toggleMultiplier();
+          }}
         >
           See More
         </button>
       </div>
       <div className="flex flex-row flex-wrap ">
         {/* <Accoms barangay={props.barangay} /> */}
-        <Accoms />
-      </div>
-      <div id="more-content" className="max-h-0 overflow-hidden transition-all">
-        <p>Additional content here...</p>
+        <Accoms multiplier={multiplier} />
       </div>
     </div>
   );
@@ -105,13 +110,13 @@ function toggleShow() {
 }
 
 // const Accoms: React.FC<{ barangay:string }> = (barangay)  => {
-const Accoms: React.FC = () => {
+const Accoms: React.FC<{ multiplier: number }> = ({ multiplier }) => {
   // const { data: firstData, isLoading: queryLoading } =
   // api.file.r2getfiles.useQuery();
   const { data: firstData, isLoading: queryLoading } =
     api.accommodation.getMany.useQuery({
       page: 0,
-      multiplier: 8,
+      multiplier: multiplier,
       location: "",
     });
 
