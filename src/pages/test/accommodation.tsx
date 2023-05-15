@@ -19,6 +19,8 @@ export default function Backend() {
   //   location: "UPLB",
   // });
 
+  const getBarangays = api.accommodation.getBarangays.useQuery();
+
   // mutate
   // const createAccommodation = api.accommodation.add.useMutation();
   // const deleteAccommodation = api.accommodation.delete.useMutation();
@@ -72,7 +74,7 @@ export default function Backend() {
       </div>
       <div>
         <div>BACKEND DATA</div>
-        {/* {stringify(getMany)} */}
+        {stringify(getBarangays)}
       </div>
     </>
   );
