@@ -105,7 +105,7 @@ function toggleShow() {
 }
 
 // const Accoms: React.FC<{ barangay:string }> = (barangay)  => {
-const Accoms: React.FC<{}> = () => {
+const Accoms: React.FC = () => {
   // const { data: firstData, isLoading: queryLoading } =
   // api.file.r2getfiles.useQuery();
   const { data: firstData, isLoading: queryLoading } =

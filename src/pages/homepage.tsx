@@ -21,6 +21,7 @@ export default function HomePage() {
           <AccomRow />
           <div className="mb-10"></div>
           <AccomRow /> */}
+
           {barangayEntries?.map((entry, index) => {
             return (
               <div key={index}>
