@@ -13,6 +13,7 @@ export default function HomePage() {
         <NavBar />
 
         <div className="flex flex-grow">
+          {/* Sidebar */}
           <div className="h-screen w-1/6 flex-none overflow-y-auto">
             <div className="top-15 fixed left-0 h-full w-1/6 overflow-y-auto bg-p-lblue">
               {/* Filters */}
@@ -218,6 +219,7 @@ export default function HomePage() {
                     placeholder="Type for suggestions..."
                   ></input>
                 </div>
+                <div className="mt-16"></div>
               </div>
               <div />
             </div>
@@ -278,7 +280,7 @@ const Location: React.FC = () => {
           placeholder="Type for suggestions..."
         />
         {showSuggestions && (
-          <ul className="absolute mt-1 flex w-full flex-col space-y-1 rounded-xl bg-white p-3 text-black shadow shadow-lg shadow-lg dark:bg-white dark:text-black">
+          <ul className="absolute mt-1 flex w-full flex-col space-y-1 rounded-xl bg-white p-3 text-black shadow-lg dark:bg-white dark:text-black">
             {suggestions
               .filter((suggestion) =>
                 suggestion.toLowerCase().includes(value.toLowerCase()),
