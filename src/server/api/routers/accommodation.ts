@@ -62,6 +62,7 @@ export const accommodationRouter = createTRPCRouter({
   getBarangays: publicProcedure.query(async ({ ctx }) => {
     try {
       return await ctx.prisma.accommodation.findMany({
+        distinct: ["barangay"],
         select: {
           barangay: true,
         },
@@ -166,6 +167,7 @@ export const accommodationRouter = createTRPCRouter({
         address: z.string().optional(),
         location: z.string().optional(),
         landlord: z.string().optional(),
+        barangay: z.string().optional(),
         tags: z.string().optional(),
         num_of_rooms: z.number().optional(),
         page: z.number().optional(),
@@ -187,6 +189,9 @@ export const accommodationRouter = createTRPCRouter({
               },
               location: {
                 contains: input.location,
+              },
+              barangay: {
+                contains: input.barangay,
               },
               landlord: {
                 contains: input.landlord,

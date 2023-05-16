@@ -22,15 +22,10 @@ export default function HomePage() {
         <div className="flex-grow">
           <div className="space-y-4 p-10">
             {/* List of Accommodations */}
-            {/* <AccomRow />
-            <div className="mb-10"></div>
-            <AccomRow />
-            <div className="mb-10"></div>
-            <AccomRow /> */}
             {barangayEntries?.map((entry, index) => {
               return (
                 <div key={index}>
-                  <AccomRow barangay={entry.barangay} name={undefined} />
+                  <AccomRow barangay={entry.barangay} />
                   {/* <p>{entry.barangay}</p> */}
                 </div>
               );
