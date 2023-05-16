@@ -1,9 +1,31 @@
 import NavBar from "~/components/navbar";
-import Image from "next/image";
-import Head from "next/head";
+import { useForm } from "react-hook-form";
+import { zodResolver } from "@hookform/resolvers/zod";
+import { z } from "zod";
+import { type RouterInputs, api } from "~/utils/api";
 import Link from "next/link";
 
+const schema = z.object({
+  occupied: z.boolean(),
+  accommodationId: z.string(),
+  price: z.number(),
+  num_of_beds: z.number(),
+  with_aircon: z.boolean(),
+  with_utilities: z.boolean(),
+  is_archived: z.boolean(),
+});
+
 export default function EditRoom() {
+  const {
+    register,
+    handleSubmit,
+    formState: { errors },
+  } = useForm({
+    resolver: zodResolver(schema),
+  });
+
+  const EditRoom = api.room.add.useMutation();
+
   return (
     <div className="">
       {/* header */}
@@ -15,7 +37,13 @@ export default function EditRoom() {
           <div>
             <h1 className="form-h1">Edit Room</h1>
           </div>
-          <form className="justify-items-stretch space-y-4">
+          <form
+            // eslint-disable-next-line @typescript-eslint/no-misused-promises
+            onSubmit={handleSubmit((d) =>
+              EditRoom.mutate(d as RouterInputs["room"]["add"]),
+            )}
+            className="justify-items-stretch space-y-4"
+          >
             {/* right side */}
             <div>
               {/* Room Price and Number of Beds */}
@@ -25,12 +53,14 @@ export default function EditRoom() {
                   placeholder="Price"
                   type="text"
                   required
+                  {...register("price")}
                 ></input>
                 <input
                   className="add-acc-input-text-field mx-5"
                   placeholder="Number of Beds"
                   type="number"
                   required
+                  {...register("num_of_beds")}
                 ></input>
               </div>
               {/* div contains all three */}
@@ -44,21 +74,23 @@ export default function EditRoom() {
                         <div className="mb-[0.125rem] block min-h-[1.5rem] pl-[1.5rem]">
                           <input
                             className=""
+                            value="true"
                             type="radio"
-                            name="flexRadioNoLabel"
                             id="radioNoLabel01"
+                            {...register("occupied")}
                           />
-                          <label className="">Occupied</label>
+                          <label className="pl-1">Occupied</label>
                         </div>
                         <div className="mb-[0.125rem] block min-h-[1.5rem] pl-[1.5rem]">
                           <input
                             className=""
+                            value="false"
                             type="radio"
-                            name="flexRadioNoLabel"
                             id="radioNoLabel02"
+                            {...register("occupied")}
                             checked
                           />
-                          <label className="">Unoccupied</label>
+                          <label className="pl-1">Unoccupied</label>
                         </div>
                       </div>
                     </div>
@@ -74,8 +106,9 @@ export default function EditRoom() {
                           <input
                             className=""
                             type="radio"
-                            name="flexRadioNoLabel"
+                            value="true"
                             id="radioNoLabel01"
+                            {...register("with_aircon")}
                           />
                           <label className="pl-1">Yes</label>
                         </div>
@@ -83,8 +116,9 @@ export default function EditRoom() {
                           <input
                             className=""
                             type="radio"
-                            name="flexRadioNoLabel"
+                            value="false"
                             id="radioNoLabel02"
+                            {...register("with_aircon")}
                             checked
                           />
                           <label className="pl-1">No</label>
@@ -103,26 +137,27 @@ export default function EditRoom() {
                           <input
                             className=""
                             type="radio"
-                            name="flexRadioNoLabel"
+                            value="true"
                             id="radioNoLabel01"
+                            {...register("with_utilities")}
                           />
-                          <label className="pl-1">Yes</label>
+                          <label>Yes</label>
                         </div>
                         <div className="mb-[0.125rem] block min-h-[1.5rem] pl-[1.5rem]">
                           <input
                             className=""
                             type="radio"
-                            name="flexRadioNoLabel"
+                            value="false"
                             id="radioNoLabel02"
+                            {...register("with_utilities")}
                             checked
                           />
-                          <label className="pl-1">No</label>
+                          <label>No</label>
                         </div>
                       </div>
                     </div>
                   </div>
                 </div>
-                {/* add photos */}
               </div>
             </div>
 
