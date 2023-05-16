@@ -229,6 +229,7 @@ export default function HomePage() {
 
           {/* Accommodations List */}
           <div className="flex-grow">
+            {/* <input className="mt-10 ml-10 py-1 outline outline-1 outline-p-dblue" placeholder="Search"/> */}
             <div className="space-y-4 p-10">
               {/* List of Accommodations */}
               {barangayEntries?.map((entry, index) => {
