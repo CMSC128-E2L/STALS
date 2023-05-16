@@ -246,7 +246,7 @@ const Location: React.FC = () => {
           placeholder="Type for suggestions..."
         />
         {showSuggestions && (
-          <ul className="absolute mt-1 flex w-full flex-col space-y-1 rounded-xl bg-white p-3 text-black shadow shadow-lg shadow-lg dark:bg-white dark:text-black">
+          <ul className="absolute mt-1 flex w-full flex-col space-y-1 rounded-xl bg-white p-3 text-black shadow-lg dark:bg-white dark:text-black">
             {suggestions
               .filter((suggestion) =>
                 suggestion.toLowerCase().includes(value.toLowerCase()),
