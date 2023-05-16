@@ -6,27 +6,26 @@ import { type RouterInputs, api } from "~/utils/api";
 import Link from "next/link";
 
 const schema = z.object({
-    occupied: z.boolean(),
-    accommodation: z.string(),
-    price: z.number(),
-    num_of_beds: z.number(),
-    with_aircon: z.boolean(),
-    with_utilities: z.boolean(),
-    is_archived: z.boolean(),
-  });
+  occupied: z.boolean(),
+  accommodationId: z.string(),
+  price: z.number(),
+  num_of_beds: z.number(),
+  with_aircon: z.boolean(),
+  with_utilities: z.boolean(),
+  is_archived: z.boolean(),
+});
 
 export default function AddRoom() {
-    const {
-        register,
-        handleSubmit,
+  const {
+    register,
+    handleSubmit,
+    formState: { errors },
+  } = useForm({
+    resolver: zodResolver(schema),
+  });
 
-        formState: {errors},
-    } = useForm({
-        resolver: zodResolver(schema),
-    });
+  const addRoom = api.room.add.useMutation();
 
-    const addRoom = api.room.add.useMutation();
-    
   return (
     <div className="">
       {/* header */}
@@ -39,11 +38,12 @@ export default function AddRoom() {
             <h1 className="form-h1">Edit Room</h1>
           </div>
           <form
-          onSubmit = {handleSubmit((d)=>
-            addRoom.mutate(d as RouterInputs["room"]["add"],
-            ),
+            // eslint-disable-next-line @typescript-eslint/no-misused-promises
+            onSubmit={handleSubmit((d) =>
+              addRoom.mutate(d as RouterInputs["room"]["add"]),
             )}
-          className="justify-items-stretch space-y-4">
+            className="justify-items-stretch space-y-4"
+          >
             {/* right side */}
             <div>
               {/* Room Price and Number of Beds */}
@@ -83,7 +83,6 @@ export default function AddRoom() {
                         </div>
                         <div className="mb-[0.125rem] block min-h-[1.5rem] pl-[1.5rem]">
                           <input
-                          
                             className=""
                             value="false"
                             type="radio"
@@ -142,7 +141,7 @@ export default function AddRoom() {
                             id="radioNoLabel01"
                             {...register("with_utilities")}
                           />
-                          <label >Yes</label>
+                          <label>Yes</label>
                         </div>
                         <div className="mb-[0.125rem] block min-h-[1.5rem] pl-[1.5rem]">
                           <input
@@ -159,7 +158,7 @@ export default function AddRoom() {
                     </div>
                   </div>
                 </div>
-                  </div>
+              </div>
             </div>
 
             {/* footer buttons clear submit */}
@@ -169,10 +168,9 @@ export default function AddRoom() {
               </button>
               <Link href="editAcc">
                 <button type="submit" className="formButton hover:bg-blue-400">
-                    Save Changes
-                </button>              
+                  Save Changes
+                </button>
               </Link>
-
             </div>
           </form>
         </div>

@@ -3,7 +3,6 @@ import Image from "next/image";
 import Head from "next/head";
 import Link from "next/link";
 
-
 export default function EditRoom() {
   return (
     <div className="">
@@ -107,7 +106,7 @@ export default function EditRoom() {
                             name="flexRadioNoLabel"
                             id="radioNoLabel01"
                           />
-                          <label className = "pl-1">Yes</label>
+                          <label className="pl-1">Yes</label>
                         </div>
                         <div className="mb-[0.125rem] block min-h-[1.5rem] pl-[1.5rem]">
                           <input
@@ -133,9 +132,9 @@ export default function EditRoom() {
                 Clear
               </button>
               <Link href="editAcc">
-                <button type="submit" className="formButton hover:bg-blue-400" >
-                    Save Changes
-                </button>              
+                <button type="submit" className="formButton hover:bg-blue-400">
+                  Save Changes
+                </button>
               </Link>
             </div>
           </form>
