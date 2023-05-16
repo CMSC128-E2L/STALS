@@ -12,17 +12,7 @@ import Image from "next/image";
 import Link from "next/link";
 
 export default function AccomRow(props: {
-  barangay: ReactNode;
-  name:
-    | string
-    | number
-    | boolean
-    | ReactElement<any, string | JSXElementConstructor<any>>
-    | ReactFragment
-    | ReactPortal
-    | PromiseLikeOfReactNode
-    | null
-    | undefined;
+  barangay: string | undefined | null;
 }) {
   const [showDropdown, setShowDropdown] = useState(false);
   const [multiplier, setMultiplier] = useState(8);
@@ -91,7 +81,7 @@ export default function AccomRow(props: {
       </div>
       <div className="flex flex-row flex-wrap ">
         {/* <Accoms barangay={props.barangay} /> */}
-        <Accoms multiplier={multiplier} />
+        <Accoms multiplier={multiplier} barangay={props.barangay} />
       </div>
     </div>
   );
@@ -110,21 +100,22 @@ function toggleShow() {
 }
 
 // const Accoms: React.FC<{ barangay:string }> = (barangay)  => {
-const Accoms: React.FC<{ multiplier: number }> = ({ multiplier }) => {
+const Accoms: React.FC<{
+  multiplier: number;
+  barangay: string | undefined | null;
+}> = ({ multiplier, barangay }) => {
   // const { data: firstData, isLoading: queryLoading } =
   // api.file.r2getfiles.useQuery();
   const { data: firstData, isLoading: queryLoading } =
     api.accommodation.getMany.useQuery({
       page: 0,
       multiplier: multiplier,
-      location: "",
+      barangay: barangay!,
     });
 
-  //console.log(barangay)
-
   // const accommodations =
-  // api.accommodation.getMany.useQuery({
-  //    {barangay},
+  //  api.accommodation.getMany.useQuery({
+  //    barangay: barangay!,
   //   });
 
   const [count, setCount] = useState(false);

@@ -15,9 +15,9 @@ export default function Backend() {
   // const { data: firstData } = api.accommodation.getArchives.useQuery();
   // const getOne = api.accommodation.getOne.useQuery("clhaovx8u000cua9oc93vzie1");
 
-  // const getMany = api.accommodation.getMany.useQuery({
-  //   location: "UPLB",
-  // });
+  const getMany = api.accommodation.getMany.useQuery({
+    barangay: "Batong Malake",
+  });
 
   const getBarangays = api.accommodation.getBarangays.useQuery();
 
