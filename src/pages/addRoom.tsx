@@ -35,12 +35,13 @@ export default function AddRoom() {
       <div className="basis-6/8 flex min-h-screen items-center justify-center overflow-y-auto bg-white">
         <div className="margin-40 w-3/4 rounded-xl bg-p-lblue p-4 py-4 shadow-md">
           <div>
-            <h1 className="form-h1">Edit Room</h1>
+            <h1 className="form-h1">Add Room</h1>
           </div>
           <form
             // eslint-disable-next-line @typescript-eslint/no-misused-promises
-            onSubmit={handleSubmit((d) =>
-              addRoom.mutate(d as RouterInputs["room"]["add"]),
+            onSubmit={handleSubmit(
+              (data) =>
+                void addRoom.mutate(data as RouterInputs["room"]["add"]),
             )}
             className="justify-items-stretch space-y-4"
           >
