@@ -4,8 +4,14 @@ import { useState } from "react";
 import logo from "public/images/logo.png";
 import user from "public/images/def_user.png";
 import Image from "next/image";
+import { type FieldValues, type UseFormRegister } from "react-hook-form";
 
-export default function NavBar() {
+interface NavBarProps {
+  register?: UseFormRegister<FieldValues>;
+  name?: string;
+}
+
+export const NavBar: React.FC<NavBarProps> = ({ register, name }) => {
   return (
     <>
       {/* Navigation bar */}
@@ -31,7 +37,20 @@ export default function NavBar() {
         <div className="w-full md:block md:w-auto">
           <ul className="mr-2 mt-4 flex flex-col items-center p-4 font-medium md:mt-0 md:flex-row md:space-x-5 md:border-0 md:p-0">
             <li>
-              <input className="rounded-full px-3 py-1" placeholder="Search" />
+              {register && name ? (
+                <input
+                  {...register(name)}
+                  className="rounded-full px-3 py-1"
+                  placeholder="Search"
+                />
+              ) : (
+                <form>
+                  <input
+                    className="rounded-full px-3 py-1"
+                    placeholder="Search"
+                  />
+                </form>
+              )}
             </li>
             <li>
               <ProfileButton />
@@ -41,7 +60,7 @@ export default function NavBar() {
       </nav>
     </>
   );
-}
+};
 
 const ProfileButton: React.FC = () => {
   const { data: sessionData } = useSession();
@@ -135,3 +154,5 @@ const ProfileButton: React.FC = () => {
     </div>
   );
 };
+
+export default NavBar;
