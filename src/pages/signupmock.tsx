@@ -1,9 +1,47 @@
-// import logo from "../images/logo.png";
+import { zodResolver } from "@hookform/resolvers/zod";
+import { type NextPage } from "next";
+import { useSession } from "next-auth/react";
 import bgpic from "public/images/bgpic-01.png";
+import { useEffect } from "react";
+import { useForm } from "react-hook-form";
+import { z } from "zod";
+import { type RouterInputs, api } from "~/utils/api";
+import { redirect } from "next/navigation";
 
-// ror
+const schema = z.object({
+  first_name: z.string().optional(),
+  middle_name: z.string().optional(),
+  last_name: z.string().optional(),
+  contact_number: z.string().optional(),
+});
 
-export default function Signup() {
+const Signup: NextPage = () => {
+  const userSession = useSession();
+
+  useEffect(() => {
+    if (userSession.data)
+      if (
+        userSession.data?.profile.first_name !== undefined &&
+        userSession.data?.profile.first_name !== null
+      ) {
+        window.location.replace("/");
+      }
+  });
+
+  const {
+    register,
+    handleSubmit,
+    formState: { errors },
+  } = useForm({
+    resolver: zodResolver(schema),
+  });
+
+  const editUser = api.user.edit.useMutation({
+    onSuccess: () => {
+      redirect("/homepage");
+    },
+  });
+
   return (
     <div className="">
       <div className="h-100 bg-fix relative w-full bg-white bg-cover bg-center">
@@ -35,18 +73,24 @@ export default function Signup() {
 
         <div className="item center flex justify-center" id="down">
           <div className="w-fit rounded-xl bg-white p-7">
-            <form>
+            <form
+              // eslint-disable-next-line @typescript-eslint/no-misused-promises
+              onSubmit={handleSubmit((d) => {
+                // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access
+                editUser.mutate(d as RouterInputs["user"]["edit"]);
+              })}
+            >
               <div className="flex flex-col space-y-2.5">
                 <div className="w-auto flex-row space-x-[2%]">
                   <input
-                    name="Firstname"
                     type="text"
                     placeholder="First Name"
                     className="w-[60%] rounded-xl px-3 py-3 shadow shadow-gray-400/100"
+                    {...register("first_name")}
                     required
                   />
                   <input
-                    name="Middleinitial"
+                    {...register("middle_name")}
                     type="text"
                     placeholder="Middle Initial"
                     className="w-[38%] rounded-xl px-3 py-3 shadow shadow-gray-400/100"
@@ -54,7 +98,7 @@ export default function Signup() {
                 </div>
                 <div className="w-auto flex-row space-x-[2%]">
                   <input
-                    name="Lastname"
+                    {...register("last_name")}
                     type="text"
                     placeholder="Last Name"
                     className="w-[60%] rounded-xl px-3 py-3 shadow shadow-gray-400/100"
@@ -74,36 +118,9 @@ export default function Signup() {
                   className="rounded-xl px-3 py-3 shadow shadow-gray-400/100"
                   required
                 />
-                <div className="flex flex-col space-y-1">
-                  <input
-                    name="Password"
-                    type="password"
-                    placeholder="Password"
-                    className="rounded-xl px-3 py-3 shadow shadow-gray-400/100"
-                    required
-                  />
-                  {/* <p className="px-3 text-xs">
-                                {" "}
-                                Password Strength:
-                                <label id="Strength" className="text-red-500">
-                                    {" "}
-                                    Weak
-                                </label>
-                                </p> */}
-                </div>
                 <input
-                  name="Email"
-                  type="email"
-                  placeholder="Email"
-                  className="rounded-xl px-3 py-3 shadow shadow-gray-400/100"
-                  required
-                />
-                <input
-                  name="Contactnumber"
-                  type="number"
+                  {...register("contact_number")}
                   placeholder="Contact Number"
-                  // minlength="8"
-                  // max="14"
                   className="rounded-xl px-3 py-3 shadow shadow-gray-400/100"
                   required
                 />
@@ -134,4 +151,6 @@ export default function Signup() {
       </div>
     </div>
   );
-}
+};
+
+export default Signup;
