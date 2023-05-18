@@ -2,7 +2,7 @@ import { type NextPage } from "next";
 import { useSession } from "next-auth/react";
 import { useEffect } from "react";
 
-const Complete: NextPage = () => {
+const Validate: NextPage = () => {
   const userSession = useSession();
 
   useEffect(() => {
@@ -18,4 +18,4 @@ const Complete: NextPage = () => {
   return <div></div>;
 };
 
-export default Complete;
+export default Validate;
