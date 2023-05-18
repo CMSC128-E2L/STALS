@@ -9,6 +9,7 @@ import GoogleProvider from "next-auth/providers/google";
 import { PrismaAdapter } from "@next-auth/prisma-adapter";
 import { env } from "~/env.mjs";
 import { prisma } from "~/server/db";
+import { type User } from "@prisma/client";
 
 /**
  * Module augmentation for `next-auth` types. Allows us to add custom properties to the `session`
@@ -23,6 +24,7 @@ declare module "next-auth" {
       // ...other properties
       // role: UserRole;
     } & DefaultSession["user"];
+    profile: User;
   }
 
   // interface User {
@@ -83,18 +85,51 @@ function getProviders() {
  */
 export const authOptions: NextAuthOptions = {
   callbacks: {
-    session: ({ session, user }) => ({
-      ...session,
-      user: {
-        ...session.user,
-        id: user.id,
-      },
-    }),
+    signIn: ({ user, account, profile, email, credentials }) => {
+      console.log("loggedin?");
+      // const CustomUser = user as User;
+      // console.log(account);
+      // console.log(profile);
+      // console.log(email);
+      // console.log(credentials);
+      // // if(CustomUser.first_name === null){
+      // //   return '/complete'
+      // // }
+      return true;
+    },
+    redirect: ({ url, baseUrl }) => {
+      console.log("redirect?");
+      console.log(url);
+      console.log(baseUrl);
+      if (url.startsWith("/")) return `${baseUrl}${url}`;
+      // Allows callback URLs on the same origin
+      else if (new URL(url).origin === baseUrl) return url;
+      return baseUrl;
+    },
+    session: async ({ session, user }) => {
+      const profile = await prisma.user.findUnique({
+        where: {
+          id: user.id,
+        },
+      });
+
+      return {
+        ...session,
+        user: {
+          ...session.user,
+          id: user.id,
+        },
+        profile: {
+          ...profile,
+        },
+      };
+    },
   },
   adapter: PrismaAdapter(prisma),
   providers: getProviders(),
   pages: {
     signIn: "/login",
+    newUser: "/complete",
   },
 };
 
