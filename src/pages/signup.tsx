@@ -2,15 +2,28 @@
 import type {
   GetServerSidePropsContext,
   InferGetServerSidePropsType,
+  NextPage,
 } from "next";
-import { getProviders, signIn } from "next-auth/react";
+import { getProviders, signIn, useSession } from "next-auth/react";
 import { getServerSession } from "next-auth/next";
 import { authOptions } from "~/server/auth";
 
 import Link from "next/link";
 import bgpic from "public/images/bgpic-01.png";
+import { useEffect } from "react";
 
-export default function Signup() {
+const Signup: NextPage = () => {
+  const userSession = useSession();
+
+  useEffect(() => {
+    if (
+      userSession.data?.profile.first_name !== undefined &&
+      userSession.data?.profile.first_name !== null
+    ) {
+      window.location.replace("/");
+    }
+  });
+
   return (
     <div className="">
       <img
@@ -69,7 +82,7 @@ export default function Signup() {
                 className="rounded-xl px-2 py-2 shadow shadow-gray-400/100"
                 required
               />
-              <div className="flex flex-col space-y-1">
+              {/* <div className="flex flex-col space-y-1">
                 <input
                   name="Password"
                   type="password"
@@ -77,14 +90,14 @@ export default function Signup() {
                   className="rounded-xl px-2 py-2 shadow shadow-gray-400/100"
                   required
                 />
-                {/* <p className="px-2 text-xs">
+                <p className="px-2 text-xs">
                   {" "}
                   Password Strength:
                   <label id="Strength" className="text-red-500">
                     {" "}
                     Weak
                   </label>
-                </p> */}
+                </p>
               </div>
               <input
                 name="Email"
@@ -92,7 +105,7 @@ export default function Signup() {
                 placeholder="Email"
                 className="rounded-xl px-2 py-2 shadow shadow-gray-400/100"
                 required
-              />
+              /> */}
               <input
                 name="Contactnumber"
                 type="tel"
@@ -139,7 +152,9 @@ export default function Signup() {
       </div>
     </div>
   );
-}
+};
+
+export default Signup;
 
 // export async function getServerSideProps(context: GetServerSidePropsContext) {
 //   const session = await getServerSession(context.req, context.res, authOptions);
