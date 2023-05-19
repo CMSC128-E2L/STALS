@@ -10,7 +10,7 @@
     @apply h-10 w-full rounded-md p-4 shadow shadow-p-black/50;
   }
   .formButton {
-    @apply rounded-lg bg-[#1C5D99] px-3 py-1 font-bold
+    @apply rounded-lg bg-p-dblue px-3 py-1 font-bold
     text-white
     shadow shadow-p-black/50;
   }

@@ -34,7 +34,8 @@ export default function Accommodation() {
         </div>
 
         {/* cONTAINS THE ACCOMMODATION INFO */}
-        <div className="flex justify-center object-contain">
+        <div className="flex flex-row justify-center object-contain">
+          <div className="invisible">a</div>
           {/* Box that contains the accommodation thingy */}
           <div className="margin-40 flex w-11/12 gap-2 bg-p-lblue p-4 py-4 shadow-md">
             {/* GALLERY */}
