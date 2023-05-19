@@ -140,10 +140,10 @@ export default function AddAccommodation() {
                     ></input>
                   </div>
 
-                  <div>
+                  <div className="hidden">
                     <input type="checkbox" {...register("is_archived")} />
                   </div>
-                  <div>
+                  <div className="hidden">
                     {/* No of Available Rooms */}
 
                     <input
