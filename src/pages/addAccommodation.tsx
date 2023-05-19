@@ -1,10 +1,10 @@
 import NavBar from "~/components/navbar";
+import Link from "next/link";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { z } from "zod";
 import { AccommodationType } from "@prisma/client";
 import { type RouterInputs, api } from "~/utils/api";
-
 const schema = z.object({
   name: z.string(),
   address: z.string(),
@@ -30,20 +30,12 @@ export default function AddAccommodation() {
   const createAccommodation = api.accommodation.add.useMutation();
 
   return (
-    <div className="thing">
+    <div className="flex min-h-screen flex-col">
       {/* Header */}
       <NavBar />
-
       {/* Body */}
-      <div className="basis-1/8">
-        {/* I HAVE DEEMED THAT WE DON'T NEED A BACK BUTTON BUT JUST UNCOMMENT THIS IF YOU WANT ONE SO BAD IG */}
-        {/* <button></button>
-        <label>Back</label> */}
-      </div>
-      {/* Middle Column Contains Form */}
-      <div className="basis-6/8 flex min-h-screen items-center justify-center overflow-y-auto bg-white">
-        {/* BOX THAT CONTAINS THE FORM */}
-        <div className="margin-40 w-3/4 rounded-xl bg-p-lblue p-4 py-4 shadow-md">
+      <div className="mt-10 flex flex-col items-center justify-center">
+        <div className="my-14 w-3/4 rounded-xl bg-p-lblue p-4">
           <div>
             <h1 className="form-h1">New Accommodation</h1>
           </div>
@@ -57,8 +49,8 @@ export default function AddAccommodation() {
             )}
             className="justify-items-stretch space-y-4"
           >
-            <div>
-              <h2 className="form-h2">Background</h2>
+            <div className="">
+              <h2 className="form-h2 mx-9 pb-2">Background</h2>
               {/* Accommodation background deets */}
               <div className="margin-40 grid grid-cols-2 gap-9 object-contain px-9">
                 <div className="form-col-deets">
@@ -121,7 +113,10 @@ export default function AddAccommodation() {
                       </select>
                     </div>
                   </div>
+                </div>
 
+                {/* Right Column */}
+                <div className="form-col-deets">
                   <div>
                     {/* Contact No input field */}
 
@@ -135,20 +130,6 @@ export default function AddAccommodation() {
                   </div>
 
                   <div>
-                    {/* Accom Price Range Field */}
-
-                    <input
-                      className="add-acc-input-text-field"
-                      placeholder="Price Range"
-                      type="text"
-                      required
-                    ></input>
-                  </div>
-                </div>
-
-                {/* Right Column */}
-                <div className="form-col-deets">
-                  <div>
                     {/* FB page link*/}
 
                     <input
@@ -159,11 +140,10 @@ export default function AddAccommodation() {
                     ></input>
                   </div>
 
-                  <div>
+                  <div className="hidden">
                     <input type="checkbox" {...register("is_archived")} />
                   </div>
-
-                  <div>
+                  <div className="hidden">
                     {/* No of Available Rooms */}
 
                     <input
@@ -173,7 +153,6 @@ export default function AddAccommodation() {
                       type="number"
                     ></input>
                   </div>
-
                   <div>
                     <div className="grid h-10 w-full grid-cols-2 items-center justify-items-stretch rounded-md bg-white p-1">
                       {/* Upload Photos */}
@@ -187,25 +166,23 @@ export default function AddAccommodation() {
                   </div>
 
                   <div>
-                    <div className="h-10 w-full items-center justify-items-stretch rounded-md bg-white p-1">
-                      <select name="availability" className="form-dropdown">
-                        <option value="">Availability</option>
-                        <option value="">Occupied</option>
-                        <option value="">Not Occupied</option>
-                        <option value="">Bedspace available</option>
-                      </select>
-                    </div>
+                    <Link href="/addRoom">
+                      {/* REDIRECT TO ADD ROOM */}
+                      <button className="rounded-md bg-p-gray px-3 py-1 shadow shadow-p-black/50">
+                        Manage Rooms
+                      </button>
+                    </Link>
                   </div>
                 </div>
               </div>
             </div>
 
             <div>
-              <h2 className="form-h2">Tags</h2>
+              <h2 className="form-h2 mx-9 pb-2">Tags</h2>
               {/* TAGS */}
               <div className="margin-40 grid grid-cols-2 gap-4 px-9">
                 {/* LEFT COLUMN */}
-                <div className="form-col-deets">
+                <div className="form-col-deets text-lg">
                   <div>
                     <div className="h-10 w-full items-center justify-items-stretch rounded-md bg-white p-1">
                       <select name="gender" className="form-dropdown">
@@ -215,7 +192,22 @@ export default function AddAccommodation() {
                       </select>
                     </div>
                   </div>
-                  <div className="text-lg">
+                  <div>
+                    <div className="h-10 w-full items-center justify-items-stretch rounded-md bg-white p-1">
+                      <select name="gender" className="form-dropdown">
+                        <option value="">Communal Bathroom</option>
+                        <option value="">Private Bathroom</option>
+                      </select>
+                    </div>
+                  </div>
+                  <div className="">
+                    <div>
+                      <select name="cooking" className="form-dropdown">
+                        <option value="">Communal Kitchen</option>
+                        <option value="">Kitchen in Room</option>
+                        <option value="">Cooking Not Allowed</option>
+                      </select>
+                    </div>
                     <div>
                       <input
                         type="checkbox"
@@ -232,25 +224,7 @@ export default function AddAccommodation() {
                       </div>
                     </div>
                     <div>
-                      <select name="cooking" className="form-dropdown">
-                        <option value="">Communal Kitchen</option>
-                        <option value="">Kitchen in Room</option>
-                        <option value="">Cooking Not Allowed</option>
-                      </select>
-                    </div>
-                    <div>
                       <input type="checkbox" name="visitors"></input> Visitors
-                    </div>
-                    <div>
-                      <input type="checkbox" name="pets"></input> Pets
-                    </div>
-                  </div>
-                  <div>
-                    <div className="h-10 w-full items-center justify-items-stretch rounded-md bg-white p-1">
-                      <select name="gender" className="form-dropdown">
-                        <option value="">Communal Bathroom</option>
-                        <option value="">Private Bathroom</option>
-                      </select>
                     </div>
                   </div>
                 </div>
@@ -258,6 +232,9 @@ export default function AddAccommodation() {
                 {/* Right COLUMN */}
                 <div className="form-col-deets">
                   <div className="text-lg">
+                    <div>
+                      <input type="checkbox" name="pets"></input> Pets
+                    </div>
                     <div>
                       <input type="checkbox" name="pets"></input> Aircon
                     </div>
@@ -281,15 +258,15 @@ export default function AddAccommodation() {
                       ></input>{" "}
                       Laundry Service
                       {/* MAX AND MIN FEES FOR LAUNDRY SERVICE */}
-                      <div className="invisible flex grid w-1/2 grid-cols-2 gap-4 peer-checked:visible">
-                        <div className="justify-items-end">
+                      <div className="hidden gap-2 pt-2 peer-checked:block peer-checked:flex peer-checked:flex-row ">
+                        <div className="w-1/2 justify-items-end">
                           <input
                             type="text"
                             className="add-acc-input-text-field"
                             placeholder="Min Fee"
                           ></input>
                         </div>
-                        <div className=" justify-items-end">
+                        <div className=" w-1/2 justify-items-end">
                           <input
                             type="text"
                             className="add-acc-input-text-field"
@@ -304,8 +281,8 @@ export default function AddAccommodation() {
 
               {/* CUSTOM TAGS TEXT BOX */}
               <div className="py-5">
-                <h2 className="form-h2">Custom Tags</h2>
-                <div className="px-9">
+                <h2 className="form-h2 mx-9">Custom Tags</h2>
+                <div className="flex flex-col gap-1 px-9">
                   <label>
                     Separate custom tags with commas (,). I.e: laundry, canteen,
                     thing, ...
@@ -331,7 +308,6 @@ export default function AddAccommodation() {
           </form>
         </div>
       </div>
-      <div className="basis-1/8"></div>
     </div>
   );
 }
