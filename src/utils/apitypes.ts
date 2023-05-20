@@ -7,8 +7,8 @@ export const accommodationGetManyExperiementSchema = z.object({
   landlord: z.string().optional(),
   barangay: z.string().optional(),
   num_of_rooms: z.number().optional(),
-  page: z.number().optional(),
-  multiplier: z.number().optional(),
   typeArray: z.array(z.string()).optional(),
   tagArray: z.string().array().optional(),
+  limit: z.number().min(1).max(100).nullish(),
+  cursor: z.string().nullish(), // <-- "cursor" needs to exist, but can be any type
 });

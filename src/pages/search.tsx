@@ -1,6 +1,6 @@
 import NavBar from "~/components/navbar";
 import { type RouterOutputs, api } from "~/utils/api";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
 import { type z } from "zod";
@@ -21,8 +21,8 @@ export default function HomePage() {
     landlord: undefined,
     barangay: undefined,
     num_of_rooms: undefined,
-    page: 0,
-    multiplier: 10,
+    limit: 10,
+    cursor: null,
     typeArray: [],
     tagArray: [],
   });
@@ -36,10 +36,29 @@ export default function HomePage() {
   });
 
   const {
-    data: accommodationEntries,
     isLoading: queryLoading,
+    data: accommodationEntries,
+    fetchNextPage,
+    isFetchingNextPage,
+    hasNextPage,
     refetch: refetchAccoms,
-  } = api.accommodation.getManyExperiment.useQuery(userInputs);
+  } = api.accommodation.getManyExperiment.useInfiniteQuery(userInputs, {
+    getNextPageParam: (lastPage) => lastPage.nextCursor,
+  });
+
+  // fix this loads hundreds of times
+  // const [loadingnext, setloadingnext] = useState(false);
+  // useEffect(() => {
+  //   setloadingnext(true);
+  //   window.addEventListener("scroll", function () {
+  //     // TODO: find a better formula
+  //     if (window.innerHeight + window.scrollY >= document.body.offsetHeight) {
+  //       if (!loadingnext)
+  //         void fetchNextPage();
+  //     }
+  //   });
+  //   setloadingnext(false);
+  // }, [loadingnext]);
 
   return (
     <>
@@ -228,8 +247,23 @@ export default function HomePage() {
         <div className="absolute left-[200px] -z-10">
           {/* <input className="mt-10 ml-10 py-1 outline outline-1 outline-p-dblue" placeholder="Search"/> */}
           <div className="flex flex-row flex-wrap">
-            <SearchAccoms items={accommodationEntries} />
+            {accommodationEntries &&
+              accommodationEntries?.pages.map((page, i: number) => (
+                <SearchAccoms key={i} items={page?.items} />
+              ))}
           </div>
+          <button
+            onClick={() => {
+              void fetchNextPage();
+            }}
+            disabled={!hasNextPage || isFetchingNextPage}
+          >
+            {isFetchingNextPage
+              ? "Loading more..."
+              : hasNextPage
+              ? "Load More"
+              : "Nothing more to load"}
+          </button>
         </div>
       </div>
     </>
