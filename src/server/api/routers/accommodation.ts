@@ -121,6 +121,7 @@ export const accommodationRouter = createTRPCRouter({
           fb_page,
           type,
           tagArray: { values: [] },
+          typeArray: { values: [] },
         },
       });
     }),
