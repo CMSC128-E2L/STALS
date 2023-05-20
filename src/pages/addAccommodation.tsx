@@ -111,7 +111,7 @@ export default function AddAccommodation() {
                         placeholder="Address"
                       ></input>
                     </div>
-                    <div className="mb-2 flex flex-row gap-2 bg-green-100">
+                    <div className="mb-2 flex flex-row gap-2">
                       <input
                         className="add-acc-input-text-field w-1/3"
                         type="text"
