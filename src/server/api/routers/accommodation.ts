@@ -209,10 +209,12 @@ export const accommodationRouter = createTRPCRouter({
   // Search an accommodation
   getManyExperiment: publicProcedure
     .input(accommodationGetManyExperiementSchema)
-    .query(({ ctx, input }) => {
-      return ctx.prisma.accommodation.findMany({
-        skip: input.page,
-        take: input.multiplier,
+    .query(async ({ ctx, input }) => {
+      const limit = input.limit ?? 50;
+      const { cursor } = input;
+      const items = await ctx.prisma.accommodation.findMany({
+        take: limit + 1,
+        cursor: cursor ? { id: cursor } : undefined,
         where: {
           OR: [
             {
@@ -244,6 +246,16 @@ export const accommodationRouter = createTRPCRouter({
           ],
         },
       });
+
+      let nextCursor: typeof cursor | undefined = undefined;
+      if (items.length > limit) {
+        const nextItem = items.pop();
+        nextCursor = nextItem?.id;
+      }
+      return {
+        items,
+        nextCursor,
+      };
     }),
 
   // Edit an accommodation
