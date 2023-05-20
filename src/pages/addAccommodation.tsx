@@ -62,14 +62,15 @@ export default function AddAccommodation() {
                       className="add-acc-input-text-field"
                       placeholder="Name of Accommodation"
                       {...register("name")}
+                      required
                     ></input>
                   </div>
-
-                  <div>
+                  <div className="flex flex-col gap-1">
                     {/* Subtype input field */}
-                    <div className="h-10 w-full items-center justify-items-stretch rounded-md bg-white p-1">
+                    <label>Type of Accommodation</label>
+                    <div className="h-10 w-full items-center justify-items-stretch rounded-md bg-white">
                       <select
-                        className="form-dropdown"
+                        className="form-dropdown peer"
                         placeholder="Type"
                         {...register("type")}
                       >
@@ -88,21 +89,36 @@ export default function AddAccommodation() {
                         </option>
                       </select>
                     </div>
+                    <div className="">
+                      <label>Contract Length</label>
+                      <select
+                        className="form-dropdown"
+                        placeholder="Contract Length"
+                      >
+                        <option>1 Academic Year</option>
+                        <option>1 Semester</option>
+                      </select>
+                    </div>
                   </div>
 
                   <div>
+                    <label>Address</label>
                     {/* Address input field */}
                     <input
                       className="add-acc-input-text-field"
-                      placeholder="Address"
+                      placeholder="Street Number, Subdivision, Barangay"
                       type="text"
                       {...register("address")}
                       required
                     ></input>
                   </div>
+                </div>
 
-                  <div>
-                    <div className="h-10 w-full items-center justify-items-stretch rounded-md bg-white p-1">
+                {/* Right Column */}
+                <div className="form-col-deets">
+                  <div className="flex flex-col gap-1">
+                    <label>Location</label>
+                    <div className="h-10 w-full items-center justify-items-stretch rounded-md bg-white">
                       <select
                         className="form-dropdown"
                         placeholder="Location"
@@ -113,10 +129,6 @@ export default function AddAccommodation() {
                       </select>
                     </div>
                   </div>
-                </div>
-
-                {/* Right Column */}
-                <div className="form-col-deets">
                   <div>
                     {/* Contact No input field */}
 
@@ -168,7 +180,7 @@ export default function AddAccommodation() {
                   <div>
                     <Link href="/addRoom">
                       {/* REDIRECT TO ADD ROOM */}
-                      <button className="rounded-md bg-p-gray px-3 py-1 shadow shadow-p-black/50">
+                      <button className="mt-3 rounded-md bg-p-gray px-3 py-1 shadow shadow-p-black/50">
                         Manage Rooms
                       </button>
                     </Link>
@@ -183,8 +195,9 @@ export default function AddAccommodation() {
               <div className="margin-40 grid grid-cols-2 gap-4 px-9">
                 {/* LEFT COLUMN */}
                 <div className="form-col-deets text-lg">
-                  <div>
-                    <div className="h-10 w-full items-center justify-items-stretch rounded-md bg-white p-1">
+                  <div className="flex flex-col gap-1">
+                    <label>Genders</label>
+                    <div className="h-10 w-full items-center justify-items-stretch rounded-md bg-white">
                       <select name="gender" className="form-dropdown">
                         <option value="">Coed</option>
                         <option value="">Male</option>
@@ -193,15 +206,17 @@ export default function AddAccommodation() {
                     </div>
                   </div>
                   <div>
-                    <div className="h-10 w-full items-center justify-items-stretch rounded-md bg-white p-1">
+                    <label>Shared Bathroom?</label>
+                    <div className="h-10 w-full items-center justify-items-stretch rounded-md bg-white">
                       <select name="gender" className="form-dropdown">
                         <option value="">Communal Bathroom</option>
                         <option value="">Private Bathroom</option>
                       </select>
                     </div>
                   </div>
-                  <div className="">
+                  <div className="flex flex-col gap-1">
                     <div>
+                      <label>Kitchen</label>
                       <select name="cooking" className="form-dropdown">
                         <option value="">Communal Kitchen</option>
                         <option value="">Kitchen in Room</option>
@@ -223,9 +238,6 @@ export default function AddAccommodation() {
                         ></input>
                       </div>
                     </div>
-                    <div>
-                      <input type="checkbox" name="visitors"></input> Visitors
-                    </div>
                   </div>
                 </div>
 
@@ -246,6 +258,9 @@ export default function AddAccommodation() {
                     </div>
                     <div>
                       <input type="checkbox" name="pets"></input> CCTV
+                    </div>
+                    <div>
+                      <input type="checkbox" name="visitors"></input> Visitors
                     </div>
                     <div>
                       <input type="checkbox" name="pets"></input> Guards
