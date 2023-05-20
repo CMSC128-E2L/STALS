@@ -22,7 +22,7 @@
   }
 
   .form-col-deets {
-    @apply grid grid-flow-row auto-rows-max gap-3;
+    @apply grid grid-flow-row auto-rows-max gap-2;
   }
 
   .form-dropdown {
