@@ -120,6 +120,7 @@ export const accommodationRouter = createTRPCRouter({
           is_archived,
           fb_page,
           type,
+          tagArray: { values: [] },
         },
       });
     }),
@@ -198,6 +199,53 @@ export const accommodationRouter = createTRPCRouter({
               },
               tags: input.tags,
               num_of_rooms: input.num_of_rooms,
+            },
+          ],
+        },
+      });
+    }),
+  // Search an accommodation
+  getManyExperiment: publicProcedure
+    .input(
+      z.object({
+        name: z.string().optional(),
+        address: z.string().optional(),
+        location: z.string().optional(),
+        landlord: z.string().optional(),
+        barangay: z.string().optional(),
+        tags_array: z.string().array().optional(),
+        num_of_rooms: z.number().optional(),
+        page: z.number().optional(),
+        multiplier: z.number().optional(),
+      }),
+    )
+    .query(({ ctx, input }) => {
+      return ctx.prisma.accommodation.findMany({
+        skip: input.page,
+        take: input.multiplier,
+        where: {
+          OR: [
+            {
+              name: {
+                contains: input.name,
+              },
+              address: {
+                contains: input.address,
+              },
+              location: {
+                contains: input.location,
+              },
+              barangay: {
+                contains: input.barangay,
+              },
+              landlord: {
+                contains: input.landlord,
+              },
+              num_of_rooms: input.num_of_rooms,
+              tagArray: {
+                path: "$.values",
+                array_contains: input.tags_array ?? [],
+              },
             },
           ],
         },
