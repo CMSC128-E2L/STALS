@@ -18,6 +18,12 @@ const config = {
       {
         hostname: "**.googleusercontent.com",
       },
+      {
+        hostname: "**.discordapp.com",
+      },
+      {
+        hostname: "**.workers.dev",
+      },
     ],
   },
   /**
