@@ -40,28 +40,32 @@ export const fileRouter = createTRPCRouter({
       }),
     )
     .query(async ({ input, ctx }) => {
-      const response = await s3Client.send(
-        new ListObjectsV2Command({
-          Bucket: "stals",
-          Prefix: input.id,
-          MaxKeys: input.limit ?? 5,
-        }),
+      // const response = await s3Client.send(
+      //   new ListObjectsV2Command({
+      //     Bucket: "stals",
+      //     Prefix: input.id,
+      //     MaxKeys: input.limit ?? 5,
+      //   }),
+      // );
+      // const output: string[] = [];
+
+      // if (response.Contents)
+      //   for (const element of response.Contents) {
+      //     if (element.Key) {
+      //       const e: string = await getSignedUrl(
+      //         s3Client,
+      //         new GetObjectCommand({ Bucket: "stals", Key: element.Key }),
+      //         { expiresIn: 3600 },
+      //       );
+      //       output.push(e);
+      //     }
+      //   }
+
+      const output = await fetch(
+        `https://stals-worker.p0lbang.workers.dev/getAll/${input.id}`,
       );
-      const output: string[] = [];
-
-      if (response.Contents)
-        for (const element of response.Contents) {
-          if (element.Key) {
-            const e: string = await getSignedUrl(
-              s3Client,
-              new GetObjectCommand({ Bucket: "stals", Key: element.Key }),
-              { expiresIn: 3600 },
-            );
-            output.push(e);
-          }
-        }
-
-      return output;
+      const listimages: string[] = (await output.json()) as string[];
+      return listimages;
     }),
   createBucket: publicProcedure.query(async () => {
     const params = {
