@@ -6,6 +6,8 @@ import { useForm } from "react-hook-form";
 import { type z } from "zod";
 import Link from "next/link";
 import { accommodationGetManyExperiementSchema } from "~/utils/apitypes";
+import { AccommodationType } from "@prisma/client";
+import { titleCase } from "~/utils/helpers";
 
 export default function HomePage() {
   const [userInputs, setuserIntpus] = useState<
@@ -67,70 +69,21 @@ export default function HomePage() {
             {/* Types */}
             <div className="mb-4">
               <h2 className="mb-2 text-base font-bold">Types</h2>
-              <div className="mb-2 flex items-center">
-                <input
-                  id="Apartments"
-                  type="checkbox"
-                  value=""
-                  className="ml-3 h-4 w-4 rounded border-gray-300 bg-gray-100 text-blue-600 focus:ring-2 focus:ring-blue-500 dark:border-gray-600 dark:bg-gray-700 dark:ring-offset-gray-800 dark:focus:ring-blue-600"
-                />
-                <label htmlFor="Apartments" className="filter-text ">
-                  Apartments
-                </label>
-              </div>
-
-              <div className="mb-2 flex items-center">
-                <input
-                  id="Bedspaces"
-                  type="checkbox"
-                  value=""
-                  className="ml-3 h-4 w-4 rounded border-gray-300 bg-gray-100 text-blue-600 focus:ring-2 focus:ring-blue-500 dark:border-gray-600 dark:bg-gray-700 dark:ring-offset-gray-800 dark:focus:ring-blue-600"
-                />
-                <label htmlFor="Bedspaces" className="filter-text">
-                  Bedspaces
-                </label>
-              </div>
-
-              <div className="mb-2 flex items-center">
-                <input
-                  id="Dormitory"
-                  type="checkbox"
-                  className="ml-3 h-4 w-4 rounded border-gray-300 bg-gray-100 text-blue-600 focus:ring-2 focus:ring-blue-500 dark:border-gray-600 dark:bg-gray-700 dark:ring-offset-gray-800 dark:focus:ring-blue-600"
-                  value="DORMITORY"
-                  {...register("typeArray")}
-                />
-                <label htmlFor="Dormitory" className="filter-text">
-                  Dormitories
-                </label>
-              </div>
-
-              <div className="mb-2 flex items-center">
-                <input
-                  id="Hotel"
-                  type="checkbox"
-                  value="HOTEL"
-                  className="ml-3 h-4 w-4 rounded border-gray-300 bg-gray-100 text-blue-600 focus:ring-2 focus:ring-blue-500 dark:border-gray-600 dark:bg-gray-700 dark:ring-offset-gray-800 dark:focus:ring-blue-600"
-                  {...register("typeArray")}
-                />
-                <label htmlFor="Hotel" className="filter-text">
-                  Hotels
-                </label>
-              </div>
-
-              <div className="flex items-center">
-                <input
-                  id="Transients"
-                  type="checkbox"
-                  className="ml-3 h-4 w-4 rounded border-gray-300 bg-gray-100 text-blue-600 focus:ring-2 focus:ring-blue-500 dark:border-gray-600 dark:bg-gray-700 dark:ring-offset-gray-800 dark:focus:ring-blue-600"
-                  value="Transients"
-                  {...register("typeArray")}
-                />
-                <label htmlFor="Transients" className="filter-text">
-                  Transients
-                </label>
-              </div>
+              {Object.values(AccommodationType).map((val: string) => (
+                <div key={val} className="mb-2 flex items-center">
+                  <input
+                    id={val}
+                    type="checkbox"
+                    value={val}
+                    className="ml-3 h-4 w-4 rounded border-gray-300 bg-gray-100 text-blue-600 focus:ring-2 focus:ring-blue-500 dark:border-gray-600 dark:bg-gray-700 dark:ring-offset-gray-800 dark:focus:ring-blue-600"
+                    {...register("typeArray")}
+                  />
+                  <label htmlFor={val} className="filter-text ">
+                    {titleCase(val)}
+                  </label>
+                </div>
+              ))}
             </div>
-
             {/* Price Range */}
             <div className="mb-4">
               <h2 className="mb-2 text-base font-bold">Price Range</h2>
