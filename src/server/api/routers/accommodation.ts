@@ -6,6 +6,7 @@ import {
   publicProcedure,
   protectedProcedure,
 } from "~/server/api/trpc";
+import { accommodationGetManyExperiementSchema } from "~/utils/apitypes";
 
 export const accommodationRouter = createTRPCRouter({
   getInfiniteExample: publicProcedure
@@ -207,19 +208,7 @@ export const accommodationRouter = createTRPCRouter({
     }),
   // Search an accommodation
   getManyExperiment: publicProcedure
-    .input(
-      z.object({
-        name: z.string().optional(),
-        address: z.string().optional(),
-        location: z.string().optional(),
-        landlord: z.string().optional(),
-        barangay: z.string().optional(),
-        tags_array: z.string().array().optional(),
-        num_of_rooms: z.number().optional(),
-        page: z.number().optional(),
-        multiplier: z.number().optional(),
-      }),
-    )
+    .input(accommodationGetManyExperiementSchema)
     .query(({ ctx, input }) => {
       return ctx.prisma.accommodation.findMany({
         skip: input.page,
@@ -245,7 +234,11 @@ export const accommodationRouter = createTRPCRouter({
               num_of_rooms: input.num_of_rooms,
               tagArray: {
                 path: "$.values",
-                array_contains: input.tags_array ?? [],
+                array_contains: input.tagArray ?? [],
+              },
+              typeArray: {
+                path: "$.values",
+                array_contains: input.typeArray ?? [],
               },
             },
           ],
