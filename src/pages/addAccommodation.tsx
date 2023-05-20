@@ -104,9 +104,20 @@ export default function AddAccommodation() {
                   <div>
                     <label>Address</label>
                     {/* Address input field */}
+                    <div className="mb-2 flex flex-row gap-2 bg-green-100">
+                      <input
+                        className="add-acc-input-text-field w-1/3"
+                        type="text"
+                        placeholder="St."
+                      ></input>
+                      <input
+                        className="add-acc-input-text-field w-2/3"
+                        placeholder="Subdivision"
+                      ></input>
+                    </div>
                     <input
                       className="add-acc-input-text-field"
-                      placeholder="Street Number, Subdivision, Barangay"
+                      placeholder="Barangay"
                       type="text"
                       {...register("address")}
                       required
