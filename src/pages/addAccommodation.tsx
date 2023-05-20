@@ -61,6 +61,7 @@ export default function AddAccommodation() {
                     <input
                       className="add-acc-input-text-field"
                       placeholder="Name of Accommodation"
+                      pattern="[\w\s]+"
                       {...register("name")}
                       required
                     ></input>
@@ -104,7 +105,13 @@ export default function AddAccommodation() {
                   <div>
                     <label>Address</label>
                     {/* Address input field */}
-                    <div className="mb-2 flex flex-row gap-2 bg-green-100">
+                    <div className="pb-2">
+                      <input
+                        className="add-acc-input-text-field"
+                        placeholder="Address"
+                      ></input>
+                    </div>
+                    <div className="mb-2 flex flex-row gap-2">
                       <input
                         className="add-acc-input-text-field w-1/3"
                         type="text"
@@ -114,14 +121,13 @@ export default function AddAccommodation() {
                         className="add-acc-input-text-field w-2/3"
                         placeholder="Subdivision"
                       ></input>
+                      <input
+                        className="add-acc-input-text-field"
+                        placeholder="Barangay"
+                        type="text"
+                        {...register("address")}
+                      ></input>
                     </div>
-                    <input
-                      className="add-acc-input-text-field"
-                      placeholder="Barangay"
-                      type="text"
-                      {...register("address")}
-                      required
-                    ></input>
                   </div>
                 </div>
 
@@ -140,12 +146,16 @@ export default function AddAccommodation() {
                       </select>
                     </div>
                   </div>
-                  <div>
+                  <div className="flex flex-row gap-1">
                     {/* Contact No input field */}
-
+                    <select className="rounded-md pl-2 font-bold">
+                      <option value="09">09</option>
+                      <option value="+639">+639</option>
+                    </select>
                     <input
                       className="add-acc-input-text-field"
                       placeholder="Contact No."
+                      pattern="[0-9]{9}"
                       type="text"
                       {...register("contact_number")}
                       required
@@ -158,6 +168,7 @@ export default function AddAccommodation() {
                     <input
                       className="add-acc-input-text-field"
                       placeholder="Facebook Page Link"
+                      pattern="(?:https?:\/\/)?(?:www\.)?(mbasic.facebook|m\.facebook|facebook|fb)\.(com|me)\/(?:(?:\w\.)*#!\/)?(?:pages\/)?(?:[\w\-\.]*\/)*([\w\-\.]*)"
                       type="text"
                       {...register("fb_page")}
                     ></input>
@@ -317,6 +328,7 @@ export default function AddAccommodation() {
                     type="text"
                     placeholder="Custom tags"
                     {...register("tags")}
+                    pattern="(([\w\s]+), ?){,4}([\w\s])?"
                     className="add-acc-input-text-field"
                   ></input>
                 </div>

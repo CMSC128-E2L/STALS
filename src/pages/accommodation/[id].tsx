@@ -6,7 +6,6 @@ import Image from "next/image";
 import { api } from "~/utils/api";
 import { useRouter } from "next/router";
 import { dynamicRouteID } from "~/utils/helpers";
-import { stringify } from "superjson";
 
 export default function Accommodation() {
   const { shouldReturn, id } = dynamicRouteID(useRouter());
@@ -19,25 +18,22 @@ export default function Accommodation() {
     api.file.getAccommImages.useQuery({ id });
 
   return (
-    <div className="flex h-screen flex-col object-contain">
+    <div className="flex h-screen flex-col">
       {/* HEADER */}
-      <div className="max-w-screen">
-        <NavBar />
-      </div>
+      <NavBar />
 
       {/* BODY */}
-      <div className="flex flex-auto flex-col">
+      <div className="mt-10 flex flex-auto flex-col">
         {/* LANDLORD PROFILE 
         CAN BE MADE INTO A COMPONENT */}
-        <div className="position-left ml-10 w-1/4 p-4 py-2">
+        <div className="position-left ml-10 mt-10 w-1/4 p-4 py-3">
           <UserProfile />
         </div>
 
         {/* cONTAINS THE ACCOMMODATION INFO */}
         <div className="flex flex-row justify-center object-contain">
-          <div className="invisible">a</div>
           {/* Box that contains the accommodation thingy */}
-          <div className="margin-40 flex w-11/12 gap-2 bg-p-lblue p-4 py-4 shadow-md">
+          <div className="margin-40 flex w-11/12 gap-2 rounded-md bg-p-lblue p-4 py-4 shadow-md">
             {/* GALLERY */}
             <div className="w-1/3 flex-none bg-red-100 p-4">
               <div className="grid grid-cols-2 gap-4">
