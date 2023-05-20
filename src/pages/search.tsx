@@ -8,6 +8,8 @@ import Link from "next/link";
 import { accommodationGetManyExperiementSchema } from "~/utils/apitypes";
 import { AccommodationType } from "@prisma/client";
 import { titleCase } from "~/utils/helpers";
+import Image from "next/image";
+import placeholder from "public/images/logo.png";
 
 export default function HomePage() {
   const [userInputs, setuserIntpus] = useState<
@@ -306,24 +308,11 @@ const Location: React.FC = () => {
 const SearchAccoms: React.FC<{
   items: RouterOutputs["accommodation"]["getMany"] | undefined;
 }> = ({ items }) => {
-  console.log("inside");
   if (items && items.length != 0) {
-    console.log("may laman;");
     return (
       <>
         {items?.map(({ id, name }) => (
-          <Link key={id} href={`/accommodation/${id}`}>
-            <div className="ml-3 mt-3 h-64 w-64 rounded-xl border bg-p-gray">
-              {name}
-              {/* <Image
-                  src={`${x}`}
-                  alt={x}
-                  fill
-                  className="h-64 w-64 object-cover p-4"
-                  unoptimized
-                /> */}
-            </div>
-          </Link>
+          <SearchItem key={id + name} id={id} name={name} />
         ))}
       </>
     );
@@ -337,5 +326,33 @@ const SearchAccoms: React.FC<{
       <div className="-z-30 mr-4 mt-4 h-64 w-64 animate-pulse rounded-xl border bg-p-gray"></div>
       <div className="-z-30 mr-4 mt-4 h-64 w-64 animate-pulse rounded-xl border bg-p-gray"></div>
     </>
+  );
+};
+
+const SearchItem: React.FC<{ key: string; id: string; name: string }> = ({
+  key,
+  id,
+  name,
+}) => {
+  const [imgSrc, setImgSrc] = useState(
+    `https://stals-worker.p0lbang.workers.dev/${id}.jpg`,
+  );
+
+  return (
+    <Link key={key} href={`/accommodation/${id}`}>
+      <div className="relative -z-10 ml-3 mt-3 h-64 w-64 rounded-xl border bg-p-gray">
+        <Image
+          src={imgSrc}
+          alt={name}
+          fill
+          className="-z-10 object-contain"
+          unoptimized
+          onError={() => {
+            setImgSrc(placeholder.src);
+          }}
+        />
+        <div className="z-20 text-center">{name}</div>
+      </div>
+    </Link>
   );
 };
