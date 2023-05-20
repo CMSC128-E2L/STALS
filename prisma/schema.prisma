@@ -96,10 +96,10 @@ enum AccommodationType {
 model Accommodation {
   id              String  @id @default(cuid())
   name            String
-  address         String?
+  address         String? // TODO: remove
   street_number   String?
   subdivision     String?
-  barangay        String?
+  barangay        String? // TODO: required
   location        String
   landlord        String
   contract_length String?
@@ -110,7 +110,8 @@ model Accommodation {
   fb_page         String?
   price           Float?
   Capacity        Int?
-  tagArray        Json?
+  tagArray        Json? // TODO: required
+  typeArray       Json? // TODO: required
 
   Review Review[]
   Room   Room[]
