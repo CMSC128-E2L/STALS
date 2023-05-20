@@ -110,7 +110,7 @@ model Accommodation {
   fb_page         String?
   price           Float?
   Capacity        Int?
-  
+  typeArray       Json?
 
   Review Review[]
   Room   Room[]
