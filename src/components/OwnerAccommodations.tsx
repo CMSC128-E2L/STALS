@@ -7,9 +7,10 @@ export const OwnerAccommodations: React.FC<{ showArchived: boolean }> = ({
   showArchived,
 }) => {
   const session = useSession();
-  const query: RouterInputs["accommodation"]["getMany"] = showArchived
-    ? { landlord: session.data?.user.id }
-    : { landlord: session.data?.user.id };
+  const query: RouterInputs["accommodation"]["getMany"] = {
+    landlord: session.data?.user.id,
+    is_archived: showArchived,
+  };
 
   const { data: firstData, isLoading: queryLoading } =
     api.accommodation.getMany.useQuery(query);

@@ -18,7 +18,7 @@ export default function MyAccom() {
         </button>
       </div>
       <div className="grid grid-cols-4 place-content-evenly gap-2">
-        <OwnerAccommodations showArchived={true} />
+        <OwnerAccommodations showArchived={false} />
       </div>
       <div id="more-content" className="max-h-0 overflow-hidden transition-all">
         <p>Additional content here...</p>
