@@ -92,15 +92,18 @@ export const userRouter = createTRPCRouter({
         middle_name: z.string().optional(),
         last_name: z.string().optional(),
         contact_number: z.string().optional(),
+        username: z.string().optional(),
+        suffix: z.string().optional(),
       }),
     )
     .mutation(({ ctx, input }) => {
       const id = ctx.session.user.id;
-      const { first_name, middle_name, last_name, contact_number } = input;
+      const { username, first_name, middle_name, last_name, contact_number } =
+        input;
       return ctx.prisma.user.update({
         where: { id },
         data: {
-          //username: input.username,
+          username,
           first_name,
           middle_name,
           last_name,
