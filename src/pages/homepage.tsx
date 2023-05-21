@@ -1,246 +1,269 @@
 import NavBar from "~/components/navbar";
-import SideBar from "~/components/sidebar";
-import AccomRow from "~/components/accomRow";
-import { api } from "~/utils/api";
-import { useState } from "react";
+import { type RouterOutputs, api } from "~/utils/api";
+import { useEffect, useState } from "react";
+import { zodResolver } from "@hookform/resolvers/zod";
+import { useForm } from "react-hook-form";
+import { type z } from "zod";
+import Link from "next/link";
+import { accommodationGetManyExperiementSchema } from "~/utils/apitypes";
+import { AccommodationType } from "@prisma/client";
+import { titleCase } from "~/utils/helpers";
+import Image from "next/image";
+import placeholder from "public/images/logo.png";
 
 export default function HomePage() {
-  const { data: barangayEntries, isLoading: queryLoading } =
-    api.accommodation.getBarangays.useQuery();
+  const [userInputs, setuserIntpus] = useState<
+    z.infer<typeof accommodationGetManyExperiementSchema>
+  >({
+    name: undefined,
+    address: undefined,
+    location: undefined,
+    landlord: undefined,
+    barangay: undefined,
+    num_of_rooms: undefined,
+    limit: 10,
+    cursor: null,
+    typeArray: [],
+    tagArray: [],
+  });
+
+  const {
+    register,
+    handleSubmit,
+    formState: { errors },
+  } = useForm({
+    resolver: zodResolver(accommodationGetManyExperiementSchema),
+  });
+
+  const {
+    isLoading: queryLoading,
+    data: accommodationEntries,
+    fetchNextPage,
+    isFetchingNextPage,
+    hasNextPage,
+    refetch: refetchAccoms,
+  } = api.accommodation.getManyExperiment.useInfiniteQuery(userInputs, {
+    getNextPageParam: (lastPage) => lastPage.nextCursor,
+  });
+
+  // fix this loads hundreds of times
+  // const [loadingnext, setloadingnext] = useState(false);
+  // useEffect(() => {
+  //   setloadingnext(true);
+  //   window.addEventListener("scroll", function () {
+  //     // TODO: find a better formula
+  //     if (window.innerHeight + window.scrollY >= document.body.offsetHeight) {
+  //       if (!loadingnext)
+  //         void fetchNextPage();
+  //     }
+  //   });
+  //   setloadingnext(false);
+  // }, [loadingnext]);
+
   return (
     <>
-      <div className="flex min-h-screen flex-col">
-        <NavBar />
+      <div className="flex h-full flex-row pt-[60px]">
+        <form
+          className="fixed h-[100%] w-[200px]"
+          // eslint-disable-next-line @typescript-eslint/no-misused-promises
+          onSubmit={handleSubmit(
+            (d: z.infer<typeof accommodationGetManyExperiementSchema>) => {
+              setuserIntpus((prevState) => ({
+                ...prevState,
+                ...d,
+              }));
+              void refetchAccoms();
+            },
+          )}
+        >
+          <NavBar register={register} name={"name"} />
 
-        <div className="flex flex-grow">
           {/* Sidebar */}
-          <div className="h-screen w-1/6 flex-none overflow-y-auto">
-            <div className="top-15 fixed left-0 h-full w-1/6 overflow-y-auto bg-p-lblue">
-              {/* Filters */}
-              <div className="flex flex-col bg-p-lblue p-5">
-                {/* Location */}
-                <div className="mb-4">
-                  <h2 className="mb-2 text-base font-bold">Location</h2>
-                  <Location />
-                </div>
+          {/* Filters */}
+          <div className="flex h-[100%] flex-col overflow-y-auto bg-p-lblue p-5">
+            {/* Location */}
+            <div className="mb-4">
+              <h2 className="mb-2 text-base font-bold">Location</h2>
+              <Location />
+            </div>
 
-                {/* Types */}
-                <div className="mb-4">
-                  <h2 className="mb-2 text-base font-bold">Types</h2>
-                  <div className="mb-2 flex items-center">
-                    <input
-                      id="Apartments"
-                      type="checkbox"
-                      value=""
-                      className="ml-3 h-4 w-4 rounded border-gray-300 bg-gray-100 text-blue-600 focus:ring-2 focus:ring-blue-500 dark:border-gray-600 dark:bg-gray-700 dark:ring-offset-gray-800 dark:focus:ring-blue-600"
-                    />
-                    <label htmlFor="Apartments" className="filter-text ">
-                      Apartments
-                    </label>
-                  </div>
-
-                  <div className="mb-2 flex items-center">
-                    <input
-                      id="Bedspaces"
-                      type="checkbox"
-                      value=""
-                      className="ml-3 h-4 w-4 rounded border-gray-300 bg-gray-100 text-blue-600 focus:ring-2 focus:ring-blue-500 dark:border-gray-600 dark:bg-gray-700 dark:ring-offset-gray-800 dark:focus:ring-blue-600"
-                    />
-                    <label htmlFor="Bedspaces" className="filter-text">
-                      Bedspaces
-                    </label>
-                  </div>
-
-                  <div className="mb-2 flex items-center">
-                    <input
-                      id="Dormitories"
-                      type="checkbox"
-                      value=""
-                      className="ml-3 h-4 w-4 rounded border-gray-300 bg-gray-100 text-blue-600 focus:ring-2 focus:ring-blue-500 dark:border-gray-600 dark:bg-gray-700 dark:ring-offset-gray-800 dark:focus:ring-blue-600"
-                    />
-                    <label htmlFor="Dormitories" className="filter-text">
-                      Dormitories
-                    </label>
-                  </div>
-
-                  <div className="mb-2 flex items-center">
-                    <input
-                      id="Hotels"
-                      type="checkbox"
-                      value=""
-                      className="ml-3 h-4 w-4 rounded border-gray-300 bg-gray-100 text-blue-600 focus:ring-2 focus:ring-blue-500 dark:border-gray-600 dark:bg-gray-700 dark:ring-offset-gray-800 dark:focus:ring-blue-600"
-                    />
-                    <label htmlFor="Hotels" className="filter-text">
-                      Hotels
-                    </label>
-                  </div>
-
-                  <div className="flex items-center">
-                    <input
-                      id="Transients"
-                      type="checkbox"
-                      value=""
-                      className="ml-3 h-4 w-4 rounded border-gray-300 bg-gray-100 text-blue-600 focus:ring-2 focus:ring-blue-500 dark:border-gray-600 dark:bg-gray-700 dark:ring-offset-gray-800 dark:focus:ring-blue-600"
-                    />
-                    <label htmlFor="Transients" className="filter-text">
-                      Transients
-                    </label>
-                  </div>
-                </div>
-
-                {/* Price Range */}
-                <div className="mb-4">
-                  <h2 className="mb-2 text-base font-bold">Price Range</h2>
-                  <div className="mb-2 flex items-center">
-                    <input
-                      id="below-1000"
-                      type="checkbox"
-                      value=""
-                      className="ml-3 h-4 w-4 rounded border-gray-300 bg-gray-100 text-blue-600 focus:ring-2 focus:ring-blue-500 dark:border-gray-600 dark:bg-gray-700 dark:ring-offset-gray-800 dark:focus:ring-blue-600"
-                    />
-                    <label htmlFor="below-1000" className="filter-text">
-                      Below ₱ 1000
-                    </label>
-                  </div>
-
-                  <div className="mb-2 flex items-center">
-                    <input
-                      id="one-to-two"
-                      type="checkbox"
-                      value=""
-                      className="ml-3  h-4 w-4 rounded border-gray-300 bg-gray-100 text-blue-600 focus:ring-2 focus:ring-blue-500 dark:border-gray-600 dark:bg-gray-700 dark:ring-offset-gray-800 dark:focus:ring-blue-600"
-                    />
-                    <label htmlFor="one-to-two" className="filter-text">
-                      ₱ 1000 – ₱ 2000{" "}
-                    </label>
-                  </div>
-
-                  <div className="mb-2 flex items-center">
-                    <input
-                      id="two-to-three"
-                      type="checkbox"
-                      value=""
-                      className="ml-3  h-4 w-4 rounded border-gray-300 bg-gray-100 text-blue-600 focus:ring-2 focus:ring-blue-500 dark:border-gray-600 dark:bg-gray-700 dark:ring-offset-gray-800 dark:focus:ring-blue-600"
-                    />
-                    <label htmlFor="two-to-three" className="filter-text">
-                      ₱ 2001 – ₱ 3000{" "}
-                    </label>
-                  </div>
-
-                  <div className="mb-2 flex items-center">
-                    <input
-                      id="three-to-four"
-                      type="checkbox"
-                      value=""
-                      className="ml-3 h-4 w-4 rounded border-gray-300 bg-gray-100 text-blue-600 focus:ring-2 focus:ring-blue-500 dark:border-gray-600 dark:bg-gray-700 dark:ring-offset-gray-800 dark:focus:ring-blue-600"
-                    />
-                    <label htmlFor="three-to-four" className="filter-text">
-                      ₱ 3001 – ₱ 4000{" "}
-                    </label>
-                  </div>
-
-                  <div className="flex items-center">
-                    <input
-                      id="above-four"
-                      type="checkbox"
-                      value=""
-                      className="ml-3 h-4 w-4 rounded border-gray-300 bg-gray-100 text-blue-600 focus:ring-2 focus:ring-blue-500 dark:border-gray-600 dark:bg-gray-700 dark:ring-offset-gray-800 dark:focus:ring-blue-600"
-                    />
-                    <label htmlFor="above-four" className="filter-text">
-                      Above ₱ 4001
-                    </label>
-                  </div>
-                </div>
-
-                {/* Capacity */}
-                <div className="mb-4 flex flex-col">
-                  <h2 className="mb-2 text-base font-bold">Capacity</h2>
-                  <label className="mb-1">
-                    <input
-                      type="radio"
-                      className="form-radio ml-3"
-                      name="radio-group"
-                      value="option1"
-                      defaultChecked
-                    />
-                    <span className="filter-text">Solo</span>
-                  </label>
-
-                  <label className="mb-1">
-                    <input
-                      type="radio"
-                      className="form-radio ml-3"
-                      name="radio-group"
-                      value="option1"
-                      defaultChecked
-                    />
-                    <span className="filter-text">2 Persons</span>
-                  </label>
-
-                  <label className="mb-1">
-                    <input
-                      type="radio"
-                      className="form-radio ml-3"
-                      name="radio-group"
-                      value="option1"
-                      defaultChecked
-                    />
-                    <span className="filter-text">3 Persons</span>
-                  </label>
-
-                  <label className="mb-1">
-                    <input
-                      type="radio"
-                      className="form-radio ml-3"
-                      name="radio-group"
-                      value="option1"
-                      defaultChecked
-                    />
-                    <span className="filter-text">4 Persons</span>
-                  </label>
-
-                  <label className="">
-                    <input
-                      type="radio"
-                      className="form-radio ml-3"
-                      name="radio-group"
-                      value="option1"
-                      defaultChecked
-                    />
-                    <span className="filter-text">More than 4</span>
-                  </label>
-                </div>
-
-                {/* Include */}
-                <div className="mb-4">
-                  <h2 className="mb-2 text-base font-bold">Include</h2>
+            {/* Types */}
+            <div className="mb-4">
+              <h2 className="mb-2 text-base font-bold">Types</h2>
+              {Object.values(AccommodationType).map((val: string) => (
+                <div key={val} className="mb-2 flex items-center">
                   <input
-                    className="filter-search"
-                    placeholder="Type for suggestions..."
-                  ></input>
+                    id={val}
+                    type="checkbox"
+                    value={val}
+                    className="ml-3 h-4 w-4 rounded border-gray-300 bg-gray-100 text-blue-600 focus:ring-2 focus:ring-blue-500 dark:border-gray-600 dark:bg-gray-700 dark:ring-offset-gray-800 dark:focus:ring-blue-600"
+                    {...register("typeArray")}
+                  />
+                  <label htmlFor={val} className="filter-text ">
+                    {titleCase(val)}
+                  </label>
                 </div>
-                <div className="mt-16"></div>
+              ))}
+            </div>
+            {/* Price Range */}
+            <div className="mb-4">
+              <h2 className="mb-2 text-base font-bold">Price Range</h2>
+              <div className="mb-2 flex items-center">
+                <input
+                  id="below-1000"
+                  type="checkbox"
+                  value=""
+                  className="ml-3 h-4 w-4 rounded border-gray-300 bg-gray-100 text-blue-600 focus:ring-2 focus:ring-blue-500 dark:border-gray-600 dark:bg-gray-700 dark:ring-offset-gray-800 dark:focus:ring-blue-600"
+                />
+                <label htmlFor="below-1000" className="filter-text">
+                  Below ₱ 1000
+                </label>
               </div>
-              <div />
-            </div>
-          </div>
 
-          {/* Content */}
+              <div className="mb-2 flex items-center">
+                <input
+                  id="one-to-two"
+                  type="checkbox"
+                  value=""
+                  className="ml-3  h-4 w-4 rounded border-gray-300 bg-gray-100 text-blue-600 focus:ring-2 focus:ring-blue-500 dark:border-gray-600 dark:bg-gray-700 dark:ring-offset-gray-800 dark:focus:ring-blue-600"
+                />
+                <label htmlFor="one-to-two" className="filter-text">
+                  ₱ 1000 – ₱ 2000{" "}
+                </label>
+              </div>
 
-          {/* Accommodations List */}
-          <div className="flex-grow">
-            {/* <input className="mt-10 ml-10 py-1 outline outline-1 outline-p-dblue" placeholder="Search"/> */}
-            <div className="space-y-4 p-10">
-              {/* List of Accommodations */}
-              {barangayEntries?.map((entry, index) => {
-                return (
-                  <div key={index}>
-                    <AccomRow barangay={entry.barangay} />
-                  </div>
-                );
-              })}
+              <div className="mb-2 flex items-center">
+                <input
+                  id="two-to-three"
+                  type="checkbox"
+                  value=""
+                  className="ml-3  h-4 w-4 rounded border-gray-300 bg-gray-100 text-blue-600 focus:ring-2 focus:ring-blue-500 dark:border-gray-600 dark:bg-gray-700 dark:ring-offset-gray-800 dark:focus:ring-blue-600"
+                />
+                <label htmlFor="two-to-three" className="filter-text">
+                  ₱ 2001 – ₱ 3000{" "}
+                </label>
+              </div>
+
+              <div className="mb-2 flex items-center">
+                <input
+                  id="three-to-four"
+                  type="checkbox"
+                  value=""
+                  className="ml-3 h-4 w-4 rounded border-gray-300 bg-gray-100 text-blue-600 focus:ring-2 focus:ring-blue-500 dark:border-gray-600 dark:bg-gray-700 dark:ring-offset-gray-800 dark:focus:ring-blue-600"
+                />
+                <label htmlFor="three-to-four" className="filter-text">
+                  ₱ 3001 – ₱ 4000{" "}
+                </label>
+              </div>
+
+              <div className="flex items-center">
+                <input
+                  id="above-four"
+                  type="checkbox"
+                  value=""
+                  className="ml-3 h-4 w-4 rounded border-gray-300 bg-gray-100 text-blue-600 focus:ring-2 focus:ring-blue-500 dark:border-gray-600 dark:bg-gray-700 dark:ring-offset-gray-800 dark:focus:ring-blue-600"
+                />
+                <label htmlFor="above-four" className="filter-text">
+                  Above ₱ 4001
+                </label>
+              </div>
             </div>
+
+            {/* Capacity */}
+            <div className="mb-4 flex flex-col">
+              <h2 className="mb-2 text-base font-bold">Capacity</h2>
+              <label className="mb-1">
+                <input
+                  type="radio"
+                  className="form-radio ml-3"
+                  name="radio-group"
+                  value="option1"
+                  defaultChecked
+                />
+                <span className="filter-text">Solo</span>
+              </label>
+
+              <label className="mb-1">
+                <input
+                  type="radio"
+                  className="form-radio ml-3"
+                  name="radio-group"
+                  value="option1"
+                  defaultChecked
+                />
+                <span className="filter-text">2 Persons</span>
+              </label>
+
+              <label className="mb-1">
+                <input
+                  type="radio"
+                  className="form-radio ml-3"
+                  name="radio-group"
+                  value="option1"
+                  defaultChecked
+                />
+                <span className="filter-text">3 Persons</span>
+              </label>
+
+              <label className="mb-1">
+                <input
+                  type="radio"
+                  className="form-radio ml-3"
+                  name="radio-group"
+                  value="option1"
+                  defaultChecked
+                />
+                <span className="filter-text">4 Persons</span>
+              </label>
+
+              <label className="">
+                <input
+                  type="radio"
+                  className="form-radio ml-3"
+                  name="radio-group"
+                  value="option1"
+                  defaultChecked
+                />
+                <span className="filter-text">More than 4</span>
+              </label>
+            </div>
+
+            {/* Include */}
+            <div className="mb-4">
+              <h2 className="mb-2 text-base font-bold">Include</h2>
+              <input
+                className="filter-search"
+                placeholder="Type for suggestions..."
+              ></input>
+            </div>
+            <div className="mt-16"></div>
           </div>
+          <div />
+        </form>
+
+        {/* Content */}
+
+        {/* Accommodations List */}
+        <div className="absolute left-[200px] -z-10">
+          {/* <input className="mt-10 ml-10 py-1 outline outline-1 outline-p-dblue" placeholder="Search"/> */}
+          <div className="flex flex-row flex-wrap">
+            {accommodationEntries &&
+              accommodationEntries?.pages.map((page, i: number) => (
+                <SearchAccoms key={i} items={page?.items} />
+              ))}
+          </div>
+          <button
+            onClick={() => {
+              void fetchNextPage();
+            }}
+            disabled={!hasNextPage || isFetchingNextPage}
+          >
+            {isFetchingNextPage
+              ? "Loading more..."
+              : hasNextPage
+              ? "Load More"
+              : "Nothing more to load"}
+          </button>
         </div>
       </div>
     </>
@@ -314,4 +337,56 @@ const Location: React.FC = () => {
       </>
     );
   }
+};
+
+const SearchAccoms: React.FC<{
+  items: RouterOutputs["accommodation"]["getMany"] | undefined;
+}> = ({ items }) => {
+  if (items && items.length != 0) {
+    return (
+      <>
+        {items?.map(({ id, name }) => (
+          <SearchItem key={id + name} id={id} name={name} />
+        ))}
+      </>
+    );
+  }
+
+  // waiting for query output
+  return (
+    <>
+      <div className="-z-30 mr-4 mt-4 h-64 w-64 animate-pulse rounded-xl border bg-p-gray"></div>
+      <div className="-z-30 mr-4 mt-4 h-64 w-64 animate-pulse rounded-xl border bg-p-gray"></div>
+      <div className="-z-30 mr-4 mt-4 h-64 w-64 animate-pulse rounded-xl border bg-p-gray"></div>
+      <div className="-z-30 mr-4 mt-4 h-64 w-64 animate-pulse rounded-xl border bg-p-gray"></div>
+    </>
+  );
+};
+
+const SearchItem: React.FC<{ key: string; id: string; name: string }> = ({
+  key,
+  id,
+  name,
+}) => {
+  const [imgSrc, setImgSrc] = useState(
+    `https://stals-worker.p0lbang.workers.dev/${id}.jpg`,
+  );
+
+  return (
+    <Link key={key} href={`/accommodation/${id}`}>
+      <div className="relative -z-10 ml-3 mt-3 h-64 w-64 rounded-xl border bg-p-gray">
+        <Image
+          src={imgSrc}
+          alt={name}
+          fill
+          className="-z-10 object-contain"
+          unoptimized
+          onError={() => {
+            setImgSrc(placeholder.src);
+          }}
+        />
+        <div className="z-20 text-center">{name}</div>
+      </div>
+    </Link>
+  );
 };
