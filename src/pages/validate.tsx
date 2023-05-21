@@ -16,7 +16,7 @@ const Validate: NextPage = () => {
         window.location.replace("/signup");
       }
     }
-  console.log("validate");
+  // console.log("validate");
   // });
 
   return <></>;
