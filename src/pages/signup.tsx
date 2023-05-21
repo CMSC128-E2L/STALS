@@ -84,7 +84,7 @@ const Signup: NextPage = () => {
                   required
                 />
                 <input
-                  {...register("Sufix")}
+                  {...register("Suffix")}
                   type="text"
                   placeholder="Suffix"
                   className="w-[28%] rounded-xl px-2 py-2 shadow shadow-gray-400/100"
