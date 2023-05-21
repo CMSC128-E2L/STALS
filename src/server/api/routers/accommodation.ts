@@ -134,6 +134,7 @@ export const accommodationRouter = createTRPCRouter({
         num_of_rooms: z.number().optional(),
         page: z.number().optional(),
         multiplier: z.number().optional(),
+        is_archived: z.boolean().optional(),
       }),
     )
     .query(({ ctx, input }) => {
@@ -141,6 +142,9 @@ export const accommodationRouter = createTRPCRouter({
         skip: input.page,
         take: input.multiplier,
         where: {
+          ...(input.is_archived !== undefined
+            ? { is_archived: input.is_archived }
+            : {}),
           OR: [
             {
               name: {
