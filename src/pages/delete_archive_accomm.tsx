@@ -10,7 +10,13 @@ export default function Delete_Archive_Accomm() {
     landlord: session.data?.user.id,
   });
 
-  const archivAccomm = api.accommodation.archive.useMutation({
+  const archiveAccomm = api.accommodation.archive.useMutation({
+    onSuccess: () => {
+      void refetch();
+    },
+  });
+
+  const deleteAccomm = api.accommodation.delete.useMutation({
     onSuccess: () => {
       void refetch();
     },
@@ -76,7 +82,7 @@ export default function Delete_Archive_Accomm() {
                     <button
                       className="rounded border border-gray-400 bg-white p-2"
                       onClick={() => {
-                        archivAccomm.mutate({
+                        archiveAccomm.mutate({
                           id: accomm.id,
                           is_archived: accomm.is_archived,
                         });
@@ -85,7 +91,14 @@ export default function Delete_Archive_Accomm() {
                       Archive
                     </button>
 
-                    <button className="rounded border border-gray-400 bg-white p-2">
+                    <button
+                      className="rounded border border-gray-400 bg-white p-2"
+                      onClick={() => {
+                        deleteAccomm.mutate({
+                          id: accomm.id,
+                        });
+                      }}
+                    >
                       Delete
                     </button>
                   </div>
