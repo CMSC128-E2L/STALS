@@ -1,7 +1,12 @@
 import Image from "next/image";
 import userImage from "public/placeholder_1.png";
+import { useSession } from "next-auth/react";
+import { stringify } from "superjson";
+import { api } from "~/utils/api";
 
 export default function UserProfile() {
+  const session = useSession();
+
   return (
     <>
       <div className="grid grid-cols-2 rounded-md bg-white shadow-md">
@@ -15,7 +20,7 @@ export default function UserProfile() {
           />
         </div>
         <div>
-          <h1 className="font-bold"> Random User</h1>
+          <h1 className="font-bold"> {session.data?.user.name}</h1>
           <label>Date | time</label>
         </div>
       </div>
