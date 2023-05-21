@@ -195,7 +195,9 @@ export default function Accommodation() {
               {/* STATS */}
 
               {/* TODO:
-              Make the parts have info appear only. */}
+              Yung Idea na meron ako for dito is ipasa na lang ung PATH and ung i-priprint na info tulad ng number and address
+
+              Make the parts that have info appear only. */}
               <div className="flex flex-row gap-2 px-3 text-sm">
                 {/* pHONE NUMBER */}
                 <div className="flex flex-row items-center gap-x-1 p-1">
@@ -315,7 +317,8 @@ export default function Accommodation() {
                       </p>
                     </>
                   )} */}
-                  {/* Custom Tags */}
+
+                  {/* TODO: since the tags of an accommodation is just a string, just print that string here.*/}
                   <p className="py-1 text-sm">
                     (insert custom tags here) Never, gonna, give, you, up,
                     never, gonna, let, you, down

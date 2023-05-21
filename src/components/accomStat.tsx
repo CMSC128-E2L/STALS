@@ -1,4 +1,5 @@
 export default function AccomStat() {
+  // Yung Idea na meron ako for dito is ipasa na lang ung PATH and ung i-priprint
   return (
     <div className="flex flex-row items-center gap-x-1 p-1">
       <div className="rounded-full bg-p-dblue p-1">
