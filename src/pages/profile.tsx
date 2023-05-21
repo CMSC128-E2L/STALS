@@ -1,8 +1,5 @@
 import NavBar from "~/components/navbar";
-import SideBar from "~/components/sidebar";
-import AccomRow from "~/components/accomRow";
 import MyAccom from "~/components/myAccom";
-import MyArchive from "~/components/myArchive";
 import Image from "next/image";
 import user from "public/images/def_user.png";
 import { useSession } from "next-auth/react";
@@ -24,7 +21,9 @@ export default function HomePage() {
             />
           </div>
           <div className="m-10 flex ">
-            <span className="mb-10 text-2xl text-p-hdblue">@jararellano</span>
+            <span className="mb-10 text-2xl text-p-hdblue">
+              @{sessionData?.profile.username}
+            </span>
           </div>
           <div className="m-10  flex ">
             <span className="text-3xl text-black">
@@ -55,10 +54,10 @@ export default function HomePage() {
 
         <section className="ml-96 flex w-full flex-col">
           <div className="w-full rounded-3xl p-10 shadow-lg">
-            <MyAccom />
+            <MyAccom showArchived={false} />
           </div>
           <div className="w-full rounded-3xl p-10 shadow-lg">
-            <MyArchive />
+            <MyAccom showArchived={true} />
           </div>
         </section>
       </div>

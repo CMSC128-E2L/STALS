@@ -1,9 +1,8 @@
-import { api } from "~/utils/api";
-import { useState } from "react";
-import Image from "next/image";
-import Link from "next/link";
+import OwnerAccommodations from "./OwnerAccommodations";
 
-export default function MyAccom() {
+export const MyAccom: React.FC<{ showArchived: boolean }> = ({
+  showArchived,
+}) => {
   return (
     <div className="flex flex-col">
       <div className="mb-4 flex flex-row items-center">
@@ -21,14 +20,14 @@ export default function MyAccom() {
         </button>
       </div>
       <div className="grid grid-cols-4 place-content-evenly gap-2">
-        <Accoms />
+        <OwnerAccommodations showArchived={showArchived} />
       </div>
       <div id="more-content" className="max-h-0 overflow-hidden transition-all">
         <p>Additional content here...</p>
       </div>
     </div>
   );
-}
+};
 
 function toggleShow() {
   const div = document.querySelector(".max-h-0");
@@ -42,41 +41,4 @@ function toggleShow() {
   }
 }
 
-const Accoms: React.FC = () => {
-  const { data: firstData, isLoading: queryLoading } =
-    api.file.r2getfiles.useQuery();
-  const [count, setCount] = useState(false);
-
-  setTimeout(() => setCount(true), 5000);
-
-  // actual output
-  if (!queryLoading && count) {
-    return (
-      <>
-        {firstData?.map((x: string) => (
-          <Link key={x} href={"/accommodation"}>
-            <div className="relative -z-30 mr-4 mt-4 h-64 w-64 rounded-xl border bg-p-gray">
-              <Image
-                src={`${x}`}
-                alt={x}
-                fill
-                className="h-64 w-64 object-cover p-4"
-                unoptimized
-              />
-            </div>
-          </Link>
-        ))}
-      </>
-    );
-  }
-
-  // waiting for query output
-  return (
-    <>
-      <div className="-z-30 mr-4 mt-4 h-64 w-64 animate-pulse rounded-xl border bg-p-gray"></div>
-      <div className="-z-30 mr-4 mt-4 h-64 w-64 animate-pulse rounded-xl border bg-p-gray"></div>
-      <div className="-z-30 mr-4 mt-4 h-64 w-64 animate-pulse rounded-xl border bg-p-gray"></div>
-      <div className="-z-30 mr-4 mt-4 h-64 w-64 animate-pulse rounded-xl border bg-p-gray"></div>
-    </>
-  );
-};
+export default MyAccom;
