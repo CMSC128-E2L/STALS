@@ -10,6 +10,7 @@ import { AccommodationType } from "@prisma/client";
 import { titleCase } from "~/utils/helpers";
 import Image from "next/image";
 import placeholder from "public/images/logo.png";
+import LoadingSpinner from "~/components/loadingSpinner";
 
 export default function HomePage() {
   const [userInputs, setuserIntpus] = useState<
@@ -258,11 +259,13 @@ export default function HomePage() {
             }}
             disabled={!hasNextPage || isFetchingNextPage}
           >
-            {isFetchingNextPage
-              ? "Loading more..."
-              : hasNextPage
-              ? "Load More"
-              : "Nothing more to load"}
+            {isFetchingNextPage ? (
+              "Loading more..."
+            ) : hasNextPage ? (
+              "Load More"
+            ) : (
+              <LoadingSpinner />
+            )}
           </button>
         </div>
       </div>
