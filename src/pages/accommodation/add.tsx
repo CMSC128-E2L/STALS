@@ -2,20 +2,9 @@ import NavBar from "~/components/navbar";
 import Link from "next/link";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { z } from "zod";
 import { AccommodationType } from "@prisma/client";
 import { type RouterInputs, api } from "~/utils/api";
-const schema = z.object({
-  name: z.string(),
-  address: z.string(),
-  location: z.string(),
-  contact_number: z.string(),
-  tags: z.string(),
-  num_of_rooms: z.number(),
-  is_archived: z.boolean(),
-  fb_page: z.string().optional(),
-  type: z.nativeEnum(AccommodationType),
-});
+import { accommodationAddSchema } from "~/utils/apitypes";
 
 export default function AddAccommodation() {
   const {
@@ -24,7 +13,7 @@ export default function AddAccommodation() {
 
     formState: { errors },
   } = useForm({
-    resolver: zodResolver(schema),
+    resolver: zodResolver(accommodationAddSchema),
   });
 
   const createAccommodation = api.accommodation.add.useMutation();
