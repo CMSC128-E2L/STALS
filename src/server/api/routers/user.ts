@@ -7,6 +7,7 @@ import {
 } from "~/server/api/trpc";
 
 import { prisma } from "~/server/db";
+import { userEditSchema } from "~/utils/apitypes";
 
 export const userRouter = createTRPCRouter({
   // example not final
@@ -84,33 +85,13 @@ export const userRouter = createTRPCRouter({
     });
   }),
 
-  edit: protectedProcedure
-    .input(
-      z.object({
-        //username: z.string(),
-        first_name: z.string().optional(),
-        middle_name: z.string().optional(),
-        last_name: z.string().optional(),
-        contact_number: z.string().optional(),
-        username: z.string().optional(),
-        suffix: z.string().optional(),
-      }),
-    )
-    .mutation(({ ctx, input }) => {
-      const id = ctx.session.user.id;
-      const { username, first_name, middle_name, last_name, contact_number } =
-        input;
-      return ctx.prisma.user.update({
-        where: { id },
-        data: {
-          username,
-          first_name,
-          middle_name,
-          last_name,
-          contact_number,
-        },
-      });
-    }),
+  edit: protectedProcedure.input(userEditSchema).mutation(({ ctx, input }) => {
+    const id = ctx.session.user.id;
+    return ctx.prisma.user.update({
+      where: { id },
+      data: { ...input },
+    });
+  }),
 
   getInfo: publicProcedure.query(({ ctx }) => {
     const userId = ctx?.session?.user.id;
