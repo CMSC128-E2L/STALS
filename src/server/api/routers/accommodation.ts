@@ -155,12 +155,14 @@ export const accommodationRouter = createTRPCRouter({
   }),
 
   // Delete an accommodation
-  delete: protectedProcedure.input(z.string()).mutation(({ ctx, input }) => {
-    const id = input;
-    return ctx.prisma.accommodation.delete({
-      where: { id },
-    });
-  }),
+  delete: protectedProcedure
+    .input(z.object({ id: z.string() }))
+    .mutation(({ ctx, input }) => {
+      const { id } = input;
+      return ctx.prisma.accommodation.delete({
+        where: { id },
+      });
+    }),
 
   // Search an accommodation
   getMany: publicProcedure
