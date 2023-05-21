@@ -1,6 +1,7 @@
 import NavBar from "~/components/navbar";
 import UserProfile from "~/components/userProfile";
 import StarRow from "~/components/starRow";
+import RoomButton from "~/components/roomButton";
 import Link from "next/link";
 import Image from "next/image";
 import { api } from "~/utils/api";
@@ -35,7 +36,7 @@ export default function Accommodation() {
           {/* Box that contains the accommodation thingy */}
           <div className="margin-40 flex w-11/12 gap-2 rounded-md bg-p-lblue p-4 py-4 shadow-md">
             {/* GALLERY */}
-            <div className="w-1/3 flex-none bg-red-100 p-4">
+            <div className="w-1/3 flex-none p-4">
               <div className="grid grid-cols-2 gap-4">
                 {/* main image */}
                 {!imageLoading && ImageList ? (
@@ -86,7 +87,7 @@ export default function Accommodation() {
             </div>
 
             {/* DESCRIPTION */}
-            <div className="flex w-3/4 flex-initial flex-col bg-green-100 p-4">
+            <div className="flex w-3/4 flex-initial flex-col p-4">
               {/* ACCOMMODATION NAME + edit + delete thngy idk*/}
               <div className="flex flex-row items-stretch">
                 {/* Left column (accommodation name) */}
@@ -102,8 +103,10 @@ export default function Accommodation() {
 
                 {/* Right column: the editing thingy ig */}
                 <div className="basis-1/4">
-                  {/* So if a registered user is viewing it (remove hidden to show teehee)*/}
-                  <div className="float-right inline-flex hidden cursor-pointer">
+                  {/* TODO: So if a registered user is viewing it (remove hidden to show teehee)
+                  
+                  WONDERING KUNG UNG IMPLEMENTATION NA LANG NITO VIA COMPONENT OR NAH*/}
+                  <div className="float-right cursor-pointer">
                     <form>
                       <input
                         type="checkbox"
@@ -129,7 +132,7 @@ export default function Accommodation() {
                   </div>
 
                   {/* If a landlord is viewing the page */}
-                  <div className="float-right flex gap-1">
+                  <div className="float-right flex hidden gap-1">
                     {/* Edit button */}
                     <button type="button" className="accomP-button">
                       <svg
@@ -190,12 +193,14 @@ export default function Accommodation() {
               <div className="px-4 text-xl italic">Accommodation Type</div>
 
               {/* STATS */}
+
+              {/* TODO:
+              Make the parts have info appear only. */}
               <div className="flex flex-row gap-2 px-3 text-sm">
                 {/* pHONE NUMBER */}
                 <div className="flex flex-row items-center gap-x-1 p-1">
                   <div className="rounded-full bg-p-dblue p-1">
                     <svg
-                      xmlns="http://www.w3.org/2000/svg"
                       fill="none"
                       viewBox="0 0 24 24"
                       stroke-width="1.5"
@@ -320,10 +325,11 @@ export default function Accommodation() {
                 {/* Other deets */}
                 <div className="justify-self-start">
                   <div className="grid grid-cols-2 px-3">
+                    {/* TODO get the corresponding info: */}
                     <div className="flex flex-col gap-2 p-2">
                       <h1 className="form-h2">Price</h1>
                       <h1 className="form-h2">Capacity</h1>
-                      {/* CONTRACT LENGTH IS A CONDITIONAL THAT ONLY APPEARS IF THE ACCOMMODATION IS A DORMITORY */}
+                      {/*TODO: CONTRACT LENGTH IS A CONDITIONAL THAT ONLY APPEARS IF THE ACCOMMODATION IS A DORMITORY */}
                       <h1 className="form-h2">Contract Length</h1>
                     </div>
 
@@ -334,18 +340,18 @@ export default function Accommodation() {
                     </div>
                   </div>
                 </div>
-                {/* Rooms */}
-                <div className="flex w-full flex-row gap-3 bg-red-100 px-3 py-3">
-                  <button className="accPButton w-1/4 justify-self-start">
-                    <label className="bold text-xl">Room 1</label>
-                    <p className="text-md italic ">Occupied</p>
-                  </button>
-                  <button className="accPButton">Room 2</button>
-                  <button className="accPButton">Room 3</button>
+
+                {/* Rooms 
+                TODO: This is gonna get the list of rooms in prisma/schema.prisma and load the component <RoomButton /> (components/RoomButton.tsx) with the room id.*/}
+                <div className="flex flex-row flex-nowrap gap-3 overflow-x-scroll px-3 py-3">
+                  <RoomButton />
+                  <RoomButton />
+                  <RoomButton />
+                  <RoomButton />
                 </div>
               </div>
 
-              <button className="accPButton mx-3 w-1/4 px-3 text-lg">
+              <button className="accPButton mx-3 mb-2 w-1/5 self-end px-3 text-lg">
                 {" "}
                 Download{" "}
               </button>
@@ -360,17 +366,21 @@ export default function Accommodation() {
                       <p>out of (n) reviews</p>
                     </div>
 
-                    {/* the star thing probably could be a component */}
+                    {/* TODO: For this, go through the review array in schema.prisma and get the average ratings the plug the number in this component.*/}
                     <StarRow />
                   </div>
                 </div>
                 {/* Review section */}
                 <div className="grow basis-1/2">
                   <div className="flex flex-col p-2">
+                    {/* TODO: For this, get the first review from the accomm's review array, and load the following:*/}
                     <div className="basis-1/8">
+                      {/* UserProfile must be the User that made that review*/}
                       <UserProfile />
+                      {/* StarRow is the rating of that review */}
                       <StarRow />
                     </div>
+                    {/* This is the review */}
                     <p className="line-clamp-2 text-sm">
                       With the sects clashing against one another, there was no
                       one who could blablahblahblah ye
