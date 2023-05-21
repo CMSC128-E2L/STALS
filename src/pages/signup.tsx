@@ -118,7 +118,7 @@ const Signup: NextPage = () => {
                 <input
                   type="radio"
                   id="landlord"
-                  value={"LANDOWNER"}
+                  value={"LANDLORD"}
                   {...register("type")}
                 />
                 <label className="px-2"> Landlord </label>

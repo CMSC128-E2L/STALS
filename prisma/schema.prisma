@@ -57,7 +57,7 @@ model VerificationToken {
 
 enum UserType {
   USER
-  LANDOWNER
+  LANDLORD
   ADMIN
 }
 
