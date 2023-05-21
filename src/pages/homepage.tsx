@@ -248,10 +248,13 @@ export default function HomePage() {
         <div className="absolute left-[200px] -z-10">
           {/* <input className="mt-10 ml-10 py-1 outline outline-1 outline-p-dblue" placeholder="Search"/> */}
           <div className="flex flex-row flex-wrap">
-            {accommodationEntries &&
+            {accommodationEntries ? (
               accommodationEntries?.pages.map((page, i: number) => (
                 <SearchAccoms key={i} items={page?.items} />
-              ))}
+              ))
+            ) : (
+              <LoadingSpinner />
+            )}
           </div>
           <button
             onClick={() => {
@@ -260,11 +263,11 @@ export default function HomePage() {
             disabled={!hasNextPage || isFetchingNextPage}
           >
             {isFetchingNextPage ? (
-              "Loading more..."
+              <LoadingSpinner />
             ) : hasNextPage ? (
               "Load More"
             ) : (
-              <LoadingSpinner />
+              "End"
             )}
           </button>
         </div>
