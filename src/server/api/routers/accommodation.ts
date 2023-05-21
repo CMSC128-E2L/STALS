@@ -216,6 +216,14 @@ export const accommodationRouter = createTRPCRouter({
                 path: "$.values",
                 array_contains: input.typeArray ?? [],
               },
+              price: {
+                ...(input.price_min !== undefined
+                  ? { gte: input.price_min }
+                  : {}),
+                ...(input.price_max !== undefined
+                  ? { lte: input.price_max }
+                  : {}),
+              },
             },
           ],
         },
