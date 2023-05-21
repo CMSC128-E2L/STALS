@@ -1,4 +1,3 @@
-import { AccommodationType } from "@prisma/client";
 import { z } from "zod";
 
 import {
@@ -6,7 +5,10 @@ import {
   publicProcedure,
   protectedProcedure,
 } from "~/server/api/trpc";
-import { accommodationGetManyExperiementSchema } from "~/utils/apitypes";
+import {
+  accommodationAddSchema,
+  accommodationGetManyExperiementSchema,
+} from "~/utils/apitypes";
 
 export const accommodationRouter = createTRPCRouter({
   getInfiniteExample: publicProcedure
@@ -83,44 +85,14 @@ export const accommodationRouter = createTRPCRouter({
 
   // Add a new accommodation
   add: protectedProcedure
-    .input(
-      z.object({
-        name: z.string(),
-        address: z.string(),
-        location: z.string(),
-        contact_number: z.string(),
-        tags: z.string(),
-        num_of_rooms: z.number(),
-        is_archived: z.boolean(),
-        fb_page: z.string().optional(),
-        type: z.nativeEnum(AccommodationType),
-      }),
-    )
+    .input(accommodationAddSchema)
     .mutation(({ ctx, input }) => {
       const userId = ctx.session.user.id;
-      const {
-        name,
-        address,
-        location,
-        contact_number,
-        tags,
-        num_of_rooms,
-        is_archived,
-        fb_page,
-        type,
-      } = input;
       return ctx.prisma.accommodation.create({
         data: {
-          name,
-          address,
-          location,
+          ...input,
+          num_of_rooms: 0,
           landlord: userId,
-          contact_number,
-          tags,
-          num_of_rooms,
-          is_archived,
-          fb_page,
-          type,
           tagArray: { values: [] },
           typeArray: { values: [] },
         },

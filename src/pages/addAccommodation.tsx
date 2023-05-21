@@ -42,11 +42,12 @@ export default function AddAccommodation() {
 
           <form
             // eslint-disable-next-line
-            onSubmit={handleSubmit((d) =>
+            onSubmit={handleSubmit((d) => {
+              console.log(d);
               createAccommodation.mutate(
                 d as RouterInputs["accommodation"]["add"],
-              ),
-            )}
+              );
+            })}
             className="justify-items-stretch space-y-4"
           >
             <div className="">
@@ -177,7 +178,7 @@ export default function AddAccommodation() {
                   <div className="hidden">
                     <input type="checkbox" {...register("is_archived")} />
                   </div>
-                  <div className="hidden">
+                  <div className="">
                     {/* No of Available Rooms */}
 
                     <input
