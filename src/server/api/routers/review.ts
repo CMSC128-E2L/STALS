@@ -5,38 +5,29 @@ import {
   publicProcedure,
   protectedProcedure,
 } from "~/server/api/trpc";
+import {
+  reviewAddSchema,
+  reviewEditSchema,
+  reviewGetManySchema,
+} from "~/utils/apitypes";
 
 export const reviewRouter = createTRPCRouter({
-  add: protectedProcedure
-    .input(
-      z.object({
-        accommodationId: z.string(),
-        review: z.string().optional(),
-        rating: z.number(),
-      }),
-    )
-    .mutation(({ ctx, input }) => {
-      const userId = ctx?.session?.user?.id;
-      const { accommodationId, review, rating } = input;
+  add: protectedProcedure.input(reviewAddSchema).mutation(({ ctx, input }) => {
+    const userId = ctx?.session?.user?.id;
+    const { accommodationId, review, rating } = input;
 
-      return ctx.prisma.review.create({
-        data: {
-          user: { connect: { id: userId } },
-          accommodation: { connect: { id: accommodationId } },
-          review,
-          rating,
-        },
-      });
-    }),
+    return ctx.prisma.review.create({
+      data: {
+        user: { connect: { id: userId } },
+        accommodation: { connect: { id: accommodationId } },
+        review,
+        rating,
+      },
+    });
+  }),
 
   edit: protectedProcedure
-    .input(
-      z.object({
-        id: z.string(),
-        review: z.string().optional(),
-        rating: z.number().optional(),
-      }),
-    )
+    .input(reviewEditSchema)
     .mutation(({ ctx, input }) => {
       const id = input.id;
       return ctx.prisma.review.update({
@@ -81,13 +72,7 @@ export const reviewRouter = createTRPCRouter({
   // }),
 
   getMany: publicProcedure
-    .input(
-      z.object({
-        accommodationId: z.string(),
-        page: z.number(),
-        multiplier: z.number(),
-      }),
-    )
+    .input(reviewGetManySchema)
     .query(({ ctx, input }) => {
       const { accommodationId, page, multiplier } = input;
       return ctx.prisma.review.findMany({
