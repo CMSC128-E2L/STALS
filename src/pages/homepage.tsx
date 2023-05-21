@@ -25,8 +25,9 @@ export default function HomePage() {
     cursor: null,
     typeArray: [],
     tagArray: [],
+    price_min: undefined,
+    price_max: undefined,
   });
-
   const {
     register,
     handleSubmit,
@@ -59,6 +60,60 @@ export default function HomePage() {
   //   });
   //   setloadingnext(false);
   // }, [loadingnext]);
+  const handlePriceRangeChange = (event: {
+    target: { value: string; checked: boolean };
+  }) => {
+    const { value, checked } = event.target;
+
+    if (checked) {
+      switch (value) {
+        case "all":
+          setuserIntpus((prevInputs) => ({
+            ...prevInputs,
+            price_min: undefined,
+            price_max: undefined,
+          }));
+          break;
+        case "below-1000":
+          setuserIntpus((prevInputs) => ({
+            ...prevInputs,
+            price_min: undefined,
+            price_max: 1000,
+          }));
+          break;
+        case "one-to-two":
+          setuserIntpus((prevInputs) => ({
+            ...prevInputs,
+            price_min: 1001,
+            price_max: 2000,
+          }));
+          break;
+        case "two-to-three":
+          setuserIntpus((prevInputs) => ({
+            ...prevInputs,
+            price_min: 2001,
+            price_max: 3000,
+          }));
+          break;
+        case "three-to-four":
+          setuserIntpus((prevInputs) => ({
+            ...prevInputs,
+            price_min: 3001,
+            price_max: 4000,
+          }));
+          break;
+        case "above-four":
+          setuserIntpus((prevInputs) => ({
+            ...prevInputs,
+            price_min: 4001,
+            price_max: undefined,
+          }));
+          break;
+        default:
+          break;
+      }
+    }
+  };
 
   return (
     <>
@@ -110,33 +165,54 @@ export default function HomePage() {
               <h2 className="mb-2 text-base font-bold">Price Range</h2>
               <div className="mb-2 flex items-center">
                 <input
-                  id="below-1000"
-                  type="checkbox"
-                  value=""
+                  defaultChecked
+                  id="all"
+                  type="radio"
+                  name="price_range"
+                  value="all"
+                  onChange={handlePriceRangeChange}
                   className="ml-3 h-4 w-4 rounded border-gray-300 bg-gray-100 text-blue-600 focus:ring-2 focus:ring-blue-500 dark:border-gray-600 dark:bg-gray-700 dark:ring-offset-gray-800 dark:focus:ring-blue-600"
                 />
                 <label htmlFor="below-1000" className="filter-text">
-                  Below ₱ 1000
+                  All
+                </label>
+              </div>
+
+              <div className="mb-2 flex items-center">
+                <input
+                  id="below-1000"
+                  type="radio"
+                  name="price_range"
+                  value="below-1000"
+                  onChange={handlePriceRangeChange}
+                  className="ml-3 h-4 w-4 rounded border-gray-300 bg-gray-100 text-blue-600 focus:ring-2 focus:ring-blue-500 dark:border-gray-600 dark:bg-gray-700 dark:ring-offset-gray-800 dark:focus:ring-blue-600"
+                />
+                <label htmlFor="below-1000" className="filter-text">
+                  Under ₱ 1001
                 </label>
               </div>
 
               <div className="mb-2 flex items-center">
                 <input
                   id="one-to-two"
-                  type="checkbox"
-                  value=""
+                  type="radio"
+                  name="price_range"
+                  value="one-to-two"
+                  onChange={handlePriceRangeChange}
                   className="ml-3  h-4 w-4 rounded border-gray-300 bg-gray-100 text-blue-600 focus:ring-2 focus:ring-blue-500 dark:border-gray-600 dark:bg-gray-700 dark:ring-offset-gray-800 dark:focus:ring-blue-600"
                 />
                 <label htmlFor="one-to-two" className="filter-text">
-                  ₱ 1000 – ₱ 2000{" "}
+                  ₱ 1001 – ₱ 2000{" "}
                 </label>
               </div>
 
               <div className="mb-2 flex items-center">
                 <input
                   id="two-to-three"
-                  type="checkbox"
-                  value=""
+                  type="radio"
+                  name="price_range"
+                  value="two-to-three"
+                  onChange={handlePriceRangeChange}
                   className="ml-3  h-4 w-4 rounded border-gray-300 bg-gray-100 text-blue-600 focus:ring-2 focus:ring-blue-500 dark:border-gray-600 dark:bg-gray-700 dark:ring-offset-gray-800 dark:focus:ring-blue-600"
                 />
                 <label htmlFor="two-to-three" className="filter-text">
@@ -147,8 +223,10 @@ export default function HomePage() {
               <div className="mb-2 flex items-center">
                 <input
                   id="three-to-four"
-                  type="checkbox"
-                  value=""
+                  type="radio"
+                  name="price_range"
+                  value="three-to-four"
+                  onChange={handlePriceRangeChange}
                   className="ml-3 h-4 w-4 rounded border-gray-300 bg-gray-100 text-blue-600 focus:ring-2 focus:ring-blue-500 dark:border-gray-600 dark:bg-gray-700 dark:ring-offset-gray-800 dark:focus:ring-blue-600"
                 />
                 <label htmlFor="three-to-four" className="filter-text">
@@ -159,8 +237,10 @@ export default function HomePage() {
               <div className="flex items-center">
                 <input
                   id="above-four"
-                  type="checkbox"
-                  value=""
+                  type="radio"
+                  name="price_range"
+                  value="above-four"
+                  onChange={handlePriceRangeChange}
                   className="ml-3 h-4 w-4 rounded border-gray-300 bg-gray-100 text-blue-600 focus:ring-2 focus:ring-blue-500 dark:border-gray-600 dark:bg-gray-700 dark:ring-offset-gray-800 dark:focus:ring-blue-600"
                 />
                 <label htmlFor="above-four" className="filter-text">
