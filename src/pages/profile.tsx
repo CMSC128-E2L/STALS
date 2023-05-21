@@ -1,6 +1,5 @@
 import NavBar from "~/components/navbar";
 import MyAccom from "~/components/myAccom";
-import MyArchive from "~/components/myArchive";
 import Image from "next/image";
 import user from "public/images/def_user.png";
 import { useSession } from "next-auth/react";
