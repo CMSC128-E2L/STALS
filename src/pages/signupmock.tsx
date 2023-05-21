@@ -13,6 +13,7 @@ const schema = z.object({
   middle_name: z.string().optional(),
   last_name: z.string().optional(),
   contact_number: z.string().optional(),
+  username: z.string().optional(),
 });
 
 const Signup: NextPage = () => {
@@ -24,7 +25,7 @@ const Signup: NextPage = () => {
         userSession.data?.profile.first_name !== undefined &&
         userSession.data?.profile.first_name !== null
       ) {
-        window.location.replace("/");
+        window.location.replace("/homepage");
       }
   });
 
@@ -112,7 +113,7 @@ const Signup: NextPage = () => {
                   />
                 </div>
                 <input
-                  name="Username *"
+                  {...register("username")}
                   type="text"
                   placeholder="Username"
                   className="rounded-xl px-3 py-3 shadow shadow-gray-400/100"
