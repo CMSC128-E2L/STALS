@@ -107,12 +107,23 @@ const Signup: NextPage = () => {
                 required
               />
 
-              {/* <div className="flex justify-center rounded-xl px-2 py-2 shadow shadow-gray-400/100">
-                <input type="radio" id="student" name="accom"/>
-                <label className="px-2">   Student    </label>
-                <input type="radio" id="landlord"  name="accom"/>
-                <label className="px-2">   Landlord    </label><br/>
-              </div> */}
+              <div className="flex justify-center rounded-xl px-2 py-2 shadow shadow-gray-400/100">
+                <input
+                  type="radio"
+                  id="student"
+                  value={"STUDENT"}
+                  {...register("type")}
+                />
+                <label className="px-2"> Student </label>
+                <input
+                  type="radio"
+                  id="landlord"
+                  value={"LANDOWNER"}
+                  {...register("type")}
+                />
+                <label className="px-2"> Landlord </label>
+                <br />
+              </div>
             </div>
             <br />
             <div>

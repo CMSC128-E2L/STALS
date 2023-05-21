@@ -1,4 +1,4 @@
-import { AccommodationType } from "@prisma/client";
+import { AccommodationType, UserType } from "@prisma/client";
 import { z } from "zod";
 
 /* ACCOMMODATION */
@@ -39,6 +39,7 @@ export const userEditSchema = z.object({
   suffix: z.string().optional(),
   username: z.string().min(8).optional(),
   contact_number: z.string().min(10).optional(),
+  type: z.nativeEnum(UserType),
 });
 
 /* REVIEW */
