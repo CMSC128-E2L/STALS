@@ -9,7 +9,7 @@ import { getServerSession } from "next-auth/next";
 import { authOptions } from "~/server/auth";
 
 import Link from "next/link";
-import bgpic from "public/images/bgpic-01.png";
+import bgpic from "public/images/bg-01.png";
 import { useEffect } from "react";
 
 const Signup: NextPage = () => {

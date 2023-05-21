@@ -7,7 +7,7 @@ import { getServerSession } from "next-auth/next";
 import { authOptions } from "~/server/auth";
 import Link from "next/link";
 import Image from "next/image";
-import bgpic from "public/images/bgpic-01.png";
+import bgpic from "public/images/bg-05.png";
 
 export default function SignIn({
   providers,
@@ -17,7 +17,7 @@ export default function SignIn({
       <img className="bg-cover bg-center" src={bgpic.src} alt="background" />
 
       <div className="absolute inset-x-0 top-20 flex justify-center">
-        <div className="h-[30%] w-[33%] rounded-xl bg-white px-16 py-8 shadow shadow-p-black/50">
+        <div className="rounded-xl px-16 py-8">
           <div className="item-center flex justify-center px-2 pb-0 pt-0 drop-shadow-md">
             <h1 className="text-5xl font-bold text-blue-700">Welcome back!</h1>
           </div>
