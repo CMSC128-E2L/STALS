@@ -38,17 +38,58 @@ export const NavBar: React.FC<NavBarProps> = ({ register, name }) => {
           <ul className="mr-2 mt-4 flex flex-col items-center p-4 font-medium md:mt-0 md:flex-row md:space-x-5 md:border-0 md:p-0">
             <li>
               {register && name ? (
-                <input
-                  {...register(name)}
-                  className="rounded-full px-3 py-1"
-                  placeholder="Search"
-                />
+                // <input
+                //   {...register(name)}
+                //   className="rounded-full px-3 py-1"
+                //   placeholder="Search"
+                // />
+                <div className="flex items-center">
+                  <input
+                    {...register(name)}
+                    type="text"
+                    placeholder="Search"
+                    className="rounded-l-full px-4 py-2 outline outline-1 outline-white"
+                  />
+                  <button className="rounded-r-full bg-p-dblue py-2 pl-2 pr-3 text-white outline outline-1 outline-white hover:bg-p-rblue">
+                    <svg
+                      xmlns="http://www.w3.org/2000/svg"
+                      className="h-6 w-6"
+                      viewBox="0 0 24 24"
+                      fill="none"
+                      stroke="currentColor"
+                      stroke-width="2"
+                      stroke-linecap="round"
+                      stroke-linejoin="round"
+                    >
+                      <circle cx="11" cy="11" r="8" />
+                      <line x1="21" y1="21" x2="16.65" y2="16.65" />
+                    </svg>
+                  </button>
+                </div>
               ) : (
                 <form>
-                  <input
-                    className="rounded-full px-3 py-1"
-                    placeholder="Search"
-                  />
+                  <div className="flex items-center">
+                    <input
+                      type="text"
+                      placeholder="Search"
+                      className="rounded-l-full px-4 py-2 outline outline-1 outline-white"
+                    />
+                    <button className="rounded-r-full bg-p-dblue py-2 pl-2 pr-3 text-white outline outline-1 outline-white hover:bg-p-rblue">
+                      <svg
+                        xmlns="http://www.w3.org/2000/svg"
+                        className="h-6 w-6"
+                        viewBox="0 0 24 24"
+                        fill="none"
+                        stroke="currentColor"
+                        stroke-width="2"
+                        stroke-linecap="round"
+                        stroke-linejoin="round"
+                      >
+                        <circle cx="11" cy="11" r="8" />
+                        <line x1="21" y1="21" x2="16.65" y2="16.65" />
+                      </svg>
+                    </button>
+                  </div>
                 </form>
               )}
             </li>
