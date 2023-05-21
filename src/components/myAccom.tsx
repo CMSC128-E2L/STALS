@@ -1,6 +1,8 @@
 import OwnerAccommodations from "./OwnerAccommodations";
 
-export default function MyAccom() {
+export const MyAccom: React.FC<{ showArchived: boolean }> = ({
+  showArchived,
+}) => {
   return (
     <div className="flex flex-col">
       <div className="mb-4 flex flex-row items-center">
@@ -18,14 +20,14 @@ export default function MyAccom() {
         </button>
       </div>
       <div className="grid grid-cols-4 place-content-evenly gap-2">
-        <OwnerAccommodations showArchived={false} />
+        <OwnerAccommodations showArchived={showArchived} />
       </div>
       <div id="more-content" className="max-h-0 overflow-hidden transition-all">
         <p>Additional content here...</p>
       </div>
     </div>
   );
-}
+};
 
 function toggleShow() {
   const div = document.querySelector(".max-h-0");
@@ -38,3 +40,5 @@ function toggleShow() {
       button?.innerHTML === "See More" ? "See Less" : "See More";
   }
 }
+
+export default MyAccom;
