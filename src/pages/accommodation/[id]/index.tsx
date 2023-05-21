@@ -319,10 +319,7 @@ export default function Accommodation() {
                   )} */}
 
                   {/* TODO: since the tags of an accommodation is just a string, just print that string here.*/}
-                  <p className="py-1 text-sm">
-                    (insert custom tags here) Never, gonna, give, you, up,
-                    never, gonna, let, you, down
-                  </p>
+                  <p className="py-1 text-sm">{firstData?.tags}</p>
                 </div>
 
                 {/* Other deets */}
@@ -333,11 +330,11 @@ export default function Accommodation() {
                       <h1 className="form-h2">Price</h1>
                       <h1 className="form-h2">Capacity</h1>
                       {/*TODO: CONTRACT LENGTH IS A CONDITIONAL THAT ONLY APPEARS IF THE ACCOMMODATION IS A DORMITORY */}
-                      <h1 className="form-h2">Contract Length</h1>
+                      <h1 className="form-h2">{firstData?.contract_length}</h1>
                     </div>
 
                     <div className="flex flex-col gap-2 p-2">
-                      <p>(min price)-(max price) Pesos</p>
+                      <p>{firstData?.price} Pesos</p>
                       <p>(min) to (max) people</p>
                       <p>1 Academic Year</p>
                     </div>
