@@ -1,6 +1,8 @@
 import { AccommodationType } from "@prisma/client";
 import { z } from "zod";
 
+/* ACCOMMODATION */
+
 export const accommodationGetManyExperiementSchema = z.object({
   name: z.string().optional(),
   address: z.string().optional(),
@@ -28,6 +30,8 @@ export const accommodationAddSchema = z.object({
   type: z.nativeEnum(AccommodationType),
 });
 
+/* USER */
+
 export const userEditSchema = z.object({
   first_name: z.string().min(1).optional(),
   middle_name: z.string().min(1).optional(),
@@ -35,4 +39,24 @@ export const userEditSchema = z.object({
   suffix: z.string().optional(),
   username: z.string().min(8).optional(),
   contact_number: z.string().min(10).optional(),
+});
+
+/* REVIEW */
+
+export const reviewAddSchema = z.object({
+  accommodationId: z.string(),
+  review: z.string().optional(),
+  rating: z.number(),
+});
+
+export const reviewEditSchema = z.object({
+  id: z.string(),
+  review: z.string().optional(),
+  rating: z.number().optional(),
+});
+
+export const reviewGetManySchema = z.object({
+  accommodationId: z.string(),
+  page: z.number(),
+  multiplier: z.number(),
 });

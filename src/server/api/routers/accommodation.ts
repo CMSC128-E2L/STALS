@@ -11,6 +11,7 @@ import {
 } from "~/utils/apitypes";
 
 export const accommodationRouter = createTRPCRouter({
+  // TODO: Remove.  Example implementaion only
   getInfiniteExample: publicProcedure
     .input(
       z.object({
@@ -45,22 +46,6 @@ export const accommodationRouter = createTRPCRouter({
         nextCursor,
       };
     }),
-  // Get all accommodation homepage
-  getAll: publicProcedure.query(async ({ ctx }) => {
-    try {
-      return await ctx.prisma.accommodation.findMany({
-        select: {
-          name: true,
-          location: true,
-        },
-        orderBy: {
-          location: "asc",
-        },
-      });
-    } catch (error) {
-      console.log("error", error);
-    }
-  }),
 
   getBarangays: publicProcedure.query(async ({ ctx }) => {
     try {
