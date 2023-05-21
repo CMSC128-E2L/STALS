@@ -85,22 +85,7 @@ function getProviders() {
  */
 export const authOptions: NextAuthOptions = {
   callbacks: {
-    signIn: ({ user, account, profile, email, credentials }) => {
-      console.log("loggedin?");
-      // const CustomUser = user as User;
-      // console.log(account);
-      // console.log(profile);
-      // console.log(email);
-      // console.log(credentials);
-      // // if(CustomUser.first_name === null){
-      // //   return '/complete'
-      // // }
-      return true;
-    },
     redirect: ({ url, baseUrl }) => {
-      console.log("redirect?");
-      console.log(url);
-      console.log(baseUrl);
       if (url.startsWith("/")) return `${baseUrl}${url}`;
       // Allows callback URLs on the same origin
       else if (new URL(url).origin === baseUrl) return url;
@@ -129,7 +114,7 @@ export const authOptions: NextAuthOptions = {
   providers: getProviders(),
   pages: {
     signIn: "/login",
-    newUser: "/complete",
+    newUser: "/signup",
   },
 };
 
