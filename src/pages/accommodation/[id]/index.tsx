@@ -190,7 +190,7 @@ export default function Accommodation() {
               </div>
 
               {/* ACCOMMODATION DESCRIPTION */}
-              <div className="px-4 text-xl italic">Accommodation Type</div>
+              <div className="px-4 text-xl italic">{firstData?.type}</div>
 
               {/* STATS */}
 
