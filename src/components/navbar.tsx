@@ -124,7 +124,9 @@ const ProfileButton: React.FC = () => {
       return (
         <Link href={"/profile"} className="dropdown-buttons">
           <p className="text-lg font-bold text-p-rblue">
-            {sessionData?.user.name}
+            {`${sessionData?.profile.first_name ?? ""} ${
+              sessionData?.profile.middle_name ?? ""
+            } ${sessionData?.profile.last_name ?? ""}`}
           </p>
           <p className="mb-5 mt-1 overflow-hidden truncate text-sm italic text-gray-400">
             {sessionData?.user.email}
@@ -167,9 +169,6 @@ const ProfileButton: React.FC = () => {
         <div className="profile-dropdown">
           <UserInfo />
           <hr className="my-2 h-px border-0 bg-gray-200 dark:bg-gray-700"></hr>
-          <Link className="dropdown-buttons" href={"/signup"}>
-            Sign Up
-          </Link>
           <Link className="dropdown-buttons" href={"/login"}>
             Log In
           </Link>
