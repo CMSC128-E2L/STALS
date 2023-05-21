@@ -449,17 +449,13 @@ const SearchAccoms: React.FC<{
   );
 };
 
-const SearchItem: React.FC<{ key: string; id: string; name: string }> = ({
-  key,
-  id,
-  name,
-}) => {
+const SearchItem: React.FC<{ id: string; name: string }> = ({ id, name }) => {
   const [imgSrc, setImgSrc] = useState(
     `https://stals-worker.p0lbang.workers.dev/${id}.jpg`,
   );
 
   return (
-    <Link key={key} href={`/accommodation/${id}`}>
+    <Link href={`/accommodation/${id}`}>
       <div className="relative -z-10 ml-3 mt-3 h-64 w-64 rounded-xl border bg-p-gray">
         <Image
           src={imgSrc}
