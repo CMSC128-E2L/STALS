@@ -12,8 +12,8 @@ const Validate: NextPage = () => {
       userSession.data?.profile.first_name === undefined ||
       userSession.data?.profile.first_name === null
     ) {
-      if (router.pathname !== "/signupmock") {
-        window.location.replace("/signupmock");
+      if (router.pathname !== "/signup") {
+        window.location.replace("/signup");
       }
     }
   console.log("validate");

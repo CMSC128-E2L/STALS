@@ -1,27 +1,37 @@
-/* eslint-disable @next/next/no-img-element */
-import type {
-  GetServerSidePropsContext,
-  InferGetServerSidePropsType,
-  NextPage,
-} from "next";
-import { getProviders, signIn, useSession } from "next-auth/react";
-import { getServerSession } from "next-auth/next";
-import { authOptions } from "~/server/auth";
-
+import type { NextPage } from "next";
+import { useSession } from "next-auth/react";
 import Link from "next/link";
 import bgpic from "public/images/bg-01.png";
-import { useEffect } from "react";
+import { zodResolver } from "@hookform/resolvers/zod";
+import { useForm } from "react-hook-form";
+import { type RouterInputs, api } from "~/utils/api";
+import { userEditSchema } from "~/utils/apitypes";
 
 const Signup: NextPage = () => {
   const userSession = useSession();
 
-  useEffect(() => {
+  // useEffect(() => {
+  if (userSession.data)
     if (
       userSession.data?.profile.first_name !== undefined &&
       userSession.data?.profile.first_name !== null
     ) {
-      window.location.replace("/");
+      window.location.replace("/homepage");
     }
+  // });
+
+  const {
+    register,
+    handleSubmit,
+    formState: { errors },
+  } = useForm({
+    resolver: zodResolver(userEditSchema),
+  });
+
+  const editUser = api.user.edit.useMutation({
+    onSuccess: () => {
+      window.location.replace("/homepage");
+    },
   });
 
   return (
@@ -43,18 +53,23 @@ const Signup: NextPage = () => {
             </p>
           </div>
 
-          <form>
+          <form
+            // eslint-disable-next-line @typescript-eslint/no-misused-promises
+            onSubmit={handleSubmit((d) => {
+              editUser.mutate(d as RouterInputs["user"]["edit"]);
+            })}
+          >
             <div className="flex flex-col space-y-2.5">
               <div className="w-auto flex-row space-x-[2%]">
                 <input
-                  name="Firstname"
                   type="text"
                   placeholder="First Name"
                   className="w-[70%] rounded-xl px-2 py-2 shadow shadow-gray-400/100"
+                  {...register("first_name")}
                   required
                 />
                 <input
-                  name="Middleinitial"
+                  {...register("middle_name")}
                   type="text"
                   placeholder="M.I."
                   className="w-[28%] rounded-xl px-2 py-2 shadow shadow-gray-400/100"
@@ -62,52 +77,28 @@ const Signup: NextPage = () => {
               </div>
               <div className="w-auto flex-row space-x-[2%]">
                 <input
-                  name="Lastname"
+                  {...register("last_name")}
                   type="text"
                   placeholder="Last Name"
                   className="w-[70%] rounded-xl px-2 py-2 shadow shadow-gray-400/100"
                   required
                 />
                 <input
-                  name="Suffix"
+                  {...register("Sufix")}
                   type="text"
                   placeholder="Suffix"
                   className="w-[28%] rounded-xl px-2 py-2 shadow shadow-gray-400/100"
                 />
               </div>
               <input
-                name="Username *"
+                {...register("username")}
                 type="text"
                 placeholder="Username"
                 className="rounded-xl px-2 py-2 shadow shadow-gray-400/100"
                 required
               />
-              {/* <div className="flex flex-col space-y-1">
-                <input
-                  name="Password"
-                  type="password"
-                  placeholder="Password"
-                  className="rounded-xl px-2 py-2 shadow shadow-gray-400/100"
-                  required
-                />
-                <p className="px-2 text-xs">
-                  {" "}
-                  Password Strength:
-                  <label id="Strength" className="text-red-500">
-                    {" "}
-                    Weak
-                  </label>
-                </p>
-              </div>
               <input
-                name="Email"
-                type="email"
-                placeholder="Email"
-                className="rounded-xl px-2 py-2 shadow shadow-gray-400/100"
-                required
-              /> */}
-              <input
-                name="Contactnumber"
+                {...register("contact_number")}
                 type="tel"
                 placeholder="Contact Number"
                 // minlength="8"
@@ -155,20 +146,3 @@ const Signup: NextPage = () => {
 };
 
 export default Signup;
-
-// export async function getServerSideProps(context: GetServerSidePropsContext) {
-//   const session = await getServerSession(context.req, context.res, authOptions);
-
-//   // If the user is already logged in, redirect.
-//   // Note: Make sure not to redirect to the same page
-//   // To avoid an infinite loop!
-//   if (session) {
-//     return { redirect: { destination: "/homepage" } };
-//   }
-
-//   const providers = await getProviders();
-
-//   return {
-//     props: { providers: providers ?? [] },
-//   };
-// }
