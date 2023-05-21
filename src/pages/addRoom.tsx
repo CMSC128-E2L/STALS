@@ -169,7 +169,7 @@ export default function AddRoom() {
               </button>
               <Link href="editAcc">
                 <button type="submit" className="formButton hover:bg-blue-400">
-                  Save Changes
+                  Confirm
                 </button>
               </Link>
             </div>
