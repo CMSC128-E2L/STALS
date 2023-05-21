@@ -1,16 +1,14 @@
 import NavBar from "~/components/navbar";
 import { type RouterOutputs, api } from "~/utils/api";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
 import { type z } from "zod";
-import Link from "next/link";
 import { accommodationGetManyExperiementSchema } from "~/utils/apitypes";
 import { AccommodationType } from "@prisma/client";
 import { titleCase } from "~/utils/helpers";
-import Image from "next/image";
-import placeholder from "public/images/logo.png";
 import LoadingSpinner from "~/components/loadingSpinner";
+import SearchItem from "~/components/SearchItem";
 
 export default function HomePage() {
   const [userInputs, setuserIntpus] = useState<
@@ -446,29 +444,5 @@ const SearchAccoms: React.FC<{
       <div className="-z-30 mr-4 mt-4 h-64 w-64 animate-pulse rounded-xl border bg-p-gray"></div>
       <div className="-z-30 mr-4 mt-4 h-64 w-64 animate-pulse rounded-xl border bg-p-gray"></div>
     </>
-  );
-};
-
-const SearchItem: React.FC<{ id: string; name: string }> = ({ id, name }) => {
-  const [imgSrc, setImgSrc] = useState(
-    `https://stals-worker.p0lbang.workers.dev/${id}.jpg`,
-  );
-
-  return (
-    <Link href={`/accommodation/${id}`}>
-      <div className="relative -z-10 ml-3 mt-3 h-64 w-64 rounded-xl border bg-p-gray">
-        <Image
-          src={imgSrc}
-          alt={name}
-          fill
-          className="-z-10 object-contain"
-          unoptimized
-          onError={() => {
-            setImgSrc(placeholder.src);
-          }}
-        />
-        <div className="z-20 text-center">{name}</div>
-      </div>
-    </Link>
   );
 };
