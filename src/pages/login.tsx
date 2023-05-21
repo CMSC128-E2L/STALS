@@ -23,7 +23,7 @@ export default function SignIn({
           </div>
 
           <div className="flex justify-center pb-4 drop-shadow-md">
-            <p className="text-sm italic text-gray-400">Log in to continue</p>
+            <p className="text-sm italic text-gray-400">Sign in to continue</p>
           </div>
           <div className="py-2"></div>
 
@@ -52,14 +52,7 @@ export default function SignIn({
               </button>
             </Link>
           </div>
-          <div>
-            <p className="mt-5 text-center text-sm text-gray-400">
-              Don&apos;t have an account yet?{" "}
-              <Link className="text-cyan-500 underline" href="/signup">
-                Sign up
-              </Link>
-            </p>
-          </div>
+          <div></div>
         </div>
       </div>
     </div>
