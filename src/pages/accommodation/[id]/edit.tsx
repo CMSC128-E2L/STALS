@@ -1,7 +1,12 @@
 import NavBar from "~/components/navbar";
 import Image from "next/image";
+import { useRouter } from "next/router";
+import { dynamicRouteID } from "~/utils/helpers";
 
 export default function EditAccommodation() {
+  const { shouldReturn, id } = dynamicRouteID(useRouter());
+  if (shouldReturn) return;
+
   return (
     <div className="flex h-screen flex-col object-contain">
       <div className="">
