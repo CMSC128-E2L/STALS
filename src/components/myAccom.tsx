@@ -20,7 +20,7 @@ export default function MyAccom() {
           See More
         </button>
       </div>
-      <div className="flex grid grid-cols-4 place-content-evenly gap-2">
+      <div className="grid grid-cols-4 place-content-evenly gap-2">
         <Accoms />
       </div>
       <div id="more-content" className="max-h-0 overflow-hidden transition-all">
