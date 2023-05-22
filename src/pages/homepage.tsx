@@ -30,6 +30,7 @@ export default function HomePage() {
     num_of_rooms: undefined,
     limit: 10,
     cursor: null,
+    type: undefined,
     typeArray: [],
     tagArray: [],
     price_min: undefined,
@@ -95,42 +96,42 @@ export default function HomePage() {
           setuserIntpus((prevInputs) => ({
             ...prevInputs,
             type: undefined,
-            typeArray: [],
+            // typeArray: [],
           }));
           break;
         case "APARTMENT":
           setuserIntpus((prevInputs) => ({
             ...prevInputs,
             type: "APARTMENT",
-            typeArray: ["APARTMENT"],
+            // typeArray: ["APARTMENT"],
           }));
           break;
         case "BEDSPACER":
           setuserIntpus((prevInputs) => ({
             ...prevInputs,
             type: "BEDSPACER",
-            typeArray: ["BEDSPACER"],
+            // typeArray: ["BEDSPACER"],
           }));
           break;
         case "DORMITORY":
           setuserIntpus((prevInputs) => ({
             ...prevInputs,
             type: "DORMITORY",
-            typeArray: ["DORMITORY"],
+            // typeArray: ["DORMITORY"],
           }));
           break;
         case "HOTEL":
           setuserIntpus((prevInputs) => ({
             ...prevInputs,
             type: "HOTEL",
-            typeArray: ["HOTEL"],
+            // typeArray: ["HOTEL"],
           }));
           break;
         case "TRANSCIENT":
           setuserIntpus((prevInputs) => ({
             ...prevInputs,
             type: "TRANSCIENT",
-            typeArray: ["TRANSCIENT"],
+            // typeArray: ["TRANSCIENT"],
           }));
           break;
         default:

@@ -126,7 +126,8 @@ const ProfileButton: React.FC = () => {
           <p className="text-lg font-bold text-p-rblue">
             {`${sessionData?.profile.first_name ?? ""} ${
               sessionData?.profile.middle_name ?? ""
-            } ${sessionData?.profile.last_name ?? ""}`}
+            } ${sessionData?.profile.last_name ?? ""}
+            ${sessionData?.profile.Suffix ?? ""}`}
           </p>
           <p className="mb-5 mt-1 overflow-hidden truncate text-sm italic text-gray-400">
             {sessionData?.user.email}

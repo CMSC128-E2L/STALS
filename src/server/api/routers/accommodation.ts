@@ -201,6 +201,9 @@ export const accommodationRouter = createTRPCRouter({
                 path: "$.values",
                 array_contains: input.tagArray ?? [],
               },
+              type: {
+                equals: input.type,
+              },
               typeArray: {
                 path: "$.values",
                 array_contains: input.typeArray ?? [],

@@ -10,6 +10,7 @@ export const accommodationGetManyExperiementSchema = z.object({
   landlord: z.string().optional(),
   barangay: z.string().optional(),
   num_of_rooms: z.number().optional(),
+  type: z.nativeEnum(AccommodationType).optional(),
   typeArray: z.array(z.string()).optional(),
   tagArray: z.string().array().optional(),
   price_min: z.number().optional(),
