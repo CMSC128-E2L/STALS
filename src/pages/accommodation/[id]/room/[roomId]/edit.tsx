@@ -116,8 +116,8 @@ export default function EditRoom() {
                             },
                           })}
                         >
-                          <option value="yes">Yes</option>
-                          <option value="no">No</option>
+                          <option value="yes">With</option>
+                          <option value="no">Without</option>
                         </select>
                       </div>
                     </div>
