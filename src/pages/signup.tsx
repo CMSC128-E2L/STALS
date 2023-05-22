@@ -98,6 +98,9 @@ const Signup: NextPage = () => {
                 className="rounded-xl px-2 py-2 shadow shadow-gray-400/100"
                 required
               />
+              {errors.username?.message && (
+                <p>{errors.username?.message as string}</p>
+              )}
               <input
                 {...register("contact_number")}
                 type="tel"
@@ -107,6 +110,9 @@ const Signup: NextPage = () => {
                 className="rounded-xl px-2 py-2 shadow shadow-gray-400/100"
                 required
               />
+              {errors.contact_number?.message && (
+                <p>{errors.contact_number?.message as string}</p>
+              )}
 
               <div className="flex justify-center rounded-xl px-2 py-2 shadow shadow-gray-400/100">
                 <input
