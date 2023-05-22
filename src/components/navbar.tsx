@@ -170,7 +170,10 @@ const ProfileButton: React.FC = () => {
           <UserInfo />
           <hr className="my-2 h-px border-0 bg-gray-200 dark:bg-gray-700"></hr>
           <Link className="dropdown-buttons" href={"/login"}>
-            Log In
+            Sign In
+          </Link>
+          <Link className="dropdown-buttons" href={"/login"}>
+            Sign Up
           </Link>
         </div>
       );

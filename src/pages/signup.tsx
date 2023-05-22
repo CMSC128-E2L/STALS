@@ -140,14 +140,14 @@ const Signup: NextPage = () => {
                   </button>
                 </Link>
               </div>
-
+              {/* 
               <p className="pt-5 text-center text-sm text-gray-400">
                 Already have an account?{" "}
                 <a href="login" className="text-cyan-500 underline">
                   Login
                 </a>
                 .
-              </p>
+              </p> */}
             </div>
           </form>
         </div>
