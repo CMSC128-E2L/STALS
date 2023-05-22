@@ -61,3 +61,14 @@ export const reviewGetManySchema = z.object({
   page: z.number(),
   multiplier: z.number(),
 });
+
+/* ROOM */
+export const roomAddSchema = z.object({
+  occupied: z.boolean(),
+  accommodationId: z.string(),
+  price: z.number(),
+  num_of_beds: z.number(),
+  with_aircon: z.boolean(),
+  with_utilities: z.boolean(),
+  is_archived: z.boolean(),
+});
