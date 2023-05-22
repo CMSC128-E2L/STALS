@@ -100,11 +100,14 @@ export default Home;
 
 const AuthShowcase: React.FC = () => {
   const { data: sessionData } = useSession();
-
+  const fullName = `${sessionData?.profile.first_name ?? ""} ${
+    sessionData?.profile?.middle_name ?? ""
+  } ${sessionData?.profile.last_name ?? ""}
+  ${sessionData?.profile.Suffix ?? ""}`;
   return (
     <div className="flex flex-col items-start justify-start gap-4">
       <p className="text-start text-2xl text-white">
-        {sessionData && <span>Logged in as {sessionData.user?.name}</span>}
+        {sessionData && <span>Logged in as {fullName}</span>}
       </p>
       <button
         className="rounded-full bg-[#1C5D99]/90 px-10 py-3 font-semibold text-white no-underline transition hover:bg-white/20"
