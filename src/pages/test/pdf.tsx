@@ -29,14 +29,18 @@ export default function Backend() {
     body: info,
   });
 
-  pdf.save("try.pdf");
-
   return (
     <>
       <div>
         <div>ACCOMMODATION ROUTER TESTING</div>
         <div>BACKEND DATA</div>
-        {}
+        <button
+          onClick={() => {
+            pdf.save("try.pdf");
+          }}
+        >
+          Save Pdf
+        </button>
       </div>
     </>
   );
