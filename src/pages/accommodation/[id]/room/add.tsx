@@ -82,11 +82,7 @@ export default function AddRoom() {
                           placeholder="Type"
                           {...register("occupied", {
                             setValueAs: (value) => {
-                              if (value == "yes") {
-                                return value === "true";
-                              } else {
-                                return value === "false";
-                              }
+                              return value == "yes";
                             },
                           })}
                         >
@@ -108,16 +104,12 @@ export default function AddRoom() {
                           placeholder="Type"
                           {...register("with_aircon", {
                             setValueAs: (value) => {
-                              if (value == "yes") {
-                                return value === "true";
-                              } else {
-                                return value === "false";
-                              }
+                              return value == "yes";
                             },
                           })}
                         >
-                          <option value="yes"></option>
-                          <option value="no">No</option>
+                          <option value="yes">With</option>
+                          <option value="no">Without</option>
                         </select>
                       </div>
                     </div>
@@ -134,11 +126,7 @@ export default function AddRoom() {
                           placeholder="Type"
                           {...register("with_utilities", {
                             setValueAs: (value) => {
-                              if (value == "yes") {
-                                return value === "true";
-                              } else {
-                                return value === "false";
-                              }
+                              return value == "yes";
                             },
                           })}
                         >
