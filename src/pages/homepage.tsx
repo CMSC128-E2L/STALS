@@ -81,9 +81,55 @@ export default function HomePage() {
     { id: "BEDSPACER", value: "BEDSPACER", label: "Bedspacer" },
     { id: "DORMITORY", value: "DORMITORY", label: "Dormitory" },
     { id: "HOTEL", value: "HOTEL", label: "Hotel" },
-    { id: "TRANSIENT", value: "TRANSIENT", label: "Transient" },
+    { id: "TRANSCIENT", value: "TRANSCIENT", label: "Transcient" },
   ];
 
+  const handleAccomTypeChange = (event: {
+    target: { value: string; checked: boolean };
+  }) => {
+    const { value, checked } = event.target;
+    if (checked) {
+      switch (value) {
+        case "APARTMENT":
+          setuserIntpus((prevInputs) => ({
+            ...prevInputs,
+            type: "APARTMENT",
+            typeArray: ["APARTMENT"],
+          }));
+          break;
+        case "BEDSPACER":
+          setuserIntpus((prevInputs) => ({
+            ...prevInputs,
+            type: "BEDSPACER",
+            typeArray: ["BEDSPACER"],
+          }));
+          break;
+        case "DORMITORY":
+          setuserIntpus((prevInputs) => ({
+            ...prevInputs,
+            type: "DORMITORY",
+            typeArray: ["DORMITORY"],
+          }));
+          break;
+        case "HOTEL":
+          setuserIntpus((prevInputs) => ({
+            ...prevInputs,
+            type: "HOTEL",
+            typeArray: ["HOTEL"],
+          }));
+          break;
+        case "TRANSCIENT":
+          setuserIntpus((prevInputs) => ({
+            ...prevInputs,
+            type: "TRANSCIENT",
+            typeArray: ["TRANSCIENT"],
+          }));
+          break;
+        default:
+          break;
+      }
+    }
+  };
   const handlePriceRangeChange = (event: {
     target: { value: string; checked: boolean };
   }) => {
@@ -175,7 +221,7 @@ export default function HomePage() {
                     type="radio"
                     name="accom_type"
                     value={range.value}
-                    // onChange={}
+                    onChange={handleAccomTypeChange}
                     className="ml-3 h-4 w-4 rounded border-gray-300 bg-gray-100 text-blue-600 focus:ring-2 focus:ring-blue-500 dark:border-gray-600 dark:bg-gray-700 dark:ring-offset-gray-800 dark:focus:ring-blue-600"
                   />
                   <label htmlFor={range.id} className="filter-text">
