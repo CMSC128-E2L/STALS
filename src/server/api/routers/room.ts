@@ -101,13 +101,11 @@ export const roomRouter = createTRPCRouter({
     .input(
       z.object({
         id: z.string(),
-        accommodationId: z.string().optional(),
         occupied: z.boolean().optional(),
         num_of_beds: z.number().optional(),
         with_aircon: z.boolean().optional(),
         price: z.number().optional(),
         with_utilities: z.boolean().optional(),
-        is_archived: z.boolean().optional(),
       }),
     )
     .mutation(({ ctx, input }) => {
@@ -120,7 +118,6 @@ export const roomRouter = createTRPCRouter({
           with_aircon: input.with_aircon,
           price: input.price,
           with_utilities: input.with_utilities,
-          is_archived: input.is_archived,
         },
       });
     }),

@@ -6,6 +6,7 @@ import { roomAddSchema } from "~/utils/apitypes";
 import { useRouter } from "next/router";
 import { dynamicRouteID } from "~/utils/helpers";
 import { useEffect } from "react";
+import Link from "next/link";
 
 export default function AddRoom() {
   const { shouldReturn, id } = dynamicRouteID(useRouter());
@@ -144,9 +145,11 @@ export default function AddRoom() {
               <button type="reset" className="formButton hover:bg-blue-400">
                 Clear
               </button>
+              {/*<Link href={`/accommodation/${id}`}>*/}
               <button type="submit" className="formButton hover:bg-blue-400">
                 Submit
               </button>
+              {/*</Link>*/}
             </div>
           </form>
         </div>

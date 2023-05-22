@@ -77,3 +77,12 @@ export const roomAddSchema = z.object({
   with_aircon: z.boolean(),
   with_utilities: z.boolean(),
 });
+
+export const roomEditSchema = z.object({
+  id: z.string(),
+  price: z.number(),
+  num_of_beds: z.number(),
+  occupied: z.boolean(),
+  with_aircon: z.boolean(),
+  with_utilities: z.boolean(),
+});
