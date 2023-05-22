@@ -5,6 +5,7 @@ import user from "public/images/def_user.png";
 import { useSession, signOut } from "next-auth/react";
 import { useRouter } from "next/router";
 import { api } from "~/utils/api";
+import { UserType } from "@prisma/client";
 
 export default function HomePage() {
   const { data: sessionData } = useSession();
@@ -26,7 +27,7 @@ export default function HomePage() {
     },
   });
 
-  if (sessionData?.profile.type == "LANDOWNER") {
+  if (sessionData?.profile.type == UserType.LANDLORD) {
     return (
       <div>
         <NavBar />
@@ -95,7 +96,7 @@ export default function HomePage() {
         </div>
       </div>
     );
-  } else if (sessionData?.profile.type == "USER") {
+  } else if (sessionData?.profile.type == UserType.USER) {
     return (
       <div>
         <NavBar />
@@ -170,7 +171,7 @@ export default function HomePage() {
         </div>
       </div>
     );
-  } else if (sessionData?.profile.type == "ADMIN") {
+  } else if (sessionData?.profile.type == UserType.ADMIN) {
     return (
       <div>
         <NavBar />
