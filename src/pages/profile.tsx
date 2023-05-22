@@ -13,7 +13,8 @@ export default function HomePage() {
 
   const fullName = `${sessionData?.profile.first_name ?? ""} ${
     sessionData?.profile?.middle_name ?? ""
-  } ${sessionData?.profile.last_name ?? ""}`;
+  } ${sessionData?.profile.last_name ?? ""}
+  ${sessionData?.profile.Suffix ?? ""}`;
 
   const handleEditProfile = () => {
     void router.push("/profile/edit");
