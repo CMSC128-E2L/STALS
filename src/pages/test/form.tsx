@@ -67,9 +67,7 @@ export default function App() {
       {errors.num_of_rooms?.message && (
         <p>{errors.num_of_rooms?.message as string}</p>
       )}
-      <button type="submit" onClick={void console.log("hi")}>
-        submit
-      </button>
+      <button type="submit">submit</button>
     </form>
   );
 }
