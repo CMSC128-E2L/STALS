@@ -76,5 +76,4 @@ export const roomAddSchema = z.object({
   num_of_beds: z.number(),
   with_aircon: z.boolean(),
   with_utilities: z.boolean(),
-  is_archived: z.boolean(),
 });

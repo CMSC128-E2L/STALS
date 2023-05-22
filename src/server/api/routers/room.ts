@@ -69,7 +69,6 @@ export const roomRouter = createTRPCRouter({
         with_aircon: z.boolean(),
         price: z.number(),
         with_utilities: z.boolean(),
-        is_archived: z.boolean(),
       }),
     )
     .mutation(({ ctx, input }) => {
@@ -80,7 +79,6 @@ export const roomRouter = createTRPCRouter({
         with_aircon,
         price,
         with_utilities,
-        is_archived,
       } = input;
 
       return ctx.prisma.room.create({
@@ -91,7 +89,7 @@ export const roomRouter = createTRPCRouter({
           with_aircon: with_aircon,
           price: price,
           with_utilities: with_utilities,
-          is_archived: is_archived,
+          is_archived: false,
         },
       });
     }),
