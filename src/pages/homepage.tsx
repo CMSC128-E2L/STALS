@@ -370,12 +370,6 @@ const Location: React.FC = () => {
   // this will be used in the filter button for the location
   const [value, setValue] = useState("");
   const [showSuggestions, setShowSuggestions] = useState(false);
-  const suggestions = [
-    "Brgy. Anos",
-    "Brgy. Batong Malake",
-    "Brgy. Mayondon",
-    "Brgy. Putho-Tuntungin",
-  ]; //! TODO: this is hardcoded
 
   function handleChange(event: React.ChangeEvent<HTMLInputElement>) {
     setValue(event.target.value);
