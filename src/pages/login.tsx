@@ -52,14 +52,7 @@ export default function SignIn({
               </button>
             </Link>
           </div>
-          <div>
-            {/* <p className="mt-5 text-center text-sm text-gray-400">
-              Don&apos;t have an account yet?{" "}
-              <Link className="text-cyan-500 underline" href="/signup">
-                Sign up
-              </Link>
-            </p> */}
-          </div>
+          <div></div>
         </div>
       </div>
     </div>
