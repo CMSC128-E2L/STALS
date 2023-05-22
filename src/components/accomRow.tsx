@@ -10,6 +10,8 @@ import {
 } from "react";
 import Image from "next/image";
 import Link from "next/link";
+import jsPDF from "jspdf";
+import autoTable from "jspdf-autotable";
 
 export default function AccomRow(props: {
   barangay: string | undefined | null;
@@ -24,6 +26,29 @@ export default function AccomRow(props: {
   const toggleMultiplier = () => {
     setMultiplier((prevMultiplier) => (prevMultiplier === 8 ? 16 : 8)); // Step 2: Toggle multiplier value
   };
+
+  const {
+    data: firstData,
+    isLoading: queryLoading,
+  } = // Generate PDF
+    api.accommodation.getMany.useQuery({
+      page: 0,
+      multiplier: multiplier,
+      barangay: props.barangay!,
+    });
+
+  const info: (string | number | null)[][] = [];
+
+  firstData?.forEach((i) => {
+    info.push([
+      i.name,
+      i.street_number,
+      i.subdivision,
+      i.landlord,
+      i.contact_number,
+      i.num_of_rooms,
+    ]);
+  });
 
   return (
     <div className="flex flex-col">
@@ -64,7 +89,12 @@ export default function AccomRow(props: {
             </Link>
           </div>
         )}
-        <button className="mr-2 rounded-full bg-p-dblue px-3 py-2 text-xs font-bold text-white hover:bg-sky-600">
+        <button
+          className="mr-2 rounded-full bg-p-dblue px-3 py-2 text-xs font-bold text-white hover:bg-sky-600"
+          onClick={() => {
+            generatePDF(info, props.barangay);
+          }}
+        >
           Download PDF
         </button>
 
@@ -97,6 +127,66 @@ function toggleShow() {
     button.innerHTML =
       button?.innerHTML === "See More" ? "See Less" : "See More";
   }
+}
+
+function generatePDF(
+  info: (string | number | null)[][],
+  barangay: string | null | undefined,
+) {
+  const pdf = new jsPDF();
+
+  const headerText = "STALS Search: Barangay " + barangay;
+  const tableHeader = [
+    "Accommodation Name",
+    "Street",
+    "Subdivision",
+    "Landlord",
+    "Contact Number",
+    "Rooms",
+  ];
+  // const logo = "public/images/logo.png";
+
+  autoTable(pdf, {
+    head: [tableHeader],
+    body: info,
+    didDrawPage: function (data) {
+      // Page Header
+      pdf.setFillColor(29, 93, 154);
+      pdf.rect(10, 10, pdf.internal.pageSize.width - 20, 15, "F");
+      pdf.setFont("helvetica", "bold");
+      pdf.setFontSize(18);
+      pdf.setTextColor(255, 255, 255);
+      const textX = 20;
+      const textY = 20;
+      pdf.text(headerText, textX, textY);
+
+      // pdf.addImage("logo-min.png", 'PNG', data.settings.margin.left, 8, 10, 10);
+
+      // Footer
+      const pageCount = (pdf as any).getNumberOfPages();
+      const footerStr = `Page ${data.pageNumber} of ${pageCount}`;
+
+      pdf.setFontSize(10);
+      pdf.setTextColor(0, 0, 0);
+      pdf.text(
+        footerStr,
+        data.settings.margin.left,
+        pdf.internal.pageSize.height - 10,
+      );
+    },
+    margin: { top: 30 },
+    didParseCell: function (data) {
+      if (data.section === "head") {
+        // Table Header
+        data.cell.styles.valign = "middle";
+        data.cell.styles.halign = "center";
+        data.cell.styles.fillColor = [187, 205, 229];
+        data.cell.styles.textColor = [0, 0, 0];
+      }
+    },
+  });
+
+  pdf.save("STALS.pdf");
 }
 
 // const Accoms: React.FC<{ barangay:string }> = (barangay)  => {
