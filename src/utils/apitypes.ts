@@ -30,6 +30,15 @@ export const accommodationAddSchema = z.object({
   type: z.nativeEnum(AccommodationType),
 });
 
+export const accommodationEditSchema = z.object({
+  id: z.string().optional(),
+  name: z.string().optional(),
+  address: z.string().optional(),
+  location: z.string().optional(),
+  contact_number: z.string().optional(),
+  fb_page: z.string().optional(),
+});
+
 /* USER */
 
 export const userEditSchema = z.object({

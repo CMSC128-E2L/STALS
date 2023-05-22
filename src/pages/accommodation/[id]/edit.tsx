@@ -2,10 +2,23 @@ import NavBar from "~/components/navbar";
 import Image from "next/image";
 import { useRouter } from "next/router";
 import { dynamicRouteID } from "~/utils/helpers";
+import { accommodationEditSchema } from "~/utils/apitypes";
+import { useForm } from "react-hook-form";
+import { zodResolver } from "@hookform/resolvers/zod";
+import { RouterInputs, api } from "~/utils/api";
 
 export default function EditAccommodation() {
-  const { shouldReturn, id } = dynamicRouteID(useRouter());
-  if (shouldReturn) return;
+  const { id } = dynamicRouteID(useRouter());
+  const {
+    register,
+    handleSubmit,
+
+    formState: { errors },
+  } = useForm({
+    resolver: zodResolver(accommodationEditSchema),
+  });
+
+  const editAccommodation = api.accommodation.edit.useMutation();
 
   return (
     <div className="flex min-h-screen flex-col">
@@ -17,7 +30,29 @@ export default function EditAccommodation() {
             <h1 className="form-h1">EDIT ACCOMMODATION</h1>
           </div>
           <div className="">
-            <form className="justify-items-stretchspace-y-4 flex flex-row object-contain ">
+            <form
+              // eslint-disable-next-line @typescript-eslint/no-misused-promises
+              onSubmit={handleSubmit(
+                (d) => {
+                  const obj = { id };
+                  d.id = obj.id;
+                  for (const key in d) {
+                    if (d[key] === "") {
+                      console.log(d[key]);
+                      delete d[key];
+                    }
+                  }
+                  console.log(d);
+                  editAccommodation.mutate(
+                    d as RouterInputs["accommodation"]["edit"],
+                  );
+                },
+                (errors) => {
+                  console.log(errors);
+                },
+              )}
+              className="justify-items-stretchspace-y-4 flex flex-row object-contain "
+            >
               {/* Images 
                 Basically same implementation ito with how gallery works sa accommodation/id BUT mayroon lang na add image button sa huli */}
               <div className="w-1/3 flex-none p-4">
@@ -67,11 +102,23 @@ export default function EditAccommodation() {
 
               <div className="flex w-3/4 flex-initial flex-col gap-2 p-4 pt-3">
                 <div>
+                  <input
+                    hidden
+                    className="add-acc-input-text-field text-xl"
+                    placeholder="Current Accommodation Name"
+                    type="text"
+                    value={id}
+                    //value = "clh65qcfe0002i708hf6qtxpp"
+                    {...register("id")}
+                  ></input>
+                </div>
+                <div>
                   <label>Accommodation Name</label>
                   <input
                     className="add-acc-input-text-field text-xl"
                     placeholder="Current Accommodation Name"
                     type="text"
+                    {...register("name")}
                   ></input>
                 </div>
 
@@ -105,6 +152,7 @@ export default function EditAccommodation() {
                     <select
                       className="form-dropdown shadow shadow-p-black/50"
                       placeholder="Contract Length"
+                      {...register("location")}
                     >
                       <option>Within UPLB</option>
                       <option>Outside UPLB</option>
@@ -125,6 +173,7 @@ export default function EditAccommodation() {
                         placeholder="Contact No."
                         pattern="[0-9]{9}"
                         type="text"
+                        {...register("contact_number")}
                       ></input>
                     </div>
                   </div>
@@ -144,6 +193,7 @@ export default function EditAccommodation() {
                       placeholder="FB Page"
                       type="text"
                       pattern="(?:https?:\/\/)?(?:www\.)?(mbasic.facebook|m\.facebook|facebook|fb)\.(com|me)\/(?:(?:\w\.)*#!\/)?(?:pages\/)?(?:[\w\-\.]*\/)*([\w\-\.]*)"
+                      {...register("fb_page")}
                     ></input>
                   </div>
                 </div>
@@ -163,16 +213,16 @@ export default function EditAccommodation() {
                       className="add-acc-input-text-field"
                       placeholder="Barangay"
                       type="text"
-                      required
+                      // required
                     ></input>
                   </div>
                   <div>
                     <input
                       className="add-acc-input-text-field"
-                      placeholder="Current address"
+                      placeholder="Address"
                       type="text"
-                      pattern=""
-                      required
+                      {...register("address")}
+                      // required
                     ></input>
                   </div>
                 </div>
