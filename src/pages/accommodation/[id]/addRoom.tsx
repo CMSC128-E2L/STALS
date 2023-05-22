@@ -2,7 +2,6 @@ import NavBar from "~/components/navbar";
 import Link from "next/link";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { AccommodationType } from "@prisma/client";
 import { type RouterInputs, api } from "~/utils/api";
 import { roomAddSchema } from "~/utils/apitypes";
 import { useRouter } from "next/router";
@@ -37,6 +36,9 @@ export default function AddRoom() {
           <form
             // eslint-disable-next-line @typescript-eslint/no-misused-promises
             onSubmit={handleSubmit((d) => {
+              const obj = { id };
+              d.accommodationId = obj.id;
+              d.is_archived = false;
               console.log(d);
               addRoom.mutate(d as RouterInputs["room"]["add"]);
             })}
@@ -117,32 +119,7 @@ export default function AddRoom() {
                     </div>
                   </div>
                 </div>
-                <div className="w-25% mx-5 rounded-lg border-slate-950 bg-white p-5 ">
-                  <h2 className="form-h2">Archived</h2>
-                  <div className="h-10 w-full items-center justify-items-stretch rounded-md bg-white">
-                    <div className="form-col-deets">
-                      <div>
-                        <select
-                          className="form-dropdown peer"
-                          placeholder="Type"
-                          {...register("is_archived")}
-                        >
-                          <option value="true">Yes</option>
-                          <option value="false">No</option>
-                        </select>
-                      </div>
-                    </div>
-                  </div>
-                </div>
               </div>
-              <input
-                className="add-acc-input-text-field mx-5"
-                placeholder="Number of Beds"
-                type="text"
-                value={id}
-                required
-                {...register("accommodationId")}
-              ></input>
             </div>
 
             {/* footer buttons clear submit */}
