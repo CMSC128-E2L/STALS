@@ -60,13 +60,11 @@ export default function AddRoom() {
                   className="add-acc-input-text-field mx-5"
                   placeholder="Price"
                   {...register("price", { valueAsNumber: true })}
-                  required
                 ></input>
                 <input
                   className="add-acc-input-text-field mx-5"
                   placeholder="Number of Beds"
                   {...register("num_of_beds", { valueAsNumber: true })}
-                  required
                 ></input>
               </div>
               {/* div contains all three */}
@@ -82,12 +80,16 @@ export default function AddRoom() {
                           placeholder="Type"
                           {...register("occupied", {
                             setValueAs: (value) => {
-                              return value === "true";
+                              if (value == "yes") {
+                                return value === "true";
+                              } else {
+                                return value === "false";
+                              }
                             },
                           })}
                         >
-                          <option value="true">Yes</option>
-                          <option value="false">No</option>
+                          <option value="yes">Yes</option>
+                          <option value="no">No</option>
                         </select>
                       </div>
                     </div>
@@ -104,12 +106,19 @@ export default function AddRoom() {
                           placeholder="Type"
                           {...register("with_aircon", {
                             setValueAs: (value) => {
-                              return value === "true";
+                              {
+                                /*TODO: when unchecked must be false*/
+                              }
+                              if (value == "yes") {
+                                return value === "true";
+                              } else {
+                                return value === "false";
+                              }
                             },
                           })}
                         >
-                          <option value="true">Yes</option>
-                          <option value="false">No</option>
+                          <option value="yes">Yes</option>
+                          <option value="no">No</option>
                         </select>
                       </div>
                     </div>
@@ -126,12 +135,16 @@ export default function AddRoom() {
                           placeholder="Type"
                           {...register("with_utilities", {
                             setValueAs: (value) => {
-                              return value === "true";
+                              if (value == "yes") {
+                                return value === "true";
+                              } else {
+                                return value === "false";
+                              }
                             },
                           })}
                         >
-                          <option value="true">Yes</option>
-                          <option value="false">No</option>
+                          <option value="yes">Yes</option>
+                          <option value="no">No</option>
                         </select>
                       </div>
                     </div>
@@ -145,7 +158,7 @@ export default function AddRoom() {
               <button type="reset" className="formButton hover:bg-blue-400">
                 Clear
               </button>
-              {/*<Link href={`/accommodation/${id}`}>*/}
+              {/*<Link href={`/accommodation/${id}`}> TODO: Link back to accom page after submit*/}
               <button type="submit" className="formButton hover:bg-blue-400">
                 Submit
               </button>
