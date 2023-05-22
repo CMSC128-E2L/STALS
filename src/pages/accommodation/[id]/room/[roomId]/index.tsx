@@ -10,12 +10,12 @@ import { dynamicRouteID } from "~/utils/helpers";
 
 //adapted accom view code
 
-export default function Accommodation() {
+export default function Room() {
   const { shouldReturn, id } = dynamicRouteID(useRouter());
   if (shouldReturn) return;
 
   const { data: firstData, isLoading: queryLoading } =
-    api.accommodation.getOne.useQuery(id);
+    api.room.getOne.useQuery(id);
 
   return (
     <div className="flex h-screen flex-col">
@@ -40,9 +40,7 @@ export default function Accommodation() {
                 {/* Left column (accommodation name) */}
                 <div className="flex w-3/4 items-center px-3">
                   {!queryLoading ? (
-                    <h1 className="form-h1">
-                      {firstData?.name} Room [i] Details
-                    </h1>
+                    <h1 className="form-h1">Room {id} Details</h1>
                   ) : (
                     <h1 className="form-h1 w-[100%] animate-pulse rounded-full bg-gray-400">
                       &nbsp;&nbsp;
@@ -116,7 +114,6 @@ export default function Accommodation() {
               Yung Idea na meron ako for dito is ipasa na lang ung PATH and ung i-priprint na info tulad ng number and address
 
               Make the parts that have info appear only. */}
-
               {/* DESCRIPTION */}
               <div className="flex basis-1/2 flex-col">
                 {/* Other deets */}
@@ -134,7 +131,7 @@ export default function Accommodation() {
                     <div className="flex flex-col gap-2 py-2">
                       <div className="flex w-3/4 items-center">
                         {!queryLoading ? (
-                          <h1 className="">{firstData?.contact_number}</h1>
+                          <h1 className="">{firstData?.price}</h1>
                         ) : (
                           <h1 className="">&nbsp;&nbsp;</h1>
                         )}
@@ -142,7 +139,7 @@ export default function Accommodation() {
 
                       <div className="flex w-3/4 items-center">
                         {!queryLoading ? (
-                          <h1 className="">{firstData?.location}</h1>
+                          <h1 className="">{firstData?.num_of_beds}</h1>
                         ) : (
                           <h1 className="">&nbsp;&nbsp;</h1>
                         )}
@@ -150,7 +147,9 @@ export default function Accommodation() {
 
                       <div className="flex w-3/4 items-center">
                         {!queryLoading ? (
-                          <h1 className="">{firstData?.contract_length}</h1>
+                          <h1 className="">
+                            {firstData?.occupied ? "Occupied" : "Unoccupied"}
+                          </h1>
                         ) : (
                           <h1 className="">&nbsp;&nbsp;</h1>
                         )}
@@ -158,7 +157,9 @@ export default function Accommodation() {
 
                       <div className="flex w-3/4 items-center">
                         {!queryLoading ? (
-                          <h1 className="">{firstData?.contract_length}</h1>
+                          <h1 className="">
+                            {firstData?.with_aircon ? "With" : "Without"}
+                          </h1>
                         ) : (
                           <h1 className="">&nbsp;&nbsp;</h1>
                         )}
@@ -166,7 +167,9 @@ export default function Accommodation() {
 
                       <div className="flex w-3/4 items-center">
                         {!queryLoading ? (
-                          <h1 className="">{firstData?.contract_length}</h1>
+                          <h1 className="">
+                            {firstData?.with_utilities ? "With" : "Without"}
+                          </h1>
                         ) : (
                           <h1 className="">&nbsp;&nbsp;</h1>
                         )}
