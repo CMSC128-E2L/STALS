@@ -70,10 +70,10 @@ export const reviewGetManySchema = z.object({
 
 /* ROOM */
 export const roomAddSchema = z.object({
-  occupied: z.boolean(),
-  accommodationId: z.string(),
+  accommodationId: z.string().min(3),
   price: z.number(),
   num_of_beds: z.number(),
+  occupied: z.boolean(),
   with_aircon: z.boolean(),
   with_utilities: z.boolean(),
 });

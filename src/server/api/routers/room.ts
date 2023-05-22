@@ -5,6 +5,7 @@ import {
   publicProcedure,
   protectedProcedure,
 } from "~/server/api/trpc";
+import { roomAddSchema } from "~/utils/apitypes";
 
 export const roomRouter = createTRPCRouter({
   getMany: publicProcedure
@@ -61,16 +62,7 @@ export const roomRouter = createTRPCRouter({
 
   // Add Room
   add: protectedProcedure //need to connect to userid?
-    .input(
-      z.object({
-        accommodationId: z.string(),
-        occupied: z.boolean(),
-        num_of_beds: z.number(),
-        with_aircon: z.boolean(),
-        price: z.number(),
-        with_utilities: z.boolean(),
-      }),
-    )
+    .input(roomAddSchema)
     .mutation(({ ctx, input }) => {
       const {
         accommodationId,
