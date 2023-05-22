@@ -10,6 +10,14 @@ import { titleCase } from "~/utils/helpers";
 import LoadingSpinner from "~/components/loadingSpinner";
 import SearchItem from "~/components/SearchItem";
 
+type HandlePriceRangeChangeType = (
+  event: React.ChangeEvent<HTMLInputElement>,
+) => void;
+
+interface PriceRangeProps {
+  handlePriceRangeChange: HandlePriceRangeChangeType;
+}
+
 export default function HomePage() {
   const [userInputs, setuserIntpus] = useState<
     z.infer<typeof accommodationGetManyExperiementSchema>
@@ -59,6 +67,15 @@ export default function HomePage() {
   //   });
   //   setloadingnext(false);
   // }, [loadingnext]);
+  const priceRanges = [
+    { id: "all", value: "all", label: "All" },
+    { id: "below-1000", value: "below-1000", label: "Under ₱ 1001" },
+    { id: "one-to-two", value: "one-to-two", label: "₱ 1001 – ₱ 2000" },
+    { id: "two-to-three", value: "two-to-three", label: "₱ 2001 – ₱ 3000" },
+    { id: "three-to-four", value: "three-to-four", label: "₱ 3001 – ₱ 4000" },
+    { id: "above-four", value: "above-four", label: "Above ₱ 4001" },
+  ];
+
   const handlePriceRangeChange = (event: {
     target: { value: string; checked: boolean };
   }) => {
@@ -162,90 +179,21 @@ export default function HomePage() {
             {/* Price Range */}
             <div className="mb-4">
               <h2 className="mb-2 text-base font-bold">Price Range</h2>
-              <div className="mb-2 flex items-center">
-                <input
-                  defaultChecked
-                  id="all"
-                  type="radio"
-                  name="price_range"
-                  value="all"
-                  onChange={handlePriceRangeChange}
-                  className="ml-3 h-4 w-4 rounded border-gray-300 bg-gray-100 text-blue-600 focus:ring-2 focus:ring-blue-500 dark:border-gray-600 dark:bg-gray-700 dark:ring-offset-gray-800 dark:focus:ring-blue-600"
-                />
-                <label htmlFor="all" className="filter-text">
-                  All
-                </label>
-              </div>
-
-              <div className="mb-2 flex items-center">
-                <input
-                  id="below-1000"
-                  type="radio"
-                  name="price_range"
-                  value="below-1000"
-                  onChange={handlePriceRangeChange}
-                  className="ml-3 h-4 w-4 rounded border-gray-300 bg-gray-100 text-blue-600 focus:ring-2 focus:ring-blue-500 dark:border-gray-600 dark:bg-gray-700 dark:ring-offset-gray-800 dark:focus:ring-blue-600"
-                />
-                <label htmlFor="below-1000" className="filter-text">
-                  Under ₱ 1001
-                </label>
-              </div>
-
-              <div className="mb-2 flex items-center">
-                <input
-                  id="one-to-two"
-                  type="radio"
-                  name="price_range"
-                  value="one-to-two"
-                  onChange={handlePriceRangeChange}
-                  className="ml-3  h-4 w-4 rounded border-gray-300 bg-gray-100 text-blue-600 focus:ring-2 focus:ring-blue-500 dark:border-gray-600 dark:bg-gray-700 dark:ring-offset-gray-800 dark:focus:ring-blue-600"
-                />
-                <label htmlFor="one-to-two" className="filter-text">
-                  ₱ 1001 – ₱ 2000{" "}
-                </label>
-              </div>
-
-              <div className="mb-2 flex items-center">
-                <input
-                  id="two-to-three"
-                  type="radio"
-                  name="price_range"
-                  value="two-to-three"
-                  onChange={handlePriceRangeChange}
-                  className="ml-3  h-4 w-4 rounded border-gray-300 bg-gray-100 text-blue-600 focus:ring-2 focus:ring-blue-500 dark:border-gray-600 dark:bg-gray-700 dark:ring-offset-gray-800 dark:focus:ring-blue-600"
-                />
-                <label htmlFor="two-to-three" className="filter-text">
-                  ₱ 2001 – ₱ 3000{" "}
-                </label>
-              </div>
-
-              <div className="mb-2 flex items-center">
-                <input
-                  id="three-to-four"
-                  type="radio"
-                  name="price_range"
-                  value="three-to-four"
-                  onChange={handlePriceRangeChange}
-                  className="ml-3 h-4 w-4 rounded border-gray-300 bg-gray-100 text-blue-600 focus:ring-2 focus:ring-blue-500 dark:border-gray-600 dark:bg-gray-700 dark:ring-offset-gray-800 dark:focus:ring-blue-600"
-                />
-                <label htmlFor="three-to-four" className="filter-text">
-                  ₱ 3001 – ₱ 4000{" "}
-                </label>
-              </div>
-
-              <div className="flex items-center">
-                <input
-                  id="above-four"
-                  type="radio"
-                  name="price_range"
-                  value="above-four"
-                  onChange={handlePriceRangeChange}
-                  className="ml-3 h-4 w-4 rounded border-gray-300 bg-gray-100 text-blue-600 focus:ring-2 focus:ring-blue-500 dark:border-gray-600 dark:bg-gray-700 dark:ring-offset-gray-800 dark:focus:ring-blue-600"
-                />
-                <label htmlFor="above-four" className="filter-text">
-                  Above ₱ 4001
-                </label>
-              </div>
+              {priceRanges.map((range) => (
+                <div className="mb-2 flex items-center" key={range.id}>
+                  <input
+                    id={range.id}
+                    type="radio"
+                    name="price_range"
+                    value={range.value}
+                    onChange={handlePriceRangeChange}
+                    className="ml-3 h-4 w-4 rounded border-gray-300 bg-gray-100 text-blue-600 focus:ring-2 focus:ring-blue-500 dark:border-gray-600 dark:bg-gray-700 dark:ring-offset-gray-800 dark:focus:ring-blue-600"
+                  />
+                  <label htmlFor={range.id} className="filter-text">
+                    {range.label}
+                  </label>
+                </div>
+              ))}
             </div>
 
             {/* Capacity */}
