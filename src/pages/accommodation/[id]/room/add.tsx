@@ -116,8 +116,8 @@ export default function AddRoom() {
                             },
                           })}
                         >
-                          <option value="yes">With</option>
-                          <option value="no">Without</option>
+                          <option value="yes"></option>
+                          <option value="no">No</option>
                         </select>
                       </div>
                     </div>

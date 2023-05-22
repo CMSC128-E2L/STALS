@@ -3,7 +3,6 @@ import UserProfile from "~/components/userProfile";
 import StarRow from "~/components/starRow";
 import RoomButton from "~/components/roomButton";
 import Link from "next/link";
-import Image from "next/image";
 import { api } from "~/utils/api";
 import { useRouter } from "next/router";
 import { dynamicRouteID } from "~/utils/helpers";
@@ -40,7 +39,7 @@ export default function Room() {
                 {/* Left column (accommodation name) */}
                 <div className="flex w-3/4 items-center px-3">
                   {!queryLoading ? (
-                    <h1 className="form-h1">Room {id} Details</h1>
+                    <h1 className="form-h1">Room Details</h1>
                   ) : (
                     <h1 className="form-h1 w-[100%] animate-pulse rounded-full bg-gray-400">
                       &nbsp;&nbsp;
@@ -51,24 +50,26 @@ export default function Room() {
                 {/* Right column: the editing thingy ig */}
                 <div className="basis-1/4">
                   {/* if landlord view */}
-                  <div className="float-right flex hidden gap-1">
+                  <div className="float-right flex gap-1">
                     {/* Edit button */}
-                    <button type="button" className="accomP-button">
-                      <svg
-                        xmlns="http://www.w3.org/2000/svg"
-                        fill="none"
-                        viewBox="0 0 24 24"
-                        strokeWidth="1.5"
-                        stroke="currentColor"
-                        className="h-8 w-8 fill-white stroke-p-dblue"
-                      >
-                        <path
-                          strokeLinecap="round"
-                          strokeLinejoin="round"
-                          d="M16.862 4.487l1.687-1.688a1.875 1.875 0 112.652 2.652L10.582 16.07a4.5 4.5 0 01-1.897 1.13L6 18l.8-2.685a4.5 4.5 0 011.13-1.897l8.932-8.931zm0 0L19.5 7.125M18 14v4.75A2.25 2.25 0 0115.75 21H5.25A2.25 2.25 0 013 18.75V8.25A2.25 2.25 0 015.25 6H10"
-                        />
-                      </svg>
-                    </button>
+                    <Link href={`${id}/edit`}>
+                      <button type="button" className="accomP-button">
+                        <svg
+                          xmlns="http://www.w3.org/2000/svg"
+                          fill="none"
+                          viewBox="0 0 24 24"
+                          strokeWidth="1.5"
+                          stroke="currentColor"
+                          className="h-8 w-8 fill-white stroke-p-dblue"
+                        >
+                          <path
+                            strokeLinecap="round"
+                            strokeLinejoin="round"
+                            d="M16.862 4.487l1.687-1.688a1.875 1.875 0 112.652 2.652L10.582 16.07a4.5 4.5 0 01-1.897 1.13L6 18l.8-2.685a4.5 4.5 0 011.13-1.897l8.932-8.931zm0 0L19.5 7.125M18 14v4.75A2.25 2.25 0 0115.75 21H5.25A2.25 2.25 0 013 18.75V8.25A2.25 2.25 0 015.25 6H10"
+                          />
+                        </svg>
+                      </button>
+                    </Link>
                     {/* Archive button */}
                     <button type="button" className="accomP-button ">
                       <svg
