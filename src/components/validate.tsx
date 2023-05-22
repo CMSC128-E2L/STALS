@@ -15,7 +15,6 @@ const Validate: React.FC = () => {
         window.location.replace("/signup");
       }
     }
-  // console.log("validate");
   // });
 
   return <></>;

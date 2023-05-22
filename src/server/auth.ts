@@ -41,7 +41,6 @@ function getProviders() {
     env.DISCORD_CLIENT_ID !== "" &&
     env.DISCORD_CLIENT_SECRET !== ""
   ) {
-    console.log("discord");
     providers.push(
       DiscordProvider({
         clientId: env.DISCORD_CLIENT_ID,
@@ -56,7 +55,6 @@ function getProviders() {
     env.GOOGLE_CLIENT_ID !== "" &&
     env.GOOGLE_CLIENT_SECRET !== ""
   ) {
-    console.log("google");
     providers.push(
       GoogleProvider({
         clientId: env.GOOGLE_CLIENT_ID,
