@@ -38,7 +38,7 @@ export default function EditRoom() {
       <div className="basis-6/8 flex min-h-screen items-center justify-center overflow-y-auto bg-white">
         <div className="margin-40 w-3/4 rounded-xl bg-p-lblue p-4 py-4 shadow-md">
           <div>
-            <h1 className="form-h1">Edit ROOM</h1>
+            <h1 className="form-h1">EDIT ROOM</h1>
           </div>
           <form
             // eslint-disable-next-line @typescript-eslint/no-misused-promises
@@ -59,11 +59,13 @@ export default function EditRoom() {
                 <input
                   className="add-acc-input-text-field mx-5"
                   placeholder="Price"
+                  type="number"
                   {...register("price", { valueAsNumber: true })}
                 ></input>
                 <input
                   className="add-acc-input-text-field mx-5"
                   placeholder="Number of Beds"
+                  type="number"
                   {...register("num_of_beds", { valueAsNumber: true })}
                 ></input>
               </div>
