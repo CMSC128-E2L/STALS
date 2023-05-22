@@ -43,16 +43,16 @@ export const accommodationEditSchema = z.object({
 
 export const userEditSchema = z.object({
   first_name: z.string().min(1).optional(),
-  middle_name: z.string().min(1).optional(),
+  middle_name: z.string().optional(),
   last_name: z.string().min(1).optional(),
   Suffix: z.string().optional(),
   username: z
     .string()
-    .min(8, { message: "Must be atleast 8 characters" })
+    .min(8, { message: "Must be at least 8 characters" })
     .optional(),
   contact_number: z
     .string()
-    .min(10, { message: "Must be atleast length of 10" })
+    .min(10, { message: "Must be at least length of 10" })
     .optional(),
   type: z.nativeEnum(UserType),
 });
