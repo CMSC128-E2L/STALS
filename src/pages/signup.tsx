@@ -56,6 +56,7 @@ const Signup: NextPage = () => {
           <form
             // eslint-disable-next-line @typescript-eslint/no-misused-promises
             onSubmit={handleSubmit((d) => {
+              console.log(d);
               editUser.mutate(d as RouterInputs["user"]["edit"]);
             })}
           >
@@ -110,11 +111,11 @@ const Signup: NextPage = () => {
               <div className="flex justify-center rounded-xl px-2 py-2 shadow shadow-gray-400/100">
                 <input
                   type="radio"
-                  id="student"
-                  value={"STUDENT"}
+                  id="user"
+                  value={"USER"}
                   {...register("type")}
                 />
-                <label className="px-2"> Student </label>
+                <label className="px-2"> User </label>
                 <input
                   type="radio"
                   id="landlord"
