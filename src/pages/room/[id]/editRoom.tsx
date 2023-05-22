@@ -60,13 +60,11 @@ export default function EditRoom() {
                   className="add-acc-input-text-field mx-5"
                   placeholder="Price"
                   {...register("price", { valueAsNumber: true })}
-                  required
                 ></input>
                 <input
                   className="add-acc-input-text-field mx-5"
                   placeholder="Number of Beds"
                   {...register("num_of_beds", { valueAsNumber: true })}
-                  required
                 ></input>
               </div>
               {/* div contains all three */}

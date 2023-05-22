@@ -99,3 +99,7 @@ export const roomEditSchema = z.object({
 export const roomGetManySchema = z.object({
   accommodationId: z.string().min(3),
 });
+
+export const roomGetOneSchema = z.object({
+  id: z.string(),
+});
