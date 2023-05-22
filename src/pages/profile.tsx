@@ -2,7 +2,7 @@ import NavBar from "~/components/navbar";
 import MyAccom from "~/components/myAccom";
 import Image from "next/image";
 import user from "public/images/def_user.png";
-import { useSession } from "next-auth/react";
+import { useSession, signOut } from "next-auth/react";
 import { useRouter } from "next/router";
 import { api } from "~/utils/api";
 
@@ -20,7 +20,9 @@ export default function HomePage() {
 
   const deleteProfile = api.user.delete.useMutation({
     onSuccess: () => {
-      void router.replace("/");
+      void signOut({
+        callbackUrl: "/",
+      });
     },
   });
 
