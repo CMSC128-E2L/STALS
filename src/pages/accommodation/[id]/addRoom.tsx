@@ -82,12 +82,16 @@ export default function AddRoom() {
                           placeholder="Type"
                           {...register("occupied", {
                             setValueAs: (value) => {
-                              return value === "true";
+                              if (value == "yes") {
+                                return value === "true";
+                              } else {
+                                return value === "false";
+                              }
                             },
                           })}
                         >
-                          <option value="true">Yes</option>
-                          <option value="false">No</option>
+                          <option value="yes">Occupied</option>
+                          <option value="no">Unoccupied</option>
                         </select>
                       </div>
                     </div>
@@ -104,12 +108,16 @@ export default function AddRoom() {
                           placeholder="Type"
                           {...register("with_aircon", {
                             setValueAs: (value) => {
-                              return value === "true";
+                              if (value == "yes") {
+                                return value === "true";
+                              } else {
+                                return value === "false";
+                              }
                             },
                           })}
                         >
-                          <option value="true">Yes</option>
-                          <option value="false">No</option>
+                          <option value="yes">Yes</option>
+                          <option value="no">No</option>
                         </select>
                       </div>
                     </div>
@@ -126,12 +134,16 @@ export default function AddRoom() {
                           placeholder="Type"
                           {...register("with_utilities", {
                             setValueAs: (value) => {
-                              return value === "true";
+                              if (value == "yes") {
+                                return value === "true";
+                              } else {
+                                return value === "false";
+                              }
                             },
                           })}
                         >
-                          <option value="true">Yes</option>
-                          <option value="false">No</option>
+                          <option value="yes">With</option>
+                          <option value="no">Without</option>
                         </select>
                       </div>
                     </div>

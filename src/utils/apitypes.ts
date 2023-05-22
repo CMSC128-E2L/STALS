@@ -95,3 +95,7 @@ export const roomEditSchema = z.object({
   with_aircon: z.boolean(),
   with_utilities: z.boolean(),
 });
+
+export const roomGetManySchema = z.object({
+  accommodationId: z.string().min(3),
+});

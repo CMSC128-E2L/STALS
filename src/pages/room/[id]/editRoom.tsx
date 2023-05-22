@@ -2,7 +2,7 @@ import NavBar from "~/components/navbar";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { type RouterInputs, api } from "~/utils/api";
-import { roomAddSchema } from "~/utils/apitypes";
+import { roomEditSchema } from "~/utils/apitypes";
 import { useRouter } from "next/router";
 import { dynamicRouteID } from "~/utils/helpers";
 import { useEffect } from "react";
@@ -16,18 +16,18 @@ export default function EditRoom() {
     handleSubmit,
     setValue,
     formState: { errors },
-  } = useForm<RouterInputs["room"]["add"]>({
-    resolver: zodResolver(roomAddSchema),
+  } = useForm<RouterInputs["room"]["edit"]>({
+    resolver: zodResolver(roomEditSchema),
     defaultValues: {
-      accommodationId: "",
+      id: "",
     },
   });
 
   useEffect(() => {
-    setValue("accommodationId", id);
+    setValue("id", id);
   }, [id, setValue]);
 
-  const addRoom = api.room.add.useMutation();
+  const editRoom = api.room.edit.useMutation();
 
   return (
     <div className="">
@@ -38,13 +38,13 @@ export default function EditRoom() {
       <div className="basis-6/8 flex min-h-screen items-center justify-center overflow-y-auto bg-white">
         <div className="margin-40 w-3/4 rounded-xl bg-p-lblue p-4 py-4 shadow-md">
           <div>
-            <h1 className="form-h1">ADD ROOM</h1>
+            <h1 className="form-h1">Edit ROOM</h1>
           </div>
           <form
             // eslint-disable-next-line @typescript-eslint/no-misused-promises
             onSubmit={handleSubmit(
               (d) => {
-                addRoom.mutate(d);
+                editRoom.mutate(d);
               },
               (error) => {
                 console.log(error);
@@ -82,12 +82,16 @@ export default function EditRoom() {
                           placeholder="Type"
                           {...register("occupied", {
                             setValueAs: (value) => {
-                              return value === "true";
+                              if (value == "yes") {
+                                return value === "true";
+                              } else {
+                                return value === "false";
+                              }
                             },
                           })}
                         >
-                          <option value="true">Yes</option>
-                          <option value="false">No</option>
+                          <option value="yes">Occupied</option>
+                          <option value="no">Unoccupied</option>
                         </select>
                       </div>
                     </div>
@@ -104,12 +108,16 @@ export default function EditRoom() {
                           placeholder="Type"
                           {...register("with_aircon", {
                             setValueAs: (value) => {
-                              return value === "true";
+                              if (value == "yes") {
+                                return value === "true";
+                              } else {
+                                return value === "false";
+                              }
                             },
                           })}
                         >
-                          <option value="true">Yes</option>
-                          <option value="false">No</option>
+                          <option value="yes">Yes</option>
+                          <option value="no">No</option>
                         </select>
                       </div>
                     </div>
@@ -126,12 +134,16 @@ export default function EditRoom() {
                           placeholder="Type"
                           {...register("with_utilities", {
                             setValueAs: (value) => {
-                              return value === "true";
+                              if (value == "yes") {
+                                return value === "true";
+                              } else {
+                                return value === "false";
+                              }
                             },
                           })}
                         >
-                          <option value="true">Yes</option>
-                          <option value="false">No</option>
+                          <option value="yes">With</option>
+                          <option value="no">Without</option>
                         </select>
                       </div>
                     </div>
