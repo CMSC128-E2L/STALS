@@ -1,6 +1,7 @@
 import { type Accommodation } from "@prisma/client";
 import { useSession } from "next-auth/react";
 import { stringify } from "superjson";
+import NavBar from "~/components/navbar";
 import { api } from "~/utils/api";
 
 export default function Delete_Archive_Accomm() {
@@ -24,7 +25,7 @@ export default function Delete_Archive_Accomm() {
 
   return (
     <div className="">
-      <h3 className="bg-blue-500 p-4">NAVBAR PLACEHOLDER</h3>
+      <NavBar />
       <br />
       <p className="mb-4 text-center text-xl font-bold drop-shadow-md">
         Accommodations
