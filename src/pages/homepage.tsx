@@ -76,6 +76,68 @@ export default function HomePage() {
     { id: "above-four", value: "above-four", label: "Above ₱ 4001" },
   ];
 
+  const accomTypes = [
+    { id: "ALL", value: "ALL", label: "All" },
+    { id: "APARTMENT", value: "APARTMENT", label: "Apartment" },
+    { id: "BEDSPACER", value: "BEDSPACER", label: "Bedspacer" },
+    { id: "DORMITORY", value: "DORMITORY", label: "Dormitory" },
+    { id: "HOTEL", value: "HOTEL", label: "Hotel" },
+    { id: "TRANSCIENT", value: "TRANSCIENT", label: "Transcient" },
+  ];
+
+  const handleAccomTypeChange = (event: {
+    target: { value: string; checked: boolean };
+  }) => {
+    const { value, checked } = event.target;
+    if (checked) {
+      switch (value) {
+        case "ALL":
+          setuserIntpus((prevInputs) => ({
+            ...prevInputs,
+            type: undefined,
+            typeArray: [],
+          }));
+          break;
+        case "APARTMENT":
+          setuserIntpus((prevInputs) => ({
+            ...prevInputs,
+            type: "APARTMENT",
+            typeArray: ["APARTMENT"],
+          }));
+          break;
+        case "BEDSPACER":
+          setuserIntpus((prevInputs) => ({
+            ...prevInputs,
+            type: "BEDSPACER",
+            typeArray: ["BEDSPACER"],
+          }));
+          break;
+        case "DORMITORY":
+          setuserIntpus((prevInputs) => ({
+            ...prevInputs,
+            type: "DORMITORY",
+            typeArray: ["DORMITORY"],
+          }));
+          break;
+        case "HOTEL":
+          setuserIntpus((prevInputs) => ({
+            ...prevInputs,
+            type: "HOTEL",
+            typeArray: ["HOTEL"],
+          }));
+          break;
+        case "TRANSCIENT":
+          setuserIntpus((prevInputs) => ({
+            ...prevInputs,
+            type: "TRANSCIENT",
+            typeArray: ["TRANSCIENT"],
+          }));
+          break;
+        default:
+          break;
+      }
+    }
+  };
   const handlePriceRangeChange = (event: {
     target: { value: string; checked: boolean };
   }) => {
@@ -157,21 +219,21 @@ export default function HomePage() {
               <h2 className="mb-2 text-base font-bold">Location</h2>
               <Location />
             </div>
-
-            {/* Types */}
+            {/* Accommodation Type */}
             <div className="mb-4">
-              <h2 className="mb-2 text-base font-bold">Types</h2>
-              {Object.values(AccommodationType).map((val: string) => (
-                <div key={val} className="mb-2 flex items-center">
+              <h2 className="mb-2 text-base font-bold">Type</h2>
+              {accomTypes.map((range) => (
+                <div className="mb-2 flex items-center" key={range.id}>
                   <input
-                    id={val}
-                    type="checkbox"
-                    value={val}
+                    id={range.id}
+                    type="radio"
+                    name="accom_type"
+                    value={range.value}
+                    onChange={handleAccomTypeChange}
                     className="ml-3 h-4 w-4 rounded border-gray-300 bg-gray-100 text-blue-600 focus:ring-2 focus:ring-blue-500 dark:border-gray-600 dark:bg-gray-700 dark:ring-offset-gray-800 dark:focus:ring-blue-600"
-                    {...register("typeArray")}
                   />
-                  <label htmlFor={val} className="filter-text ">
-                    {titleCase(val)}
+                  <label htmlFor={range.id} className="filter-text">
+                    {range.label}
                   </label>
                 </div>
               ))}
@@ -308,6 +370,12 @@ const Location: React.FC = () => {
   // this will be used in the filter button for the location
   const [value, setValue] = useState("");
   const [showSuggestions, setShowSuggestions] = useState(false);
+  const suggestions = [
+    "Brgy. Anos",
+    "Brgy. Batong Malake",
+    "Brgy. Mayondon",
+    "Brgy. Putho-Tuntungin",
+  ]; //! TODO: this is hardcoded
 
   function handleChange(event: React.ChangeEvent<HTMLInputElement>) {
     setValue(event.target.value);
