@@ -1,8 +1,7 @@
-import { type NextPage } from "next";
 import { useSession } from "next-auth/react";
 import { useRouter } from "next/router";
 
-const Validate: NextPage = () => {
+const Validate: React.FC = () => {
   const userSession = useSession();
   const router = useRouter();
 
