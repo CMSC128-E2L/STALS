@@ -35,5 +35,6 @@ export default {
       },
     },
   },
+  safelist: ["google", "discord"],
   plugins: [],
 } satisfies Config;
