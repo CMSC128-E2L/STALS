@@ -1,26 +1,32 @@
 import NavBar from "~/components/navbar";
-import Link from "next/link";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { type RouterInputs, api } from "~/utils/api";
 import { roomAddSchema } from "~/utils/apitypes";
 import { useRouter } from "next/router";
 import { dynamicRouteID } from "~/utils/helpers";
+import { useEffect } from "react";
 
 export default function AddRoom() {
+  const { shouldReturn, id } = dynamicRouteID(useRouter());
+
   const {
     register,
     handleSubmit,
-
+    setValue,
     formState: { errors },
-  } = useForm({
+  } = useForm<RouterInputs["room"]["add"]>({
     resolver: zodResolver(roomAddSchema),
+    defaultValues: {
+      accommodationId: "",
+    },
   });
 
-  const addRoom = api.room.add.useMutation();
+  useEffect(() => {
+    setValue("accommodationId", id);
+  }, [id, setValue]);
 
-  const { shouldReturn, id } = dynamicRouteID(useRouter());
-  if (shouldReturn) return;
+  const addRoom = api.room.add.useMutation();
 
   return (
     <div className="">
@@ -35,13 +41,14 @@ export default function AddRoom() {
           </div>
           <form
             // eslint-disable-next-line @typescript-eslint/no-misused-promises
-            onSubmit={handleSubmit((d) => {
-              const obj = { id };
-              d.accommodationId = obj.id;
-              d.is_archived = false;
-              console.log(d);
-              addRoom.mutate(d as RouterInputs["room"]["add"]);
-            })}
+            onSubmit={handleSubmit(
+              (d) => {
+                addRoom.mutate(d);
+              },
+              (error) => {
+                console.log(error);
+              },
+            )}
             className="justify-items-stretch space-y-4"
           >
             {/* right side */}
@@ -51,15 +58,13 @@ export default function AddRoom() {
                 <input
                   className="add-acc-input-text-field mx-5"
                   placeholder="Price"
-                  type="number"
-                  {...register("price")}
+                  {...register("price", { valueAsNumber: true })}
                   required
                 ></input>
                 <input
                   className="add-acc-input-text-field mx-5"
                   placeholder="Number of Beds"
-                  type="number"
-                  {...register("num_of_beds")}
+                  {...register("num_of_beds", { valueAsNumber: true })}
                   required
                 ></input>
               </div>
@@ -74,7 +79,11 @@ export default function AddRoom() {
                         <select
                           className="form-dropdown peer"
                           placeholder="Type"
-                          {...register("occupied")}
+                          {...register("occupied", {
+                            setValueAs: (value) => {
+                              return value === "true";
+                            },
+                          })}
                         >
                           <option value="true">Yes</option>
                           <option value="false">No</option>
@@ -92,7 +101,11 @@ export default function AddRoom() {
                         <select
                           className="form-dropdown peer"
                           placeholder="Type"
-                          {...register("with_aircon")}
+                          {...register("with_aircon", {
+                            setValueAs: (value) => {
+                              return value === "true";
+                            },
+                          })}
                         >
                           <option value="true">Yes</option>
                           <option value="false">No</option>
@@ -110,7 +123,11 @@ export default function AddRoom() {
                         <select
                           className="form-dropdown peer"
                           placeholder="Type"
-                          {...register("with_utilities")}
+                          {...register("with_utilities", {
+                            setValueAs: (value) => {
+                              return value === "true";
+                            },
+                          })}
                         >
                           <option value="true">Yes</option>
                           <option value="false">No</option>
