@@ -2,13 +2,13 @@ import NavBar from "~/components/navbar";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { type RouterInputs, api } from "~/utils/api";
-import { roomAddSchema } from "~/utils/apitypes";
+import { roomEditSchema } from "~/utils/apitypes";
 import { useRouter } from "next/router";
 import { dynamicRouteID } from "~/utils/helpers";
 import { useEffect } from "react";
 import Link from "next/link";
 
-export default function AddRoom() {
+export default function EditRoom() {
   const { shouldReturn, id } = dynamicRouteID(useRouter());
 
   const {
@@ -16,18 +16,18 @@ export default function AddRoom() {
     handleSubmit,
     setValue,
     formState: { errors },
-  } = useForm<RouterInputs["room"]["add"]>({
-    resolver: zodResolver(roomAddSchema),
+  } = useForm<RouterInputs["room"]["edit"]>({
+    resolver: zodResolver(roomEditSchema),
     defaultValues: {
-      accommodationId: "",
+      id: "",
     },
   });
 
   useEffect(() => {
-    setValue("accommodationId", id);
+    setValue("id", id);
   }, [id, setValue]);
 
-  const addRoom = api.room.add.useMutation();
+  const editRoom = api.room.edit.useMutation();
 
   return (
     <div className="">
@@ -38,13 +38,13 @@ export default function AddRoom() {
       <div className="basis-6/8 flex min-h-screen items-center justify-center overflow-y-auto bg-white">
         <div className="margin-40 w-3/4 rounded-xl bg-p-lblue p-4 py-4 shadow-md">
           <div>
-            <h1 className="form-h1">ADD ROOM</h1>
+            <h1 className="form-h1">EDIT ROOM</h1>
           </div>
           <form
             // eslint-disable-next-line @typescript-eslint/no-misused-promises
             onSubmit={handleSubmit(
               (d) => {
-                addRoom.mutate(d);
+                editRoom.mutate(d);
               },
               (error) => {
                 console.log(error);
@@ -59,14 +59,14 @@ export default function AddRoom() {
                 <input
                   className="add-acc-input-text-field mx-5"
                   placeholder="Price"
+                  type="number"
                   {...register("price", { valueAsNumber: true })}
-                  required
                 ></input>
                 <input
                   className="add-acc-input-text-field mx-5"
                   placeholder="Number of Beds"
+                  type="number"
                   {...register("num_of_beds", { valueAsNumber: true })}
-                  required
                 ></input>
               </div>
               {/* div contains all three */}
@@ -82,12 +82,12 @@ export default function AddRoom() {
                           placeholder="Type"
                           {...register("occupied", {
                             setValueAs: (value) => {
-                              return value === "true";
+                              return value == "yes";
                             },
                           })}
                         >
-                          <option value="true">Yes</option>
-                          <option value="false">No</option>
+                          <option value="yes">Occupied</option>
+                          <option value="no">Unoccupied</option>
                         </select>
                       </div>
                     </div>
@@ -104,12 +104,12 @@ export default function AddRoom() {
                           placeholder="Type"
                           {...register("with_aircon", {
                             setValueAs: (value) => {
-                              return value === "true";
+                              return value == "yes";
                             },
                           })}
                         >
-                          <option value="true">Yes</option>
-                          <option value="false">No</option>
+                          <option value="yes">With</option>
+                          <option value="no">Without</option>
                         </select>
                       </div>
                     </div>
@@ -126,12 +126,12 @@ export default function AddRoom() {
                           placeholder="Type"
                           {...register("with_utilities", {
                             setValueAs: (value) => {
-                              return value === "true";
+                              return value == "yes";
                             },
                           })}
                         >
-                          <option value="true">Yes</option>
-                          <option value="false">No</option>
+                          <option value="yes">With</option>
+                          <option value="no">Without</option>
                         </select>
                       </div>
                     </div>
@@ -145,7 +145,7 @@ export default function AddRoom() {
               <button type="reset" className="formButton hover:bg-blue-400">
                 Clear
               </button>
-              {/*<Link href={`/accommodation/${id}`}>*/}
+              {/*<Link href={`/accommodation/${id}`}> TODO: Link back to accom page after submit*/}
               <button type="submit" className="formButton hover:bg-blue-400">
                 Submit
               </button>

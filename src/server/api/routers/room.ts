@@ -12,18 +12,21 @@ export const roomRouter = createTRPCRouter({
     .input(
       z.object({
         accommodationId: z.string(),
-        page: z.number(),
-        multiplier: z.number(),
       }),
     )
     .query(({ ctx, input }) => {
-      const { accommodationId, page, multiplier } = input;
+      const { accommodationId } = input;
       return ctx.prisma.room.findMany({
-        skip: page,
-        take: multiplier,
         where: { accommodationId: accommodationId },
       });
     }),
+
+  getOne: publicProcedure.input(z.string()).query(({ ctx, input }) => {
+    const id = input;
+    return ctx.prisma.room.findFirst({
+      where: { id: id },
+    });
+  }),
 
   // Archive Room
   archive: protectedProcedure

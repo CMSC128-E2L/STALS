@@ -8,7 +8,7 @@ import { dynamicRouteID } from "~/utils/helpers";
 import { useEffect } from "react";
 import Link from "next/link";
 
-export default function EditRoom() {
+export default function AddRoom() {
   const { shouldReturn, id } = dynamicRouteID(useRouter());
 
   const {
@@ -82,12 +82,12 @@ export default function EditRoom() {
                           placeholder="Type"
                           {...register("occupied", {
                             setValueAs: (value) => {
-                              return value === "true";
+                              return value == "yes";
                             },
                           })}
                         >
-                          <option value="true">Yes</option>
-                          <option value="false">No</option>
+                          <option value="yes">Occupied</option>
+                          <option value="no">Unoccupied</option>
                         </select>
                       </div>
                     </div>
@@ -104,12 +104,12 @@ export default function EditRoom() {
                           placeholder="Type"
                           {...register("with_aircon", {
                             setValueAs: (value) => {
-                              return value === "true";
+                              return value == "yes";
                             },
                           })}
                         >
-                          <option value="true">Yes</option>
-                          <option value="false">No</option>
+                          <option value="yes">With</option>
+                          <option value="no">Without</option>
                         </select>
                       </div>
                     </div>
@@ -126,12 +126,12 @@ export default function EditRoom() {
                           placeholder="Type"
                           {...register("with_utilities", {
                             setValueAs: (value) => {
-                              return value === "true";
+                              return value == "yes";
                             },
                           })}
                         >
-                          <option value="true">Yes</option>
-                          <option value="false">No</option>
+                          <option value="yes">With</option>
+                          <option value="no">Without</option>
                         </select>
                       </div>
                     </div>
@@ -145,7 +145,7 @@ export default function EditRoom() {
               <button type="reset" className="formButton hover:bg-blue-400">
                 Clear
               </button>
-              {/*<Link href={`/accommodation/${id}`}> TODO: Link back to accom page after submit*/}
+              {/*<Link href={`/accommodation/${id}`}>*/}
               <button type="submit" className="formButton hover:bg-blue-400">
                 Submit
               </button>

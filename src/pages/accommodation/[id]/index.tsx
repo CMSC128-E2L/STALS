@@ -352,9 +352,8 @@ export default function Accommodation() {
                   <RoomButton id="" roomIndex={1} status={true} />
                   <RoomButton id="" roomIndex={2} status={false} />
                   <RoomButton id="" roomIndex={3} status={false} />
-
                   {/* TODO: ADD ROOM BUTTON SHOULD ONLY APPEAR IF LANDLORD IS LOOKING AT PAGE */}
-                  <Link href={`/accommodation/${id}/addRoom`}>
+                  <Link href={`/accommodation/${id}/room/add`}>
                     <button className="flex flex-col items-center rounded-lg border-2 border-dashed border-p-black/50 px-8">
                       <svg
                         xmlns="http://www.w3.org/2000/svg"
