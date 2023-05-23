@@ -35,16 +35,22 @@ export const reviewRouter = createTRPCRouter({
         },
       });
 
+      const count = await ctx.prisma.review.aggregate({
+        _count: { rating: true },
+        where: {
+          accommodationId: input.accommodationId,
+        },
+      });
+
       await ctx.prisma.accommodation.update({
         where: {
           id: input.accommodationId,
         },
         data: {
           average_rating: avg._avg.rating,
+          total_reviews: count._count.rating + 1,
         },
       });
-
-      console.log(avg._avg.rating);
 
       return created;
     }),
