@@ -82,11 +82,7 @@ export default function EditRoom() {
                           placeholder="Type"
                           {...register("occupied", {
                             setValueAs: (value) => {
-                              if (value == "yes") {
-                                return value === "true";
-                              } else {
-                                return value === "false";
-                              }
+                              return value == "yes";
                             },
                           })}
                         >
@@ -108,11 +104,7 @@ export default function EditRoom() {
                           placeholder="Type"
                           {...register("with_aircon", {
                             setValueAs: (value) => {
-                              if (value == "yes") {
-                                return value === "true";
-                              } else {
-                                return value === "false";
-                              }
+                              return value == "yes";
                             },
                           })}
                         >
@@ -134,11 +126,7 @@ export default function EditRoom() {
                           placeholder="Type"
                           {...register("with_utilities", {
                             setValueAs: (value) => {
-                              if (value == "yes") {
-                                return value === "true";
-                              } else {
-                                return value === "false";
-                              }
+                              return value == "yes";
                             },
                           })}
                         >
