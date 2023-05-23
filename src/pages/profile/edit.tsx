@@ -125,7 +125,7 @@ const EditProfile: NextPage = () => {
                   defaultValue={userSession.data?.profile.Suffix || ""}
                 />
               </div>
-<div className="flex hidden justify-center rounded-xl px-2 py-2 shadow shadow-gray-400/100">
+              <div className="flex hidden justify-center rounded-xl px-2 py-2 shadow shadow-gray-400/100">
                 <input
                   type="radio"
                   id="user"
@@ -143,6 +143,7 @@ const EditProfile: NextPage = () => {
                 />
                 <label className="px-2"> Landlord </label>
                 <br />
+              </div>
               <br />
               <div>
                 <div className="py-2">
