@@ -1,6 +1,7 @@
 import { type Accommodation } from "@prisma/client";
 import { useSession } from "next-auth/react";
 import { stringify } from "superjson";
+import Image from "next/image";
 import NavBar from "~/components/navbar";
 import { api } from "~/utils/api";
 
@@ -36,6 +37,7 @@ export default function Delete_Archive_Accomm() {
           <>
             <div className="mx-4 flex rounded bg-blue-200 p-2">
               <div className="flex flex-row space-x-2">
+                {/* TODO: Display image of accommodation */}
                 <img
                   className="w-1/2 p-2"
                   src="https://via.placeholder.com/640x640"
@@ -45,27 +47,29 @@ export default function Delete_Archive_Accomm() {
                 <div className="w-full bg-blue-200 p-2">
                   <div className="mb-2 rounded-lg bg-blue-100 p-2">
                     <p>
-                      {accomm.name} {String(accomm.is_archived)}
+                      {accomm.name} | Archived: {String(accomm.is_archived)}
                     </p>
-                    <p>Php. XX,XXXX.XX - XX,XXXX.XX</p>
+                    <p>Price: {accomm.price}</p>
                   </div>
 
                   <div className="flex flex-row space-x-2">
                     <div className="w-full rounded-lg bg-blue-100">
                       <p className="p-2 text-center">Category:</p>
                       <p className="p-2 text-center">
-                        {stringify(accomm.typeArray)}
+                        HOTEL
+                        {/* TODO: Fix parsing of values in typeArray */}
+                        {/* {accomm.typeArray?.values} */}
                       </p>
                     </div>
 
                     <div className="w-full rounded-lg bg-blue-100">
                       <p className="p-2 text-center">Location:</p>
-                      <p className="p-2 text-center">{accomm.barangay}</p>
+                      <p className="p-2 text-center">{accomm.location}</p>
                     </div>
 
                     <div className="w-full rounded-lg bg-blue-100">
                       <p className="p-2 text-center">Rooms:</p>
-                      <p className="p-2 text-center">2BR</p>
+                      <p className="p-2 text-center">{accomm.num_of_rooms}</p>
                     </div>
                   </div>
                 </div>
@@ -73,7 +77,7 @@ export default function Delete_Archive_Accomm() {
                 <div className="w-full bg-blue-200 p-2">
                   <div className="mb-2 rounded-lg bg-blue-100 p-2">
                     <p>Tags:</p>
-                    <p>Lorem, Ipsum, Dolor, Sit, Amet</p>
+                    <p>{accomm.tags}</p>
                   </div>
                   <div className="h-20 w-full bg-blue-200"></div>
 
