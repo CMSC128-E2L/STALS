@@ -28,19 +28,13 @@ export default function Accommodation() {
       <NavBar />
 
       {/* BODY */}
-      <div className="mt-10 flex flex-auto flex-col">
-        {/* LANDLORD PROFILE 
-        CAN BE MADE INTO A COMPONENT */}
-        <div className="position-left ml-10 mt-10 w-1/4 p-4 py-3">
-          <UserProfile />
-        </div>
-
+      <div className="mt-20 flex flex-auto flex-col">
         {/* cONTAINS THE ACCOMMODATION INFO */}
         <div className="flex flex-row justify-center object-contain">
           {/* Box that contains the accommodation thingy */}
-          <div className="margin-40 flex w-11/12 gap-2 rounded-md bg-p-lblue p-4 py-4 shadow-md">
+          <div className="flex w-11/12 rounded-md bg-p-lblue shadow-md">
             {/* GALLERY */}
-            <div className="w-1/3 flex-none p-4">
+            <div className="w-1/4 flex-none p-4">
               <div className="grid grid-cols-2 gap-4">
                 {/* main image */}
                 {!imageLoading && ImageList ? (
@@ -91,11 +85,11 @@ export default function Accommodation() {
             </div>
 
             {/* DESCRIPTION */}
-            <div className="flex w-3/4 flex-initial flex-col p-4">
+            <div className="w-3/4 flex-none p-4">
               {/* ACCOMMODATION NAME + edit + delete thngy idk*/}
               <div className="flex flex-row items-stretch">
                 {/* Left column (accommodation name) */}
-                <div className="flex w-3/4 items-center px-3">
+                <div className="flex shrink items-center px-3">
                   {!queryLoading ? (
                     <h1 className="form-h1">{firstData?.name}</h1>
                   ) : (
@@ -106,7 +100,7 @@ export default function Accommodation() {
                 </div>
 
                 {/* Right column: the editing thingy ig */}
-                <div className="basis-1/4">
+                <div className="shrink">
                   {/* TODO: So if a registered user is viewing it (remove hidden to show teehee)
                   
                   WONDERING KUNG UNG IMPLEMENTATION NA LANG NITO VIA COMPONENT OR NAH*/}
@@ -347,7 +341,7 @@ export default function Accommodation() {
 
                 {/* Rooms 
                 TODO: This is gonna get the list of rooms in prisma/schema.prisma and load the component <RoomButton /> (components/RoomButton.tsx) with the room id.*/}
-                <div className="flex flex-row flex-nowrap gap-3 overflow-x-scroll px-3 py-3">
+                <div className="flex flex-row items-stretch space-x-3 overflow-x-scroll px-3 py-3">
                   {RoomList ? (
                     RoomList?.map((room, i: number) => (
                       <RoomButton
@@ -362,7 +356,10 @@ export default function Accommodation() {
                   )}
 
                   {/* TODO: ADD ROOM BUTTON SHOULD ONLY APPEAR IF LANDLORD IS LOOKING AT PAGE */}
-                  <Link href={`/accommodation/${id}/room/add`}>
+                  <Link
+                    href={`/accommodation/${id}/room/add`}
+                    className="flex items-stretch"
+                  >
                     <button className="flex flex-col items-center rounded-lg border-2 border-dashed border-p-black/50 px-8">
                       <svg
                         xmlns="http://www.w3.org/2000/svg"
@@ -383,11 +380,13 @@ export default function Accommodation() {
                   </Link>
                 </div>
               </div>
-
-              <button className="accPButton mx-3 mb-2 w-1/5 self-end px-3 text-lg">
-                {" "}
-                Download{" "}
-              </button>
+              <div className="flex flex-row items-stretch">
+                <UserProfile />
+                <button className="accPButton mx-3 mb-2 w-1/5 self-end px-3 text-lg">
+                  {" "}
+                  Download{" "}
+                </button>
+              </div>
 
               {/* Rest */}
               <div className="flex grow flex-row divide-x-2 divide-p-black">
