@@ -9,25 +9,22 @@ import { useEffect, useState } from "react";
 import LoadingSpinner from "~/components/loadingSpinner";
 
 const Signup: NextPage = () => {
-  const userSession = useSession();
+  const userSession = useSession({ required: true });
   const [checkingUser, setCheckingUser] = useState(true);
 
   useEffect(() => {
-    if (
-      userSession.data?.profile.first_name !== undefined &&
-      userSession.data?.profile.first_name !== null
-    ) {
-      window.location.replace("/homepage");
-    } else if (userSession.data === null || userSession.data === undefined) {
-      console.log(userSession.data);
-      window.location.replace("/homepage");
-    } else if (
-      userSession.data.profile.first_name == undefined ||
-      userSession.data.profile.first_name == null
-    ) {
-      setCheckingUser(false);
-    }
-  }, [userSession.data]);
+    if (userSession.status === "authenticated")
+      if (
+        userSession.data?.profile.first_name !== undefined &&
+        userSession.data?.profile.first_name !== null
+      ) {
+        console.log("sign up completed");
+        window.location.replace("/homepage");
+      } else {
+        console.log("not yet sign up");
+        setCheckingUser(false);
+      }
+  }, [userSession.data, userSession.status]);
 
   const {
     register,
@@ -44,7 +41,6 @@ const Signup: NextPage = () => {
   });
 
   if (checkingUser) {
-    console.log("guest");
     return <LoadingSpinner />;
   }
 

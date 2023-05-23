@@ -117,7 +117,32 @@ const EditProfile: NextPage = () => {
                 {errors.contact_number?.message && (
                   <p>{errors.contact_number?.message as string}</p>
                 )}
+                <input
+                  {...register("Suffix")}
+                  type="text"
+                  placeholder="Suffix"
+                  className="w-[28%] rounded-xl px-2 py-2 shadow shadow-gray-400/100"
+                  defaultValue={userSession.data?.profile.Suffix || ""}
+                />
               </div>
+<div className="flex hidden justify-center rounded-xl px-2 py-2 shadow shadow-gray-400/100">
+                <input
+                  type="radio"
+                  id="user"
+                  value={"USER"}
+                  {...register("type")}
+                  defaultChecked={userSession.data?.profile.type === "USER"}
+                />
+                <label className="px-2"> User </label>
+                <input
+                  type="radio"
+                  id="landlord"
+                  value={"LANDLORD"}
+                  {...register("type")}
+                  defaultChecked={userSession.data?.profile.type === "LANDLORD"}
+                />
+                <label className="px-2"> Landlord </label>
+                <br />
               <br />
               <div>
                 <div className="py-2">
@@ -125,7 +150,6 @@ const EditProfile: NextPage = () => {
                     Save changes
                   </button>
                 </div>
-
                 <div>
                   <Link href="/profile">
                     <button className="group relative flex w-full justify-center rounded-full bg-slate-500 px-4 py-2 font-bold text-white shadow shadow-gray-400/100">

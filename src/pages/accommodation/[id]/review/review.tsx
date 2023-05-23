@@ -7,7 +7,6 @@ import Image from "next/image";
 import { api } from "~/utils/api";
 import { useRouter } from "next/router";
 import { dynamicRouteID } from "~/utils/helpers";
-import LoadingSpinner from "~/components/loadingSpinner";
 
 export default function Accommodation() {
   const { shouldReturn, id } = dynamicRouteID(useRouter());
@@ -19,25 +18,18 @@ export default function Accommodation() {
   const { data: ImageList, isLoading: imageLoading } =
     api.file.getAccommImages.useQuery({ id });
 
-  const { data: RoomList, isLoading: roomLoading } =
-    api.room.getMany.useQuery(id);
-
-  const { data: getAvgRatings } = api.accommodation.getAvgRatings.useQuery({
-    id: id,
-  });
-
   return (
     <div className="flex h-screen flex-col">
       {/* HEADER */}
       <NavBar />
 
       {/* BODY */}
-      <div className="mt-10 flex flex-auto flex-col">
+      <div className="mt-10 flex flex-auto flex-col pt-10">
         {/* LANDLORD PROFILE 
         CAN BE MADE INTO A COMPONENT */}
-        <div className="position-left ml-10 mt-10 w-1/4 p-4 py-3">
+        {/* <div className="position-left ml-10 mt-10 w-1/4 p-4 py-3">
           <UserProfile />
-        </div>
+        </div> */}
 
         {/* cONTAINS THE ACCOMMODATION INFO */}
         <div className="flex flex-row justify-center object-contain">
@@ -94,7 +86,6 @@ export default function Accommodation() {
               </div>
             </div>
 
-            {/* DESCRIPTION */}
             <div className="flex w-3/4 flex-initial flex-col p-4">
               {/* ACCOMMODATION NAME + edit + delete thngy idk*/}
               <div className="flex flex-row items-stretch">
@@ -203,7 +194,7 @@ export default function Accommodation() {
               {/* STATS */}
 
               {/* TODO:
-              Yung idea na meron ako for dito is ipasa na lang ung PATH and ung i-priprint na info tulad ng number and address
+              Yung Idea na meron ako for dito is ipasa na lang ung PATH and ung i-priprint na info tulad ng number and address
 
               Make the parts that have info appear only. */}
               <div className="flex flex-row gap-2 px-3 text-sm">
@@ -304,134 +295,68 @@ export default function Accommodation() {
                 </div>
               </div>
 
-              {/* DESCRIPTION */}
-              <div className="flex basis-1/2 flex-col">
-                <div className="group overflow-hidden px-4 py-2">
-                  {/* placeholder description to test line cram thing
-                  WALA PALA DESCRIPTION KIMMY
-
-                  {!queryLoading ? (
-                    <p className="">{stringify(firstData)}</p>
-                  ) : (
-                    <>
-                      <p className="mb-2 animate-pulse rounded-full bg-gray-400">
-                        &nbsp;&nbsp;
-                      </p>
-                      <p className="mb-2 animate-pulse rounded-full bg-gray-400">
-                        &nbsp;&nbsp;
-                      </p>
-                      <p className="mb-2 animate-pulse rounded-full bg-gray-400">
-                        &nbsp;&nbsp;
-                      </p>
-                    </>
-                  )} */}
-
-                  {/* TODO: since the tags of an accommodation is just a string, just print that string here.*/}
-                  <p className="py-1 text-sm">{firstData?.tags}</p>
+              <div className="grid h-10 grid-cols-2 justify-items-stretch gap-4">
+                <div className="flex items-center px-4 py-3">
+                  <h1 className="text-start text-2xl">Ratings and Reviews</h1>
                 </div>
-
-                {/* Other deets */}
-                <div className="justify-self-start">
-                  <div className="grid grid-cols-2 px-3">
-                    {/* TODO get the corresponding info: */}
-                    <div className="flex flex-col gap-2 p-2">
-                      <h1 className="form-h2">Price</h1>
-                      <h1 className="form-h2">Capacity</h1>
-                      {/*TODO: CONTRACT LENGTH IS A CONDITIONAL THAT ONLY APPEARS IF THE ACCOMMODATION IS A DORMITORY */}
-                      <h1 className="form-h2">{firstData?.contract_length}</h1>
-                    </div>
-
-                    <div className="flex flex-col gap-2 p-2">
-                      <p>{firstData?.price} Pesos</p>
-                      <p>(min) to (max) people</p>
-                      <p>1 Academic Year</p>
-                    </div>
-                  </div>
-                </div>
-
-                {/* Rooms 
-                TODO: This is gonna get the list of rooms in prisma/schema.prisma and load the component <RoomButton /> (components/RoomButton.tsx) with the room id.*/}
-                <div className="flex flex-row flex-nowrap gap-3 overflow-x-scroll px-3 py-3">
-                  {RoomList ? (
-                    RoomList?.map((room, i: number) => (
-                      <RoomButton
-                        key={room.id}
-                        id={room.id}
-                        roomIndex={i}
-                        status={room.occupied}
-                      />
-                    ))
-                  ) : (
-                    <LoadingSpinner />
-                  )}
-
-                  {/* TODO: ADD ROOM BUTTON SHOULD ONLY APPEAR IF LANDLORD IS LOOKING AT PAGE */}
-                  <Link href={`/accommodation/${id}/room/add`}>
-                    <button className="flex flex-col items-center rounded-lg border-2 border-dashed border-p-black/50 px-8">
-                      <svg
-                        xmlns="http://www.w3.org/2000/svg"
-                        fill="none"
-                        viewBox="0 0 24 24"
-                        strokeWidth="1.5"
-                        stroke="currentColor"
-                        className="h-6 w-6"
-                      >
-                        <path
-                          strokeLinecap="round"
-                          strokeLinejoin="round"
-                          d="M12 4.5v15m7.5-7.5h-15"
-                        />
-                      </svg>
-                      <label className="text-xs">Add Room</label>
-                    </button>
+                <div className="text-gray-800flex items-center justify-center justify-self-end py-2 pt-4">
+                  <Link
+                    href="ye"
+                    className="justify-self-end pt-3 text-end text-xxs underline"
+                  >
+                    Report a problem
                   </Link>
                 </div>
               </div>
 
-              <button className="accPButton mx-3 mb-2 w-1/5 self-end px-3 text-lg">
-                {" "}
-                Download{" "}
-              </button>
+              <div className="grid h-40 grid-cols-1 justify-items-stretch gap-4">
+                <div className="w-auto flex-row space-x-[2%] pl-3 pt-5">
+                  <textarea
+                    rows={4}
+                    className="w-full border-0 bg-white px-0 text-sm text-gray-900 focus:ring-0 dark:bg-gray-800 dark:text-white dark:placeholder-gray-400"
+                    placeholder="Write a review..."
+                  ></textarea>
 
-              {/* Rest */}
-              <div className="flex grow flex-row divide-x-2 divide-p-black">
-                <div className="basis-2/3 p-3">
-                  <h1 className="text-start text-2xl">Ratings and Reviews</h1>
-                  <div className="flex flex-row">
-                    <div className="basis-1/2 place-self-center text-center ">
-                      {/* wao */}
-                      <p className="text-5xl font-bold">
-                        {getAvgRatings?.average_rating}
-                      </p>
-                      <p>out of {getAvgRatings?.total_reviews} reviews</p>
-                    </div>
-
-                    {/* TODO: For this, go through the review array in schema.prisma and get the average ratings the plug the number in this component.*/}
-                    <StarRow rating={getAvgRatings?.average_rating} />
-                  </div>
-                </div>
-                {/* Review section */}
-                <div className="grow basis-1/2">
-                  <div className="flex flex-col p-2">
-                    {/* TODO: For this, get the first review from the accomm's review array, and load the following:*/}
-                    <div className="basis-1/8">
-                      {/* UserProfile must be the User that made that review*/}
-                      <UserProfile />
-                      {/* StarRow is the rating of that review */}
-                      <StarRow rating={getAvgRatings?.average_rating} />
-                    </div>
-                    {/* This is the review */}
-                    <p className="line-clamp-2 text-sm">
-                      With the sects clashing against one another, there was no
-                      one who could blablahblahblah ye
-                    </p>
-
-                    <Link href="ye" className="text-end text-xxs underline">
-                      See More
-                    </Link>
-                  </div>
+                  {/* <form>
+                        <input
+                        type="text"
+                        placeholder="Add a review here"
+                        className="h-40 rounded-xl px-2 py-2 w-full"
+                        //   {...register("first_name")}
+                        required
+                        />
+                    </form> */}
                 </div>
               </div>
+
+              {/* Review box */}
+              {/* <div className="grid grid-cols-2 justify-items-start flex grow flex-row">
+                <div className="w-full p-3">
+                    <div className="flex flex-row">
+                    <h1 className="text-start text-2xl">Ratings and Reviews</h1>
+
+                    <Link href="ye" className="text-end text-xxs underline pt-3 justify-self-end">
+                      Report a problem
+                    </Link>
+                    </div>
+                    
+                    <form>
+                        <input
+                        type="text"
+                        placeholder="First Name"
+                        className="rounded-xl px-2 py-2 shadow shadow-gray-400/100 h-2/3 w-full"
+                        //   {...register("first_name")}
+                        required
+                        />
+                    </form>
+                </div>
+              </div>
+
+              <div> */}
+
+              {/* </div> */}
+
+              {/* Rest */}
             </div>
           </div>
         </div>
