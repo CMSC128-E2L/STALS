@@ -18,8 +18,15 @@ export const OwnerAccommodations: React.FC<{ showArchived: boolean }> = ({
   if (!queryLoading && session.data) {
     return (
       <>
-        {firstData?.map((accom: Accommodation) => (
-          <SearchItem key={accom.name} id={accom.id} name={accom.name} />
+        {firstData?.map(({ id, name, price, location, tags }) => (
+          <SearchItem
+            key={id + name}
+            id={id}
+            name={name}
+            price={price}
+            location={location}
+            tags={tags}
+          />
         ))}
       </>
     );
