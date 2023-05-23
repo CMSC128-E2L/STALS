@@ -138,14 +138,14 @@ export default function AddAccommodation() {
                   </div>
                   <div className="flex flex-row gap-1">
                     {/* Contact No input field */}
-                    <select className="rounded-md pl-2 font-bold">
+                    <select className="hidden rounded-md pl-2 font-bold">
                       <option value="09">09</option>
                       <option value="+639">+639</option>
                     </select>
                     <input
                       className="add-acc-input-text-field"
                       placeholder="Contact No."
-                      pattern="[0-9]{9}"
+                      pattern="(09|\+639)[0-9]{9}"
                       type="text"
                       {...register("contact_number")}
                       required

@@ -7,6 +7,7 @@ import Image from "next/image";
 import { api } from "~/utils/api";
 import { useRouter } from "next/router";
 import { dynamicRouteID } from "~/utils/helpers";
+import LoadingSpinner from "~/components/loadingSpinner";
 
 export default function Accommodation() {
   const { shouldReturn, id } = dynamicRouteID(useRouter());
@@ -17,6 +18,9 @@ export default function Accommodation() {
 
   const { data: ImageList, isLoading: imageLoading } =
     api.file.getAccommImages.useQuery({ id });
+
+  const { data: RoomList, isLoading: roomLoading } =
+    api.room.getMany.useQuery(id);
 
   return (
     <div className="flex h-screen flex-col">
@@ -195,7 +199,7 @@ export default function Accommodation() {
               {/* STATS */}
 
               {/* TODO:
-              Yung Idea na meron ako for dito is ipasa na lang ung PATH and ung i-priprint na info tulad ng number and address
+              Yung idea na meron ako for dito is ipasa na lang ung PATH and ung i-priprint na info tulad ng number and address
 
               Make the parts that have info appear only. */}
               <div className="flex flex-row gap-2 px-3 text-sm">
@@ -344,6 +348,19 @@ export default function Accommodation() {
                 {/* Rooms 
                 TODO: This is gonna get the list of rooms in prisma/schema.prisma and load the component <RoomButton /> (components/RoomButton.tsx) with the room id.*/}
                 <div className="flex flex-row flex-nowrap gap-3 overflow-x-scroll px-3 py-3">
+                  {RoomList ? (
+                    RoomList?.map((room, i: number) => (
+                      <RoomButton
+                        key={room.id}
+                        id={room.id}
+                        roomIndex={i}
+                        status={room.occupied}
+                      />
+                    ))
+                  ) : (
+                    <LoadingSpinner />
+                  )}
+
                   {/* TODO: ADD ROOM BUTTON SHOULD ONLY APPEAR IF LANDLORD IS LOOKING AT PAGE */}
                   <Link href={`/accommodation/${id}/room/add`}>
                     <button className="flex flex-col items-center rounded-lg border-2 border-dashed border-p-black/50 px-8">
@@ -371,6 +388,7 @@ export default function Accommodation() {
                 {" "}
                 Download{" "}
               </button>
+
               {/* Rest */}
               <div className="flex grow flex-row divide-x-2 divide-p-black">
                 <div className="basis-2/3 p-3">

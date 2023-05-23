@@ -261,4 +261,22 @@ export const accommodationRouter = createTRPCRouter({
         },
       });
     }),
+
+  // Compute  an accommodation
+  average: protectedProcedure
+    .input(
+      z.object({
+        id: z.string(),
+        average_rating: z.number().optional(),
+      }),
+    )
+    .mutation(({ ctx, input }) => {
+      const id = input.id;
+      return ctx.prisma.accommodation.update({
+        where: { id },
+        data: {
+          average_rating: input.average_rating,
+        },
+      });
+    }),
 });

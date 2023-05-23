@@ -5,6 +5,7 @@ import {
   publicProcedure,
   protectedProcedure,
 } from "~/server/api/trpc";
+import { api } from "~/utils/api";
 import {
   reviewAddSchema,
   reviewEditSchema,
@@ -12,19 +13,41 @@ import {
 } from "~/utils/apitypes";
 
 export const reviewRouter = createTRPCRouter({
-  add: protectedProcedure.input(reviewAddSchema).mutation(({ ctx, input }) => {
-    const userId = ctx?.session?.user?.id;
-    const { accommodationId, review, rating } = input;
+  add: protectedProcedure
+    .input(reviewAddSchema)
+    .mutation(async ({ ctx, input }) => {
+      const userId = ctx?.session?.user?.id;
+      const { accommodationId, review, rating } = input;
 
-    return ctx.prisma.review.create({
-      data: {
-        user: { connect: { id: userId } },
-        accommodation: { connect: { id: accommodationId } },
-        review,
-        rating,
-      },
-    });
-  }),
+      const created = ctx.prisma.review.create({
+        data: {
+          user: { connect: { id: userId } },
+          accommodation: { connect: { id: accommodationId } },
+          review,
+          rating,
+        },
+      });
+
+      const avg = await ctx.prisma.review.aggregate({
+        _avg: { rating: true },
+        where: {
+          accommodationId: input.accommodationId,
+        },
+      });
+
+      await ctx.prisma.accommodation.update({
+        where: {
+          id: input.accommodationId,
+        },
+        data: {
+          average_rating: avg._avg.rating,
+        },
+      });
+
+      console.log(avg._avg.rating);
+
+      return created;
+    }),
 
   edit: protectedProcedure
     .input(reviewEditSchema)
