@@ -107,12 +107,13 @@ const EditProfile: NextPage = () => {
                 <p>{errors.contact_number?.message as string}</p>
               )}
 
-              <div className="flex justify-center rounded-xl px-2 py-2 shadow shadow-gray-400/100">
+              <div className="flex hidden justify-center rounded-xl px-2 py-2 shadow shadow-gray-400/100">
                 <input
                   type="radio"
                   id="user"
                   value={"USER"}
                   {...register("type")}
+                  defaultChecked={userSession.data?.profile.type === "USER"}
                 />
                 <label className="px-2"> User </label>
                 <input
@@ -120,6 +121,7 @@ const EditProfile: NextPage = () => {
                   id="landlord"
                   value={"LANDLORD"}
                   {...register("type")}
+                  defaultChecked={userSession.data?.profile.type === "LANDLORD"}
                 />
                 <label className="px-2"> Landlord </label>
                 <br />
