@@ -195,7 +195,7 @@ export default function Accommodation() {
               {/* STATS */}
 
               {/* TODO:
-              Yung Idea na meron ako for dito is ipasa na lang ung PATH and ung i-priprint na info tulad ng number and address
+              Yung idea na meron ako for dito is ipasa na lang ung PATH and ung i-priprint na info tulad ng number and address
 
               Make the parts that have info appear only. */}
               <div className="flex flex-row gap-2 px-3 text-sm">
@@ -344,6 +344,14 @@ export default function Accommodation() {
                 {/* Rooms 
                 TODO: This is gonna get the list of rooms in prisma/schema.prisma and load the component <RoomButton /> (components/RoomButton.tsx) with the room id.*/}
                 <div className="flex flex-row flex-nowrap gap-3 overflow-x-scroll px-3 py-3">
+                  {/* Access the room id from the corresponding accommodation. 
+                    Pass the following info through this:
+                      id: the room id will be the corresponding index of the room.
+                      roomIndex: an int. basically if this is a for loop, it'd be the counter
+                      status: a boolean on whether the room is occupied or not. Get it from the room index.*/}
+                  <RoomButton id="" roomIndex={1} status={true} />
+                  <RoomButton id="" roomIndex={2} status={false} />
+                  <RoomButton id="" roomIndex={3} status={false} />
                   {/* TODO: ADD ROOM BUTTON SHOULD ONLY APPEAR IF LANDLORD IS LOOKING AT PAGE */}
                   <Link href={`/accommodation/${id}/room/add`}>
                     <button className="flex flex-col items-center rounded-lg border-2 border-dashed border-p-black/50 px-8">
@@ -371,6 +379,7 @@ export default function Accommodation() {
                 {" "}
                 Download{" "}
               </button>
+
               {/* Rest */}
               <div className="flex grow flex-row divide-x-2 divide-p-black">
                 <div className="basis-2/3 p-3">
