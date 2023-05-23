@@ -1,24 +1,33 @@
 import type { NextPage } from "next";
-import { useSession } from "next-auth/react";
-import Link from "next/link";
+import { signOut, useSession } from "next-auth/react";
 import bgpic from "public/images/bg-01.png";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
 import { type RouterInputs, api } from "~/utils/api";
 import { userEditSchema } from "~/utils/apitypes";
+import { useEffect, useState } from "react";
+import LoadingSpinner from "~/components/loadingSpinner";
 
 const Signup: NextPage = () => {
   const userSession = useSession();
+  const [checkingUser, setCheckingUser] = useState(true);
 
-  // useEffect(() => {
-  if (userSession.data)
+  useEffect(() => {
     if (
       userSession.data?.profile.first_name !== undefined &&
       userSession.data?.profile.first_name !== null
     ) {
       window.location.replace("/homepage");
+    } else if (userSession.data === null || userSession.data === undefined) {
+      console.log(userSession.data);
+      window.location.replace("/homepage");
+    } else if (
+      userSession.data.profile.first_name == undefined ||
+      userSession.data.profile.first_name == null
+    ) {
+      setCheckingUser(false);
     }
-  // });
+  }, [userSession.data]);
 
   const {
     register,
@@ -33,6 +42,11 @@ const Signup: NextPage = () => {
       window.location.replace("/homepage");
     },
   });
+
+  if (checkingUser) {
+    console.log("guest");
+    return <LoadingSpinner />;
+  }
 
   return (
     <div className="">
@@ -139,13 +153,13 @@ const Signup: NextPage = () => {
                   Sign up
                 </button>
               </div>
-
               <div>
-                <Link href="/homepage">
-                  <button className="group relative flex w-full justify-center rounded-full bg-slate-500 px-4 py-2 font-bold text-white shadow shadow-gray-400/100">
-                    Continue as guest
-                  </button>
-                </Link>
+                <button
+                  onClick={() => void signOut()}
+                  className="group relative flex w-full justify-center rounded-full bg-slate-500 px-4 py-2 font-bold text-white shadow shadow-gray-400/100"
+                >
+                  Continue as guest
+                </button>
               </div>
             </div>
           </form>
