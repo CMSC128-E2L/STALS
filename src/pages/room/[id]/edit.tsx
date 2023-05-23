@@ -30,6 +30,9 @@ export default function EditRoom() {
 
   const editRoom = api.room.edit.useMutation();
 
+  const { data: firstData, isLoading: queryLoading } =
+    api.room.getOne.useQuery(id);
+
   return (
     <div className="">
       <img
@@ -53,7 +56,7 @@ export default function EditRoom() {
             onSubmit={handleSubmit(
               (d) => {
                 editRoom.mutate(d);
-                window.location.replace(`/accommodation/${id}`);
+                window.location.replace(`/room/${id}`);
               },
               (error) => {
                 console.log(error);
@@ -65,7 +68,9 @@ export default function EditRoom() {
                 <input
                   className="w-full rounded-xl px-2 py-2 shadow shadow-gray-400/100"
                   placeholder="Price"
+                  pattern="[0-9]+"
                   type="number"
+                  defaultValue={firstData?.price}
                   {...register("price", { valueAsNumber: true })}
                 ></input>
               </div>
@@ -73,7 +78,9 @@ export default function EditRoom() {
                 <input
                   className="w-full rounded-xl px-2 py-2 shadow shadow-gray-400/100"
                   placeholder="Number of Beds"
+                  pattern="[0-9]+"
                   type="number"
+                  defaultValue={firstData?.num_of_beds}
                   {...register("num_of_beds", { valueAsNumber: true })}
                 ></input>
               </div>
@@ -133,7 +140,7 @@ export default function EditRoom() {
               </div>
 
               <div>
-                <Link href="/profile">
+                <Link href={`/room/${id}`}>
                   <button className="group relative flex w-full justify-center rounded-full bg-slate-500 px-4 py-2 font-bold text-white shadow shadow-gray-400/100">
                     Cancel
                   </button>
