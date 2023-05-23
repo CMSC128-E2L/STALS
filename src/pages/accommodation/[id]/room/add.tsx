@@ -82,12 +82,12 @@ export default function AddRoom() {
                           placeholder="Type"
                           {...register("occupied", {
                             setValueAs: (value) => {
-                              return value === "true";
+                              return value == "yes";
                             },
                           })}
                         >
-                          <option value="true">Yes</option>
-                          <option value="false">No</option>
+                          <option value="yes">Occupied</option>
+                          <option value="no">Unoccupied</option>
                         </select>
                       </div>
                     </div>
@@ -104,12 +104,12 @@ export default function AddRoom() {
                           placeholder="Type"
                           {...register("with_aircon", {
                             setValueAs: (value) => {
-                              return value === "true";
+                              return value == "yes";
                             },
                           })}
                         >
-                          <option value="true">Yes</option>
-                          <option value="false">No</option>
+                          <option value="yes">With</option>
+                          <option value="no">Without</option>
                         </select>
                       </div>
                     </div>
@@ -126,12 +126,12 @@ export default function AddRoom() {
                           placeholder="Type"
                           {...register("with_utilities", {
                             setValueAs: (value) => {
-                              return value === "true";
+                              return value == "yes";
                             },
                           })}
                         >
-                          <option value="true">Yes</option>
-                          <option value="false">No</option>
+                          <option value="yes">With</option>
+                          <option value="no">Without</option>
                         </select>
                       </div>
                     </div>

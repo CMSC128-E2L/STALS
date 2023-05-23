@@ -344,11 +344,8 @@ export default function Accommodation() {
                 {/* Rooms 
                 TODO: This is gonna get the list of rooms in prisma/schema.prisma and load the component <RoomButton /> (components/RoomButton.tsx) with the room id.*/}
                 <div className="flex flex-row flex-nowrap gap-3 overflow-x-scroll px-3 py-3">
-                  <RoomButton />
-                  <RoomButton />
-                  <RoomButton />
                   {/* TODO: ADD ROOM BUTTON SHOULD ONLY APPEAR IF LANDLORD IS LOOKING AT PAGE */}
-                  <Link href={`/accommodation/${id}/addRoom`}>
+                  <Link href={`/accommodation/${id}/room/add`}>
                     <button className="flex flex-col items-center rounded-lg border-2 border-dashed border-p-black/50 px-8">
                       <svg
                         xmlns="http://www.w3.org/2000/svg"
