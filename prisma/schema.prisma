@@ -111,6 +111,7 @@ model Accommodation {
   fb_page         String?
   price           Float?
   Capacity        Int?
+  average_rating  Float?
   tagArray        Json? // TODO: required
   typeArray       Json? // TODO: required
 
