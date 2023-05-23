@@ -8,18 +8,12 @@ import {
 import { roomAddSchema } from "~/utils/apitypes";
 
 export const roomRouter = createTRPCRouter({
-  getMany: publicProcedure
-    .input(
-      z.object({
-        accommodationId: z.string(),
-      }),
-    )
-    .query(({ ctx, input }) => {
-      const { accommodationId } = input;
-      return ctx.prisma.room.findMany({
-        where: { accommodationId: accommodationId },
-      });
-    }),
+  getMany: publicProcedure.input(z.string()).query(({ ctx, input }) => {
+    const accommodationId = input;
+    return ctx.prisma.room.findMany({
+      where: { accommodationId: accommodationId },
+    });
+  }),
 
   getOne: publicProcedure.input(z.string()).query(({ ctx, input }) => {
     const id = input;

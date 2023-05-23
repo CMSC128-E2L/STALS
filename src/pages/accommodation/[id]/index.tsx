@@ -7,6 +7,7 @@ import Image from "next/image";
 import { api } from "~/utils/api";
 import { useRouter } from "next/router";
 import { dynamicRouteID } from "~/utils/helpers";
+import LoadingSpinner from "~/components/loadingSpinner";
 
 export default function Accommodation() {
   const { shouldReturn, id } = dynamicRouteID(useRouter());
@@ -17,6 +18,9 @@ export default function Accommodation() {
 
   const { data: ImageList, isLoading: imageLoading } =
     api.file.getAccommImages.useQuery({ id });
+
+  const { data: RoomList, isLoading: roomLoading } =
+    api.room.getMany.useQuery(id);
 
   return (
     <div className="flex h-screen flex-col">
@@ -344,14 +348,19 @@ export default function Accommodation() {
                 {/* Rooms 
                 TODO: This is gonna get the list of rooms in prisma/schema.prisma and load the component <RoomButton /> (components/RoomButton.tsx) with the room id.*/}
                 <div className="flex flex-row flex-nowrap gap-3 overflow-x-scroll px-3 py-3">
-                  {/* Access the room id from the corresponding accommodation. 
-                    Pass the following info through this:
-                      id: the room id will be the corresponding index of the room.
-                      roomIndex: an int. basically if this is a for loop, it'd be the counter
-                      status: a boolean on whether the room is occupied or not. Get it from the room index.*/}
-                  <RoomButton id="" roomIndex={1} status={true} />
-                  <RoomButton id="" roomIndex={2} status={false} />
-                  <RoomButton id="" roomIndex={3} status={false} />
+                  {RoomList ? (
+                    RoomList?.map((room, i: number) => (
+                      <RoomButton
+                        key={room.id}
+                        id={room.id}
+                        roomIndex={i}
+                        status={room.occupied}
+                      />
+                    ))
+                  ) : (
+                    <LoadingSpinner />
+                  )}
+
                   {/* TODO: ADD ROOM BUTTON SHOULD ONLY APPEAR IF LANDLORD IS LOOKING AT PAGE */}
                   <Link href={`/accommodation/${id}/room/add`}>
                     <button className="flex flex-col items-center rounded-lg border-2 border-dashed border-p-black/50 px-8">
