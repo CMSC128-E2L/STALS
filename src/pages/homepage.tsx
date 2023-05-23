@@ -267,65 +267,6 @@ export default function HomePage() {
               ))}
             </div>
 
-            {/* Capacity */}
-            <div className="mb-4 flex flex-col">
-              <h2 className="mb-2 text-base font-bold">Capacity</h2>
-              <label className="mb-1">
-                <input
-                  type="radio"
-                  className="form-radio ml-3"
-                  name="radio-group"
-                  value="option1"
-                  defaultChecked
-                />
-                <span className="filter-text">Solo</span>
-              </label>
-
-              <label className="mb-1">
-                <input
-                  type="radio"
-                  className="form-radio ml-3"
-                  name="radio-group"
-                  value="option1"
-                  defaultChecked
-                />
-                <span className="filter-text">2 Persons</span>
-              </label>
-
-              <label className="mb-1">
-                <input
-                  type="radio"
-                  className="form-radio ml-3"
-                  name="radio-group"
-                  value="option1"
-                  defaultChecked
-                />
-                <span className="filter-text">3 Persons</span>
-              </label>
-
-              <label className="mb-1">
-                <input
-                  type="radio"
-                  className="form-radio ml-3"
-                  name="radio-group"
-                  value="option1"
-                  defaultChecked
-                />
-                <span className="filter-text">4 Persons</span>
-              </label>
-
-              <label className="">
-                <input
-                  type="radio"
-                  className="form-radio ml-3"
-                  name="radio-group"
-                  value="option1"
-                  defaultChecked
-                />
-                <span className="filter-text">More than 4</span>
-              </label>
-            </div>
-
             {/* Include */}
             <div className="mb-4">
               <h2 className="mb-2 text-base font-bold">Include</h2>
@@ -462,8 +403,15 @@ const SearchAccoms: React.FC<{
   if (items && items.length != 0) {
     return (
       <>
-        {items?.map(({ id, name }) => (
-          <SearchItem key={id + name} id={id} name={name} />
+        {items?.map(({ id, name, price, location, tags }) => (
+          <SearchItem
+            key={id + name}
+            id={id}
+            name={name}
+            price={price}
+            location={location}
+            tags={tags}
+          />
         ))}
       </>
     );
