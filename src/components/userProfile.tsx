@@ -9,7 +9,7 @@ export default function UserProfile() {
 
   return (
     <>
-      <div className="grid grid-cols-2 rounded-md bg-white shadow-md">
+      <div className="flex flex-row rounded-md bg-white p-2 shadow-md">
         {/* Insert Landlord Image here */}
         <div className="relative mr-3 h-12 w-12 place-self-center rounded-full">
           <Image
