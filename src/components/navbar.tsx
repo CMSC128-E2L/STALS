@@ -89,8 +89,6 @@ const ProfileButton: React.FC = () => {
   };
 
   const UserInfo: React.FC = () => {
-    const { data: sessionData } = useSession();
-
     if (sessionData) {
       return (
         <Link href={"/profile"} className="dropdown-buttons">
@@ -118,8 +116,6 @@ const ProfileButton: React.FC = () => {
   };
 
   const UserDropdown: React.FC = () => {
-    const { data: sessionData } = useSession();
-
     if (sessionData) {
       return (
         <div className="profile-dropdown">
