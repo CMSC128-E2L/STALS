@@ -45,6 +45,7 @@ export default function AddRoom() {
             onSubmit={handleSubmit(
               (d) => {
                 addRoom.mutate(d);
+                window.location.replace(`/accommodation/${id}`);
               },
               (error) => {
                 console.log(error);
