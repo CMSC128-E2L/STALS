@@ -5,11 +5,9 @@ const RoomButton: React.FC<{
   roomIndex: number;
   status: boolean;
 }> = ({ id, roomIndex, status }) => {
-  // Must accept variables: int n and get whether the room is occupied or not
   return (
-    <Link href={`/room/${id}`}>
-      <button className="accPButton flex flex-none flex-col px-8">
-        {/*  */}
+    <Link href={`/room/${id}`} className="flex items-stretch">
+      <button className="rounded-md bg-p-gray px-5 py-1 text-sm shadow shadow-p-black/50">
         <label className="bold text-xl">Room {String(roomIndex)}</label>
         <p className="text-md self-center px-1 italic ">
           {status ? "Occupied" : "Unoccupied"}
