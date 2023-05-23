@@ -33,7 +33,7 @@ export default function HomePage() {
       <div>
         <NavBar />
         {/* Content */}
-        <div className="flex-row-2 m-10 flex">
+        <div className="flex-row-2 m-10 mt-20 flex">
           <section className="fixed mr-10 flex h-auto h-fullscreen w-2/6 flex-col items-center space-y-2 rounded-3xl bg-white p-10 text-center font-medium shadow-xl">
             <div className="relative mt-10 flex h-[10.5rem] w-[10.5rem]">
               <Image
@@ -70,16 +70,6 @@ export default function HomePage() {
             <div className="flex w-full justify-center rounded-3xl border-2 border-black p-2 shadow-lg">
               <button className="w-full" onClick={handleEditProfile}>
                 Edit Account
-              </button>
-            </div>
-            <div className="flex w-full justify-center rounded-3xl border-2 border-black p-2 shadow-lg">
-              <button
-                className="w-full "
-                onClick={() => {
-                  void deleteProfile.mutate();
-                }}
-              >
-                Deactivate Account
               </button>
             </div>
           </section>
@@ -102,7 +92,7 @@ export default function HomePage() {
       <div>
         <NavBar />
         {/* Content */}
-        <div className="flex-row-2 m-10 flex">
+        <div className="flex-row-2 m-10 mt-20 flex">
           <section className="fixed mr-10 flex h-auto h-fullscreen w-2/6 flex-col items-center space-y-2 rounded-3xl bg-white p-10 text-center font-medium shadow-xl">
             <div className="relative mt-10 flex h-[10.5rem] w-[10.5rem]">
               <Image
@@ -139,16 +129,6 @@ export default function HomePage() {
             <div className="flex w-full justify-center rounded-3xl border-2 border-black p-2 shadow-lg">
               <button className="w-full" onClick={handleEditProfile}>
                 Edit Account
-              </button>
-            </div>
-            <div className="flex w-full justify-center rounded-3xl border-2 border-black p-2 shadow-lg">
-              <button
-                className="w-full "
-                onClick={() => {
-                  void deleteProfile.mutate();
-                }}
-              >
-                Deactivate Account
               </button>
             </div>
           </section>
@@ -177,7 +157,7 @@ export default function HomePage() {
       <div>
         <NavBar />
         {/* Content */}
-        <div className="flex-row-2 m-10 flex">
+        <div className="flex-row-2 m-10 mt-20 flex">
           <section className="fixed mr-10 flex h-auto h-fullscreen w-2/6 flex-col items-center space-y-2 rounded-3xl bg-white p-10 text-center font-medium shadow-xl">
             <div className="relative mt-10 flex h-[10.5rem] w-[10.5rem]">
               <Image
@@ -214,16 +194,6 @@ export default function HomePage() {
             <div className="flex w-full justify-center rounded-3xl border-2 border-black p-2 shadow-lg">
               <button className="w-full" onClick={handleEditProfile}>
                 Edit Account
-              </button>
-            </div>
-            <div className="flex w-full justify-center rounded-3xl border-2 border-black p-2 shadow-lg">
-              <button
-                className="w-full "
-                onClick={() => {
-                  void deleteProfile.mutate();
-                }}
-              >
-                Deactivate Account
               </button>
             </div>
           </section>
