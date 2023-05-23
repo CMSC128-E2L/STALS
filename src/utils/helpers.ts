@@ -1,3 +1,4 @@
+import { type Prisma } from "@prisma/client";
 import { type NextRouter } from "next/router";
 
 export function dynamicRouteID(router: NextRouter) {
@@ -9,4 +10,12 @@ export function dynamicRouteID(router: NextRouter) {
 
 export function titleCase(word: string) {
   return word.charAt(0).toUpperCase() + word.slice(1).toLowerCase();
+}
+
+export function stalsDBstringArray(json?: Prisma.JsonValue): string[] {
+  if (json && typeof json === "object" && !Array.isArray(json)) {
+    return json["values"] as string[];
+  }
+
+  return [];
 }
