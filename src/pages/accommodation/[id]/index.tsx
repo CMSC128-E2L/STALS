@@ -22,6 +22,10 @@ export default function Accommodation() {
   const { data: RoomList, isLoading: roomLoading } =
     api.room.getMany.useQuery(id);
 
+  const { data: getAvgRatings } = api.accommodation.getAvgRatings.useQuery({
+    id: id,
+  });
+
   return (
     <div className="flex h-screen flex-col">
       {/* HEADER */}
@@ -396,12 +400,14 @@ export default function Accommodation() {
                   <div className="flex flex-row">
                     <div className="basis-1/2 place-self-center text-center ">
                       {/* wao */}
-                      <p className="text-5xl font-bold">5.0</p>
-                      <p>out of (n) reviews</p>
+                      <p className="text-5xl font-bold">
+                        {getAvgRatings?.average_rating}
+                      </p>
+                      <p>out of {getAvgRatings?.total_reviews} reviews</p>
                     </div>
 
                     {/* TODO: For this, go through the review array in schema.prisma and get the average ratings the plug the number in this component.*/}
-                    <StarRow />
+                    <StarRow rating={getAvgRatings?.average_rating} />
                   </div>
                 </div>
                 {/* Review section */}
@@ -412,7 +418,7 @@ export default function Accommodation() {
                       {/* UserProfile must be the User that made that review*/}
                       <UserProfile />
                       {/* StarRow is the rating of that review */}
-                      <StarRow />
+                      <StarRow rating={getAvgRatings?.average_rating} />
                     </div>
                     {/* This is the review */}
                     <p className="line-clamp-2 text-sm">

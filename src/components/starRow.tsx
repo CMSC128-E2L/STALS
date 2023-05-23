@@ -1,6 +1,7 @@
-export default function StarRow() {
+export default function StarRow(props: { rating: number | undefined | null }) {
   return (
     <>
+      {/* <h1 className="form-h1">{props.rating}</h1> */}
       <div className="flex grow flex-row items-center justify-center">
         <svg
           xmlns="http://www.w3.org/2000/svg"

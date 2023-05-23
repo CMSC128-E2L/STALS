@@ -112,6 +112,7 @@ model Accommodation {
   price           Float?
   Capacity        Int?
   average_rating  Float?
+  total_reviews   Int?
   tagArray        Json? // TODO: required
   typeArray       Json? // TODO: required
 

@@ -60,6 +60,33 @@ export const accommodationRouter = createTRPCRouter({
     }
   }),
 
+  // getAvgRatings: publicProcedure.input(z.string()).query(({ ctx, input }) => {
+  //   const id = input;
+  //   return ctx.prisma.accommodation.findUnique({
+  //     where: { id },
+  //     select: {
+  //       average_rating: true
+  //     }
+  //   });
+  // }),
+
+  getAvgRatings: publicProcedure
+    .input(
+      z.object({
+        id: z.string(),
+      }),
+    )
+    .query(({ ctx, input }) => {
+      //const id = input;
+      return ctx.prisma.accommodation.findUnique({
+        where: { id: input.id },
+        select: {
+          average_rating: true,
+          total_reviews: true,
+        },
+      });
+    }),
+
   // Get one accommodation
   getOne: publicProcedure.input(z.string()).query(({ ctx, input }) => {
     const id = input;
