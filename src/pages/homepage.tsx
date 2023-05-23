@@ -9,6 +9,7 @@ import { AccommodationType } from "@prisma/client";
 import { titleCase } from "~/utils/helpers";
 import LoadingSpinner from "~/components/loadingSpinner";
 import SearchItem from "~/components/SearchItem";
+import { UseInfiniteQueryResult } from "@tanstack/react-query";
 
 type HandlePriceRangeChangeType = (
   event: React.ChangeEvent<HTMLInputElement>,
@@ -43,6 +44,13 @@ export default function HomePage() {
     resolver: zodResolver(accommodationGetManyExperiementSchema),
   });
 
+  const methods = api.accommodation.getManyExperiment.useInfiniteQuery(
+    userInputs,
+    {
+      getNextPageParam: (lastPage) => lastPage.nextCursor,
+    },
+  );
+
   const {
     isLoading: queryLoading,
     data: accommodationEntries,
@@ -50,9 +58,7 @@ export default function HomePage() {
     isFetchingNextPage,
     hasNextPage,
     refetch: refetchAccoms,
-  } = api.accommodation.getManyExperiment.useInfiniteQuery(userInputs, {
-    getNextPageParam: (lastPage) => lastPage.nextCursor,
-  });
+  } = methods;
 
   // fix this loads hundreds of times
   // const [loadingnext, setloadingnext] = useState(false);
@@ -217,13 +223,16 @@ export default function HomePage() {
             {/* Location */}
             <div className="mb-4">
               <h2 className="mb-2 text-base font-bold">Location</h2>
-              <Location />
+              <Location setuserIntpus={setuserIntpus} methods={methods} />
             </div>
             {/* Accommodation Type */}
             <div className="mb-4">
               <h2 className="mb-2 text-base font-bold">Type</h2>
               {accomTypes.map((range) => (
-                <div className="mb-2 flex items-center" key={range.id}>
+                <div
+                  className="it// eslint-disable-next-lineems-center mb-2 flex"
+                  key={range.id}
+                >
                   <input
                     id={range.id}
                     type="radio"
@@ -365,8 +374,11 @@ export default function HomePage() {
 }
 
 // Sidebar Functions
-
-const Location: React.FC = () => {
+// eslint-disable-next-line
+const Location: React.FC<{
+  setuserIntpus: any;
+  methods: UseInfiniteQueryResult<any, any>;
+}> = ({ setuserIntpus, methods }) => {
   // this will be used in the filter button for the location
   const [value, setValue] = useState("");
   const [showSuggestions, setShowSuggestions] = useState(false);
@@ -376,9 +388,20 @@ const Location: React.FC = () => {
     setShowSuggestions(event.target.value !== "");
   }
 
-  function handleSuggestionClick(suggestion: string) {
-    setValue(suggestion);
+  function handleSuggestionClick(barangay: string) {
+    setValue(barangay);
     setShowSuggestions(false);
+    // eslint-disable-next-line
+    setuserIntpus((prevInputs: any) => ({
+      ...prevInputs,
+      barangay,
+    }));
+    // eslint-disable-next-line
+    void methods.refetch();
+    // alert(barangay);
+    // setSelectedBarangay(selectedBarangay);
+
+    // alert(selectedBarangay);
   }
 
   const { data: barangayEntries } = api.accommodation.getBarangays.useQuery();
