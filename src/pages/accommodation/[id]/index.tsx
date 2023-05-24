@@ -8,12 +8,12 @@ import { api } from "~/utils/api";
 import { useRouter } from "next/router";
 import { dynamicRouteID } from "~/utils/helpers";
 import LoadingSpinner from "~/components/loadingSpinner";
+import Error404 from "~/pages/404";
 
 export default function Accommodation() {
-  const { shouldReturn, id } = dynamicRouteID(useRouter());
-  if (shouldReturn) return;
+  const { id } = dynamicRouteID(useRouter());
 
-  const { data: firstData, isLoading: queryLoading } =
+  const { data: accommData, isLoading: accommLoading } =
     api.accommodation.getOne.useQuery(id);
 
   const { data: ImageList, isLoading: imageLoading } =
@@ -23,6 +23,10 @@ export default function Accommodation() {
     id: id,
     status: false,
   });
+
+  if (accommData === null) {
+    return Error404();
+  }
 
   return (
     <div className="flex h-screen flex-col">
@@ -92,8 +96,8 @@ export default function Accommodation() {
               <div className="flex flex-row items-stretch">
                 {/* Left column (accommodation name) */}
                 <div className="flex shrink items-center px-3">
-                  {!queryLoading ? (
-                    <h1 className="form-h1">{firstData?.name}</h1>
+                  {!accommLoading ? (
+                    <h1 className="form-h1">{accommData?.name}</h1>
                   ) : (
                     <h1 className="form-h1 w-[100%] animate-pulse rounded-full bg-gray-400">
                       &nbsp;&nbsp;
@@ -190,7 +194,7 @@ export default function Accommodation() {
               </div>
 
               {/* ACCOMMODATION DESCRIPTION */}
-              <div className="px-4 text-xl italic">{firstData?.type}</div>
+              <div className="px-4 text-xl italic">{accommData?.type}</div>
 
               {/* STATS */}
 
@@ -216,8 +220,8 @@ export default function Accommodation() {
                       />
                     </svg>
                   </div>
-                  {!queryLoading ? (
-                    <div className="">{firstData?.contact_number}</div>
+                  {!accommLoading ? (
+                    <div className="">{accommData?.contact_number}</div>
                   ) : (
                     <div className="w-10 animate-pulse overflow-hidden rounded-full bg-gray-400">
                       &nbsp;&nbsp;
@@ -269,8 +273,8 @@ export default function Accommodation() {
                       />
                     </svg>
                   </div>
-                  {!queryLoading ? (
-                    <div className="">{firstData?.location}</div>
+                  {!accommLoading ? (
+                    <div className="">{accommData?.location}</div>
                   ) : (
                     <div className="w-10 animate-pulse overflow-hidden rounded-full bg-gray-400">
                       &nbsp;&nbsp;
@@ -319,7 +323,7 @@ export default function Accommodation() {
                   )} */}
 
                   {/* TODO: since the tags of an accommodation is just a string, just print that string here.*/}
-                  <p className="py-1 text-sm">{firstData?.tags}</p>
+                  <p className="py-1 text-sm">{accommData?.tags}</p>
                 </div>
 
                 {/* Other deets */}
@@ -330,11 +334,11 @@ export default function Accommodation() {
                       <h1 className="form-h2">Price</h1>
                       <h1 className="form-h2">Capacity</h1>
                       {/*TODO: CONTRACT LENGTH IS A CONDITIONAL THAT ONLY APPEARS IF THE ACCOMMODATION IS A DORMITORY */}
-                      <h1 className="form-h2">{firstData?.contract_length}</h1>
+                      <h1 className="form-h2">{accommData?.contract_length}</h1>
                     </div>
 
                     <div className="flex flex-col gap-2 p-2">
-                      <p>{firstData?.price} Pesos</p>
+                      <p>{accommData?.price} Pesos</p>
                       <p>(min) to (max) people</p>
                       <p>1 Academic Year</p>
                     </div>
@@ -398,13 +402,13 @@ export default function Accommodation() {
                     <div className="basis-1/2 place-self-center text-center ">
                       {/* wao */}
                       <p className="text-5xl font-bold">
-                        {firstData?.average_rating ?? 0} / 5
+                        {accommData?.average_rating ?? 0} / 5
                       </p>
-                      <p>out of {firstData?.total_reviews ?? 0} reviews</p>
+                      <p>out of {accommData?.total_reviews ?? 0} reviews</p>
                     </div>
 
                     {/* TODO: For this, go through the review array in schema.prisma and get the average ratings the plug the number in this component.*/}
-                    <StarRow rating={firstData?.average_rating ?? 0} />
+                    <StarRow rating={accommData?.average_rating ?? 0} />
                   </div>
                 </div>
                 {/* Review section */}
@@ -415,7 +419,7 @@ export default function Accommodation() {
                       {/* UserProfile must be the User that made that review*/}
                       <UserProfile />
                       {/* StarRow is the rating of that review */}
-                      <StarRow rating={firstData?.average_rating} />
+                      <StarRow rating={accommData?.average_rating} />
                     </div>
                     {/* This is the review */}
                     <p className="line-clamp-2 text-sm">
