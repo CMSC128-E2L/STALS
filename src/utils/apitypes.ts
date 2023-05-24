@@ -98,6 +98,7 @@ export const roomEditSchema = z.object({
 
 export const roomGetManySchema = z.object({
   accommodationId: z.string().min(3),
+  is_archived: z.boolean(),
 });
 
 export const roomGetOneSchema = z.object({

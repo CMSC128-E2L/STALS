@@ -96,8 +96,12 @@ export default function EditRoom() {
                     },
                   })}
                 >
-                  <option value="yes">Occupied</option>
-                  <option value="no">Unoccupied</option>
+                  <option value="no" selected={firstData?.occupied === false}>
+                    Unoccupied
+                  </option>
+                  <option value="yes" selected={firstData?.occupied === true}>
+                    Occupied
+                  </option>
                 </select>
               </div>
               <div>
@@ -111,8 +115,18 @@ export default function EditRoom() {
                     },
                   })}
                 >
-                  <option value="yes">With</option>
-                  <option value="no">Without</option>
+                  <option
+                    value="yes"
+                    selected={firstData?.with_aircon === true}
+                  >
+                    With
+                  </option>
+                  <option
+                    value="no"
+                    selected={firstData?.with_aircon === false}
+                  >
+                    Without
+                  </option>
                 </select>
               </div>
               <div>
@@ -126,8 +140,18 @@ export default function EditRoom() {
                     },
                   })}
                 >
-                  <option value="yes">With</option>
-                  <option value="no">Without</option>
+                  <option
+                    value="yes"
+                    selected={firstData?.with_utilities === true}
+                  >
+                    With
+                  </option>
+                  <option
+                    value="no"
+                    selected={firstData?.with_utilities === false}
+                  >
+                    Without
+                  </option>
                 </select>
               </div>
             </div>
