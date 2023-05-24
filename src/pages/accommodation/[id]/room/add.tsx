@@ -93,8 +93,8 @@ export default function AddRoom() {
                     },
                   })}
                 >
-                  <option value="yes">Occupied</option>
                   <option value="no">Unoccupied</option>
+                  <option value="yes">Occupied</option>
                 </select>
               </div>
               <div>
