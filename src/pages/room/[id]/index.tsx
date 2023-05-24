@@ -14,7 +14,7 @@ import Error404 from "~/pages/404";
 
 export default function Room() {
   const { shouldReturn, id } = dynamicRouteID(useRouter());
-  if (shouldReturn) return;
+  // if (shouldReturn) return;
 
   const { data: sessionData } = useSession();
   const router = useRouter();
@@ -25,7 +25,11 @@ export default function Room() {
   const archiveRoom = api.room.archive.useMutation();
   const deleteRoom = api.room.delete.useMutation();
 
-  if (sessionData?.profile.type == UserType.LANDLORD){
+  if (roomData === null) {
+    return Error404();
+  }
+
+  if (sessionData?.profile.type == UserType.LANDLORD) {
     return (
       <div className="flex h-screen flex-col">
         {/* HEADER */}
@@ -133,7 +137,9 @@ export default function Room() {
                     {/* <h1 className="text-xl font-bold text-white">999999</h1> */}
                   </div>
                   <div className="flex w-[50%] flex-col">
-                    <h1 className="text-3xl font-bold text-white">No. of Beds</h1>
+                    <h1 className="text-3xl font-bold text-white">
+                      No. of Beds
+                    </h1>
                     {!roomLoading ? (
                       <h1 className="text-xl font-bold text-white">
                         {roomData?.num_of_beds}
@@ -234,7 +240,7 @@ export default function Room() {
           </div>
         </div>
       </div>
-    );    
+    );
   } else {
     return (
       <div className="flex h-screen flex-col">
@@ -265,7 +271,9 @@ export default function Room() {
                     {/* <h1 className="text-xl font-bold text-white">999999</h1> */}
                   </div>
                   <div className="flex w-[50%] flex-col">
-                    <h1 className="text-3xl font-bold text-white">No. of Beds</h1>
+                    <h1 className="text-3xl font-bold text-white">
+                      No. of Beds
+                    </h1>
                     {!roomLoading ? (
                       <h1 className="text-xl font-bold text-white">
                         {roomData?.num_of_beds}
@@ -368,5 +376,4 @@ export default function Room() {
       </div>
     );
   }
-
 }
