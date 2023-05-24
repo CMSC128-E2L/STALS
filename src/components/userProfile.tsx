@@ -9,7 +9,7 @@ export default function UserProfile() {
 
   return (
     <>
-      <div className="flex flex-row rounded-md bg-white p-2 shadow-md">
+      <div className="flex flex-row rounded-md bg-white p-3">
         {/* Insert Landlord Image here */}
         <div className="relative mr-3 h-12 w-12 place-self-center rounded-full">
           <Image
@@ -19,9 +19,11 @@ export default function UserProfile() {
             fill
           />
         </div>
-        <div>
-          <h1 className="font-bold"> {session.data?.user.name}</h1>
-          <label>Date | time</label>
+        <div className="pl-2">
+          {/* <h1 className="font-bold"> {session.data?.user.name}</h1>  */}
+          {/* placeholder only */}
+          <h1 className="font-bold">Jamie Mari</h1>
+          <label>May 24, 2023 | 12:00 AM</label>
         </div>
       </div>
     </>
