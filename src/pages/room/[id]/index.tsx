@@ -8,16 +8,21 @@ import { dynamicRouteID } from "~/utils/helpers";
 import iconavail from "public/images/icon_avail.png";
 import iconaircon from "public/images/icon_aircon.png";
 import iconutils from "public/images/icon_utils.png";
+import Error404 from "~/pages/404";
 
 export default function Room() {
   const { shouldReturn, id } = dynamicRouteID(useRouter());
   if (shouldReturn) return;
 
-  const { data: firstData, isLoading: queryLoading } =
+  const { data: roomData, isLoading: roomLoading } =
     api.room.getOne.useQuery(id);
 
   const archiveRoom = api.room.archive.useMutation();
   const deleteRoom = api.room.delete.useMutation();
+
+  if (roomData === null) {
+    return Error404();
+  }
 
   return (
     <div className="flex h-screen flex-col">
@@ -57,9 +62,7 @@ export default function Room() {
               onClick={(d) => {
                 archiveRoom.mutate(id);
                 window.location.replace(
-                  `/accommodation/${
-                    firstData ? firstData.accommodationId : ""
-                  }`,
+                  `/accommodation/${roomData ? roomData.accommodationId : ""}`,
                 );
               }}
             >
@@ -85,9 +88,7 @@ export default function Room() {
               onClick={(d) => {
                 deleteRoom.mutate(id);
                 window.location.replace(
-                  `/accommodation/${
-                    firstData ? firstData.accommodationId : ""
-                  }`,
+                  `/accommodation/${roomData ? roomData.accommodationId : ""}`,
                 );
               }}
             >
@@ -113,9 +114,9 @@ export default function Room() {
               <div className="flex flex-row justify-center px-2 pb-0 pt-0 drop-shadow-md">
                 <div className="flex w-[50%] flex-col">
                   <h1 className="text-3xl font-bold text-white">Price</h1>
-                  {!queryLoading ? (
+                  {!roomLoading ? (
                     <h1 className="text-xl font-bold text-white">
-                      {firstData?.price}
+                      {roomData?.price}
                     </h1>
                   ) : (
                     <h1 className="text-xl font-bold text-white">
@@ -126,9 +127,9 @@ export default function Room() {
                 </div>
                 <div className="flex w-[50%] flex-col">
                   <h1 className="text-3xl font-bold text-white">No. of Beds</h1>
-                  {!queryLoading ? (
+                  {!roomLoading ? (
                     <h1 className="text-xl font-bold text-white">
-                      {firstData?.num_of_beds}
+                      {roomData?.num_of_beds}
                     </h1>
                   ) : (
                     <h1 className="text-xl font-bold text-white">
@@ -156,9 +157,9 @@ export default function Room() {
                     <h1 className="text-2xl font-bold text-blue-700">
                       Availability
                     </h1>
-                    {!queryLoading ? (
+                    {!roomLoading ? (
                       <h1 className="">
-                        {firstData?.occupied ? "Occupied" : "Unoccupied"}
+                        {roomData?.occupied ? "Occupied" : "Unoccupied"}
                       </h1>
                     ) : (
                       <h1 className="">&nbsp;&nbsp;</h1>
@@ -183,9 +184,9 @@ export default function Room() {
                     <h1 className="text-2xl font-bold text-blue-700">
                       Airconditioner
                     </h1>
-                    {!queryLoading ? (
+                    {!roomLoading ? (
                       <h1 className="">
-                        {firstData?.with_aircon ? "With" : "Without"}
+                        {roomData?.with_aircon ? "With" : "Without"}
                       </h1>
                     ) : (
                       <h1 className="">&nbsp;&nbsp;</h1>
@@ -210,9 +211,9 @@ export default function Room() {
                     <h1 className="text-2xl font-bold text-blue-700">
                       Utilities
                     </h1>
-                    {!queryLoading ? (
+                    {!roomLoading ? (
                       <h1 className="">
-                        {firstData?.with_utilities ? "With" : "Without"}
+                        {roomData?.with_utilities ? "With" : "Without"}
                       </h1>
                     ) : (
                       <h1 className="">&nbsp;&nbsp;</h1>
