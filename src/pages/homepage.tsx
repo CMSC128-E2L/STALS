@@ -5,11 +5,9 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
 import { type z } from "zod";
 import { accommodationGetManyExperiementSchema } from "~/utils/apitypes";
-import { AccommodationType } from "@prisma/client";
-import { titleCase } from "~/utils/helpers";
 import LoadingSpinner from "~/components/loadingSpinner";
 import SearchItem from "~/components/SearchItem";
-import { UseInfiniteQueryResult } from "@tanstack/react-query";
+import { type UseInfiniteQueryResult } from "@tanstack/react-query";
 
 type HandlePriceRangeChangeType = (
   event: React.ChangeEvent<HTMLInputElement>,
@@ -354,6 +352,22 @@ const Location: React.FC<{
           type="text"
           value={value}
           onChange={handleChange}
+          onKeyDown={(evt) => {
+            if (evt.key == "Enter") {
+              if (barangayEntries && barangayEntries?.length > 0) {
+                barangayEntries.reverse().forEach((entry) => {
+                  if (
+                    entry.barangay &&
+                    entry.barangay.toLowerCase().includes(value.toLowerCase())
+                  ) {
+                    handleSuggestionClick(entry.barangay);
+                    console.log("proc");
+                    return;
+                  }
+                });
+              }
+            }
+          }}
           className="filter-search"
           placeholder="Type for suggestions..."
         />
