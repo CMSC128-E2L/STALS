@@ -1,16 +1,35 @@
 import NavBar from "~/components/navbar";
-import UserProfile from "~/components/userProfile";
-import StarRow from "~/components/starRow";
-import RoomButton from "~/components/roomButton";
+import { useForm } from "react-hook-form";
+import { zodResolver } from "@hookform/resolvers/zod";
+import { reviewAddSchema } from "~/utils/apitypes";
 import Link from "next/link";
 import Image from "next/image";
-import { api } from "~/utils/api";
 import { useRouter } from "next/router";
+import { type RouterInputs, api } from "~/utils/api";
 import { dynamicRouteID } from "~/utils/helpers";
+import { useEffect } from "react";
+import UserProfile from "~/components/userProfile";
 
 export default function Accommodation() {
   const { shouldReturn, id } = dynamicRouteID(useRouter());
-  if (shouldReturn) return;
+
+  const {
+    register,
+    handleSubmit,
+    setValue,
+    formState: { errors },
+  } = useForm<RouterInputs["review"]["add"]>({
+    resolver: zodResolver(reviewAddSchema),
+    defaultValues: {
+      accommodationId: "",
+    },
+  });
+
+  useEffect(() => {
+    setValue("accommodationId", id);
+  }, [id, setValue]);
+
+  const addReview = api.review.add.useMutation();
 
   const { data: firstData, isLoading: queryLoading } =
     api.accommodation.getOne.useQuery(id);
@@ -294,10 +313,21 @@ export default function Accommodation() {
                   Facebook link
                 </div>
               </div>
-
               <div className="h-50 grid grid-cols-1 justify-items-stretch gap-4">
                 <div className="w-auto flex-row space-x-[2%] pl-3 pt-5">
-                  <form>
+                  <form
+                    // https://github.com/orgs/react-hook-form/discussions/8020
+                    onSubmit={(...args) =>
+                      void handleSubmit(
+                        (d) => {
+                          addReview.mutate(d);
+                        },
+                        (e) => {
+                          console.log(e);
+                        },
+                      )(...args)
+                    }
+                  >
                     <div className="mb-4 w-full rounded-[15px] border border-gray-200 bg-gray-50">
                       {/* <div className="flex items-center justify-between px-3 py-2 border-b"> */}
 
@@ -325,7 +355,14 @@ export default function Accommodation() {
                           rows={3}
                           className="block w-full border-0 bg-white px-3 pt-2 text-sm text-gray-800 focus:ring-0"
                           placeholder="Write a review"
+                          {...register("review")}
                         ></textarea>
+
+                        <input
+                          type="number"
+                          placeholder="rating"
+                          {...register("rating", { valueAsNumber: true })}
+                        ></input>
                       </div>
 
                       <div className="grid h-10 grid-cols-1 justify-items-stretch px-2 pt-2">
