@@ -136,7 +136,7 @@ export default function EditRoom() {
                   placeholder="Type"
                   {...register("with_utilities", {
                     setValueAs: (value) => {
-                      return value == "yes";
+                      return value === "yes";
                     },
                   })}
                 >

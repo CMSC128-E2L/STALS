@@ -398,15 +398,13 @@ export default function Accommodation() {
                     <div className="basis-1/2 place-self-center text-center ">
                       {/* wao */}
                       <p className="text-5xl font-bold">
-                        {/*{firstData?.average_rating ?? 0}*/} / 5
+                        {firstData?.average_rating ?? 0} / 5
                       </p>
-                      <p>
-                        out of {/*{firstData?.total_reviews ?? 0}*/} reviews
-                      </p>
+                      <p>out of {firstData?.total_reviews ?? 0} reviews</p>
                     </div>
 
                     {/* TODO: For this, go through the review array in schema.prisma and get the average ratings the plug the number in this component.*/}
-                    {/* <StarRow rating={firstData?.average_rating ?? 0} /> */}
+                    <StarRow rating={firstData?.average_rating ?? 0} />
                   </div>
                 </div>
                 {/* Review section */}
@@ -417,7 +415,7 @@ export default function Accommodation() {
                       {/* UserProfile must be the User that made that review*/}
                       <UserProfile />
                       {/* StarRow is the rating of that review */}
-                      {/* <StarRow rating={firstData?.average_rating} />*/}
+                      <StarRow rating={firstData?.average_rating} />
                     </div>
                     {/* This is the review */}
                     <p className="line-clamp-2 text-sm">
