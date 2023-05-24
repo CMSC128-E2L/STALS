@@ -2,12 +2,12 @@ import NavBar from "~/components/navbar";
 import { type RouterOutputs, api } from "~/utils/api";
 import { useState } from "react";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { useForm } from "react-hook-form";
 import { type z } from "zod";
 import { accommodationGetManyExperiementSchema } from "~/utils/apitypes";
 import LoadingSpinner from "~/components/loadingSpinner";
 import SearchItem from "~/components/SearchItem";
 import { type UseInfiniteQueryResult } from "@tanstack/react-query";
+import { useForm, useWatch, type Control } from "react-hook-form";
 
 type HandlePriceRangeChangeType = (
   event: React.ChangeEvent<HTMLInputElement>,
@@ -37,6 +37,7 @@ export default function HomePage() {
   const {
     register,
     handleSubmit,
+    control,
     formState: { errors },
   } = useForm({
     resolver: zodResolver(accommodationGetManyExperiementSchema),
@@ -197,27 +198,66 @@ export default function HomePage() {
     }
   };
 
-  return (
-    <>
-      <div className="flex h-full flex-row pt-[60px]">
-        <form
-          className="fixed h-[100%] w-[200px]"
-          // eslint-disable-next-line @typescript-eslint/no-misused-promises
-          onSubmit={handleSubmit(
-            (d: z.infer<typeof accommodationGetManyExperiementSchema>) => {
-              setuserIntpus((prevState) => ({
-                ...prevState,
-                ...d,
-              }));
-              void refetchAccoms();
-            },
-          )}
-        >
-          <NavBar register={register} name={"name"} />
+  function AccommodationsList({
+    control,
+  }: {
+    control: Control<z.infer<typeof accommodationGetManyExperiementSchema>>;
+  }) {
+    useWatch({ control });
 
-          {/* Sidebar */}
-          {/* Filters */}
-          <div className="flex h-[100%] flex-col overflow-y-auto bg-p-lblue p-5">
+    return (
+      <div className="grow">
+        <div className="flex flex-row flex-wrap">
+          {accommodationEntries ? (
+            accommodationEntries?.pages.map((page, i: number) => (
+              <SearchAccoms key={i} items={page?.items} />
+            ))
+          ) : (
+            <LoadingSpinner />
+          )}
+        </div>
+        {isFetchingNextPage ? (
+          <LoadingSpinner />
+        ) : hasNextPage ? (
+          <div className="w-full text-center">
+            <button
+              className="m-5 w-[50%] rounded-xl bg-p-dblue p-3 text-xl text-white"
+              onClick={() => {
+                void fetchNextPage();
+                // eslint-disable-next-line
+                setuserIntpus((prevInputs: any) => ({
+                  ...prevInputs,
+                }));
+              }}
+              disabled={!hasNextPage || isFetchingNextPage}
+            >
+              Load More
+            </button>
+          </div>
+        ) : (
+          ""
+        )}
+      </div>
+    );
+  }
+
+  return (
+    <div>
+      <form
+        // eslint-disable-next-line @typescript-eslint/no-misused-promises
+        onSubmit={handleSubmit(
+          (d: z.infer<typeof accommodationGetManyExperiementSchema>) => {
+            setuserIntpus((prevState) => ({
+              ...prevState,
+              ...d,
+            }));
+            void refetchAccoms();
+          },
+        )}
+      >
+        <NavBar register={register} name={"name"} />
+        <div className="flex">
+          <div className="flex min-w-[190px] flex-col overflow-y-auto bg-p-lblue p-5">
             {/* Location */}
             <div className="mb-4">
               <h2 className="mb-2 text-base font-bold">Location</h2>
@@ -275,40 +315,10 @@ export default function HomePage() {
             </div>
             <div className="mt-16"></div>
           </div>
-          <div />
-        </form>
-
-        {/* Content */}
-
-        {/* Accommodations List */}
-        <div className="absolute left-[200px] -z-10">
-          {/* <input className="mt-10 ml-10 py-1 outline outline-1 outline-p-dblue" placeholder="Search"/> */}
-          <div className="flex flex-row flex-wrap">
-            {accommodationEntries ? (
-              accommodationEntries?.pages.map((page, i: number) => (
-                <SearchAccoms key={i} items={page?.items} />
-              ))
-            ) : (
-              <LoadingSpinner />
-            )}
-          </div>
-          <button
-            onClick={() => {
-              void fetchNextPage();
-            }}
-            disabled={!hasNextPage || isFetchingNextPage}
-          >
-            {isFetchingNextPage ? (
-              <LoadingSpinner />
-            ) : hasNextPage ? (
-              "Load More"
-            ) : (
-              "End"
-            )}
-          </button>
+          <AccommodationsList control={control} />
         </div>
-      </div>
-    </>
+      </form>
+    </div>
   );
 }
 
