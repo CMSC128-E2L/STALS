@@ -1,16 +1,41 @@
 import NavBar from "~/components/navbar";
 import UserProfile from "~/components/userProfile";
 import StarRow from "~/components/starRow";
-import RoomButton from "~/components/roomButton";
+import { useSession } from "next-auth/react";
+import { useForm } from "react-hook-form";
+import { zodResolver } from "@hookform/resolvers/zod";
+import { reviewAddSchema } from "~/utils/apitypes";
 import Link from "next/link";
 import Image from "next/image";
-import { api } from "~/utils/api";
 import { useRouter } from "next/router";
+import { type RouterInputs, api } from "~/utils/api";
 import { dynamicRouteID } from "~/utils/helpers";
+import { useEffect } from "react";
 
 export default function Accommodation() {
   const { shouldReturn, id } = dynamicRouteID(useRouter());
+
+  const {
+    register,
+    handleSubmit,
+    setValue,
+    formState: { errors },
+  } = useForm<RouterInputs["review"]["add"]>({
+    resolver: zodResolver(reviewAddSchema),
+    defaultValues: {
+      accommodationId: "",
+    },
+  });
+
+  useEffect(() => {
+    setValue("accommodationId", id);
+  }, [id, setValue]);
+
   if (shouldReturn) return;
+
+  {
+    /* void addReview = api.review.add.useMutation(); */
+  }
 
   const { data: firstData, isLoading: queryLoading } =
     api.accommodation.getOne.useQuery(id);
@@ -311,11 +336,23 @@ export default function Accommodation() {
 
               <div className="grid h-40 grid-cols-1 justify-items-stretch gap-4">
                 <div className="w-auto flex-row space-x-[2%] pl-3 pt-5">
-                  <textarea
-                    rows={4}
-                    className="w-full border-0 bg-white px-0 text-sm text-gray-900 focus:ring-0 dark:bg-gray-800 dark:text-white dark:placeholder-gray-400"
-                    placeholder="Write a review..."
-                  ></textarea>
+                  <form>
+                    {/*TODO: onSubmit HERE*/}
+                    <input
+                      type="text"
+                      className="w-full border-0 bg-white px-0 text-sm text-gray-900 focus:ring-0 dark:bg-gray-800 dark:text-white dark:placeholder-gray-400"
+                      placeholder="Write a review..."
+                      {...register("review")}
+                    ></input>
+
+                    <input
+                      type="number"
+                      placeholder="rating"
+                      {...register("rating")}
+                    ></input>
+
+                    <button> Submit</button>
+                  </form>
 
                   {/* <form>
                         <input
