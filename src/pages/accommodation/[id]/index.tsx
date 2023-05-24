@@ -19,8 +19,10 @@ export default function Accommodation() {
   const { data: ImageList, isLoading: imageLoading } =
     api.file.getAccommImages.useQuery({ id });
 
-  const { data: RoomList, isLoading: roomLoading } =
-    api.room.getMany.useQuery(id);
+  const { data: RoomList, isLoading: roomLoading } = api.room.getMany.useQuery({
+    id: id,
+    status: false,
+  });
 
   return (
     <div className="flex h-screen flex-col">

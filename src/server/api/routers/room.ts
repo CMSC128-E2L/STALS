@@ -8,12 +8,15 @@ import {
 import { roomAddSchema } from "~/utils/apitypes";
 
 export const roomRouter = createTRPCRouter({
-  getMany: publicProcedure.input(z.string()).query(({ ctx, input }) => {
-    const accommodationId = input;
-    return ctx.prisma.room.findMany({
-      where: { accommodationId: accommodationId },
-    });
-  }),
+  getMany: publicProcedure
+    .input(z.object({ id: z.string(), status: z.boolean() }))
+    .query(({ ctx, input }) => {
+      const accommodationId = input.id;
+      const status = input.status;
+      return ctx.prisma.room.findMany({
+        where: { accommodationId: accommodationId, is_archived: status },
+      });
+    }),
 
   getOne: publicProcedure.input(z.string()).query(({ ctx, input }) => {
     const id = input;
@@ -23,18 +26,15 @@ export const roomRouter = createTRPCRouter({
   }),
 
   // Archive Room
-  archive: protectedProcedure
-    .input(z.object({ id: z.string(), is_archived: z.boolean() }))
-    .mutation(({ ctx, input }) => {
-      const id = input.id;
-      const archived = input.is_archived;
-      return ctx.prisma.room.update({
-        where: { id },
-        data: {
-          is_archived: !archived,
-        },
-      });
-    }),
+  archive: protectedProcedure.input(z.string()).mutation(({ ctx, input }) => {
+    const id = input;
+    return ctx.prisma.room.update({
+      where: { id: id },
+      data: {
+        is_archived: true,
+      },
+    });
+  }),
 
   // Get All Archived Rooms
   archives: protectedProcedure

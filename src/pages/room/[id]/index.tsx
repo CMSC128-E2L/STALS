@@ -1,7 +1,5 @@
 import NavBar from "~/components/navbar";
 import UserProfile from "~/components/userProfile";
-import StarRow from "~/components/starRow";
-import RoomButton from "~/components/roomButton";
 import Link from "next/link";
 import { api } from "~/utils/api";
 import { useRouter } from "next/router";
@@ -15,6 +13,9 @@ export default function Room() {
 
   const { data: firstData, isLoading: queryLoading } =
     api.room.getOne.useQuery(id);
+
+  const archiveRoom = api.room.archive.useMutation();
+  const deleteRoom = api.room.delete.useMutation();
 
   return (
     <div className="flex h-screen flex-col">
@@ -71,7 +72,18 @@ export default function Room() {
                       </button>
                     </Link>
                     {/* Archive button */}
-                    <button type="button" className="accomP-button ">
+                    <button
+                      type="button"
+                      className="accomP-button "
+                      onClick={(d) => {
+                        archiveRoom.mutate(id);
+                        window.location.replace(
+                          `/accommodation/${
+                            firstData ? firstData.accommodationId : ""
+                          }`,
+                        );
+                      }}
+                    >
                       <svg
                         xmlns="http://www.w3.org/2000/svg"
                         fill="none"
@@ -89,7 +101,18 @@ export default function Room() {
                     </button>
 
                     {/* Delete button */}
-                    <button type="button" className="accomP-button">
+                    <button
+                      type="button"
+                      className="accomP-button"
+                      onClick={(d) => {
+                        deleteRoom.mutate(id);
+                        window.location.replace(
+                          `/accommodation/${
+                            firstData ? firstData.accommodationId : ""
+                          }`,
+                        );
+                      }}
+                    >
                       <svg
                         xmlns="http://www.w3.org/2000/svg"
                         fill="none"
