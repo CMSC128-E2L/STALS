@@ -1,7 +1,4 @@
 import NavBar from "~/components/navbar";
-import UserProfile from "~/components/userProfile";
-import StarRow from "~/components/starRow";
-import { useSession } from "next-auth/react";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { reviewAddSchema } from "~/utils/apitypes";
@@ -31,11 +28,7 @@ export default function Accommodation() {
     setValue("accommodationId", id);
   }, [id, setValue]);
 
-  if (shouldReturn) return;
-
-  {
-    /* void addReview = api.review.add.useMutation(); */
-  }
+  const addReview = api.review.add.useMutation();
 
   const { data: firstData, isLoading: queryLoading } =
     api.accommodation.getOne.useQuery(id);
@@ -336,7 +329,19 @@ export default function Accommodation() {
 
               <div className="grid h-40 grid-cols-1 justify-items-stretch gap-4">
                 <div className="w-auto flex-row space-x-[2%] pl-3 pt-5">
-                  <form>
+                  <form
+                    // https://github.com/orgs/react-hook-form/discussions/8020
+                    onSubmit={(...args) =>
+                      void handleSubmit(
+                        (d) => {
+                          addReview.mutate(d);
+                        },
+                        (e) => {
+                          console.log(e);
+                        },
+                      )(...args)
+                    }
+                  >
                     {/*TODO: onSubmit HERE*/}
                     <input
                       type="text"
@@ -348,7 +353,7 @@ export default function Accommodation() {
                     <input
                       type="number"
                       placeholder="rating"
-                      {...register("rating")}
+                      {...register("rating", { valueAsNumber: true })}
                     ></input>
 
                     <button> Submit</button>
