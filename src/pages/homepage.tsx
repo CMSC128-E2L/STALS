@@ -1,6 +1,6 @@
 import NavBar from "~/components/navbar";
 import { type RouterOutputs, api } from "~/utils/api";
-import { useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { type z } from "zod";
 import { accommodationGetManyExperiementSchema } from "~/utils/apitypes";
@@ -8,6 +8,9 @@ import LoadingSpinner from "~/components/loadingSpinner";
 import SearchItem from "~/components/SearchItem";
 import { type UseInfiniteQueryResult } from "@tanstack/react-query";
 import { useForm, useWatch, type Control } from "react-hook-form";
+import jsPDF from "jspdf";
+import autoTable from "jspdf-autotable";
+import { Accommodation } from "@prisma/client";
 
 type HandlePriceRangeChangeType = (
   event: React.ChangeEvent<HTMLInputElement>,
@@ -49,6 +52,51 @@ export default function HomePage() {
       getNextPageParam: (lastPage) => lastPage.nextCursor,
     },
   );
+
+  // pdf download logic
+  const calledOnce = useRef(false);
+  const [pdfdownload, setpdfdownload] = useState(false);
+  const pdf = new jsPDF();
+  // hack needs the useRef inorder to not trigger 2 times per download pdf.
+  useEffect(() => {
+    if (calledOnce.current) {
+      calledOnce.current = false;
+      return;
+    }
+    const info: (string | number)[][] = [];
+    if (pdfdownload) {
+      calledOnce.current = true;
+      setpdfdownload(false);
+
+      accommodationEntries?.pages.map((page, nyom: number) => {
+        page?.items?.map((i: Accommodation) => {
+          // eslint-disable-next-line @typescript-eslint/no-unsafe-argument
+          info.push([
+            i.name,
+            i.address ?? "",
+            i.landlord,
+            i.contact_number,
+            i.num_of_rooms,
+          ]);
+        });
+      });
+    }
+
+    autoTable(pdf, {
+      head: [
+        [
+          "Accommodation Name",
+          "Address",
+          "Landlord",
+          "Contact Number",
+          "Rooms",
+        ],
+      ],
+      body: info,
+    });
+    if (calledOnce.current) pdf.save("output.pdf");
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [pdfdownload]);
 
   const {
     isLoading: queryLoading,
@@ -313,7 +361,16 @@ export default function HomePage() {
                 placeholder="Type for suggestions..."
               ></input>
             </div>
-            <div className="mt-16"></div>
+            {/* should not be a button since the form will assume it is a submit button */}
+            {/* hack is to use a div with onClick */}
+            <div
+              className="text-md cursor-pointer rounded-full bg-p-dblue p-2 text-center text-white"
+              onClick={() => {
+                setpdfdownload(true);
+              }}
+            >
+              Download Pdf
+            </div>
           </div>
           <AccommodationsList control={control} />
         </div>
