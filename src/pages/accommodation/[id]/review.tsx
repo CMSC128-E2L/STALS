@@ -9,11 +9,7 @@ import { type RouterInputs, api } from "~/utils/api";
 import { dynamicRouteID } from "~/utils/helpers";
 import { useEffect } from "react";
 import UserProfile from "~/components/userProfile";
-import StarRow from "~/components/starRow";
-import RoomButton from "~/components/roomButton";
-import { api } from "~/utils/api";
 
-        
 export default function Accommodation() {
   const { shouldReturn, id } = dynamicRouteID(useRouter());
 
@@ -319,7 +315,19 @@ export default function Accommodation() {
               </div>
               <div className="h-50 grid grid-cols-1 justify-items-stretch gap-4">
                 <div className="w-auto flex-row space-x-[2%] pl-3 pt-5">
-                  <form>
+                  <form
+                    // https://github.com/orgs/react-hook-form/discussions/8020
+                    onSubmit={(...args) =>
+                      void handleSubmit(
+                        (d) => {
+                          addReview.mutate(d);
+                        },
+                        (e) => {
+                          console.log(e);
+                        },
+                      )(...args)
+                    }
+                  >
                     <div className="mb-4 w-full rounded-[15px] border border-gray-200 bg-gray-50">
                       {/* <div className="flex items-center justify-between px-3 py-2 border-b"> */}
 
@@ -347,7 +355,14 @@ export default function Accommodation() {
                           rows={3}
                           className="block w-full border-0 bg-white px-3 pt-2 text-sm text-gray-800 focus:ring-0"
                           placeholder="Write a review"
+                          {...register("review")}
                         ></textarea>
+
+                        <input
+                          type="number"
+                          placeholder="rating"
+                          {...register("rating", { valueAsNumber: true })}
+                        ></input>
                       </div>
 
                       <div className="grid h-10 grid-cols-1 justify-items-stretch px-2 pt-2">
@@ -360,36 +375,6 @@ export default function Accommodation() {
                           </button>
                         </div>
                       </div>
-                      
-                      <form
-                    // https://github.com/orgs/react-hook-form/discussions/8020
-                    onSubmit={(...args) =>
-                      void handleSubmit(
-                        (d) => {
-                          addReview.mutate(d);
-                        },
-                        (e) => {
-                          console.log(e);
-                        },
-                      )(...args)
-                    }
-                  >
-                    {/*TODO: onSubmit HERE*/}
-                    <input
-                      type="text"
-                      className="w-full border-0 bg-white px-0 text-sm text-gray-900 focus:ring-0 dark:bg-gray-800 dark:text-white dark:placeholder-gray-400"
-                      placeholder="Write a review..."
-                      {...register("review")}
-                    ></input>
-
-                    <input
-                      type="number"
-                      placeholder="rating"
-                      {...register("rating", { valueAsNumber: true })}
-                    ></input>
-
-                    <button> Submit</button>
-                  </form>
                     </div>
                   </form>
                 </div>
