@@ -202,11 +202,11 @@ export default function TermsCondition() {
           <br />
 
           <p>
-            Cookies can be "Persistent" or "Session" Cookies. Persistent Cookies
-            remain on Your personal computer or mobile device when You go
-            offline, while Session Cookies are deleted as soon as You close Your
-            web browser. Learn more about cookies on the Free Privacy Policy
-            website article.
+            Cookies can be &quot;Persistent&quot; or &quot;Session&quot;
+            Cookies. Persistent Cookies remain on Your personal computer or
+            mobile device when You go offline, while Session Cookies are deleted
+            as soon as You close Your web browser. Learn more about cookies on
+            the Free Privacy Policy website article.
           </p>
           <br />
           <p>
@@ -307,11 +307,11 @@ export default function TermsCondition() {
           <p>
             <span className="font-bold">To contact You:</span> To contact You by
             email, telephone calls, SMS, or other equivalent forms of electronic
-            communication, such as a mobile application's push notifications
-            regarding updates or informative communications related to the
-            functionalities, products or contracted services, including the
-            security updates, when necessary or reasonable for their
-            implementation.
+            communication, such as a mobile application&apos;s push
+            notifications regarding updates or informative communications
+            related to the functionalities, products or contracted services,
+            including the security updates, when necessary or reasonable for
+            their implementation.
           </p>
           <p>
             <span className="font-bold">To provide You</span> with news, special
@@ -469,7 +469,7 @@ export default function TermsCondition() {
         <br />
 
         <h3 className="pt-2 text-lg font-bold">
-          <span>Children's Privacy</span>
+          <span>Children&apos;s Privacy</span>
         </h3>
         <p className="text-sm">
           Our Service does not address anyone under the age of 13. We do not
@@ -483,7 +483,7 @@ export default function TermsCondition() {
           <br />
           If We need to rely on consent as a legal basis for processing Your
           information and Your country requires consent from a parent, We may
-          require Your parent's consent before We collect and use that
+          require Your parent&apos;s consent before We collect and use that
           information.
         </p>
         <br />
@@ -494,8 +494,8 @@ export default function TermsCondition() {
         <p className="text-sm">
           Our Service may contain links to other websites that are not operated
           by Us. If You click on a third party link, You will be directed to
-          that third party's site. We strongly advise You to review the Privacy
-          Policy of every site You visit.
+          that third party&apos;s site. We strongly advise You to review the
+          Privacy Policy of every site You visit.
           <br />
           <br />
           We have no control over and assume no responsibility for the content,
@@ -512,8 +512,8 @@ export default function TermsCondition() {
           <br />
           <br />
           We will let You know via email and/or a prominent notice on Our
-          Service, prior to the change becoming effective and update the "Last
-          updated" date at the top of this Privacy Policy.
+          Service, prior to the change becoming effective and update the
+          &quot;Last update&quot; date at the top of this Privacy Policy.
           <br />
           <br />
           You are advised to review this Privacy Policy periodically for any
