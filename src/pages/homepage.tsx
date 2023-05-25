@@ -64,6 +64,16 @@ export default function HomePage() {
       return;
     }
     const info: (string | number)[][] = [];
+    const filters: { [key: string]: string | any } = {
+      location: userInputs.barangay ? userInputs.barangay : "All Locations",
+      accomType: userInputs.typeArray?.length
+        ? userInputs.typeArray.join(", ")
+        : "All Types",
+      priceRange:
+        getPriceRangeLabel(userInputs.price_min, userInputs.price_max) ||
+        "All Prices",
+    };
+
     if (pdfdownload) {
       calledOnce.current = true;
       setpdfdownload(false);
@@ -83,18 +93,50 @@ export default function HomePage() {
     }
 
     autoTable(pdf, {
-      head: [
-        [
-          "Accommodation Name",
-          "Address",
-          "Landlord",
-          "Contact Number",
-          "Rooms",
-        ],
+      head: [["Filter", "Value"]],
+      body: [
+        ["Location", filters.location],
+        ["Type", filters.accomType],
+        ["Price Range", filters.priceRange],
       ],
-      body: info,
+      didDrawPage: function (data) {
+        // Page Header
+        pdf.setFillColor(29, 93, 154);
+        pdf.rect(10, 10, pdf.internal.pageSize.width - 20, 15, "F");
+        pdf.setFont("helvetica", "bold");
+        pdf.setFontSize(18);
+        pdf.setTextColor(255, 255, 255);
+        const textX = 20;
+        const textY = 20;
+        pdf.text("STALS", textX, textY);
+      },
+      margin: { top: 30 },
+      columnStyles: { 0: { cellWidth: 30 } },
     });
-    if (calledOnce.current) pdf.save("output.pdf");
+
+    autoTable(pdf, {
+      head: [["Name", "Address", "Landlord", "Contact", "Rooms"]],
+      body: info,
+
+      didDrawPage: function (data) {
+        const pageCount = pdf.getNumberOfPages();
+        const footerStr = `Page ${data.pageNumber} of ${pageCount}`;
+
+        pdf.setFontSize(10);
+        pdf.setTextColor(0, 0, 0);
+        pdf.text(
+          footerStr,
+          data.settings.margin.left,
+          pdf.internal.pageSize.height - 10,
+        );
+      },
+      columnStyles: {
+        0: { cellWidth: 30 },
+        1: { cellWidth: 60 },
+        2: { cellWidth: 40 },
+      },
+    });
+    if (calledOnce.current) pdf.save("STALS.pdf");
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [pdfdownload]);
 
@@ -106,6 +148,21 @@ export default function HomePage() {
     hasNextPage,
     refetch: refetchAccoms,
   } = methods;
+
+  function getPriceRangeLabel(
+    min: number | undefined,
+    max: number | undefined,
+  ): string {
+    if (min === undefined && max === undefined) {
+      return "";
+    } else if (min === undefined) {
+      return `Up to P${max !== undefined ? max : ""}`; //P${max}
+    } else if (max === undefined) {
+      return `P${min} and above`;
+    } else {
+      return `P${min} - P${max}`;
+    }
+  }
 
   // fix this loads hundreds of times
   // const [loadingnext, setloadingnext] = useState(false);
