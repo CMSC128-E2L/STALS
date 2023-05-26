@@ -57,7 +57,6 @@ export default function Delete_Archive_Accomm() {
                     <div className="w-full rounded-lg bg-blue-100">
                       <p className="p-2 text-center">Category:</p>
                       <p className="p-2 text-center">
-                        HOTEL
                         {stalsDBstringArray(accomm.typeArray).join(", ")}
                       </p>
                     </div>
