@@ -36,6 +36,7 @@ export default function HomePage() {
     tagArray: [],
     price_min: undefined,
     price_max: undefined,
+    is_archived: false,
   });
   const {
     register,
