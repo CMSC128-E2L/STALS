@@ -11,12 +11,14 @@ import iconaircon from "public/images/icon_aircon.png";
 import iconutils from "public/images/icon_utils.png";
 import { UserType } from "@prisma/client";
 import Error404 from "~/pages/404";
+import { useState } from "react";
 
 export default function Room() {
   const { shouldReturn, id } = dynamicRouteID(useRouter());
   // if (shouldReturn) return;
 
   const { data: sessionData } = useSession();
+
   const router = useRouter();
 
   const { data: roomData, isLoading: roomLoading } =
@@ -24,6 +26,9 @@ export default function Room() {
 
   const archiveRoom = api.room.archive.useMutation();
   const deleteRoom = api.room.delete.useMutation();
+
+  const [showPopUpArchive, setShowPopUpArchive] = useState(false);
+  const [showPopUpDelete, setShowPopUpDelete] = useState(false);
 
   if (roomData === null) {
     return Error404();
@@ -38,7 +43,7 @@ export default function Room() {
         <div className=" flex flex-auto flex-col">
           <div>
             {/* USER PROFILE */}
-            <div className="mt-20 flex justify-center">
+            <div className="mt-5 flex justify-center">
               <UserProfile />
             </div>
             {/* start ngicons */}
@@ -66,14 +71,7 @@ export default function Room() {
               <button
                 type="button"
                 className="accomP-button m-2"
-                onClick={(d) => {
-                  archiveRoom.mutate(id);
-                  window.location.replace(
-                    `/accommodation/${
-                      roomData ? roomData.accommodationId : ""
-                    }`,
-                  );
-                }}
+                onClick={() => setShowPopUpArchive(true)}
               >
                 <svg
                   xmlns="http://www.w3.org/2000/svg"
@@ -94,14 +92,7 @@ export default function Room() {
               <button
                 type="button"
                 className="accomP-button m-2"
-                onClick={(d) => {
-                  deleteRoom.mutate(id);
-                  window.location.replace(
-                    `/accommodation/${
-                      roomData ? roomData.accommodationId : ""
-                    }`,
-                  );
-                }}
+                onClick={() => setShowPopUpDelete(true)}
               >
                 <svg
                   xmlns="http://www.w3.org/2000/svg"
@@ -239,6 +230,62 @@ export default function Room() {
             </div>
           </div>
         </div>
+        {showPopUpArchive && (
+          <div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50">
+            <div className="rounded-xl bg-white p-5">
+              <h1 className="flex justify-center">Archive This Room?</h1>
+              <div className="flex flex-row">
+                <button
+                  className="mx-2 mt-4 rounded bg-blue-500 px-4 py-2 text-white hover:bg-blue-600"
+                  onClick={(d) => {
+                    archiveRoom.mutate(id);
+                    window.location.replace(
+                      `/accommodation/${
+                        roomData ? roomData.accommodationId : ""
+                      }`,
+                    );
+                  }}
+                >
+                  Yes
+                </button>
+                <button
+                  className="mx-2 mt-4 rounded bg-blue-500 px-4 py-2 text-white hover:bg-blue-600"
+                  onClick={() => setShowPopUpArchive(false)}
+                >
+                  No
+                </button>
+              </div>
+            </div>
+          </div>
+        )}
+        {showPopUpDelete && (
+          <div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50">
+            <div className="rounded-xl bg-white p-5">
+              <h1 className="flex justify-center">Delete This Room?</h1>
+              <div className="flex flex-row">
+                <button
+                  className="mx-2 mt-4 rounded bg-blue-500 px-4 py-2 text-white hover:bg-blue-600"
+                  onClick={(d) => {
+                    deleteRoom.mutate(id);
+                    window.location.replace(
+                      `/accommodation/${
+                        roomData ? roomData.accommodationId : ""
+                      }`,
+                    );
+                  }}
+                >
+                  Yes
+                </button>
+                <button
+                  className="mx-2 mt-4 rounded bg-blue-500 px-4 py-2 text-white hover:bg-blue-600"
+                  onClick={() => setShowPopUpDelete(false)}
+                >
+                  No
+                </button>
+              </div>
+            </div>
+          </div>
+        )}
       </div>
     );
   } else {
@@ -250,7 +297,7 @@ export default function Room() {
         <div className=" flex flex-auto flex-col">
           <div>
             {/* USER PROFILE */}
-            <div className="mt-20 flex justify-center">
+            <div className="mt-5 flex justify-center">
               <UserProfile />
             </div>
             {/* ICONS */}
@@ -365,7 +412,6 @@ export default function Room() {
                       ) : (
                         <h1 className="">&nbsp;&nbsp;</h1>
                       )}
-                      {/* <h1 className="text-xl font-bold text-blue-700">Without</h1> */}
                     </div>
                   </div>
                 </div>

@@ -8,6 +8,7 @@ import { dynamicRouteID } from "~/utils/helpers";
 import { useEffect } from "react";
 import Link from "next/link";
 import bgpic from "public/images/bg-05.png";
+import toast, { Toaster } from "react-hot-toast";
 
 export default function EditRoom() {
   const { shouldReturn, id } = dynamicRouteID(useRouter());
@@ -57,9 +58,17 @@ export default function EditRoom() {
               (d) => {
                 editRoom.mutate(d);
                 window.location.replace(`/room/${id}`);
+                toast.success("Successfully Edited Room!", {
+                  position: "bottom-right",
+                  duration: 1000,
+                });
               },
               (error) => {
                 console.log(error);
+                toast.error("Cannot Edit Room!", {
+                  position: "bottom-right",
+                  duration: 1000,
+                });
               },
             )}
           >
@@ -161,6 +170,22 @@ export default function EditRoom() {
                 <button className="group relative flex w-full justify-center rounded-full bg-p-dblue px-4 py-2 font-bold text-white shadow shadow-gray-400/100">
                   Save changes
                 </button>
+                <Toaster
+                  toastOptions={{
+                    success: {
+                      style: {
+                        background: "green",
+                        color: "white",
+                      },
+                    },
+                    error: {
+                      style: {
+                        background: "red",
+                        color: "white",
+                      },
+                    },
+                  }}
+                />
               </div>
 
               <div>
