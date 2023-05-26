@@ -9,6 +9,7 @@ import { useRouter } from "next/router";
 import { dynamicRouteID } from "~/utils/helpers";
 import LoadingSpinner from "~/components/loadingSpinner";
 import Error404 from "~/pages/404";
+import { useSession } from "next-auth/react";
 
 export default function Accommodation() {
   const { id } = dynamicRouteID(useRouter());
@@ -23,7 +24,7 @@ export default function Accommodation() {
     id: id,
     status: false,
   });
-
+  const { data: sessionData } = useSession();
   if (accommData === null) {
     return Error404();
   }
@@ -362,28 +363,31 @@ export default function Accommodation() {
                   )}
 
                   {/* TODO: ADD ROOM BUTTON SHOULD ONLY APPEAR IF LANDLORD IS LOOKING AT PAGE */}
-                  <Link
-                    href={`/accommodation/${id}/room/add`}
-                    className="flex items-stretch"
-                  >
-                    <button className="flex flex-col items-center rounded-lg border-2 border-dashed border-p-black/50 px-8">
-                      <svg
-                        xmlns="http://www.w3.org/2000/svg"
-                        fill="none"
-                        viewBox="0 0 24 24"
-                        strokeWidth="1.5"
-                        stroke="currentColor"
-                        className="h-6 w-6"
+                  {sessionData?.profile.type === "LANDLORD" &&
+                    accommData?.landlord === sessionData?.user?.id && (
+                      <Link
+                        href={`/accommodation/${id}/room/add`}
+                        className="flex items-stretch"
                       >
-                        <path
-                          strokeLinecap="round"
-                          strokeLinejoin="round"
-                          d="M12 4.5v15m7.5-7.5h-15"
-                        />
-                      </svg>
-                      <label className="text-xs">Add Room</label>
-                    </button>
-                  </Link>
+                        <button className="flex flex-col items-center rounded-lg border-2 border-dashed border-p-black/50 px-8">
+                          <svg
+                            xmlns="http://www.w3.org/2000/svg"
+                            fill="none"
+                            viewBox="0 0 24 24"
+                            strokeWidth="1.5"
+                            stroke="currentColor"
+                            className="h-6 w-6"
+                          >
+                            <path
+                              strokeLinecap="round"
+                              strokeLinejoin="round"
+                              d="M12 4.5v15m7.5-7.5h-15"
+                            />
+                          </svg>
+                          <label className="text-xs">Add Room</label>
+                        </button>
+                      </Link>
+                    )}
                 </div>
               </div>
               <div className="flex flex-row items-stretch">
