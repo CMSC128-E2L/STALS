@@ -8,11 +8,14 @@ import { userEditSchema } from "~/utils/apitypes";
 import { useEffect, useState } from "react";
 import LoadingSpinner from "~/components/loadingSpinner";
 import TermsCondition from "~/components/termsAgreement";
+import ToggleSwitch from "~/components/toggleSwitch"; // Replace with the correct path to the ToggleSwitch component
 
 const Signup: NextPage = () => {
   const userSession = useSession({ required: true });
   const [checkingUser, setCheckingUser] = useState(true);
   const [showTerms, setShowTerms] = useState(false);
+
+  const [toggleValue, setToggleValue] = useState("USER");
 
   useEffect(() => {
     if (userSession.status === "authenticated")
@@ -31,6 +34,7 @@ const Signup: NextPage = () => {
   const {
     register,
     handleSubmit,
+    setValue,
     formState: { errors },
   } = useForm({
     resolver: zodResolver(userEditSchema),
@@ -41,6 +45,12 @@ const Signup: NextPage = () => {
       window.location.replace("/homepage");
     },
   });
+
+  const handleToggleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const newValue = e.target.checked ? "LANDLORD" : "USER";
+    setValue("type", newValue);
+    setToggleValue(newValue);
+  };
 
   if (checkingUser) {
     return <LoadingSpinner />;
@@ -141,8 +151,8 @@ const Signup: NextPage = () => {
                 <p>{errors.contact_number?.message as string}</p>
               )}
 
-              <div className="flex justify-center rounded-xl px-2 py-2 text-base text-gray-500 shadow shadow-gray-400/100">
-                <input
+              <div className="flex justify-center rounded-xl px-2 py-2 text-base">
+                {/* <input
                   type="radio"
                   id="user"
                   value={"USER"}
@@ -156,10 +166,41 @@ const Signup: NextPage = () => {
                   {...register("type")}
                 />
                 <label className="pl-2"> Landlord </label>
-                <br />
+                <br /> */}
+
+                <label className="inline-flex cursor-pointer items-center rounded-md p-0 dark:text-gray-800">
+                  <input
+                    type="checkbox"
+                    className="peer hidden"
+                    checked={toggleValue === "LANDLORD"}
+                    value={toggleValue === "LANDLORD" ? "LANDLORD" : "USER"}
+                    {...register("type")}
+                    onChange={handleToggleChange}
+                  />
+                  <span
+                    className={`rounded-l-md px-5 py-1 ${
+                      toggleValue === "USER"
+                        ? "bg-gray-200 font-bold dark:bg-blue-500"
+                        : "bg-blue-500 dark:bg-gray-200"
+                    }`}
+                  >
+                    User
+                  </span>
+                  <span
+                    className={`rounded-r-md px-4 py-1 ${
+                      toggleValue === "LANDLORD"
+                        ? "bg-gray-200 font-bold dark:bg-blue-500"
+                        : "bg-blue-500 dark:bg-gray-200"
+                    }`}
+                  >
+                    Landlord
+                  </span>
+                </label>
+
+                {/* <ToggleSwitch/> */}
               </div>
 
-              <div className="flex justify-center rounded-xl px-2 py-2 shadow shadow-gray-400/100">
+              <div className="flex justify-center">
                 <input type="checkbox" required></input>
 
                 <label className="pl-3 text-sm text-gray-500 ">
