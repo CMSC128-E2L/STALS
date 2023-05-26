@@ -9,7 +9,7 @@ import { roomAddSchema } from "~/utils/apitypes";
 
 export const roomRouter = createTRPCRouter({
   getMany: publicProcedure
-    .input(z.object({ id: z.string(), status: z.boolean() }))
+    .input(z.object({ id: z.string(), status: z.boolean().optional() }))
     .query(({ ctx, input }) => {
       const accommodationId = input.id;
       const status = input.status;
