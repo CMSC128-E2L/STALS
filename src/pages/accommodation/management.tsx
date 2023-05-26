@@ -4,6 +4,7 @@ import { stringify } from "superjson";
 import Image from "next/image";
 import NavBar from "~/components/navbar";
 import { api } from "~/utils/api";
+import { stalsDBstringArray } from "~/utils/helpers";
 
 export default function Delete_Archive_Accomm() {
   const session = useSession();
@@ -57,8 +58,7 @@ export default function Delete_Archive_Accomm() {
                       <p className="p-2 text-center">Category:</p>
                       <p className="p-2 text-center">
                         HOTEL
-                        {/* TODO: Fix parsing of values in typeArray */}
-                        {/* {accomm.typeArray?.values} */}
+                        {stalsDBstringArray(accomm.typeArray).join(", ")}
                       </p>
                     </div>
 
