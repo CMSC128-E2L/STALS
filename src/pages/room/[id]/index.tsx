@@ -292,7 +292,7 @@ export default function Room() {
     return (
       <div className="flex h-screen flex-col">
         {/* HEADER */}
-        <NavBar />
+        <NavBar showBack />
         {/* BODY */}
         <div className=" flex flex-auto flex-col">
           <div>

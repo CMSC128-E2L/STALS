@@ -5,19 +5,48 @@ import logo from "public/images/logo.png";
 import user from "public/images/def_user.png";
 import Image from "next/image";
 import { type FieldValues, type UseFormRegister } from "react-hook-form";
+import { useRouter } from "next/router";
 
 interface NavBarProps {
   register?: UseFormRegister<FieldValues>;
   name?: string;
+  showBack?: boolean;
 }
 
-export const NavBar: React.FC<NavBarProps> = ({ register, name }) => {
+export const NavBar: React.FC<NavBarProps> = ({ register, name, showBack }) => {
+  const router = useRouter();
   return (
     <>
       {/* Navigation bar */}
       <nav className="sticky top-0 z-50 flex w-full flex-wrap items-center justify-between bg-p-dblue p-4 py-1">
         {/* Left side */}
         <div className="flex space-x-0">
+          {/* div button hack again */}
+          {showBack && (
+            <div
+              className="flex cursor-pointer items-center"
+              onClick={() => {
+                router.back();
+              }}
+            >
+              <div className="relative h-10 w-10">
+                <svg
+                  aria-hidden="true"
+                  fill="none"
+                  stroke="white"
+                  stroke-width="1.5"
+                  viewBox="0 0 24 24"
+                  xmlns="http://www.w3.org/2000/svg"
+                >
+                  <path
+                    d="M11.25 9l-3 3m0 0l3 3m-3-3h7.5M21 12a9 9 0 11-18 0 9 9 0 0118 0z"
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                  ></path>
+                </svg>
+              </div>
+            </div>
+          )}
           <Link href="/homepage" className="flex items-center">
             <div className="relative h-[3.5rem] w-[3.5rem]">
               <Image
