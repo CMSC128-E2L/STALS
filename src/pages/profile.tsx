@@ -34,7 +34,7 @@ export default function HomePage() {
         <NavBar />
         {/* Content */}
         <div className="flex-row-2 m-10 mt-20 flex">
-          <section className="fixed mr-10 flex h-auto h-fullscreen w-2/6 flex-col items-center space-y-2 rounded-3xl bg-white p-10 text-center font-medium shadow-xl">
+          <section className="fixed mr-10 flex h-auto h-fullscreen w-2/6 flex-col items-center space-y-2 rounded-3xl bg-white p-10 font-medium shadow-xl">
             <div className="relative mt-10 flex h-[10.5rem] w-[10.5rem]">
               <Image
                 src={sessionData?.user.image ?? user.src}
@@ -92,8 +92,8 @@ export default function HomePage() {
       <div>
         <NavBar />
         {/* Content */}
-        <div className="flex-row-2 m-10 mt-20 flex">
-          <section className="fixed mr-10 flex h-auto h-fullscreen w-2/6 flex-col items-center space-y-2 rounded-3xl bg-white p-10 text-center font-medium shadow-xl">
+        <div className="flex-row-2 mt-15 m-10 flex">
+          <section className="ounded-3xl fixed mr-10 flex h-auto h-fullscreen w-2/6 flex-col items-center space-y-2 bg-white p-10 font-medium shadow-xl">
             <div className="relative mt-10 flex h-[10.5rem] w-[10.5rem]">
               <Image
                 src={sessionData?.user.image ?? user.src}
@@ -133,7 +133,7 @@ export default function HomePage() {
             </div>
           </section>
 
-          <section className="mr-10 flex h-auto h-fullscreen w-1/6 flex-col items-center space-y-2 rounded-3xl bg-white p-10 text-center font-medium shadow-xl "></section>
+          <section className="mr-10 flex h-auto h-fullscreen w-1/6 flex-col items-center space-y-2 rounded-3xl bg-white p-10 text-center font-medium"></section>
 
           <section className="ml-96 flex w-full flex-col">
             <div className="w-full rounded-3xl p-10 shadow-lg">
@@ -158,7 +158,7 @@ export default function HomePage() {
         <NavBar />
         {/* Content */}
         <div className="flex-row-2 m-10 mt-20 flex">
-          <section className="fixed mr-10 flex h-auto h-fullscreen w-2/6 flex-col items-center space-y-2 rounded-3xl bg-white p-10 text-center font-medium shadow-xl">
+          <section className="fixed mr-10 flex h-auto h-fullscreen w-2/6 flex-col items-center space-y-2 rounded-3xl bg-white p-10 font-medium shadow-xl">
             <div className="relative mt-10 flex h-[10.5rem] w-[10.5rem]">
               <Image
                 src={sessionData?.user.image ?? user.src}
