@@ -14,6 +14,7 @@ export const accommodationGetManyExperiementSchema = z.object({
   tagArray: z.string().array().optional(),
   price_min: z.number().optional(),
   price_max: z.number().optional(),
+  is_archived: z.boolean().optional(),
   limit: z.number().min(1).max(100).nullish(),
   cursor: z.string().nullish(), // <-- "cursor" needs to exist, but can be any type
 });
@@ -98,6 +99,7 @@ export const roomEditSchema = z.object({
 
 export const roomGetManySchema = z.object({
   accommodationId: z.string().min(3),
+  is_archived: z.boolean(),
 });
 
 export const roomGetOneSchema = z.object({

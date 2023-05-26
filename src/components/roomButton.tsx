@@ -10,7 +10,9 @@ const RoomButton: React.FC<{
     <Link href={`/room/${id}`}>
       <button className="accPButton flex flex-none flex-col px-8">
         {/*  */}
-        <label className="bold text-xl">Room {String(roomIndex)}</label>
+        <label className="bold self-center text-lg">
+          Room {String(roomIndex + 1)}
+        </label>
         <p className="text-md self-center px-1 italic ">
           {status ? "Occupied" : "Unoccupied"}
         </p>

@@ -206,6 +206,9 @@ export const accommodationRouter = createTRPCRouter({
         take: limit + 1,
         cursor: cursor ? { id: cursor } : undefined,
         where: {
+          ...(input.is_archived !== undefined
+            ? { is_archived: input.is_archived }
+            : {}),
           OR: [
             {
               name: {

@@ -1,15 +1,16 @@
 import NavBar from "~/components/navbar";
 import { type RouterOutputs, api } from "~/utils/api";
-import { useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { useForm } from "react-hook-form";
 import { type z } from "zod";
 import { accommodationGetManyExperiementSchema } from "~/utils/apitypes";
-import { AccommodationType } from "@prisma/client";
-import { titleCase } from "~/utils/helpers";
 import LoadingSpinner from "~/components/loadingSpinner";
 import SearchItem from "~/components/SearchItem";
-import { UseInfiniteQueryResult } from "@tanstack/react-query";
+import { type UseInfiniteQueryResult } from "@tanstack/react-query";
+import { useForm, useWatch, type Control } from "react-hook-form";
+import jsPDF from "jspdf";
+import autoTable from "jspdf-autotable";
+import { Accommodation } from "@prisma/client";
 
 type HandlePriceRangeChangeType = (
   event: React.ChangeEvent<HTMLInputElement>,
@@ -35,10 +36,12 @@ export default function HomePage() {
     tagArray: [],
     price_min: undefined,
     price_max: undefined,
+    is_archived: false,
   });
   const {
     register,
     handleSubmit,
+    control,
     formState: { errors },
   } = useForm({
     resolver: zodResolver(accommodationGetManyExperiementSchema),
@@ -51,6 +54,93 @@ export default function HomePage() {
     },
   );
 
+  // pdf download logic
+  const calledOnce = useRef(false);
+  const [pdfdownload, setpdfdownload] = useState(false);
+  const pdf = new jsPDF();
+  // hack needs the useRef inorder to not trigger 2 times per download pdf.
+  useEffect(() => {
+    if (calledOnce.current) {
+      calledOnce.current = false;
+      return;
+    }
+    const info: (string | number)[][] = [];
+    const filters: { [key: string]: string | any } = {
+      location: userInputs.barangay ? userInputs.barangay : "All Locations",
+      accomType: userInputs.typeArray?.length
+        ? userInputs.typeArray.join(", ")
+        : "All Types",
+      priceRange:
+        getPriceRangeLabel(userInputs.price_min, userInputs.price_max) ||
+        "All Prices",
+    };
+
+    if (pdfdownload) {
+      calledOnce.current = true;
+      setpdfdownload(false);
+
+      accommodationEntries?.pages.map((page, nyom: number) => {
+        page?.items?.map((i: Accommodation) => {
+          // eslint-disable-next-line @typescript-eslint/no-unsafe-argument
+          info.push([
+            i.name,
+            i.address ?? "",
+            i.landlord,
+            i.contact_number,
+            i.num_of_rooms,
+          ]);
+        });
+      });
+    }
+
+    autoTable(pdf, {
+      head: [["Filter", "Value"]],
+      body: [
+        ["Location", filters.location],
+        ["Type", filters.accomType],
+        ["Price Range", filters.priceRange],
+      ],
+      didDrawPage: function (data) {
+        // Page Header
+        pdf.setFillColor(29, 93, 154);
+        pdf.rect(10, 10, pdf.internal.pageSize.width - 20, 15, "F");
+        pdf.setFont("helvetica", "bold");
+        pdf.setFontSize(18);
+        pdf.setTextColor(255, 255, 255);
+        const textX = 20;
+        const textY = 20;
+        pdf.text("STALS", textX, textY);
+      },
+      margin: { top: 30 },
+      columnStyles: { 0: { cellWidth: 30 } },
+    });
+
+    autoTable(pdf, {
+      head: [["Name", "Address", "Landlord", "Contact", "Rooms"]],
+      body: info,
+
+      didDrawPage: function (data) {
+        const pageCount = pdf.getNumberOfPages();
+        const footerStr = `Page ${data.pageNumber} of ${pageCount}`;
+
+        pdf.setFontSize(10);
+        pdf.setTextColor(0, 0, 0);
+        pdf.text(
+          footerStr,
+          data.settings.margin.left,
+          pdf.internal.pageSize.height - 10,
+        );
+      },
+      columnStyles: {
+        0: { cellWidth: 30 },
+        1: { cellWidth: 60 },
+        2: { cellWidth: 40 },
+      },
+    });
+    if (calledOnce.current) pdf.save("STALS.pdf");
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [pdfdownload]);
+
   const {
     isLoading: queryLoading,
     data: accommodationEntries,
@@ -59,6 +149,21 @@ export default function HomePage() {
     hasNextPage,
     refetch: refetchAccoms,
   } = methods;
+
+  function getPriceRangeLabel(
+    min: number | undefined,
+    max: number | undefined,
+  ): string {
+    if (min === undefined && max === undefined) {
+      return "";
+    } else if (min === undefined) {
+      return `Up to P${max !== undefined ? max : ""}`; //P${max}
+    } else if (max === undefined) {
+      return `P${min} and above`;
+    } else {
+      return `P${min} - P${max}`;
+    }
+  }
 
   // fix this loads hundreds of times
   // const [loadingnext, setloadingnext] = useState(false);
@@ -199,27 +304,66 @@ export default function HomePage() {
     }
   };
 
-  return (
-    <>
-      <div className="flex h-full flex-row pt-[60px]">
-        <form
-          className="fixed h-[100%] w-[200px]"
-          // eslint-disable-next-line @typescript-eslint/no-misused-promises
-          onSubmit={handleSubmit(
-            (d: z.infer<typeof accommodationGetManyExperiementSchema>) => {
-              setuserIntpus((prevState) => ({
-                ...prevState,
-                ...d,
-              }));
-              void refetchAccoms();
-            },
-          )}
-        >
-          <NavBar register={register} name={"name"} />
+  function AccommodationsList({
+    control,
+  }: {
+    control: Control<z.infer<typeof accommodationGetManyExperiementSchema>>;
+  }) {
+    useWatch({ control });
 
-          {/* Sidebar */}
-          {/* Filters */}
-          <div className="flex h-[100%] flex-col overflow-y-auto bg-p-lblue p-5">
+    return (
+      <div className="grow">
+        <div className="flex flex-row flex-wrap">
+          {accommodationEntries ? (
+            accommodationEntries?.pages.map((page, i: number) => (
+              <SearchAccoms key={i} items={page?.items} />
+            ))
+          ) : (
+            <LoadingSpinner />
+          )}
+        </div>
+        {isFetchingNextPage ? (
+          <LoadingSpinner />
+        ) : hasNextPage ? (
+          <div className="w-full text-center">
+            <button
+              className="m-5 w-[50%] rounded-xl bg-p-dblue p-3 text-xl text-white"
+              onClick={() => {
+                void fetchNextPage();
+                // eslint-disable-next-line
+                setuserIntpus((prevInputs: any) => ({
+                  ...prevInputs,
+                }));
+              }}
+              disabled={!hasNextPage || isFetchingNextPage}
+            >
+              Load More
+            </button>
+          </div>
+        ) : (
+          ""
+        )}
+      </div>
+    );
+  }
+
+  return (
+    <div>
+      <form
+        // eslint-disable-next-line @typescript-eslint/no-misused-promises
+        onSubmit={handleSubmit(
+          (d: z.infer<typeof accommodationGetManyExperiementSchema>) => {
+            setuserIntpus((prevState) => ({
+              ...prevState,
+              ...d,
+            }));
+            void refetchAccoms();
+          },
+        )}
+      >
+        <NavBar register={register} name={"name"} />
+        <div className="flex">
+          <div className="flex min-w-[190px] flex-col overflow-y-auto bg-p-lblue p-5">
             {/* Location */}
             <div className="mb-4">
               <h2 className="mb-2 text-base font-bold">Location</h2>
@@ -267,65 +411,6 @@ export default function HomePage() {
               ))}
             </div>
 
-            {/* Capacity */}
-            <div className="mb-4 flex flex-col">
-              <h2 className="mb-2 text-base font-bold">Capacity</h2>
-              <label className="mb-1">
-                <input
-                  type="radio"
-                  className="form-radio ml-3"
-                  name="radio-group"
-                  value="option1"
-                  defaultChecked
-                />
-                <span className="filter-text">Solo</span>
-              </label>
-
-              <label className="mb-1">
-                <input
-                  type="radio"
-                  className="form-radio ml-3"
-                  name="radio-group"
-                  value="option1"
-                  defaultChecked
-                />
-                <span className="filter-text">2 Persons</span>
-              </label>
-
-              <label className="mb-1">
-                <input
-                  type="radio"
-                  className="form-radio ml-3"
-                  name="radio-group"
-                  value="option1"
-                  defaultChecked
-                />
-                <span className="filter-text">3 Persons</span>
-              </label>
-
-              <label className="mb-1">
-                <input
-                  type="radio"
-                  className="form-radio ml-3"
-                  name="radio-group"
-                  value="option1"
-                  defaultChecked
-                />
-                <span className="filter-text">4 Persons</span>
-              </label>
-
-              <label className="">
-                <input
-                  type="radio"
-                  className="form-radio ml-3"
-                  name="radio-group"
-                  value="option1"
-                  defaultChecked
-                />
-                <span className="filter-text">More than 4</span>
-              </label>
-            </div>
-
             {/* Include */}
             <div className="mb-4">
               <h2 className="mb-2 text-base font-bold">Include</h2>
@@ -334,42 +419,21 @@ export default function HomePage() {
                 placeholder="Type for suggestions..."
               ></input>
             </div>
-            <div className="mt-16"></div>
+            {/* should not be a button since the form will assume it is a submit button */}
+            {/* hack is to use a div with onClick */}
+            <div
+              className="text-md cursor-pointer rounded-full bg-p-dblue p-2 text-center text-white"
+              onClick={() => {
+                setpdfdownload(true);
+              }}
+            >
+              Download Pdf
+            </div>
           </div>
-          <div />
-        </form>
-
-        {/* Content */}
-
-        {/* Accommodations List */}
-        <div className="absolute left-[200px] -z-10">
-          {/* <input className="mt-10 ml-10 py-1 outline outline-1 outline-p-dblue" placeholder="Search"/> */}
-          <div className="flex flex-row flex-wrap">
-            {accommodationEntries ? (
-              accommodationEntries?.pages.map((page, i: number) => (
-                <SearchAccoms key={i} items={page?.items} />
-              ))
-            ) : (
-              <LoadingSpinner />
-            )}
-          </div>
-          <button
-            onClick={() => {
-              void fetchNextPage();
-            }}
-            disabled={!hasNextPage || isFetchingNextPage}
-          >
-            {isFetchingNextPage ? (
-              <LoadingSpinner />
-            ) : hasNextPage ? (
-              "Load More"
-            ) : (
-              "End"
-            )}
-          </button>
+          <AccommodationsList control={control} />
         </div>
-      </div>
-    </>
+      </form>
+    </div>
   );
 }
 
@@ -413,6 +477,22 @@ const Location: React.FC<{
           type="text"
           value={value}
           onChange={handleChange}
+          onKeyDown={(evt) => {
+            if (evt.key == "Enter") {
+              if (barangayEntries && barangayEntries?.length > 0) {
+                barangayEntries.reverse().forEach((entry) => {
+                  if (
+                    entry.barangay &&
+                    entry.barangay.toLowerCase().includes(value.toLowerCase())
+                  ) {
+                    handleSuggestionClick(entry.barangay);
+                    console.log("proc");
+                    return;
+                  }
+                });
+              }
+            }
+          }}
           className="filter-search"
           placeholder="Type for suggestions..."
         />
@@ -462,8 +542,15 @@ const SearchAccoms: React.FC<{
   if (items && items.length != 0) {
     return (
       <>
-        {items?.map(({ id, name }) => (
-          <SearchItem key={id + name} id={id} name={name} />
+        {items?.map(({ id, name, price, location, tags }) => (
+          <SearchItem
+            key={id + name}
+            id={id}
+            name={name}
+            price={price}
+            location={location}
+            tags={tags}
+          />
         ))}
       </>
     );

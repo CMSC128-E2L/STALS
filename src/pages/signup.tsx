@@ -7,10 +7,14 @@ import { type RouterInputs, api } from "~/utils/api";
 import { userEditSchema } from "~/utils/apitypes";
 import { useEffect, useState } from "react";
 import LoadingSpinner from "~/components/loadingSpinner";
+import TermsCondition from "~/components/termsAgreement";
 
 const Signup: NextPage = () => {
   const userSession = useSession({ required: true });
   const [checkingUser, setCheckingUser] = useState(true);
+  const [showTerms, setShowTerms] = useState(false);
+
+  const [toggleValue, setToggleValue] = useState("USER");
 
   useEffect(() => {
     if (userSession.status === "authenticated")
@@ -29,6 +33,7 @@ const Signup: NextPage = () => {
   const {
     register,
     handleSubmit,
+    setValue,
     formState: { errors },
   } = useForm({
     resolver: zodResolver(userEditSchema),
@@ -39,6 +44,12 @@ const Signup: NextPage = () => {
       window.location.replace("/homepage");
     },
   });
+
+  const handleToggleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const newValue = e.target.checked ? "LANDLORD" : "USER";
+    setValue("type", newValue);
+    setToggleValue(newValue);
+  };
 
   if (checkingUser) {
     return <LoadingSpinner />;
@@ -62,6 +73,21 @@ const Signup: NextPage = () => {
               Create an account to get started
             </p>
           </div>
+
+          {showTerms && (
+            <div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50">
+              <div className="rounded-xl bg-white p-8">
+                <TermsCondition />
+
+                <button
+                  className="mt-4 rounded bg-blue-500 px-4 py-2 text-white hover:bg-blue-600"
+                  onClick={() => setShowTerms(false)}
+                >
+                  Close
+                </button>
+              </div>
+            </div>
+          )}
 
           <form
             // eslint-disable-next-line @typescript-eslint/no-misused-promises
@@ -124,35 +150,80 @@ const Signup: NextPage = () => {
                 <p>{errors.contact_number?.message as string}</p>
               )}
 
-              <div className="flex justify-center rounded-xl px-2 py-2 shadow shadow-gray-400/100">
-                <input
+              <div className="flex justify-center rounded-xl px-2 py-2 text-base">
+                {/* <input
                   type="radio"
                   id="user"
                   value={"USER"}
                   {...register("type")}
                 />
-                <label className="px-2"> User </label>
+                <label className="pl-2 pr-10"> User </label>
                 <input
                   type="radio"
                   id="landlord"
                   value={"LANDLORD"}
                   {...register("type")}
                 />
-                <label className="px-2"> Landlord </label>
-                <br />
+                <label className="pl-2"> Landlord </label>
+                <br /> */}
+
+                <label className="inline-flex cursor-pointer items-center rounded-md p-0 dark:text-gray-800">
+                  <input
+                    type="checkbox"
+                    className="peer hidden"
+                    checked={toggleValue === "LANDLORD"}
+                    value={toggleValue === "LANDLORD" ? "LANDLORD" : "USER"}
+                    {...register("type")}
+                    onChange={handleToggleChange}
+                  />
+                  <span
+                    className={`rounded-l-md px-5 py-1 ${
+                      toggleValue === "USER"
+                        ? "bg-gray-200 font-bold dark:bg-blue-500"
+                        : "bg-blue-500 dark:bg-gray-200"
+                    }`}
+                  >
+                    User
+                  </span>
+                  <span
+                    className={`rounded-r-md px-4 py-1 ${
+                      toggleValue === "LANDLORD"
+                        ? "bg-gray-200 font-bold dark:bg-blue-500"
+                        : "bg-blue-500 dark:bg-gray-200"
+                    }`}
+                  >
+                    Landlord
+                  </span>
+                </label>
+
+                {/* <ToggleSwitch/> */}
+              </div>
+
+              <div className="flex justify-center">
+                <input type="checkbox" required></input>
+
+                <label className="pl-3 text-sm text-gray-500 ">
+                  I have reviewed and agreed to the
+                </label>
+                <button
+                  className=" pl-1 text-sm text-gray-500 underline"
+                  onClick={() => setShowTerms(true)}
+                >
+                  Terms and Agreements
+                </button>
               </div>
             </div>
             <br />
             <div>
               <div className="py-2">
-                <button className="group relative flex w-full justify-center rounded-full bg-p-dblue px-4 py-2 font-bold text-white shadow shadow-gray-400/100">
+                <button className="group flex w-full justify-center rounded-full bg-p-dblue px-4 py-2 font-bold text-white shadow shadow-gray-400/100">
                   Sign up
                 </button>
               </div>
               <div>
                 <button
                   onClick={() => void signOut()}
-                  className="group relative flex w-full justify-center rounded-full bg-slate-500 px-4 py-2 font-bold text-white shadow shadow-gray-400/100"
+                  className="group flex w-full justify-center rounded-full bg-slate-500 px-4 py-2 font-bold text-white shadow shadow-gray-400/100"
                 >
                   Continue as guest
                 </button>

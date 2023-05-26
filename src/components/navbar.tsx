@@ -15,7 +15,7 @@ export const NavBar: React.FC<NavBarProps> = ({ register, name }) => {
   return (
     <>
       {/* Navigation bar */}
-      <nav className="fixed top-0 z-50 flex w-full flex-wrap items-center justify-between bg-p-dblue p-4 py-1">
+      <nav className="sticky top-0 z-50 flex w-full flex-wrap items-center justify-between bg-p-dblue p-4 py-1">
         {/* Left side */}
         <div className="flex space-x-0">
           <Link href="/homepage" className="flex items-center">
@@ -89,8 +89,6 @@ const ProfileButton: React.FC = () => {
   };
 
   const UserInfo: React.FC = () => {
-    const { data: sessionData } = useSession();
-
     if (sessionData) {
       return (
         <Link href={"/profile"} className="dropdown-buttons">
@@ -118,8 +116,6 @@ const ProfileButton: React.FC = () => {
   };
 
   const UserDropdown: React.FC = () => {
-    const { data: sessionData } = useSession();
-
     if (sessionData) {
       return (
         <div className="profile-dropdown">

@@ -8,23 +8,26 @@ import { api } from "~/utils/api";
 import { useRouter } from "next/router";
 import { dynamicRouteID } from "~/utils/helpers";
 import LoadingSpinner from "~/components/loadingSpinner";
+import Error404 from "~/pages/404";
+import { useSession } from "next-auth/react";
 
 export default function Accommodation() {
-  const { shouldReturn, id } = dynamicRouteID(useRouter());
-  if (shouldReturn) return;
+  const { id } = dynamicRouteID(useRouter());
 
-  const { data: firstData, isLoading: queryLoading } =
+  const { data: accommData, isLoading: accommLoading } =
     api.accommodation.getOne.useQuery(id);
 
   const { data: ImageList, isLoading: imageLoading } =
     api.file.getAccommImages.useQuery({ id });
 
-  const { data: RoomList, isLoading: roomLoading } =
-    api.room.getMany.useQuery(id);
-
-  const { data: getAvgRatings } = api.accommodation.getAvgRatings.useQuery({
+  const { data: RoomList, isLoading: roomLoading } = api.room.getMany.useQuery({
     id: id,
+    status: false,
   });
+  const { data: sessionData } = useSession();
+  if (accommData === null) {
+    return Error404();
+  }
 
   return (
     <div className="flex h-screen flex-col">
@@ -32,19 +35,13 @@ export default function Accommodation() {
       <NavBar />
 
       {/* BODY */}
-      <div className="mt-10 flex flex-auto flex-col">
-        {/* LANDLORD PROFILE 
-        CAN BE MADE INTO A COMPONENT */}
-        <div className="position-left ml-10 mt-10 w-1/4 p-4 py-3">
-          <UserProfile />
-        </div>
-
+      <div className="mt-20 flex flex-auto flex-col">
         {/* cONTAINS THE ACCOMMODATION INFO */}
         <div className="flex flex-row justify-center object-contain">
           {/* Box that contains the accommodation thingy */}
-          <div className="margin-40 flex w-11/12 gap-2 rounded-md bg-p-lblue p-4 py-4 shadow-md">
+          <div className="flex w-11/12 rounded-md bg-p-lblue shadow-md">
             {/* GALLERY */}
-            <div className="w-1/3 flex-none p-4">
+            <div className="w-1/4 flex-none p-4">
               <div className="grid grid-cols-2 gap-4">
                 {/* main image */}
                 {!imageLoading && ImageList ? (
@@ -95,13 +92,13 @@ export default function Accommodation() {
             </div>
 
             {/* DESCRIPTION */}
-            <div className="flex w-3/4 flex-initial flex-col p-4">
+            <div className="w-3/4 flex-none p-4">
               {/* ACCOMMODATION NAME + edit + delete thngy idk*/}
               <div className="flex flex-row items-stretch">
                 {/* Left column (accommodation name) */}
-                <div className="flex w-3/4 items-center px-3">
-                  {!queryLoading ? (
-                    <h1 className="form-h1">{firstData?.name}</h1>
+                <div className="flex shrink items-center px-3">
+                  {!accommLoading ? (
+                    <h1 className="form-h1">{accommData?.name}</h1>
                   ) : (
                     <h1 className="form-h1 w-[100%] animate-pulse rounded-full bg-gray-400">
                       &nbsp;&nbsp;
@@ -110,7 +107,7 @@ export default function Accommodation() {
                 </div>
 
                 {/* Right column: the editing thingy ig */}
-                <div className="basis-1/4">
+                <div className="shrink">
                   {/* TODO: So if a registered user is viewing it (remove hidden to show teehee)
                   
                   WONDERING KUNG UNG IMPLEMENTATION NA LANG NITO VIA COMPONENT OR NAH*/}
@@ -198,7 +195,7 @@ export default function Accommodation() {
               </div>
 
               {/* ACCOMMODATION DESCRIPTION */}
-              <div className="px-4 text-xl italic">{firstData?.type}</div>
+              <div className="px-4 text-xl italic">{accommData?.type}</div>
 
               {/* STATS */}
 
@@ -224,8 +221,8 @@ export default function Accommodation() {
                       />
                     </svg>
                   </div>
-                  {!queryLoading ? (
-                    <div className="">{firstData?.contact_number}</div>
+                  {!accommLoading ? (
+                    <div className="">{accommData?.contact_number}</div>
                   ) : (
                     <div className="w-10 animate-pulse overflow-hidden rounded-full bg-gray-400">
                       &nbsp;&nbsp;
@@ -277,8 +274,8 @@ export default function Accommodation() {
                       />
                     </svg>
                   </div>
-                  {!queryLoading ? (
-                    <div className="">{firstData?.location}</div>
+                  {!accommLoading ? (
+                    <div className="">{accommData?.location}</div>
                   ) : (
                     <div className="w-10 animate-pulse overflow-hidden rounded-full bg-gray-400">
                       &nbsp;&nbsp;
@@ -327,7 +324,7 @@ export default function Accommodation() {
                   )} */}
 
                   {/* TODO: since the tags of an accommodation is just a string, just print that string here.*/}
-                  <p className="py-1 text-sm">{firstData?.tags}</p>
+                  <p className="py-1 text-sm">{accommData?.tags}</p>
                 </div>
 
                 {/* Other deets */}
@@ -338,11 +335,11 @@ export default function Accommodation() {
                       <h1 className="form-h2">Price</h1>
                       <h1 className="form-h2">Capacity</h1>
                       {/*TODO: CONTRACT LENGTH IS A CONDITIONAL THAT ONLY APPEARS IF THE ACCOMMODATION IS A DORMITORY */}
-                      <h1 className="form-h2">{firstData?.contract_length}</h1>
+                      <h1 className="form-h2">{accommData?.contract_length}</h1>
                     </div>
 
                     <div className="flex flex-col gap-2 p-2">
-                      <p>{firstData?.price} Pesos</p>
+                      <p>{accommData?.price} Pesos</p>
                       <p>(min) to (max) people</p>
                       <p>1 Academic Year</p>
                     </div>
@@ -351,7 +348,7 @@ export default function Accommodation() {
 
                 {/* Rooms 
                 TODO: This is gonna get the list of rooms in prisma/schema.prisma and load the component <RoomButton /> (components/RoomButton.tsx) with the room id.*/}
-                <div className="flex flex-row flex-nowrap gap-3 overflow-x-scroll px-3 py-3">
+                <div className="flex flex-row items-stretch space-x-3 overflow-x-scroll px-3 py-3">
                   {RoomList ? (
                     RoomList?.map((room, i: number) => (
                       <RoomButton
@@ -366,32 +363,40 @@ export default function Accommodation() {
                   )}
 
                   {/* TODO: ADD ROOM BUTTON SHOULD ONLY APPEAR IF LANDLORD IS LOOKING AT PAGE */}
-                  <Link href={`/accommodation/${id}/room/add`}>
-                    <button className="flex flex-col items-center rounded-lg border-2 border-dashed border-p-black/50 px-8">
-                      <svg
-                        xmlns="http://www.w3.org/2000/svg"
-                        fill="none"
-                        viewBox="0 0 24 24"
-                        strokeWidth="1.5"
-                        stroke="currentColor"
-                        className="h-6 w-6"
+                  {sessionData?.profile.type === "LANDLORD" &&
+                    accommData?.landlord === sessionData?.user?.id && (
+                      <Link
+                        href={`/accommodation/${id}/room/add`}
+                        className="flex items-stretch"
                       >
-                        <path
-                          strokeLinecap="round"
-                          strokeLinejoin="round"
-                          d="M12 4.5v15m7.5-7.5h-15"
-                        />
-                      </svg>
-                      <label className="text-xs">Add Room</label>
-                    </button>
-                  </Link>
+                        <button className="flex flex-col items-center rounded-lg border-2 border-dashed border-p-black/50 px-8">
+                          <svg
+                            xmlns="http://www.w3.org/2000/svg"
+                            fill="none"
+                            viewBox="0 0 24 24"
+                            strokeWidth="1.5"
+                            stroke="currentColor"
+                            className="h-6 w-6"
+                          >
+                            <path
+                              strokeLinecap="round"
+                              strokeLinejoin="round"
+                              d="M12 4.5v15m7.5-7.5h-15"
+                            />
+                          </svg>
+                          <label className="text-xs">Add Room</label>
+                        </button>
+                      </Link>
+                    )}
                 </div>
               </div>
-
-              <button className="accPButton mx-3 mb-2 w-1/5 self-end px-3 text-lg">
-                {" "}
-                Download{" "}
-              </button>
+              <div className="flex flex-row items-stretch">
+                <UserProfile />
+                <button className="accPButton mx-3 mb-2 w-1/5 self-end px-3 text-lg">
+                  {" "}
+                  Download{" "}
+                </button>
+              </div>
 
               {/* Rest */}
               <div className="flex grow flex-row divide-x-2 divide-p-black">
@@ -401,13 +406,13 @@ export default function Accommodation() {
                     <div className="basis-1/2 place-self-center text-center ">
                       {/* wao */}
                       <p className="text-5xl font-bold">
-                        {getAvgRatings?.average_rating}
+                        {accommData?.average_rating ?? 0} / 5
                       </p>
-                      <p>out of {getAvgRatings?.total_reviews} reviews</p>
+                      <p>out of {accommData?.total_reviews ?? 0} reviews</p>
                     </div>
 
                     {/* TODO: For this, go through the review array in schema.prisma and get the average ratings the plug the number in this component.*/}
-                    <StarRow rating={getAvgRatings?.average_rating} />
+                    <StarRow rating={accommData?.average_rating ?? 0} />
                   </div>
                 </div>
                 {/* Review section */}
@@ -418,7 +423,7 @@ export default function Accommodation() {
                       {/* UserProfile must be the User that made that review*/}
                       <UserProfile />
                       {/* StarRow is the rating of that review */}
-                      <StarRow rating={getAvgRatings?.average_rating} />
+                      <StarRow rating={accommData?.average_rating} />
                     </div>
                     {/* This is the review */}
                     <p className="line-clamp-2 text-sm">

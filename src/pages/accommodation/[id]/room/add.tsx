@@ -8,6 +8,7 @@ import { dynamicRouteID } from "~/utils/helpers";
 import { useEffect } from "react";
 import Link from "next/link";
 import bgpic from "public/images/bg-05.png";
+import toast, { Toaster } from "react-hot-toast";
 
 export default function AddRoom() {
   const { shouldReturn, id } = dynamicRouteID(useRouter());
@@ -54,9 +55,11 @@ export default function AddRoom() {
               (d) => {
                 addRoom.mutate(d);
                 window.location.replace(`/accommodation/${id}`);
+                toast("Successfully Added Room!");
               },
               (error) => {
                 console.log(error);
+                toast("Cannot Add Room!");
               },
             )}
           >
@@ -93,8 +96,8 @@ export default function AddRoom() {
                     },
                   })}
                 >
-                  <option value="yes">Occupied</option>
                   <option value="no">Unoccupied</option>
+                  <option value="yes">Occupied</option>
                 </select>
               </div>
               <div>

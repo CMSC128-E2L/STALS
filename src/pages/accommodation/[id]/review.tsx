@@ -1,16 +1,35 @@
 import NavBar from "~/components/navbar";
-import UserProfile from "~/components/userProfile";
-import StarRow from "~/components/starRow";
-import RoomButton from "~/components/roomButton";
+import { useForm } from "react-hook-form";
+import { zodResolver } from "@hookform/resolvers/zod";
+import { reviewAddSchema } from "~/utils/apitypes";
 import Link from "next/link";
 import Image from "next/image";
-import { api } from "~/utils/api";
 import { useRouter } from "next/router";
+import { type RouterInputs, api } from "~/utils/api";
 import { dynamicRouteID } from "~/utils/helpers";
+import { useEffect } from "react";
+import UserProfile from "~/components/userProfile";
 
 export default function Accommodation() {
   const { shouldReturn, id } = dynamicRouteID(useRouter());
-  if (shouldReturn) return;
+
+  const {
+    register,
+    handleSubmit,
+    setValue,
+    formState: { errors },
+  } = useForm<RouterInputs["review"]["add"]>({
+    resolver: zodResolver(reviewAddSchema),
+    defaultValues: {
+      accommodationId: "",
+    },
+  });
+
+  useEffect(() => {
+    setValue("accommodationId", id);
+  }, [id, setValue]);
+
+  const addReview = api.review.add.useMutation();
 
   const { data: firstData, isLoading: queryLoading } =
     api.accommodation.getOne.useQuery(id);
@@ -294,69 +313,109 @@ export default function Accommodation() {
                   Facebook link
                 </div>
               </div>
-
-              <div className="grid h-10 grid-cols-2 justify-items-stretch gap-4">
-                <div className="flex items-center px-4 py-3">
-                  <h1 className="text-start text-2xl">Ratings and Reviews</h1>
-                </div>
-                <div className="text-gray-800flex items-center justify-center justify-self-end py-2 pt-4">
-                  <Link
-                    href="ye"
-                    className="justify-self-end pt-3 text-end text-xxs underline"
-                  >
-                    Report a problem
-                  </Link>
-                </div>
-              </div>
-
-              <div className="grid h-40 grid-cols-1 justify-items-stretch gap-4">
+              <div className="h-50 grid grid-cols-1 justify-items-stretch gap-4">
                 <div className="w-auto flex-row space-x-[2%] pl-3 pt-5">
-                  <textarea
-                    rows={4}
-                    className="w-full border-0 bg-white px-0 text-sm text-gray-900 focus:ring-0 dark:bg-gray-800 dark:text-white dark:placeholder-gray-400"
-                    placeholder="Write a review..."
-                  ></textarea>
+                  <form
+                    // https://github.com/orgs/react-hook-form/discussions/8020
+                    onSubmit={(...args) =>
+                      void handleSubmit(
+                        (d) => {
+                          addReview.mutate(d);
+                        },
+                        (e) => {
+                          console.log(e);
+                        },
+                      )(...args)
+                    }
+                  >
+                    <div className="mb-4 w-full rounded-[15px] border border-gray-200 bg-gray-50">
+                      {/* <div className="flex items-center justify-between px-3 py-2 border-b"> */}
 
-                  {/* <form>
+                      <div className="grid h-10 grid-cols-2 justify-items-stretch gap-4 pl-4">
+                        <div className="flex items-center">
+                          <h1 className="text-start text-2xl font-bold">
+                            Ratings and Reviews
+                          </h1>
+                        </div>
+
+                        <div className="text-gray-800flex items-center justify-center justify-self-end pr-4 pt-2">
+                          <Link
+                            href="ye"
+                            className="justify-self-end pt-3 text-end text-xxs underline"
+                          >
+                            Report a problem
+                          </Link>
+                        </div>
+                      </div>
+                      {/* </div> */}
+                      <div className="rounded-b-lg bg-white px-4 py-2">
+                        <label className="sr-only">Publish post</label>
+                        <textarea
+                          id="editor"
+                          rows={3}
+                          className="block w-full border-0 bg-white px-3 pt-2 text-sm text-gray-800 focus:ring-0"
+                          placeholder="Write a review"
+                          {...register("review")}
+                        ></textarea>
+
                         <input
-                        type="text"
-                        placeholder="Add a review here"
-                        className="h-40 rounded-xl px-2 py-2 w-full"
-                        //   {...register("first_name")}
-                        required
-                        />
-                    </form> */}
-                </div>
-              </div>
+                          type="number"
+                          placeholder="rating"
+                          {...register("rating", { valueAsNumber: true })}
+                        ></input>
+                      </div>
 
-              {/* Review box */}
-              {/* <div className="grid grid-cols-2 justify-items-start flex grow flex-row">
-                <div className="w-full p-3">
-                    <div className="flex flex-row">
-                    <h1 className="text-start text-2xl">Ratings and Reviews</h1>
-
-                    <Link href="ye" className="text-end text-xxs underline pt-3 justify-self-end">
-                      Report a problem
-                    </Link>
+                      <div className="grid h-10 grid-cols-1 justify-items-stretch px-2 pt-2">
+                        <div className="justify-self-end pr-2">
+                          <button
+                            type="submit"
+                            className="inline-flex items-center justify-self-end rounded-lg bg-blue-700 px-10 py-1 text-center text-sm font-medium text-white hover:bg-blue-800 focus:ring-4 focus:ring-blue-200 dark:focus:ring-blue-900"
+                          >
+                            Publish post
+                          </button>
+                        </div>
+                      </div>
                     </div>
-                    
-                    <form>
-                        <input
-                        type="text"
-                        placeholder="First Name"
-                        className="rounded-xl px-2 py-2 shadow shadow-gray-400/100 h-2/3 w-full"
-                        //   {...register("first_name")}
-                        required
-                        />
-                    </form>
+                  </form>
                 </div>
               </div>
 
-              <div> */}
+              {/* <div className="grid h-40 grid-cols-1 justify-items-stretch gap-4">
 
-              {/* </div> */}
+              </div> */}
 
-              {/* Rest */}
+              <div className="h-60 pl-3 pt-1">
+                <div className="mb-4 h-full w-full overflow-y-scroll rounded-[15px] border border-gray-200 bg-gray-50">
+                  <div>
+                    <UserProfile />
+                    <div className="flex flex-row rounded-md bg-white pl-20">
+                      <p className="line-clamp-2 text-sm">
+                        With the sects clashing against one another, there was
+                        no one who could blablahblahblah ye
+                      </p>
+                    </div>
+                  </div>
+
+                  <div>
+                    <UserProfile />
+                    <div className="flex flex-row rounded-md bg-white pl-20">
+                      <p className="line-clamp-2 text-sm">
+                        With the sects clashing against one another, there was
+                        no one who could blablahblahblah ye
+                      </p>
+                    </div>
+                  </div>
+                  <div>
+                    <UserProfile />
+                    <div className="flex flex-row rounded-md bg-white pl-20">
+                      <p className="line-clamp-2 text-sm">
+                        With the sects clashing against one another, there was
+                        no one who could blablahblahblah ye
+                      </p>
+                    </div>
+                  </div>
+                </div>
+              </div>
             </div>
           </div>
         </div>
