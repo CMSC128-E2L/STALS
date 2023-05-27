@@ -19,9 +19,6 @@ export default function Room() {
   const { shouldReturn, id } = dynamicRouteID(useRouter());
   // if (shouldReturn) return;
 
-  // const { data: accommData, isLoading: accommLoading } =
-  //   api.accommodation.getOne.useQuery(id);
-
   // const { data: sessionData } = useSession();
   // if (accommData === null) {
   //   return Error404();
@@ -34,7 +31,9 @@ export default function Room() {
     api.room.getOne.useQuery(id);
 
   const { data: accommData, isLoading: accommLoading } =
-    api.accommodation.getOne.useQuery(roomData ? roomData.accommodationId : "");
+    api.accommodation.getOne.useQuery(
+      roomData ? roomData?.accommodationId : "",
+    );
 
   const archiveRoom = api.room.archive.useMutation();
   const unarchiveRoom = api.room.unarchive.useMutation();
@@ -65,7 +64,6 @@ export default function Room() {
           {/* start ng icons if landlord ka*/}
           {sessionData?.profile.type === UserType.LANDLORD &&
             accommData?.landlord == sessionData?.user.id && (
-              // && accommData?.landlord == sessionData?.profile.id
               <div className="flex justify-center">
                 {/* BUTTON NG EDIT */}
                 <Link href={`${id}/edit`}>
@@ -271,35 +269,36 @@ export default function Room() {
               </div>
             </div>
             {/* landlord lang magsight nito */}
-            {sessionData?.profile.type == UserType.LANDLORD && (
-              <div className="mb-2 mt-2 w-1/3 rounded-xl border-2 bg-white px-5 py-3">
-                <div className="flex flex-row">
-                  <div className="relative flex h-20 w-20 flex-col rounded-full">
-                    <Image
-                      src={iconarchive}
-                      className="object-scale-down object-left"
-                      alt="Utils Icon"
-                      fill
-                    />
-                  </div>
-                  <div className="flex flex-row justify-center drop-shadow-md">
-                    <div className="ml-6 flex w-[50%] flex-col">
-                      <h1 className="text-2xl font-bold text-blue-700">
-                        Archived
-                      </h1>
-                      {!roomLoading ? (
-                        <h1 className="">
-                          {roomData?.is_archived ? "Yes" : "No"}
+            {sessionData?.profile.type === UserType.LANDLORD &&
+              accommData?.landlord == sessionData?.user.id && (
+                <div className="mb-2 mt-2 w-1/3 rounded-xl border-2 bg-white px-5 py-3">
+                  <div className="flex flex-row">
+                    <div className="relative flex h-20 w-20 flex-col rounded-full">
+                      <Image
+                        src={iconarchive}
+                        className="object-scale-down object-left"
+                        alt="Utils Icon"
+                        fill
+                      />
+                    </div>
+                    <div className="flex flex-row justify-center drop-shadow-md">
+                      <div className="ml-6 flex w-[50%] flex-col">
+                        <h1 className="text-2xl font-bold text-blue-700">
+                          Archived
                         </h1>
-                      ) : (
-                        <h1 className="">&nbsp;&nbsp;</h1>
-                      )}
-                      {/* <h1 className="text-xl font-bold text-blue-700">Without</h1> */}
+                        {!roomLoading ? (
+                          <h1 className="">
+                            {roomData?.is_archived ? "Yes" : "No"}
+                          </h1>
+                        ) : (
+                          <h1 className="">&nbsp;&nbsp;</h1>
+                        )}
+                        {/* <h1 className="text-xl font-bold text-blue-700">Without</h1> */}
+                      </div>
                     </div>
                   </div>
                 </div>
-              </div>
-            )}
+              )}
           </div>
         </div>
       </div>

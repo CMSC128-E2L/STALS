@@ -413,7 +413,7 @@ export default function Accommodation() {
                     <div className="basis-1/2 place-self-center text-center ">
                       {/* wao */}
                       <p className="text-5xl font-bold">
-                        {accommData?.average_rating ?? 0} / 5
+                        {Number(accommData?.average_rating ?? 0).toFixed(1)} / 5
                       </p>
                       <p>out of {accommData?.total_reviews ?? 0} reviews</p>
                     </div>
