@@ -164,6 +164,8 @@ model Review {
   is_archived     Boolean?
   rating          Int
   review          String?
+  date            String?
+  time            String?
 
   @@index([accommodationId])
   @@index([userId])
