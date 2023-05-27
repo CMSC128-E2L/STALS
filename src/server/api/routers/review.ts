@@ -16,8 +16,26 @@ export const reviewRouter = createTRPCRouter({
   add: protectedProcedure
     .input(reviewAddSchema)
     .mutation(async ({ ctx, input }) => {
+      // Date
+      const now = new Date();
+      const timeString = now.toLocaleString("en-US", {
+        timeZone: "Asia/Hong_Kong",
+      });
+      const timeOnly = timeString.slice(11, 19);
+      const dateOnly = now.toLocaleDateString("en-US", {
+        month: "long",
+        day: "numeric",
+        year: "numeric",
+      });
+
+      console.log(timeOnly);
+      console.log(dateOnly);
+
       const userId = ctx?.session?.user?.id;
       const { accommodationId, review, rating } = input;
+
+      const date = dateOnly;
+      const time = timeOnly;
 
       const created = ctx.prisma.review.create({
         data: {
@@ -25,6 +43,8 @@ export const reviewRouter = createTRPCRouter({
           accommodation: { connect: { id: accommodationId } },
           review,
           rating,
+          time,
+          date,
         },
       });
 
