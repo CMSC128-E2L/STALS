@@ -402,7 +402,7 @@ export default function HomePage() {
                 setpdfdownload(true);
               }}
             >
-              Download Pdf
+              Download PDF
             </div>
           </div>
           <AccommodationsList control={control} />

@@ -398,7 +398,12 @@ export default function Accommodation() {
                 </div>
               </div>
               <div className="flex flex-row items-stretch">
-                <button className="accPButton mx-3 mb-2 w-1/5 self-end px-3 text-lg">
+                <button
+                  className="accPButton mx-3 mb-2 w-1/5 self-end px-3 text-lg"
+                  onClick={() => {
+                    print();
+                  }}
+                >
                   {" "}
                   Download{" "}
                 </button>
