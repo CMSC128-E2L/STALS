@@ -139,6 +139,18 @@ export default function AddAccommodation() {
                         required
                       ></input>
                     </div>
+                    {/* Accommodation price input field */}
+                    <div className="">
+                      <label className="form-h2"> Price of Accommodation</label>
+                      <input
+                        className="add-acc-input-text-field"
+                        placeholder="Price"
+                        pattern="[0-9]+"
+                        type="text"
+                        {...register("price", { valueAsNumber: true })}
+                        required
+                      ></input>
+                    </div>
                   </div>
 
                   <div className="col-span-2">
