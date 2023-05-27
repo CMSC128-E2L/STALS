@@ -5,7 +5,7 @@ import {
   publicProcedure,
   protectedProcedure,
 } from "~/server/api/trpc";
-import { api } from "~/utils/api";
+
 import {
   reviewAddSchema,
   reviewEditSchema,
@@ -49,6 +49,7 @@ export const reviewRouter = createTRPCRouter({
         data: {
           average_rating: avg._avg.rating,
           total_reviews: count._count.rating + 1,
+          is_archived: false,
         },
       });
 
@@ -75,6 +76,15 @@ export const reviewRouter = createTRPCRouter({
     });
   }),
 
+  deleteMany: protectedProcedure
+    .input(z.string())
+    .mutation(({ ctx, input }) => {
+      const id = input;
+      return ctx.prisma.review.deleteMany({
+        where: { accommodationId: id },
+      });
+    }),
+
   // archive: protectedProcedure
   //   .input(z.object({ id: z.string(), is_archived: z.boolean() }))
   //   .mutation(({ ctx, input }) => {
@@ -83,7 +93,7 @@ export const reviewRouter = createTRPCRouter({
   //     return ctx.prisma.review.update({
   //       where: { id },
   //       data: {
-  //         is_archived: !archived,
+  //         is_archived: true,
   //       },
   //     });
   //   }),
