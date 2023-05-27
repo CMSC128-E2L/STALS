@@ -120,17 +120,19 @@ const ProfileButton: React.FC = () => {
   const UserInfo: React.FC = () => {
     if (sessionData) {
       return (
-        <Link href={"/profile"} className="dropdown-buttons">
-          <p className="text-lg font-bold text-p-rblue">
-            {`${sessionData?.profile.first_name ?? ""} ${
-              sessionData?.profile.middle_name ?? ""
-            } ${sessionData?.profile.last_name ?? ""}
+        <div className="block w-full rounded-lg p-2 text-left">
+          <Link href={"/profile"} className="">
+            <p className="text-lg font-bold text-p-rblue">
+              {`${sessionData?.profile.first_name ?? ""} ${
+                sessionData?.profile.middle_name ?? ""
+              } ${sessionData?.profile.last_name ?? ""}
             ${sessionData?.profile.Suffix ?? ""}`}
-          </p>
-          <p className="mb-5 mt-1 overflow-hidden truncate text-sm italic text-gray-400">
-            {sessionData?.user.email}
-          </p>
-        </Link>
+            </p>
+            <p className="mb-5 mt-1 overflow-hidden truncate text-sm italic text-gray-400">
+              {sessionData?.user.email}
+            </p>
+          </Link>
+        </div>
       );
     } else {
       return (
@@ -150,15 +152,23 @@ const ProfileButton: React.FC = () => {
         <div className="profile-dropdown">
           <UserInfo />
           <hr className="my-2 h-px border-0 bg-gray-200 dark:bg-gray-700"></hr>
-          <Link className="dropdown-buttons" href={"/accommodation/management"}>
-            My Accommodations
-          </Link>
-          <Link className="dropdown-buttons" href={"/accommodation/management"}>
-            My Archive
-          </Link>
-          <button className="dropdown-buttons" onClick={handleLogout}>
-            Sign Out
-          </button>
+          <div className="flex flex-col items-stretch gap-2">
+            <Link
+              className="dropdown-buttons"
+              href={"/accommodation/management"}
+            >
+              My Accommodations
+            </Link>
+            <Link
+              className="dropdown-buttons"
+              href={"/accommodation/management"}
+            >
+              My Archive
+            </Link>
+            <button className="dropdown-buttons" onClick={handleLogout}>
+              Sign Out
+            </button>
+          </div>
         </div>
       );
     } else {
