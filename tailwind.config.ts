@@ -14,6 +14,7 @@ export default {
         "p-red": "#D22B2B",
         "p-yellow": "#F5BB00",
         "p-gray": "#D9D9D9",
+        "p-dgray": "#bfbfbf",
       },
       fontSize: {
         xs: ["12px", "12px"],

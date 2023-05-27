@@ -299,35 +299,87 @@ export default function AddAccommodation() {
                     ></input>
                   </div>
                 </div>
-                <div className="col-span-2 mb-3 flex flex-col gap-3 rounded-md border border-dashed border-p-gray p-12">
-                  <label className="form-h2 text-center">
-                    Upload Accommodation Photos
-                  </label>
-                  <div>
-                    {/* Upload Photos */}
-                    <input
-                      id="file"
-                      type="file"
-                      name="file"
-                      className="sr-only"
-                    />
-                    <label
-                      htmlFor="file"
-                      className="justify-self-end object-contain"
-                    >
-                      <div className="flex flex-row">
-                        <span className="w-1/2">Drag your files here</span>
-                        <span className="formConfirm">Upload Files</span>
-                      </div>
+                {/* Manage gallery */}
+                <div>
+                  <div className="pb-3 text-center">
+                    <label className="form-h3">
+                      Upload Accommodation Photos
                     </label>
+                    <main className="container">
+                      <article
+                        aria-label="file Upload Modal"
+                        className="relative flex h-full flex-col rounded-md shadow-xl"
+                      >
+                        <section className="flex w-full flex-col gap-3 overflow-auto p-3">
+                          <header className="flex flex-col items-center justify-center rounded-md border border-dashed border-p-gray p-12">
+                            <p className="mb-3 flex flex-wrap justify-center font-semibold">
+                              <span>Drag and drop your</span>&nbsp;
+                              <span>files anywhere or</span>
+                            </p>
+                            <input
+                              id="hidden-input"
+                              type="file"
+                              multiple
+                              className="hidden"
+                            />
+                            <button
+                              id="button"
+                              className="focus:shadow-outline mt-2 rounded-sm bg-gray-200 px-3 py-1 hover:bg-gray-300 focus:outline-none"
+                            >
+                              Upload a file
+                            </button>
+                          </header>
+                          <div>
+                            <h1 className="form-h2 text-center">To Upload</h1>
+
+                            <ul
+                              id="gallery"
+                              className="-m-1 flex flex-1 flex-wrap"
+                            >
+                              <li
+                                id="empty"
+                                className="flex h-full w-full flex-col items-center justify-center text-center"
+                              >
+                                <img
+                                  className="mx-auto w-32"
+                                  src="https://user-images.githubusercontent.com/507615/54591670-ac0a0180-4a65-11e9-846c-e55ffce0fe7b.png"
+                                  alt="no data"
+                                />
+                                <span className="text-small text-gray-500">
+                                  No files selected
+                                </span>
+                              </li>
+                            </ul>
+                          </div>
+                        </section>
+                      </article>
+                    </main>
                   </div>
                 </div>
-                <div className="flex flex-row space-x-3">
+                <div className="flex flex-col gap-2">
+                  <div>
+                    <button type="submit" className="formConfirm">
+                      Submit
+                    </button>
+                    <Toaster
+                      toastOptions={{
+                        success: {
+                          style: {
+                            background: "green",
+                            color: "white",
+                          },
+                        },
+                        error: {
+                          style: {
+                            background: "red",
+                            color: "white",
+                          },
+                        },
+                      }}
+                    />
+                  </div>
                   <button type="reset" className="formReject">
-                    Clear
-                  </button>
-                  <button type="submit" className="formConfirm">
-                    Submit
+                    Reset
                   </button>
                 </div>
               </div>
