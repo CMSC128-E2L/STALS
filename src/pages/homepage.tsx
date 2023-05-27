@@ -120,6 +120,7 @@ export default function HomePage() {
   //   });
   //   setloadingnext(false);
   // }, [loadingnext]);
+
   const priceRanges = [
     { id: "all", value: "all", label: "All" },
     { id: "below-1000", value: "below-1000", label: "Under ₱ 1001" },
@@ -305,7 +306,7 @@ export default function HomePage() {
       >
         <NavBar register={register} name={"name"} />
         <div className="flex">
-          <div className="flex min-w-[190px] flex-col overflow-y-auto bg-p-lblue p-5">
+          <div className="h-100% flex min-w-[190px] flex-col overflow-y-auto bg-p-lblue p-5">
             {/* Location */}
             <div className="mb-4">
               <h2 className="mb-2 text-base font-bold">Location</h2>
