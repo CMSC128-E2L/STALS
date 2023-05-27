@@ -12,14 +12,6 @@ import jsPDF from "jspdf";
 import autoTable from "jspdf-autotable";
 import { Accommodation } from "@prisma/client";
 
-type HandlePriceRangeChangeType = (
-  event: React.ChangeEvent<HTMLInputElement>,
-) => void;
-
-interface PriceRangeProps {
-  handlePriceRangeChange: HandlePriceRangeChangeType;
-}
-
 export default function HomePage() {
   const [userInputs, setUserInputs] = useState<
     z.infer<typeof accommodationGetManyExperiementSchema>
@@ -58,7 +50,7 @@ export default function HomePage() {
   const calledOnce = useRef(false);
   const [pdfdownload, setpdfdownload] = useState(false);
   const pdf = new jsPDF();
-  // hack needs the useRef inorder to not trigger 2 times per download pdf.
+  // hack needs the useRef in order to not trigger 2 times per download pdf.
   useEffect(() => {
     if (calledOnce.current) {
       calledOnce.current = false;
@@ -81,7 +73,6 @@ export default function HomePage() {
 
       accommodationEntries?.pages.map((page, nyom: number) => {
         page?.items?.map((i: Accommodation) => {
-          // eslint-disable-next-line @typescript-eslint/no-unsafe-argument
           info.push([
             i.name,
             i.address ?? "",
@@ -164,20 +155,6 @@ export default function HomePage() {
       return `P${min} - P${max}`;
     }
   }
-
-  // fix this loads hundreds of times
-  // const [loadingnext, setloadingnext] = useState(false);
-  // useEffect(() => {
-  //   setloadingnext(true);
-  //   window.addEventListener("scroll", function () {
-  //     // TODO: find a better formula
-  //     if (window.innerHeight + window.scrollY >= document.body.offsetHeight) {
-  //       if (!loadingnext)
-  //         void fetchNextPage();
-  //     }
-  //   });
-  //   setloadingnext(false);
-  // }, [loadingnext]);
 
   const priceRanges = [
     { id: "all", value: "all", label: "All" },
@@ -374,10 +351,7 @@ export default function HomePage() {
             <div className="mb-4">
               <h2 className="mb-2 text-base font-bold">Type</h2>
               {accomTypes.map((range) => (
-                <div
-                  className="it// eslint-disable-next-lineems-center mb-2 flex"
-                  key={range.id}
-                >
+                <div className="mb-2 flex items-center" key={range.id}>
                   <input
                     id={range.id}
                     type="radio"
@@ -463,10 +437,6 @@ const Location: React.FC<{
     }));
     // eslint-disable-next-line
     void methods.refetch();
-    // alert(barangay);
-    // setSelectedBarangay(selectedBarangay);
-
-    // alert(selectedBarangay);
   }
 
   const { data: barangayEntries } = api.accommodation.getBarangays.useQuery();
