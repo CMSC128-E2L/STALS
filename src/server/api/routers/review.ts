@@ -16,8 +16,26 @@ export const reviewRouter = createTRPCRouter({
   add: protectedProcedure
     .input(reviewAddSchema)
     .mutation(async ({ ctx, input }) => {
+      // Date
+      const now = new Date();
+      const timeString = now.toLocaleString("en-US", {
+        timeZone: "Asia/Hong_Kong",
+      });
+      const timeOnly = timeString.slice(11, 19);
+      const dateOnly = now.toLocaleDateString("en-US", {
+        month: "long",
+        day: "numeric",
+        year: "numeric",
+      });
+
+      console.log(timeOnly);
+      console.log(dateOnly);
+
       const userId = ctx?.session?.user?.id;
       const { accommodationId, review, rating } = input;
+
+      const date = dateOnly;
+      const time = timeOnly;
 
       const created = ctx.prisma.review.create({
         data: {
@@ -25,31 +43,34 @@ export const reviewRouter = createTRPCRouter({
           accommodation: { connect: { id: accommodationId } },
           review,
           rating,
+          time,
+          date,
         },
       });
 
-      const avg = await ctx.prisma.review.aggregate({
-        _avg: { rating: true },
+      const oldvalues = await ctx.prisma.accommodation.findUnique({
+        select: {
+          average_rating: true,
+          total_reviews: true,
+        },
         where: {
-          accommodationId: input.accommodationId,
+          id: input.accommodationId,
         },
       });
 
-      const count = await ctx.prisma.review.aggregate({
-        _count: { rating: true },
-        where: {
-          accommodationId: input.accommodationId,
-        },
-      });
+      let avg = oldvalues?.average_rating ?? 0;
+      let count = oldvalues?.total_reviews ?? 0;
+
+      count += 1;
+      avg = avg + (input.rating - avg) / count;
 
       await ctx.prisma.accommodation.update({
         where: {
           id: input.accommodationId,
         },
         data: {
-          average_rating: avg._avg.rating,
-          total_reviews: count._count.rating + 1,
-          is_archived: false,
+          average_rating: avg,
+          total_reviews: count,
         },
       });
 

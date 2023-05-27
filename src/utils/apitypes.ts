@@ -25,7 +25,7 @@ export const accommodationAddSchema = z.object({
   location: z.string(),
   contact_number: z.string(),
   tags: z.string(),
-  num_of_rooms: z.number(),
+  num_of_rooms: z.number().optional(),
   is_archived: z.boolean(),
   fb_page: z.string().optional(),
   type: z.nativeEnum(AccommodationType),
@@ -64,6 +64,8 @@ export const reviewAddSchema = z.object({
   accommodationId: z.string(),
   review: z.string().optional(),
   rating: z.number(),
+  time: z.string().optional(),
+  date: z.string().optional(),
 });
 
 export const reviewEditSchema = z.object({

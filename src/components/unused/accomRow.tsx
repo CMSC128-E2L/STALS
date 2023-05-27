@@ -1,14 +1,5 @@
 import { api } from "~/utils/api";
-import {
-  JSXElementConstructor,
-  PromiseLikeOfReactNode,
-  ReactElement,
-  ReactFragment,
-  ReactNode,
-  ReactPortal,
-  useState,
-} from "react";
-import Image from "next/image";
+import { useState } from "react";
 import Link from "next/link";
 import jsPDF from "jspdf";
 import autoTable from "jspdf-autotable";

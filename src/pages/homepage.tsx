@@ -12,16 +12,12 @@ import jsPDF from "jspdf";
 import autoTable from "jspdf-autotable";
 import { Accommodation } from "@prisma/client";
 
-type HandlePriceRangeChangeType = (
-  event: React.ChangeEvent<HTMLInputElement>,
-) => void;
-
-interface PriceRangeProps {
-  handlePriceRangeChange: HandlePriceRangeChangeType;
-}
-
 export default function HomePage() {
-  const [userInputs, setuserIntpus] = useState<
+  const [showDropdown, setShowDropdown] = useState(false);
+  const toggleDropdown = () => {
+    setShowDropdown((prevState) => !prevState);
+  };
+  const [userInputs, setUserInputs] = useState<
     z.infer<typeof accommodationGetManyExperiementSchema>
   >({
     name: undefined,
@@ -58,7 +54,7 @@ export default function HomePage() {
   const calledOnce = useRef(false);
   const [pdfdownload, setpdfdownload] = useState(false);
   const pdf = new jsPDF();
-  // hack needs the useRef inorder to not trigger 2 times per download pdf.
+  // hack needs the useRef in order to not trigger 2 times per download pdf.
   useEffect(() => {
     if (calledOnce.current) {
       calledOnce.current = false;
@@ -81,7 +77,6 @@ export default function HomePage() {
 
       accommodationEntries?.pages.map((page, nyom: number) => {
         page?.items?.map((i: Accommodation) => {
-          // eslint-disable-next-line @typescript-eslint/no-unsafe-argument
           info.push([
             i.name,
             i.address ?? "",
@@ -165,19 +160,6 @@ export default function HomePage() {
     }
   }
 
-  // fix this loads hundreds of times
-  // const [loadingnext, setloadingnext] = useState(false);
-  // useEffect(() => {
-  //   setloadingnext(true);
-  //   window.addEventListener("scroll", function () {
-  //     // TODO: find a better formula
-  //     if (window.innerHeight + window.scrollY >= document.body.offsetHeight) {
-  //       if (!loadingnext)
-  //         void fetchNextPage();
-  //     }
-  //   });
-  //   setloadingnext(false);
-  // }, [loadingnext]);
   const priceRanges = [
     { id: "all", value: "all", label: "All" },
     { id: "below-1000", value: "below-1000", label: "Under ₱ 1001" },
@@ -203,42 +185,42 @@ export default function HomePage() {
     if (checked) {
       switch (value) {
         case "ALL":
-          setuserIntpus((prevInputs) => ({
+          setUserInputs((prevInputs) => ({
             ...prevInputs,
             type: undefined,
             typeArray: [],
           }));
           break;
         case "APARTMENT":
-          setuserIntpus((prevInputs) => ({
+          setUserInputs((prevInputs) => ({
             ...prevInputs,
             type: "APARTMENT",
             typeArray: ["APARTMENT"],
           }));
           break;
         case "BEDSPACER":
-          setuserIntpus((prevInputs) => ({
+          setUserInputs((prevInputs) => ({
             ...prevInputs,
             type: "BEDSPACER",
             typeArray: ["BEDSPACER"],
           }));
           break;
         case "DORMITORY":
-          setuserIntpus((prevInputs) => ({
+          setUserInputs((prevInputs) => ({
             ...prevInputs,
             type: "DORMITORY",
             typeArray: ["DORMITORY"],
           }));
           break;
         case "HOTEL":
-          setuserIntpus((prevInputs) => ({
+          setUserInputs((prevInputs) => ({
             ...prevInputs,
             type: "HOTEL",
             typeArray: ["HOTEL"],
           }));
           break;
         case "TRANSCIENT":
-          setuserIntpus((prevInputs) => ({
+          setUserInputs((prevInputs) => ({
             ...prevInputs,
             type: "TRANSCIENT",
             typeArray: ["TRANSCIENT"],
@@ -257,42 +239,42 @@ export default function HomePage() {
     if (checked) {
       switch (value) {
         case "all":
-          setuserIntpus((prevInputs) => ({
+          setUserInputs((prevInputs) => ({
             ...prevInputs,
             price_min: undefined,
             price_max: undefined,
           }));
           break;
         case "below-1000":
-          setuserIntpus((prevInputs) => ({
+          setUserInputs((prevInputs) => ({
             ...prevInputs,
             price_min: undefined,
             price_max: 1000,
           }));
           break;
         case "one-to-two":
-          setuserIntpus((prevInputs) => ({
+          setUserInputs((prevInputs) => ({
             ...prevInputs,
             price_min: 1001,
             price_max: 2000,
           }));
           break;
         case "two-to-three":
-          setuserIntpus((prevInputs) => ({
+          setUserInputs((prevInputs) => ({
             ...prevInputs,
             price_min: 2001,
             price_max: 3000,
           }));
           break;
         case "three-to-four":
-          setuserIntpus((prevInputs) => ({
+          setUserInputs((prevInputs) => ({
             ...prevInputs,
             price_min: 3001,
             price_max: 4000,
           }));
           break;
         case "above-four":
-          setuserIntpus((prevInputs) => ({
+          setUserInputs((prevInputs) => ({
             ...prevInputs,
             price_min: 4001,
             price_max: undefined,
@@ -327,11 +309,11 @@ export default function HomePage() {
         ) : hasNextPage ? (
           <div className="w-full text-center">
             <button
-              className="m-5 w-[50%] rounded-xl bg-p-dblue p-3 text-xl text-white"
+              className="button-style m-5 w-[50%]"
               onClick={() => {
                 void fetchNextPage();
                 // eslint-disable-next-line
-                setuserIntpus((prevInputs: any) => ({
+                setUserInputs((prevInputs: any) => ({
                   ...prevInputs,
                 }));
               }}
@@ -353,7 +335,7 @@ export default function HomePage() {
         // eslint-disable-next-line @typescript-eslint/no-misused-promises
         onSubmit={handleSubmit(
           (d: z.infer<typeof accommodationGetManyExperiementSchema>) => {
-            setuserIntpus((prevState) => ({
+            setUserInputs((prevState) => ({
               ...prevState,
               ...d,
             }));
@@ -363,20 +345,58 @@ export default function HomePage() {
       >
         <NavBar register={register} name={"name"} />
         <div className="flex">
-          <div className="flex min-w-[190px] flex-col overflow-y-auto bg-p-lblue p-5">
+          <div className="sticky top-0 flex h-screen w-[210px] min-w-[210px] flex-col bg-p-lblue p-5">
             {/* Location */}
             <div className="mb-4">
               <h2 className="mb-2 text-base font-bold">Location</h2>
-              <Location setuserIntpus={setuserIntpus} methods={methods} />
+              <Location setUserInputs={setUserInputs} methods={methods} />
             </div>
             {/* Accommodation Type */}
+            {/* <h2 className="relative mb-2 text-base font-bold">Accommodation Type</h2>   */}
+            {/* <button
+              className="w-full mr-2 flex items-center rounded-full bg-p-dblue px-3 py-1 text-sm text-white hover:bg-p-rblue"
+              onClick={toggleDropdown}
+            >
+              Select type
+              <svg
+                className="h-5 w-5"
+                aria-hidden="true"
+                fill="none"
+                stroke="currentColor"
+                viewBox="0 0 24 24"
+                xmlns="http://www.w3.org/2000/svg"
+              >
+                <path
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                  stroke-width="2"
+                  d="M19 9l-7 7-7-7"
+                ></path>
+              </svg>
+          </button>
+        {showDropdown && (
+          <div className="absolute rounded-lg bg-white p-3 pt-0 text-sm shadow-lg z-10">
+            {accomTypes.map((range) => (
+                <div className="mt-2 mb-1 flex items-center dropdown-buttons" key={range.id} >
+                  <input
+                    id={range.id}
+                    type="radio"
+                    name="accom_type"
+                    value={range.value}
+                    onChange={handleAccomTypeChange}
+                    className="hidden ml-3 h-4 w-4 rounded border-gray-300 bg-gray-100 text-blue-600 focus:ring-2 focus:ring-blue-500 dark:border-gray-600 dark:bg-gray-700 dark:ring-offset-gray-800 dark:focus:ring-blue-600"
+                  />
+                  <label htmlFor={range.id} className="filter-text">
+                    {range.label}
+                  </label>
+                </div>
+              ))}
+          </div>
+        )} */}
             <div className="mb-4">
               <h2 className="mb-2 text-base font-bold">Type</h2>
               {accomTypes.map((range) => (
-                <div
-                  className="it// eslint-disable-next-lineems-center mb-2 flex"
-                  key={range.id}
-                >
+                <div className="mb-2 flex items-center" key={range.id}>
                   <input
                     id={range.id}
                     type="radio"
@@ -427,7 +447,7 @@ export default function HomePage() {
                 setpdfdownload(true);
               }}
             >
-              Download Pdf
+              Download PDF
             </div>
           </div>
           <AccommodationsList control={control} />
@@ -440,9 +460,9 @@ export default function HomePage() {
 // Sidebar Functions
 // eslint-disable-next-line
 const Location: React.FC<{
-  setuserIntpus: any;
+  setUserInputs: any;
   methods: UseInfiniteQueryResult<any, any>;
-}> = ({ setuserIntpus, methods }) => {
+}> = ({ setUserInputs, methods }) => {
   // this will be used in the filter button for the location
   const [value, setValue] = useState("");
   const [showSuggestions, setShowSuggestions] = useState(false);
@@ -456,16 +476,12 @@ const Location: React.FC<{
     setValue(barangay);
     setShowSuggestions(false);
     // eslint-disable-next-line
-    setuserIntpus((prevInputs: any) => ({
+    setUserInputs((prevInputs: any) => ({
       ...prevInputs,
       barangay,
     }));
     // eslint-disable-next-line
     void methods.refetch();
-    // alert(barangay);
-    // setSelectedBarangay(selectedBarangay);
-
-    // alert(selectedBarangay);
   }
 
   const { data: barangayEntries } = api.accommodation.getBarangays.useQuery();

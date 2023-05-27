@@ -39,7 +39,7 @@ export default function Accommodation() {
         {/* cONTAINS THE ACCOMMODATION INFO */}
         <div className="flex flex-row justify-center object-contain">
           {/* Box that contains the accommodation thingy */}
-          <div className="flex w-11/12 rounded-md bg-p-lblue shadow-md">
+          <div className="flex w-11/12">
             {/* GALLERY */}
             <div className="w-1/4 flex-none p-4">
               <div className="grid grid-cols-2 gap-4">
@@ -94,7 +94,7 @@ export default function Accommodation() {
             {/* DESCRIPTION */}
             <div className="w-3/4 flex-none p-4">
               {/* ACCOMMODATION NAME + edit + delete thngy idk*/}
-              <div className="flex flex-row items-stretch">
+              <div className="flex flex-row items-stretch justify-between">
                 {/* Left column (accommodation name) */}
                 <div className="flex shrink items-center px-3">
                   {!accommLoading ? (
@@ -111,7 +111,7 @@ export default function Accommodation() {
                   {/* TODO: So if a registered user is viewing it (remove hidden to show teehee)
                   
                   WONDERING KUNG UNG IMPLEMENTATION NA LANG NITO VIA COMPONENT OR NAH*/}
-                  <div className="float-right cursor-pointer">
+                  <div className="cursor-pointer">
                     <form>
                       <input
                         type="checkbox"
@@ -398,8 +398,12 @@ export default function Accommodation() {
                 </div>
               </div>
               <div className="flex flex-row items-stretch">
-                <UserProfile />
-                <button className="accPButton mx-3 mb-2 w-1/5 self-end px-3 text-lg">
+                <button
+                  className="accPButton mx-3 mb-2 w-1/5 self-end px-3 text-lg"
+                  onClick={() => {
+                    print();
+                  }}
+                >
                   {" "}
                   Download{" "}
                 </button>
@@ -413,7 +417,7 @@ export default function Accommodation() {
                     <div className="basis-1/2 place-self-center text-center ">
                       {/* wao */}
                       <p className="text-5xl font-bold">
-                        {accommData?.average_rating ?? 0} / 5
+                        {Number(accommData?.average_rating ?? 0).toFixed(1)} / 5
                       </p>
                       <p>out of {accommData?.total_reviews ?? 0} reviews</p>
                     </div>
