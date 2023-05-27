@@ -21,7 +21,7 @@ interface PriceRangeProps {
 }
 
 export default function HomePage() {
-  const [userInputs, setuserIntpus] = useState<
+  const [userInputs, setUserInputs] = useState<
     z.infer<typeof accommodationGetManyExperiementSchema>
   >({
     name: undefined,
@@ -146,42 +146,42 @@ export default function HomePage() {
     if (checked) {
       switch (value) {
         case "ALL":
-          setuserIntpus((prevInputs) => ({
+          setUserInputs((prevInputs) => ({
             ...prevInputs,
             type: undefined,
             typeArray: [],
           }));
           break;
         case "APARTMENT":
-          setuserIntpus((prevInputs) => ({
+          setUserInputs((prevInputs) => ({
             ...prevInputs,
             type: "APARTMENT",
             typeArray: ["APARTMENT"],
           }));
           break;
         case "BEDSPACER":
-          setuserIntpus((prevInputs) => ({
+          setUserInputs((prevInputs) => ({
             ...prevInputs,
             type: "BEDSPACER",
             typeArray: ["BEDSPACER"],
           }));
           break;
         case "DORMITORY":
-          setuserIntpus((prevInputs) => ({
+          setUserInputs((prevInputs) => ({
             ...prevInputs,
             type: "DORMITORY",
             typeArray: ["DORMITORY"],
           }));
           break;
         case "HOTEL":
-          setuserIntpus((prevInputs) => ({
+          setUserInputs((prevInputs) => ({
             ...prevInputs,
             type: "HOTEL",
             typeArray: ["HOTEL"],
           }));
           break;
         case "TRANSCIENT":
-          setuserIntpus((prevInputs) => ({
+          setUserInputs((prevInputs) => ({
             ...prevInputs,
             type: "TRANSCIENT",
             typeArray: ["TRANSCIENT"],
@@ -200,42 +200,42 @@ export default function HomePage() {
     if (checked) {
       switch (value) {
         case "all":
-          setuserIntpus((prevInputs) => ({
+          setUserInputs((prevInputs) => ({
             ...prevInputs,
             price_min: undefined,
             price_max: undefined,
           }));
           break;
         case "below-1000":
-          setuserIntpus((prevInputs) => ({
+          setUserInputs((prevInputs) => ({
             ...prevInputs,
             price_min: undefined,
             price_max: 1000,
           }));
           break;
         case "one-to-two":
-          setuserIntpus((prevInputs) => ({
+          setUserInputs((prevInputs) => ({
             ...prevInputs,
             price_min: 1001,
             price_max: 2000,
           }));
           break;
         case "two-to-three":
-          setuserIntpus((prevInputs) => ({
+          setUserInputs((prevInputs) => ({
             ...prevInputs,
             price_min: 2001,
             price_max: 3000,
           }));
           break;
         case "three-to-four":
-          setuserIntpus((prevInputs) => ({
+          setUserInputs((prevInputs) => ({
             ...prevInputs,
             price_min: 3001,
             price_max: 4000,
           }));
           break;
         case "above-four":
-          setuserIntpus((prevInputs) => ({
+          setUserInputs((prevInputs) => ({
             ...prevInputs,
             price_min: 4001,
             price_max: undefined,
@@ -274,7 +274,7 @@ export default function HomePage() {
               onClick={() => {
                 void fetchNextPage();
                 // eslint-disable-next-line
-                setuserIntpus((prevInputs: any) => ({
+                setUserInputs((prevInputs: any) => ({
                   ...prevInputs,
                 }));
               }}
@@ -296,7 +296,7 @@ export default function HomePage() {
         // eslint-disable-next-line @typescript-eslint/no-misused-promises
         onSubmit={handleSubmit(
           (d: z.infer<typeof accommodationGetManyExperiementSchema>) => {
-            setuserIntpus((prevState) => ({
+            setUserInputs((prevState) => ({
               ...prevState,
               ...d,
             }));
@@ -310,7 +310,7 @@ export default function HomePage() {
             {/* Location */}
             <div className="mb-4">
               <h2 className="mb-2 text-base font-bold">Location</h2>
-              <Location setuserIntpus={setuserIntpus} methods={methods} />
+              <Location setUserInputs={setUserInputs} methods={methods} />
             </div>
             {/* Accommodation Type */}
             <div className="mb-4">
@@ -383,9 +383,9 @@ export default function HomePage() {
 // Sidebar Functions
 // eslint-disable-next-line
 const Location: React.FC<{
-  setuserIntpus: any;
+  setUserInputs: any;
   methods: UseInfiniteQueryResult<any, any>;
-}> = ({ setuserIntpus, methods }) => {
+}> = ({ setUserInputs, methods }) => {
   // this will be used in the filter button for the location
   const [value, setValue] = useState("");
   const [showSuggestions, setShowSuggestions] = useState(false);
@@ -399,7 +399,7 @@ const Location: React.FC<{
     setValue(barangay);
     setShowSuggestions(false);
     // eslint-disable-next-line
-    setuserIntpus((prevInputs: any) => ({
+    setUserInputs((prevInputs: any) => ({
       ...prevInputs,
       barangay,
     }));
