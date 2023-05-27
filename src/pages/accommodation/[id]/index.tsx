@@ -22,8 +22,9 @@ export default function Accommodation() {
 
   const { data: RoomList, isLoading: roomLoading } = api.room.getMany.useQuery({
     id: id,
-    status: false,
+    status: undefined,
   });
+
   const { data: sessionData } = useSession();
   if (accommData === null) {
     return Error404();
@@ -349,17 +350,24 @@ export default function Accommodation() {
                 {/* Rooms 
                 TODO: This is gonna get the list of rooms in prisma/schema.prisma and load the component <RoomButton /> (components/RoomButton.tsx) with the room id.*/}
                 <div className="flex flex-row items-stretch space-x-3 overflow-x-scroll px-3 py-3">
-                  {RoomList ? (
+                  {RoomList && RoomList.length > 0 ? (
                     RoomList?.map((room, i: number) => (
                       <RoomButton
                         key={room.id}
                         id={room.id}
                         roomIndex={i}
                         status={room.occupied}
+                        hidden={
+                          sessionData?.profile.type === "LANDLORD" &&
+                          accommData?.landlord === sessionData?.user?.id &&
+                          accommData?.id === room.accommodationId
+                            ? false
+                            : room.is_archived
+                        }
                       />
                     ))
                   ) : (
-                    <LoadingSpinner />
+                    <p>No rooms are available yet.</p>
                   )}
 
                   {/* TODO: ADD ROOM BUTTON SHOULD ONLY APPEAR IF LANDLORD IS LOOKING AT PAGE */}

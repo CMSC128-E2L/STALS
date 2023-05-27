@@ -9,7 +9,7 @@ import { roomAddSchema } from "~/utils/apitypes";
 
 export const roomRouter = createTRPCRouter({
   getMany: publicProcedure
-    .input(z.object({ id: z.string(), status: z.boolean() }))
+    .input(z.object({ id: z.string(), status: z.boolean().optional() }))
     .query(({ ctx, input }) => {
       const accommodationId = input.id;
       const status = input.status;
@@ -32,6 +32,17 @@ export const roomRouter = createTRPCRouter({
       where: { id: id },
       data: {
         is_archived: true,
+      },
+    });
+  }),
+
+  // UnArchive Room
+  unarchive: protectedProcedure.input(z.string()).mutation(({ ctx, input }) => {
+    const id = input;
+    return ctx.prisma.room.update({
+      where: { id: id },
+      data: {
+        is_archived: false,
       },
     });
   }),
