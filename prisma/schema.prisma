@@ -124,7 +124,7 @@ model Accommodation {
 
 model Room {
   id              String        @id @default(cuid())
-  accommodation   Accommodation @relation(fields: [accommodationId], references: [id])
+  accommodation   Accommodation @relation(fields: [accommodationId], references: [id], onDelete: Cascade)
   accommodationId String
 
   occupied       Boolean
