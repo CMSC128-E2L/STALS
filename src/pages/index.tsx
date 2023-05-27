@@ -2,7 +2,7 @@ import { type NextPage } from "next";
 import Image from "next/image";
 import Head from "next/head";
 import { signOut, useSession } from "next-auth/react";
-import bg from "public/images/landing-bg-02.png";
+import bg from "public/images/bg-022.png";
 import logo from "public/images/logo.png";
 import about_us from "public/images/about_us.png";
 import contact_us from "public/images/contact.png";
@@ -10,6 +10,26 @@ import React, { useState, useEffect } from "react";
 
 const Home: NextPage = () => {
   const [isLargeText, setIsLargeText] = useState(false);
+
+  const [currentText, setCurrentText] = useState(0);
+  const textList = [
+    "You can search, get information, review, and\nrate apartments, bed spaces, hotels, dormitories,\nand transient spaces in Los Baños.",
+    "Creating a home away from home, where comfort meets community.\nWelcome to STALS, where your journey towards success begins with a space\ndesigned to inspire, connect, and thrive",
+    // "Text 3",
+    // Add additional texts for the slideshow
+  ];
+
+  const splitText = (textList[currentText] ?? "").split("\n");
+
+  useEffect(() => {
+    const interval = setInterval(() => {
+      setCurrentText((prevText) => (prevText + 1) % textList.length);
+    }, 10000);
+
+    return () => {
+      clearInterval(interval);
+    };
+  }, [textList.length]);
 
   useEffect(() => {
     const handleResize = () => {
@@ -37,9 +57,9 @@ const Home: NextPage = () => {
       <main className="">
         {/* landing page whole screen content */}
         <div className="">
-          <Image
+          <img
             className="relative h-full w-screen bg-cover bg-fixed bg-center"
-            src={bg}
+            src={bg.src}
             alt="background"
           />
 
@@ -90,15 +110,16 @@ const Home: NextPage = () => {
               </p>
 
               <p
-                className={`max-h-30 mt-2 overflow-hidden text-center font-sans text-sm lg:text-lg xl:text-xl ${
+                className={`max-h-30 mt-2 overflow-hidden py-3 text-center font-sans text-sm lg:text-lg xl:text-xl ${
                   isLargeText ? "text-white" : "text-black"
                 }`}
               >
-                You can search, get information, review, and
-                <br />
-                rate apartments, bed spaces, hotels, dormitories,
-                <br />
-                and transient spaces in Los Baños.
+                {splitText.map((line, index) => (
+                  <React.Fragment key={index}>
+                    {line}
+                    <br />
+                  </React.Fragment>
+                ))}
               </p>
 
               {/* get started button edit color */}
@@ -112,9 +133,9 @@ const Home: NextPage = () => {
             <div className="container mx-auto max-w-4xl">
               <div className="flex flex-col items-center justify-center gap-4 lg:flex-row lg:justify-between lg:gap-8">
                 <div>
-                  <Image
+                  <img
                     className="floating-image h-60 w-auto lg:h-80"
-                    src={about_us}
+                    src={about_us.src}
                     alt="aboutus"
                   />
                 </div>
@@ -147,9 +168,9 @@ const Home: NextPage = () => {
                 </div>
 
                 <div>
-                  <Image
+                  <img
                     className="floating-image h-60 w-auto lg:h-80"
-                    src={contact_us}
+                    src={contact_us.src}
                     alt="contactus"
                   />
                 </div>
@@ -188,7 +209,7 @@ const Home: NextPage = () => {
                   href="#up"
                   className="mx-2 font-bold text-white no-underline hover:text-gray-300 hover:underline"
                 >
-                  Go Up
+                  Back to Top
                 </a>
                 <a
                   href="homepage"

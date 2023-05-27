@@ -58,7 +58,7 @@ const Signup: NextPage = () => {
   return (
     <div className="">
       <img
-        className="absolute bg-cover bg-fixed bg-center"
+        className="relative h-full w-screen bg-cover bg-fixed bg-center"
         src={bgpic.src}
         alt="background"
       />
