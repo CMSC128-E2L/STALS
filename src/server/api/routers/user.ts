@@ -24,7 +24,6 @@ export const userRouter = createTRPCRouter({
       where: { id },
     });
   }),
-
   delete: protectedProcedure.mutation(({ ctx }) => {
     const userId = ctx?.session?.user?.id;
     return ctx.prisma.user.delete({
