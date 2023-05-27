@@ -40,7 +40,7 @@ export default function Accommodation() {
   return (
     <div className="flex h-screen flex-col">
       {/* HEADER */}
-      <NavBar />
+      <NavBar showBack />
 
       {/* BODY */}
       <div className="mt-10 flex flex-auto flex-col pt-10">

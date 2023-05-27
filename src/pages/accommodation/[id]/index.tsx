@@ -7,7 +7,6 @@ import Image from "next/image";
 import { api } from "~/utils/api";
 import { useRouter } from "next/router";
 import { dynamicRouteID } from "~/utils/helpers";
-import LoadingSpinner from "~/components/loadingSpinner";
 import Error404 from "~/pages/404";
 import { useSession } from "next-auth/react";
 
@@ -15,15 +14,15 @@ export default function Accommodation() {
   const { id } = dynamicRouteID(useRouter());
 
   const { data: accommData, isLoading: accommLoading } =
-    api.accommodation.getOne.useQuery(id);
+    api.accommodation.getOneRelations.useQuery(id);
 
   const { data: ImageList, isLoading: imageLoading } =
     api.file.getAccommImages.useQuery({ id });
 
-  const { data: RoomList, isLoading: roomLoading } = api.room.getMany.useQuery({
-    id: id,
-    status: undefined,
-  });
+  // const { data: RoomList, isLoading: roomLoading } = api.room.getMany.useQuery({
+  //   id: id,
+  //   status: undefined,
+  // });
 
   const { data: sessionData } = useSession();
   if (accommData === null) {
@@ -350,8 +349,8 @@ export default function Accommodation() {
                 {/* Rooms 
                 TODO: This is gonna get the list of rooms in prisma/schema.prisma and load the component <RoomButton /> (components/RoomButton.tsx) with the room id.*/}
                 <div className="flex flex-row items-stretch space-x-3 overflow-x-scroll px-3 py-3">
-                  {RoomList && RoomList.length > 0 ? (
-                    RoomList?.map((room, i: number) => (
+                  {accommData?.Room && accommData?.Room.length > 0 ? (
+                    accommData?.Room.map((room, i: number) => (
                       <RoomButton
                         key={room.id}
                         id={room.id}
@@ -439,7 +438,10 @@ export default function Accommodation() {
                       one who could blablahblahblah ye
                     </p>
 
-                    <Link href="ye" className="text-end text-xxs underline">
+                    <Link
+                      href={`${id}/review`}
+                      className="text-end text-xxs underline"
+                    >
                       See More
                     </Link>
                   </div>
