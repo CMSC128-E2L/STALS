@@ -35,7 +35,7 @@ export default function Accommodation() {
       <NavBar />
 
       {/* BODY */}
-      <div className="mt-20 flex flex-auto flex-col">
+      <div className="mt-10 flex flex-auto flex-col">
         {/* cONTAINS THE ACCOMMODATION INFO */}
         <div className="flex flex-row justify-center object-contain">
           {/* Box that contains the accommodation thingy */}
@@ -348,7 +348,7 @@ export default function Accommodation() {
 
                 {/* Rooms 
                 TODO: This is gonna get the list of rooms in prisma/schema.prisma and load the component <RoomButton /> (components/RoomButton.tsx) with the room id.*/}
-                <div className="flex flex-row items-stretch space-x-3 overflow-x-scroll px-3 py-3">
+                <div className="flex flex-row items-stretch space-x-3 overflow-x-auto px-3 py-3">
                   {accommData?.Room && accommData?.Room.length > 0 ? (
                     accommData?.Room.map((room, i: number) => (
                       <RoomButton

@@ -165,13 +165,15 @@ const ProfileButton: React.FC = () => {
       return (
         <div className="profile-dropdown">
           <UserInfo />
-          <hr className="my-2 h-px border-0 bg-gray-200 dark:bg-gray-700"></hr>
-          <Link className="dropdown-buttons" href={"/login"}>
-            Sign In
-          </Link>
-          <Link className="dropdown-buttons" href={"/login"}>
-            Sign Up
-          </Link>
+          <hr className="my-2 h-px border-0 bg-gray-200  dark:bg-gray-700"></hr>
+          <div className="flex flex-col items-stretch gap-2">
+            <Link className="dropdown-buttons" href={"/login"}>
+              Sign In
+            </Link>
+            <Link className="dropdown-buttons" href={"/login"}>
+              Sign Up
+            </Link>
+          </div>
         </div>
       );
     }
