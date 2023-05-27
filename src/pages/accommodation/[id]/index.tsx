@@ -7,7 +7,6 @@ import Image from "next/image";
 import { api } from "~/utils/api";
 import { useRouter } from "next/router";
 import { dynamicRouteID } from "~/utils/helpers";
-import LoadingSpinner from "~/components/loadingSpinner";
 import Error404 from "~/pages/404";
 import { useSession } from "next-auth/react";
 
@@ -15,15 +14,16 @@ export default function Accommodation() {
   const { id } = dynamicRouteID(useRouter());
 
   const { data: accommData, isLoading: accommLoading } =
-    api.accommodation.getOne.useQuery(id);
+    api.accommodation.getOneRelations.useQuery(id);
 
   const { data: ImageList, isLoading: imageLoading } =
     api.file.getAccommImages.useQuery({ id });
 
-  const { data: RoomList, isLoading: roomLoading } = api.room.getMany.useQuery({
-    id: id,
-    status: false,
-  });
+  // const { data: RoomList, isLoading: roomLoading } = api.room.getMany.useQuery({
+  //   id: id,
+  //   status: undefined,
+  // });
+
   const { data: sessionData } = useSession();
   if (accommData === null) {
     return Error404();
@@ -39,7 +39,7 @@ export default function Accommodation() {
         {/* cONTAINS THE ACCOMMODATION INFO */}
         <div className="flex flex-row justify-center object-contain">
           {/* Box that contains the accommodation thingy */}
-          <div className="flex w-11/12 rounded-md bg-p-lblue shadow-md">
+          <div className="flex w-11/12">
             {/* GALLERY */}
             <div className="w-1/4 flex-none p-4">
               <div className="grid grid-cols-2 gap-4">
@@ -94,7 +94,7 @@ export default function Accommodation() {
             {/* DESCRIPTION */}
             <div className="w-3/4 flex-none p-4">
               {/* ACCOMMODATION NAME + edit + delete thngy idk*/}
-              <div className="flex flex-row items-stretch">
+              <div className="flex flex-row items-stretch justify-between">
                 {/* Left column (accommodation name) */}
                 <div className="flex shrink items-center px-3">
                   {!accommLoading ? (
@@ -111,7 +111,7 @@ export default function Accommodation() {
                   {/* TODO: So if a registered user is viewing it (remove hidden to show teehee)
                   
                   WONDERING KUNG UNG IMPLEMENTATION NA LANG NITO VIA COMPONENT OR NAH*/}
-                  <div className="float-right cursor-pointer">
+                  <div className="cursor-pointer">
                     <form>
                       <input
                         type="checkbox"
@@ -349,17 +349,24 @@ export default function Accommodation() {
                 {/* Rooms 
                 TODO: This is gonna get the list of rooms in prisma/schema.prisma and load the component <RoomButton /> (components/RoomButton.tsx) with the room id.*/}
                 <div className="flex flex-row items-stretch space-x-3 overflow-x-scroll px-3 py-3">
-                  {RoomList ? (
-                    RoomList?.map((room, i: number) => (
+                  {accommData?.Room && accommData?.Room.length > 0 ? (
+                    accommData?.Room.map((room, i: number) => (
                       <RoomButton
                         key={room.id}
                         id={room.id}
                         roomIndex={i}
                         status={room.occupied}
+                        hidden={
+                          sessionData?.profile.type === "LANDLORD" &&
+                          accommData?.landlord === sessionData?.user?.id &&
+                          accommData?.id === room.accommodationId
+                            ? false
+                            : room.is_archived
+                        }
                       />
                     ))
                   ) : (
-                    <LoadingSpinner />
+                    <p>No rooms are available yet.</p>
                   )}
 
                   {/* TODO: ADD ROOM BUTTON SHOULD ONLY APPEAR IF LANDLORD IS LOOKING AT PAGE */}
@@ -391,7 +398,6 @@ export default function Accommodation() {
                 </div>
               </div>
               <div className="flex flex-row items-stretch">
-                <UserProfile />
                 <button className="accPButton mx-3 mb-2 w-1/5 self-end px-3 text-lg">
                   {" "}
                   Download{" "}
@@ -406,7 +412,7 @@ export default function Accommodation() {
                     <div className="basis-1/2 place-self-center text-center ">
                       {/* wao */}
                       <p className="text-5xl font-bold">
-                        {accommData?.average_rating ?? 0} / 5
+                        {Number(accommData?.average_rating ?? 0).toFixed(1)} / 5
                       </p>
                       <p>out of {accommData?.total_reviews ?? 0} reviews</p>
                     </div>
@@ -431,7 +437,10 @@ export default function Accommodation() {
                       one who could blablahblahblah ye
                     </p>
 
-                    <Link href="ye" className="text-end text-xxs underline">
+                    <Link
+                      href={`${id}/review`}
+                      className="text-end text-xxs underline"
+                    >
                       See More
                     </Link>
                   </div>

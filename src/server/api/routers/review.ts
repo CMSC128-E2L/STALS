@@ -5,7 +5,7 @@ import {
   publicProcedure,
   protectedProcedure,
 } from "~/server/api/trpc";
-import { api } from "~/utils/api";
+
 import {
   reviewAddSchema,
   reviewEditSchema,
@@ -28,27 +28,29 @@ export const reviewRouter = createTRPCRouter({
         },
       });
 
-      const avg = await ctx.prisma.review.aggregate({
-        _avg: { rating: true },
+      const oldvalues = await ctx.prisma.accommodation.findUnique({
+        select: {
+          average_rating: true,
+          total_reviews: true,
+        },
         where: {
-          accommodationId: input.accommodationId,
+          id: input.accommodationId,
         },
       });
 
-      const count = await ctx.prisma.review.aggregate({
-        _count: { rating: true },
-        where: {
-          accommodationId: input.accommodationId,
-        },
-      });
+      let avg = oldvalues?.average_rating ?? 0;
+      let count = oldvalues?.total_reviews ?? 0;
+
+      count += 1;
+      avg = avg + (input.rating - avg) / count;
 
       await ctx.prisma.accommodation.update({
         where: {
           id: input.accommodationId,
         },
         data: {
-          average_rating: avg._avg.rating,
-          total_reviews: count._count.rating + 1,
+          average_rating: avg,
+          total_reviews: count,
         },
       });
 
@@ -75,6 +77,15 @@ export const reviewRouter = createTRPCRouter({
     });
   }),
 
+  deleteMany: protectedProcedure
+    .input(z.string())
+    .mutation(({ ctx, input }) => {
+      const id = input;
+      return ctx.prisma.review.deleteMany({
+        where: { accommodationId: id },
+      });
+    }),
+
   // archive: protectedProcedure
   //   .input(z.object({ id: z.string(), is_archived: z.boolean() }))
   //   .mutation(({ ctx, input }) => {
@@ -83,7 +94,7 @@ export const reviewRouter = createTRPCRouter({
   //     return ctx.prisma.review.update({
   //       where: { id },
   //       data: {
-  //         is_archived: !archived,
+  //         is_archived: true,
   //       },
   //     });
   //   }),

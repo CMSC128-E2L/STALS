@@ -8,9 +8,8 @@ import LoadingSpinner from "~/components/loadingSpinner";
 import SearchItem from "~/components/SearchItem";
 import { type UseInfiniteQueryResult } from "@tanstack/react-query";
 import { useForm, useWatch, type Control } from "react-hook-form";
-import jsPDF from "jspdf";
-import autoTable from "jspdf-autotable";
-import { Accommodation } from "@prisma/client";
+import { type Accommodation } from "@prisma/client";
+import type jsPDF from "jspdf";
 
 type HandlePriceRangeChangeType = (
   event: React.ChangeEvent<HTMLInputElement>,
@@ -21,7 +20,7 @@ interface PriceRangeProps {
 }
 
 export default function HomePage() {
-  const [userInputs, setuserIntpus] = useState<
+  const [userInputs, setUserInputs] = useState<
     z.infer<typeof accommodationGetManyExperiementSchema>
   >({
     name: undefined,
@@ -57,7 +56,6 @@ export default function HomePage() {
   // pdf download logic
   const calledOnce = useRef(false);
   const [pdfdownload, setpdfdownload] = useState(false);
-  const pdf = new jsPDF();
   // hack needs the useRef inorder to not trigger 2 times per download pdf.
   useEffect(() => {
     if (calledOnce.current) {
@@ -93,51 +91,61 @@ export default function HomePage() {
       });
     }
 
-    autoTable(pdf, {
-      head: [["Filter", "Value"]],
-      body: [
-        ["Location", filters.location],
-        ["Type", filters.accomType],
-        ["Price Range", filters.priceRange],
-      ],
-      didDrawPage: function (data) {
-        // Page Header
-        pdf.setFillColor(29, 93, 154);
-        pdf.rect(10, 10, pdf.internal.pageSize.width - 20, 15, "F");
-        pdf.setFont("helvetica", "bold");
-        pdf.setFontSize(18);
-        pdf.setTextColor(255, 255, 255);
-        const textX = 20;
-        const textY = 20;
-        pdf.text("STALS", textX, textY);
-      },
-      margin: { top: 30 },
-      columnStyles: { 0: { cellWidth: 30 } },
-    });
+    // hack to imporve first load
+    // dynamically import jspdf
+    void (async () => {
+      console.log("hatog");
+      const autoTable = (await import("jspdf-autotable")).default;
+      const jspdf = (await import("jspdf")).default;
+      const pdf: jsPDF = new jspdf();
 
-    autoTable(pdf, {
-      head: [["Name", "Address", "Landlord", "Contact", "Rooms"]],
-      body: info,
+      autoTable(pdf, {
+        head: [["Filter", "Value"]],
+        body: [
+          ["Location", filters.location],
+          ["Type", filters.accomType],
+          ["Price Range", filters.priceRange],
+        ],
+        didDrawPage: function (_data) {
+          // Page Header
+          pdf.setFillColor(29, 93, 154);
+          pdf.rect(10, 10, pdf.internal.pageSize.width - 20, 15, "F");
+          pdf.setFont("helvetica", "bold");
+          pdf.setFontSize(18);
+          pdf.setTextColor(255, 255, 255);
+          const textX = 20;
+          const textY = 20;
+          pdf.text("STALS", textX, textY);
+        },
+        margin: { top: 30 },
+        columnStyles: { 0: { cellWidth: 30 } },
+      });
 
-      didDrawPage: function (data) {
-        const pageCount = pdf.getNumberOfPages();
-        const footerStr = `Page ${data.pageNumber} of ${pageCount}`;
+      autoTable(pdf, {
+        head: [["Name", "Address", "Landlord", "Contact", "Rooms"]],
+        body: info,
 
-        pdf.setFontSize(10);
-        pdf.setTextColor(0, 0, 0);
-        pdf.text(
-          footerStr,
-          data.settings.margin.left,
-          pdf.internal.pageSize.height - 10,
-        );
-      },
-      columnStyles: {
-        0: { cellWidth: 30 },
-        1: { cellWidth: 60 },
-        2: { cellWidth: 40 },
-      },
-    });
-    if (calledOnce.current) pdf.save("STALS.pdf");
+        didDrawPage: function (data) {
+          const pageCount = pdf.getNumberOfPages();
+          const footerStr = `Page ${data.pageNumber} of ${pageCount}`;
+
+          pdf.setFontSize(10);
+          pdf.setTextColor(0, 0, 0);
+          pdf.text(
+            footerStr,
+            data.settings.margin.left,
+            pdf.internal.pageSize.height - 10,
+          );
+        },
+        columnStyles: {
+          0: { cellWidth: 30 },
+          1: { cellWidth: 60 },
+          2: { cellWidth: 40 },
+        },
+      });
+
+      if (calledOnce.current) pdf.save("STALS.pdf");
+    })();
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [pdfdownload]);
 
@@ -178,6 +186,7 @@ export default function HomePage() {
   //   });
   //   setloadingnext(false);
   // }, [loadingnext]);
+
   const priceRanges = [
     { id: "all", value: "all", label: "All" },
     { id: "below-1000", value: "below-1000", label: "Under ₱ 1001" },
@@ -203,42 +212,42 @@ export default function HomePage() {
     if (checked) {
       switch (value) {
         case "ALL":
-          setuserIntpus((prevInputs) => ({
+          setUserInputs((prevInputs) => ({
             ...prevInputs,
             type: undefined,
             typeArray: [],
           }));
           break;
         case "APARTMENT":
-          setuserIntpus((prevInputs) => ({
+          setUserInputs((prevInputs) => ({
             ...prevInputs,
             type: "APARTMENT",
             typeArray: ["APARTMENT"],
           }));
           break;
         case "BEDSPACER":
-          setuserIntpus((prevInputs) => ({
+          setUserInputs((prevInputs) => ({
             ...prevInputs,
             type: "BEDSPACER",
             typeArray: ["BEDSPACER"],
           }));
           break;
         case "DORMITORY":
-          setuserIntpus((prevInputs) => ({
+          setUserInputs((prevInputs) => ({
             ...prevInputs,
             type: "DORMITORY",
             typeArray: ["DORMITORY"],
           }));
           break;
         case "HOTEL":
-          setuserIntpus((prevInputs) => ({
+          setUserInputs((prevInputs) => ({
             ...prevInputs,
             type: "HOTEL",
             typeArray: ["HOTEL"],
           }));
           break;
         case "TRANSCIENT":
-          setuserIntpus((prevInputs) => ({
+          setUserInputs((prevInputs) => ({
             ...prevInputs,
             type: "TRANSCIENT",
             typeArray: ["TRANSCIENT"],
@@ -257,42 +266,42 @@ export default function HomePage() {
     if (checked) {
       switch (value) {
         case "all":
-          setuserIntpus((prevInputs) => ({
+          setUserInputs((prevInputs) => ({
             ...prevInputs,
             price_min: undefined,
             price_max: undefined,
           }));
           break;
         case "below-1000":
-          setuserIntpus((prevInputs) => ({
+          setUserInputs((prevInputs) => ({
             ...prevInputs,
             price_min: undefined,
             price_max: 1000,
           }));
           break;
         case "one-to-two":
-          setuserIntpus((prevInputs) => ({
+          setUserInputs((prevInputs) => ({
             ...prevInputs,
             price_min: 1001,
             price_max: 2000,
           }));
           break;
         case "two-to-three":
-          setuserIntpus((prevInputs) => ({
+          setUserInputs((prevInputs) => ({
             ...prevInputs,
             price_min: 2001,
             price_max: 3000,
           }));
           break;
         case "three-to-four":
-          setuserIntpus((prevInputs) => ({
+          setUserInputs((prevInputs) => ({
             ...prevInputs,
             price_min: 3001,
             price_max: 4000,
           }));
           break;
         case "above-four":
-          setuserIntpus((prevInputs) => ({
+          setUserInputs((prevInputs) => ({
             ...prevInputs,
             price_min: 4001,
             price_max: undefined,
@@ -327,11 +336,11 @@ export default function HomePage() {
         ) : hasNextPage ? (
           <div className="w-full text-center">
             <button
-              className="m-5 w-[50%] rounded-xl bg-p-dblue p-3 text-xl text-white"
+              className="button-style m-5 w-[50%]"
               onClick={() => {
                 void fetchNextPage();
                 // eslint-disable-next-line
-                setuserIntpus((prevInputs: any) => ({
+                setUserInputs((prevInputs: any) => ({
                   ...prevInputs,
                 }));
               }}
@@ -353,7 +362,7 @@ export default function HomePage() {
         // eslint-disable-next-line @typescript-eslint/no-misused-promises
         onSubmit={handleSubmit(
           (d: z.infer<typeof accommodationGetManyExperiementSchema>) => {
-            setuserIntpus((prevState) => ({
+            setUserInputs((prevState) => ({
               ...prevState,
               ...d,
             }));
@@ -363,11 +372,11 @@ export default function HomePage() {
       >
         <NavBar register={register} name={"name"} />
         <div className="flex">
-          <div className="flex min-w-[190px] flex-col overflow-y-auto bg-p-lblue p-5">
+          <div className="h-100% flex w-[190px] min-w-[190px] flex-col bg-p-lblue p-5">
             {/* Location */}
             <div className="mb-4">
               <h2 className="mb-2 text-base font-bold">Location</h2>
-              <Location setuserIntpus={setuserIntpus} methods={methods} />
+              <Location setUserInputs={setUserInputs} methods={methods} />
             </div>
             {/* Accommodation Type */}
             <div className="mb-4">
@@ -440,9 +449,9 @@ export default function HomePage() {
 // Sidebar Functions
 // eslint-disable-next-line
 const Location: React.FC<{
-  setuserIntpus: any;
+  setUserInputs: any;
   methods: UseInfiniteQueryResult<any, any>;
-}> = ({ setuserIntpus, methods }) => {
+}> = ({ setUserInputs, methods }) => {
   // this will be used in the filter button for the location
   const [value, setValue] = useState("");
   const [showSuggestions, setShowSuggestions] = useState(false);
@@ -456,7 +465,7 @@ const Location: React.FC<{
     setValue(barangay);
     setShowSuggestions(false);
     // eslint-disable-next-line
-    setuserIntpus((prevInputs: any) => ({
+    setUserInputs((prevInputs: any) => ({
       ...prevInputs,
       barangay,
     }));
