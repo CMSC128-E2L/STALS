@@ -341,7 +341,7 @@ export default function HomePage() {
       >
         <NavBar register={register} name={"name"} />
         <div className="flex">
-          <div className="h-100% flex w-[190px] min-w-[190px] flex-col bg-p-lblue p-5">
+          <div className="h-100% flex w-[210px] min-w-[210px] flex-col bg-p-lblue p-5">
             {/* Location */}
             <div className="mb-4">
               <h2 className="mb-2 text-base font-bold">Location</h2>
