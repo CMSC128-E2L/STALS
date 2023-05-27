@@ -8,9 +8,8 @@ import LoadingSpinner from "~/components/loadingSpinner";
 import SearchItem from "~/components/SearchItem";
 import { type UseInfiniteQueryResult } from "@tanstack/react-query";
 import { useForm, useWatch, type Control } from "react-hook-form";
-import jsPDF from "jspdf";
-import autoTable from "jspdf-autotable";
-import { Accommodation } from "@prisma/client";
+import { type Accommodation } from "@prisma/client";
+import type jsPDF from "jspdf";
 
 type HandlePriceRangeChangeType = (
   event: React.ChangeEvent<HTMLInputElement>,
@@ -57,7 +56,6 @@ export default function HomePage() {
   // pdf download logic
   const calledOnce = useRef(false);
   const [pdfdownload, setpdfdownload] = useState(false);
-  const pdf = new jsPDF();
   // hack needs the useRef inorder to not trigger 2 times per download pdf.
   useEffect(() => {
     if (calledOnce.current) {
@@ -93,51 +91,61 @@ export default function HomePage() {
       });
     }
 
-    autoTable(pdf, {
-      head: [["Filter", "Value"]],
-      body: [
-        ["Location", filters.location],
-        ["Type", filters.accomType],
-        ["Price Range", filters.priceRange],
-      ],
-      didDrawPage: function (data) {
-        // Page Header
-        pdf.setFillColor(29, 93, 154);
-        pdf.rect(10, 10, pdf.internal.pageSize.width - 20, 15, "F");
-        pdf.setFont("helvetica", "bold");
-        pdf.setFontSize(18);
-        pdf.setTextColor(255, 255, 255);
-        const textX = 20;
-        const textY = 20;
-        pdf.text("STALS", textX, textY);
-      },
-      margin: { top: 30 },
-      columnStyles: { 0: { cellWidth: 30 } },
-    });
+    // hack to imporve first load
+    // dynamically import jspdf
+    void (async () => {
+      console.log("hatog");
+      const autoTable = (await import("jspdf-autotable")).default;
+      const jspdf = (await import("jspdf")).default;
+      const pdf: jsPDF = new jspdf();
 
-    autoTable(pdf, {
-      head: [["Name", "Address", "Landlord", "Contact", "Rooms"]],
-      body: info,
+      autoTable(pdf, {
+        head: [["Filter", "Value"]],
+        body: [
+          ["Location", filters.location],
+          ["Type", filters.accomType],
+          ["Price Range", filters.priceRange],
+        ],
+        didDrawPage: function (_data) {
+          // Page Header
+          pdf.setFillColor(29, 93, 154);
+          pdf.rect(10, 10, pdf.internal.pageSize.width - 20, 15, "F");
+          pdf.setFont("helvetica", "bold");
+          pdf.setFontSize(18);
+          pdf.setTextColor(255, 255, 255);
+          const textX = 20;
+          const textY = 20;
+          pdf.text("STALS", textX, textY);
+        },
+        margin: { top: 30 },
+        columnStyles: { 0: { cellWidth: 30 } },
+      });
 
-      didDrawPage: function (data) {
-        const pageCount = pdf.getNumberOfPages();
-        const footerStr = `Page ${data.pageNumber} of ${pageCount}`;
+      autoTable(pdf, {
+        head: [["Name", "Address", "Landlord", "Contact", "Rooms"]],
+        body: info,
 
-        pdf.setFontSize(10);
-        pdf.setTextColor(0, 0, 0);
-        pdf.text(
-          footerStr,
-          data.settings.margin.left,
-          pdf.internal.pageSize.height - 10,
-        );
-      },
-      columnStyles: {
-        0: { cellWidth: 30 },
-        1: { cellWidth: 60 },
-        2: { cellWidth: 40 },
-      },
-    });
-    if (calledOnce.current) pdf.save("STALS.pdf");
+        didDrawPage: function (data) {
+          const pageCount = pdf.getNumberOfPages();
+          const footerStr = `Page ${data.pageNumber} of ${pageCount}`;
+
+          pdf.setFontSize(10);
+          pdf.setTextColor(0, 0, 0);
+          pdf.text(
+            footerStr,
+            data.settings.margin.left,
+            pdf.internal.pageSize.height - 10,
+          );
+        },
+        columnStyles: {
+          0: { cellWidth: 30 },
+          1: { cellWidth: 60 },
+          2: { cellWidth: 40 },
+        },
+      });
+
+      if (calledOnce.current) pdf.save("STALS.pdf");
+    })();
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [pdfdownload]);
 
