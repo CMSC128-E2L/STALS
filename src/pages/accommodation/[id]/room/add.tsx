@@ -140,9 +140,7 @@ export default function AddRoom() {
             <br />
             <div>
               <div className="py-2">
-                <button className="formConfirm">
-                  Confirm
-                </button>
+                <button className="formConfirm">Confirm</button>
                 <Toaster
                   toastOptions={{
                     success: {
