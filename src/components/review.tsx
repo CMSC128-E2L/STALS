@@ -28,13 +28,20 @@ export default function Review() {
 
   const addReview = api.review.add.useMutation();
 
-  const handleFormSubmit = (data) => {
+  const handleFormSubmit = (data: {
+    accommodationId: string;
+    rating: number;
+    review?: string | undefined;
+    time?: string | undefined;
+    date?: string | undefined;
+  }) => {
     addReview.mutate(data);
   };
 
   return (
     <div className="h-50 grid grid-cols-1 justify-items-stretch gap-4">
       <div className="w-auto flex-row space-x-[2%] pl-3 pt-5">
+        {/* eslint-disable-next-line @typescript-eslint/no-misused-promises */}
         <form onSubmit={handleSubmit(handleFormSubmit)}>
           <div className="mb-4 w-full rounded-[15px] border border-gray-200 bg-gray-50">
             <div className="grid h-10 grid-cols-2 justify-items-stretch gap-4 pl-4">
