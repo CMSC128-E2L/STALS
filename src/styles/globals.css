@@ -6,12 +6,15 @@
   .input-text-field {
     @apply rounded-xl px-3 py-3 shadow shadow-p-black/50;
   }
+
   .add-acc-input-text-field {
     @apply w-full rounded-xl px-2 py-2 shadow shadow-gray-400/100;
   }
+
   .formConfirm {
     @apply flex w-full justify-center rounded-full bg-p-dblue px-4 py-2 font-bold text-white shadow shadow-gray-400/100;
   }
+
   .formReject {
     @apply flex w-full justify-center rounded-full bg-slate-500 px-4 py-2 font-bold text-white shadow shadow-gray-400;
   }
@@ -19,6 +22,7 @@
   .accPButton {
     @apply rounded-md bg-p-gray px-5 py-1 text-sm shadow shadow-p-black/50;
   }
+
   .input-text-box-label {
     @apply text-sm;
   }
@@ -34,6 +38,7 @@
   .form-h1 {
     @apply text-3xl font-bold text-p-rblue;
   }
+
   .form-h2 {
     @apply text-xl font-bold;
   }
@@ -68,7 +73,7 @@
   }
 
   .dropdown-buttons {
-    @apply block w-full rounded-lg p-2 text-left hover:bg-p-gray focus:outline-none;
+    @apply w-full rounded-lg bg-p-gray p-2 text-left hover:block focus:outline-none;
   }
 
   .filter-text {
@@ -83,7 +88,25 @@
     @apply absolute right-0 top-11 z-10 w-[15rem] overflow-hidden rounded-lg bg-white p-4 shadow-lg;
   }
 
+  .floating-image {
+    animation: floatAnimation 3s ease-in-out infinite;
+  }
+
   .button-style {
     @apply rounded-full bg-p-dblue p-3 text-xl text-white;
+  }
+}
+
+@keyframes floatAnimation {
+  0% {
+    transform: translateY(0);
+  }
+
+  50% {
+    transform: translateY(-10px);
+  }
+
+  100% {
+    transform: translateY(0);
   }
 }

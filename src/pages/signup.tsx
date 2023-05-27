@@ -209,7 +209,7 @@ const Signup: NextPage = () => {
                   className=" pl-1 text-sm text-gray-500 underline"
                   onClick={() => setShowTerms(true)}
                 >
-                  Terms and Agreements
+                  Terms and Conditions
                 </button>
               </div>
             </div>
