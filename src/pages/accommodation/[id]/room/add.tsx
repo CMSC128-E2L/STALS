@@ -55,11 +55,17 @@ export default function AddRoom() {
               (d) => {
                 addRoom.mutate(d);
                 window.location.replace(`/accommodation/${id}`);
-                toast("Successfully Added Room!");
+                toast.success("Successfully Added Room!", {
+                  position: "bottom-right",
+                  duration: 1000,
+                });
               },
               (error) => {
                 console.log(error);
-                toast("Cannot Add Room!");
+                toast.error("Cannot Add Room!", {
+                  position: "bottom-right",
+                  duration: 1000,
+                });
               },
             )}
           >
@@ -137,6 +143,22 @@ export default function AddRoom() {
                 <button className="group relative flex w-full justify-center rounded-full bg-p-dblue px-4 py-2 font-bold text-white shadow shadow-gray-400/100">
                   Confirm
                 </button>
+                <Toaster
+                  toastOptions={{
+                    success: {
+                      style: {
+                        background: "green",
+                        color: "white",
+                      },
+                    },
+                    error: {
+                      style: {
+                        background: "red",
+                        color: "white",
+                      },
+                    },
+                  }}
+                />
               </div>
 
               <div>

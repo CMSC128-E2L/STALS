@@ -13,6 +13,7 @@ import iconarchive from "public/images/icon_archive.png";
 import { UserType } from "@prisma/client";
 import Error404 from "~/pages/404";
 import { useState } from "react";
+import toast, { Toaster } from "react-hot-toast";
 
 export default function Room() {
   const { shouldReturn, id } = dynamicRouteID(useRouter());
@@ -28,10 +29,12 @@ export default function Room() {
 
   const { data: roomData, isLoading: roomLoading } =
     api.room.getOne.useQuery(id);
+
   const { data: accommData, isLoading: accommLoading } =
     api.accommodation.getOne.useQuery(
       roomData ? roomData?.accommodationId : "",
     );
+
   const archiveRoom = api.room.archive.useMutation();
   const unarchiveRoom = api.room.unarchive.useMutation();
   const deleteRoom = api.room.delete.useMutation();
@@ -308,11 +311,21 @@ export default function Room() {
                 className="mx-2 mt-4 rounded bg-blue-500 px-4 py-2 text-white hover:bg-blue-600"
                 onClick={(d) => {
                   archiveRoom.mutate(id);
-                  window.location.replace(
-                    `/accommodation/${
-                      roomData ? roomData.accommodationId : ""
-                    }`,
-                  );
+                  toast.success("Successfully Archived Room!", {
+                    position: "bottom-right",
+                    duration: 1000,
+                  });
+                  // window.location.replace(
+                  //   `/accommodation/${
+                  //     roomData ? roomData.accommodationId : ""
+                  //   }`,
+                  // );
+                  setShowPopUpArchive(false);
+                  router.reload();
+                  toast.success("Successfully Archived Room!", {
+                    position: "bottom-right",
+                    duration: 1000,
+                  });
                 }}
               >
                 Yes
@@ -336,12 +349,18 @@ export default function Room() {
                 className="mx-2 mt-4 rounded bg-blue-500 px-4 py-2 text-white hover:bg-blue-600"
                 onClick={(d) => {
                   unarchiveRoom.mutate(id);
+                  toast.success("Successfully Unarchived Room!", {
+                    position: "bottom-right",
+                    duration: 1000,
+                  });
                   setShowPopUpUnarchive(false);
-                  window.location.replace(
-                    `/accommodation/${
-                      roomData ? roomData.accommodationId : ""
-                    }`,
-                  );
+                  // window.location.replace(
+                  //   `/accommodation/${
+                  //     roomData ? roomData.accommodationId : ""
+                  //   }`,
+                  // );
+
+                  router.reload();
                 }}
               >
                 Yes
@@ -365,11 +384,16 @@ export default function Room() {
                 className="mx-2 mt-4 rounded bg-blue-500 px-4 py-2 text-white hover:bg-blue-600"
                 onClick={(d) => {
                   deleteRoom.mutate(id);
+                  setShowPopUpDelete(false);
                   window.location.replace(
                     `/accommodation/${
                       roomData ? roomData.accommodationId : ""
                     }`,
                   );
+                  toast.success("Successfully Deleted Room!", {
+                    position: "bottom-right",
+                    duration: 1000,
+                  });
                 }}
               >
                 Yes
@@ -386,138 +410,4 @@ export default function Room() {
       )}
     </div>
   );
-  // } else {
-  //   return (
-  //     <div className="flex h-screen flex-col">
-  //       {/* HEADER */}
-  //       <NavBar showBack />
-  //       {/* BODY */}
-  //       <div className=" flex flex-auto flex-col">
-  //         <div>
-  //           {/* USER PROFILE */}
-  //           <div className="mt-5 flex justify-center">
-  //             <UserProfile />
-  //           </div>
-  //           {/* ICONS */}
-  //           <div className="absolute inset-x-0 flex flex-col items-center justify-center">
-  //             <div className="mb-2 mt-5 w-1/3 rounded-xl border-2 bg-p-dblue px-5 py-5">
-  //               <div className="flex flex-row justify-center px-2 pb-0 pt-0 drop-shadow-md">
-  //                 <div className="flex w-[50%] flex-col">
-  //                   <h1 className="text-3xl font-bold text-white">Price</h1>
-  //                   {!roomLoading ? (
-  //                     <h1 className="text-xl font-bold text-white">
-  //                       {roomData?.price}
-  //                     </h1>
-  //                   ) : (
-  //                     <h1 className="text-xl font-bold text-white">
-  //                       &nbsp;&nbsp;
-  //                     </h1>
-  //                   )}
-  //                   {/* <h1 className="text-xl font-bold text-white">999999</h1> */}
-  //                 </div>
-  //                 <div className="flex w-[50%] flex-col">
-  //                   <h1 className="text-3xl font-bold text-white">
-  //                     No. of Beds
-  //                   </h1>
-  //                   {!roomLoading ? (
-  //                     <h1 className="text-xl font-bold text-white">
-  //                       {roomData?.num_of_beds}
-  //                     </h1>
-  //                   ) : (
-  //                     <h1 className="text-xl font-bold text-white">
-  //                       &nbsp;&nbsp;
-  //                     </h1>
-  //                   )}
-  //                   {/* <h1 className="text-xl font-bold text-white">10</h1> */}
-  //                 </div>
-  //               </div>
-  //             </div>
-  //             {/* dito pasok details */}
-  //             <div className="mb-2 mt-2 w-1/3 rounded-xl border-2 bg-white px-5 py-3">
-  //               {/* availability */}
-  //               <div className="flex flex-row">
-  //                 <div className="relative flex h-20 w-20 flex-col items-start rounded-full pl-1">
-  //                   <Image
-  //                     src={iconavail}
-  //                     className="object-scale-down object-left"
-  //                     alt="STALS Logo"
-  //                     fill
-  //                   />
-  //                 </div>
-  //                 <div className="flex flex-row justify-center drop-shadow-md">
-  //                   <div className="ml-3 flex w-[50%] flex-col">
-  //                     <h1 className="text-2xl font-bold text-blue-700">
-  //                       Availability
-  //                     </h1>
-  //                     {!roomLoading ? (
-  //                       <h1 className="">
-  //                         {roomData?.occupied ? "Occupied" : "Unoccupied"}
-  //                       </h1>
-  //                     ) : (
-  //                       <h1 className="">&nbsp;&nbsp;</h1>
-  //                     )}
-  //                     {/* <h1 className="text-xl font-bold text-blue-700">Unoccupied</h1> */}
-  //                   </div>
-  //                 </div>
-  //               </div>
-  //             </div>
-  //             <div className="mb-2 mt-2 w-1/3 rounded-xl border-2 bg-white px-5 py-3   ">
-  //               <div className="flex flex-row">
-  //                 <div className="relative flex h-20 w-20 flex-col items-start rounded-full pl-1">
-  //                   <Image
-  //                     src={iconaircon}
-  //                     className="object-scale-down object-left"
-  //                     alt="STALS Logo"
-  //                     fill
-  //                   />
-  //                 </div>
-  //                 <div className="flex flex-row justify-center drop-shadow-md">
-  //                   <div className="flex w-[50%] flex-col">
-  //                     <h1 className="text-2xl font-bold text-blue-700">
-  //                       Airconditioner
-  //                     </h1>
-  //                     {!roomLoading ? (
-  //                       <h1 className="">
-  //                         {roomData?.with_aircon ? "With" : "Without"}
-  //                       </h1>
-  //                     ) : (
-  //                       <h1 className="">&nbsp;&nbsp;</h1>
-  //                     )}
-  //                     {/* <h1 className="text-xl font-bold text-blue-700">Without</h1> */}
-  //                   </div>
-  //                 </div>
-  //               </div>
-  //             </div>
-  //             <div className="mb-2 mt-2 w-1/3 rounded-xl border-2 bg-white px-5 py-3">
-  //               <div className="flex flex-row">
-  //                 <div className="relative flex h-20 w-20 flex-col rounded-full">
-  //                   <Image
-  //                     src={iconutils}
-  //                     className="object-scale-down object-left"
-  //                     alt="STALS Logo"
-  //                     fill
-  //                   />
-  //                 </div>
-  //                 <div className="flex flex-row justify-center drop-shadow-md">
-  //                   <div className="ml-6 flex w-[50%] flex-col">
-  //                     <h1 className="text-2xl font-bold text-blue-700">
-  //                       Utilities
-  //                     </h1>
-  //                     {!roomLoading ? (
-  //                       <h1 className="">
-  //                         {roomData?.with_utilities ? "With" : "Without"}
-  //                       </h1>
-  //                     ) : (
-  //                       <h1 className="">&nbsp;&nbsp;</h1>
-  //                     )}
-  //                   </div>
-  //                 </div>
-  //               </div>
-  //             </div>
-  //           </div>
-  //         </div>
-  //       </div>
-  //     </div>
-  //   );
-  // }
 }
