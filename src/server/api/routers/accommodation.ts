@@ -88,14 +88,12 @@ export const accommodationRouter = createTRPCRouter({
     }),
 
   // Get one accommodation
-  getOne: publicProcedure
-    .input(z.string().optional())
-    .query(({ ctx, input }) => {
-      const id = input;
-      return ctx.prisma.accommodation.findUnique({
-        where: { id },
-      });
-    }),
+  getOne: publicProcedure.input(z.string()).query(({ ctx, input }) => {
+    const id = input;
+    return ctx.prisma.accommodation.findUnique({
+      where: { id },
+    });
+  }),
 
   // Add a new accommodation
   add: protectedProcedure

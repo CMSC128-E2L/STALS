@@ -29,7 +29,9 @@ export default function Room() {
   const { data: roomData, isLoading: roomLoading } =
     api.room.getOne.useQuery(id);
   const { data: accommData, isLoading: accommLoading } =
-    api.accommodation.getOne.useQuery(roomData?.accommodationId);
+    api.accommodation.getOne.useQuery(
+      roomData ? roomData?.accommodationId : "",
+    );
   const archiveRoom = api.room.archive.useMutation();
   const unarchiveRoom = api.room.unarchive.useMutation();
   const deleteRoom = api.room.delete.useMutation();
