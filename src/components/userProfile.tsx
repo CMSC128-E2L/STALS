@@ -4,14 +4,16 @@ import { useSession } from "next-auth/react";
 import { stringify } from "superjson";
 import { api } from "~/utils/api";
 
-export default function UserProfile() {
+export default function UserProfile(props: {
+  uid: string | undefined;
+  id: string | undefined;
+}) {
   const session = useSession();
 
   const { data: userReview, isLoading: reviewLoading } =
-    api.review.getOneTopReview.useQuery();
-
+    api.review.getOne.useQuery(props.id!);
   const { data: userDetails, isLoading: userDetailsLoading } =
-    api.user.getOne.useQuery(userReview?.userId!);
+    api.user.getOne.useQuery(props.uid!);
 
   return (
     <>

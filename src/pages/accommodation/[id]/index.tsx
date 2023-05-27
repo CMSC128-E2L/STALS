@@ -441,7 +441,10 @@ export default function Accommodation() {
                     {/* TODO: For this, get the first review from the accomm's review array, and load the following:*/}
                     <div className="basis-1/8">
                       {/* UserProfile must be the User that made that review*/}
-                      <UserProfile />
+                      <UserProfile
+                        uid={userReview?.userId}
+                        id={userReview?.id}
+                      />
                     </div>
                     <div className="pl-20">
                       <p className="line-clamp-2 text-sm">
