@@ -13,6 +13,10 @@ import autoTable from "jspdf-autotable";
 import { Accommodation } from "@prisma/client";
 
 export default function HomePage() {
+  const [showDropdown, setShowDropdown] = useState(false);
+  const toggleDropdown = () => {
+    setShowDropdown((prevState) => !prevState);
+  };
   const [userInputs, setUserInputs] = useState<
     z.infer<typeof accommodationGetManyExperiementSchema>
   >({
@@ -341,13 +345,54 @@ export default function HomePage() {
       >
         <NavBar register={register} name={"name"} />
         <div className="flex">
-          <div className="h-100% flex w-[190px] min-w-[190px] flex-col bg-p-lblue p-5">
+          <div className="sticky top-0 flex h-screen w-[210px] min-w-[210px] flex-col bg-p-lblue p-5">
             {/* Location */}
             <div className="mb-4">
               <h2 className="mb-2 text-base font-bold">Location</h2>
               <Location setUserInputs={setUserInputs} methods={methods} />
             </div>
             {/* Accommodation Type */}
+            {/* <h2 className="relative mb-2 text-base font-bold">Accommodation Type</h2>   */}
+            {/* <button
+              className="w-full mr-2 flex items-center rounded-full bg-p-dblue px-3 py-1 text-sm text-white hover:bg-p-rblue"
+              onClick={toggleDropdown}
+            >
+              Select type
+              <svg
+                className="h-5 w-5"
+                aria-hidden="true"
+                fill="none"
+                stroke="currentColor"
+                viewBox="0 0 24 24"
+                xmlns="http://www.w3.org/2000/svg"
+              >
+                <path
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                  stroke-width="2"
+                  d="M19 9l-7 7-7-7"
+                ></path>
+              </svg>
+          </button>
+        {showDropdown && (
+          <div className="absolute rounded-lg bg-white p-3 pt-0 text-sm shadow-lg z-10">
+            {accomTypes.map((range) => (
+                <div className="mt-2 mb-1 flex items-center dropdown-buttons" key={range.id} >
+                  <input
+                    id={range.id}
+                    type="radio"
+                    name="accom_type"
+                    value={range.value}
+                    onChange={handleAccomTypeChange}
+                    className="hidden ml-3 h-4 w-4 rounded border-gray-300 bg-gray-100 text-blue-600 focus:ring-2 focus:ring-blue-500 dark:border-gray-600 dark:bg-gray-700 dark:ring-offset-gray-800 dark:focus:ring-blue-600"
+                  />
+                  <label htmlFor={range.id} className="filter-text">
+                    {range.label}
+                  </label>
+                </div>
+              ))}
+          </div>
+        )} */}
             <div className="mb-4">
               <h2 className="mb-2 text-base font-bold">Type</h2>
               {accomTypes.map((range) => (
