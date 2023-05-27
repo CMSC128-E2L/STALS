@@ -104,6 +104,15 @@ export const roomRouter = createTRPCRouter({
     });
   }),
 
+  deleteMany: protectedProcedure
+    .input(z.string())
+    .mutation(({ ctx, input }) => {
+      const id = input;
+      return ctx.prisma.review.deleteMany({
+        where: { accommodationId: id },
+      });
+    }),
+
   // Edit Room
   edit: protectedProcedure
     .input(
