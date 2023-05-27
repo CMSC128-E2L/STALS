@@ -131,6 +131,28 @@ export const reviewRouter = createTRPCRouter({
   //   }
   // }),
 
+  getOneTopReview: publicProcedure.query(async ({ ctx }) => {
+    try {
+      return await ctx.prisma.review.findFirst({
+        where: {
+          rating: {
+            gt: 3,
+          },
+        },
+      });
+    } catch (error) {
+      console.log("error", error);
+    }
+  }),
+
+  // Get one review
+  getOne: publicProcedure.input(z.string()).query(({ ctx, input }) => {
+    const id = input;
+    return ctx.prisma.review.findUnique({
+      where: { id },
+    });
+  }),
+
   getMany: publicProcedure
     .input(reviewGetManySchema)
     .query(({ ctx, input }) => {

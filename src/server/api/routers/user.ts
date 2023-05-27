@@ -17,6 +17,14 @@ export const userRouter = createTRPCRouter({
     });
   }),
 
+  // Get one user
+  getOne: publicProcedure.input(z.string()).query(({ ctx, input }) => {
+    const id = input;
+    return ctx.prisma.user.findUnique({
+      where: { id },
+    });
+  }),
+
   delete: protectedProcedure.mutation(({ ctx }) => {
     const userId = ctx?.session?.user?.id;
     return ctx.prisma.user.delete({

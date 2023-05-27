@@ -23,6 +23,9 @@ export default function Accommodation() {
   const { data: ImageList, isLoading: imageLoading } =
     api.file.getAccommImages.useQuery({ id });
 
+  const { data: userReview, isLoading: reviewLoading } =
+    api.review.getOneTopReview.useQuery();
+
   // const { data: RoomList, isLoading: roomLoading } = api.room.getMany.useQuery({
   //   id: id,
   //   status: undefined,
@@ -235,7 +238,7 @@ export default function Accommodation() {
                 </div>
 
                 {/* EMAIL */}
-                <div className="flex flex-row items-center gap-x-1 p-1">
+                {/* <div className="flex flex-row items-center gap-x-1 p-1">
                   <div className="rounded-full bg-p-dblue p-1">
                     <svg
                       xmlns="http://www.w3.org/2000/svg"
@@ -253,7 +256,7 @@ export default function Accommodation() {
                     </svg>
                   </div>
                   Email
-                </div>
+                </div> */}
 
                 {/* LOCATION */}
                 <div className="flex flex-row items-center gap-x-1 p-1">
@@ -442,8 +445,7 @@ export default function Accommodation() {
                     </div>
                     <div className="pl-20">
                       <p className="line-clamp-2 text-sm">
-                        With the sects clashing against one another, there was
-                        no one who could blablahblahblah ye
+                        {userReview?.review}
                       </p>
                     </div>
                     {/* This is the review */}
