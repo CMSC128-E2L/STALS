@@ -5,7 +5,6 @@ const Validate: React.FC = () => {
   const userSession = useSession();
   const router = useRouter();
 
-  // useEffect(() => {
   if (userSession.data)
     if (
       userSession.data?.profile.first_name === undefined ||
@@ -15,7 +14,6 @@ const Validate: React.FC = () => {
         window.location.replace("/signup");
       }
     }
-  // });
 
   return <></>;
 };
