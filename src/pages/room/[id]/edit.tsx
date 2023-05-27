@@ -41,7 +41,7 @@ export default function EditRoom() {
         src={bgpic.src}
         alt="background"
       />
-
+      <NavBar />
       <div className="absolute inset-x-0 flex h-screen items-center justify-center">
         <div className="w-1/3 rounded-xl bg-white px-10 py-10">
           <div className="item-center flex justify-center px-2 pb-0 pt-0 drop-shadow-md">
