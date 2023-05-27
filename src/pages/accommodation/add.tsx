@@ -21,6 +21,22 @@ export default function AddAccommodation() {
 
   return (
     <div className="overflow-visible">
+      <Toaster
+        toastOptions={{
+          success: {
+            style: {
+              background: "green",
+              color: "white",
+            },
+          },
+          error: {
+            style: {
+              background: "red",
+              color: "white",
+            },
+          },
+        }}
+      />
       <img
         className="absolute bg-cover object-fill"
         src={bgpic.src}
@@ -41,11 +57,17 @@ export default function AddAccommodation() {
                   createAccommodation.mutate(
                     d as RouterInputs["accommodation"]["add"],
                   );
-                  toast("Successfully Added Accommodation!");
+                  toast.success("Successfully Added Accommodation!", {
+                    position: "bottom-right",
+                    duration: 1000,
+                  });
                 },
                 (error) => {
                   console.log(error);
-                  toast("Cannot Add Accommodation!");
+                  toast.error("Cannot Add Accommodation!", {
+                    position: "bottom-right",
+                    duration: 1000,
+                  });
                 },
               )}
               className="w-full   justify-items-stretch"
