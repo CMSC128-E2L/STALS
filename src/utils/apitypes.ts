@@ -64,6 +64,8 @@ export const reviewAddSchema = z.object({
   accommodationId: z.string(),
   review: z.string().optional(),
   rating: z.number(),
+  time: z.string().optional(),
+  date: z.string().optional(),
 });
 
 export const reviewEditSchema = z.object({
