@@ -248,7 +248,7 @@ export default function Accommodation() {
                       />
                     </svg>
                   </div>
-                  {accommData?.fb_page ?? "Facebook link"}
+                  Email
                 </div>
 
                 {/* LOCATION */}
