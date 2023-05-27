@@ -36,6 +36,17 @@ export const roomRouter = createTRPCRouter({
     });
   }),
 
+  // UnArchive Room
+  unarchive: protectedProcedure.input(z.string()).mutation(({ ctx, input }) => {
+    const id = input;
+    return ctx.prisma.room.update({
+      where: { id: id },
+      data: {
+        is_archived: false,
+      },
+    });
+  }),
+
   // Get All Archived Rooms
   archives: protectedProcedure
     .input(
@@ -92,6 +103,15 @@ export const roomRouter = createTRPCRouter({
       where: { id },
     });
   }),
+
+  deleteMany: protectedProcedure
+    .input(z.string())
+    .mutation(({ ctx, input }) => {
+      const id = input;
+      return ctx.prisma.review.deleteMany({
+        where: { accommodationId: id },
+      });
+    }),
 
   // Edit Room
   edit: protectedProcedure
