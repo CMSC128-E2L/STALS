@@ -1,15 +1,30 @@
 import { type NextPage } from "next";
 import Image from "next/image";
 import Head from "next/head";
-import Link from "next/link";
-import { signIn, signOut, useSession } from "next-auth/react";
-import graphics from "public/images/pic.png";
+import { signOut, useSession } from "next-auth/react";
 import bg from "public/images/landing-bg-02.png";
 import logo from "public/images/logo.png";
 import about_us from "public/images/about_us.png";
 import contact_us from "public/images/contact.png";
+import React, { useState, useEffect } from "react";
 
 const Home: NextPage = () => {
+  const [isLargeText, setIsLargeText] = useState(false);
+
+  useEffect(() => {
+    const handleResize = () => {
+      setIsLargeText(window.innerWidth >= 768); // Adjust the breakpoint as needed
+    };
+
+    handleResize();
+
+    window.addEventListener("resize", handleResize);
+
+    return () => {
+      window.removeEventListener("resize", handleResize);
+    };
+  }, []);
+
   return (
     <>
       <Head>
@@ -22,147 +37,169 @@ const Home: NextPage = () => {
       <main className="">
         {/* landing page whole screen content */}
         <div className="">
-          <img
-            className="relative bg-cover bg-fixed bg-center"
-            src={bg.src}
+          <Image
+            className="relative h-full w-screen bg-cover bg-fixed bg-center"
+            src={bg}
             alt="background"
           />
 
-          <div className="absolute inset-x-0 top-0">
-            {/* graphics */}
-            {/* <div className="absolute bottom-1 right-1/2 h-[100%] w-screen translate-x-1/2 opacity-70">
-            <Image className="" src={bg} alt="background" fill />
-          </div> */}
-
-            {/* <img
-            className="absolute w-screen bg-cover bg-fixed bg-center"
-            src={bg.src}
-            alt="background"
-          /> */}
-
+          <div className="absolute inset-x-0 top-0 z-30">
             {/* 1 header nav bar [logo name home about contact]*/}
-            <header className="sticky top-0 justify-between">
-              {/* logo name */}
-              <div className="absolute inset-x-0 left-0 top-1/2 flex p-5">
-                <div className="relative flex h-20 w-20 flex-col items-start rounded-full pl-1">
-                  <Image
-                    src={logo}
-                    className="object-scale-down object-left"
-                    alt="STALS Logo"
-                    fill
-                  />
+            <header
+              className="absolute sticky top-0 z-50 justify-between text-white "
+              id="up"
+            >
+              <div className="container mx-auto flex flex-col items-center justify-between py-4 lg:flex-row">
+                <div className="mb-4 flex items-center lg:mb-0">
+                  <Image src={logo} alt="Logo" className="mr-2 h-8 w-8" />
+                  <span className="text-xl font-bold">STALS</span>
                 </div>
-                <h1 className="p-3 font-extrabold text-white sm:text-[2rem]">
-                  STALS
-                </h1>
-              </div>
 
-              {/* home about contact */}
-              <div className="text-bold text-s absolute right-0 top-1/2 flex p-1 text-white">
-                {/* <div className="flex text-white text-bold text-s w-full md:block md:w-auto mt-4 flex flex-col items-center p-4 font-medium md:mt-0 md:flex-row md:space-x-8 md:border-0 md:p-0"> */}
-                <Link
-                  href="homepage"
-                  className="p-10 no-underline hover:underline"
-                >
-                  Home
-                </Link>
-                <Link
-                  href="#contactus"
-                  className="p-10 no-underline hover:underline"
-                >
-                  Contact
-                </Link>
-                <Link
-                  href="#aboutus"
-                  className="p-10 no-underline hover:underline"
-                >
-                  About Us
-                </Link>
+                <nav className="flex items-center font-bold ">
+                  <a
+                    href="homepage"
+                    className="mx-2 text-white no-underline hover:text-gray-300 hover:underline"
+                  >
+                    Home
+                  </a>
+                  <a
+                    href="#contactus"
+                    className="mx-2 text-white no-underline hover:text-gray-300 hover:underline"
+                  >
+                    Contact Us
+                  </a>
+                  <a
+                    href="#aboutus"
+                    className="mx-2 text-white no-underline hover:text-gray-300 hover:underline"
+                  >
+                    About Us
+                  </a>
+                </nav>
               </div>
             </header>
           </div>
-          <div>
-            {/* lowest prio: nagsslide yung description [description -> full name] */}
-            {/* 2 main content after header navbar [title subtitle get started button] */}
-            <div>
-              <section className="pb-20">
-                <div className="absolute left-1/2 top-1/2 flex -translate-x-1/2 -translate-y-1/2 flex-col justify-center text-center">
-                  <h1 className="pb-4 text-5xl font-extrabold tracking-tight text-white drop-shadow-md sm:text-[5rem]">
-                    Comfort At Its Best!
-                  </h1>
 
-                  <p className="p-2 font-sans text-lg leading-normal tracking-wider text-white drop-shadow-md">
-                    You can search, get information, review, and <br />
-                    rate apartments, bed spaces, hotels, dormitories,
-                    <br /> and transient spaces in Los Baños.
+          <section className="">
+            <div className="absolute inset-0 z-20 flex flex-col items-center justify-center">
+              <p
+                className={`text-3xl font-extrabold tracking-tight lg:text-6xl xl:text-8xl ${
+                  isLargeText ? "text-white" : "text-black"
+                } ${isLargeText ? "pt-5" : "pt-20"} `}
+              >
+                Comfort At Its Best
+              </p>
+
+              <p
+                className={`max-h-30 mt-2 overflow-hidden text-center font-sans text-sm lg:text-lg xl:text-xl ${
+                  isLargeText ? "text-white" : "text-black"
+                }`}
+              >
+                You can search, get information, review, and
+                <br />
+                rate apartments, bed spaces, hotels, dormitories,
+                <br />
+                and transient spaces in Los Baños.
+              </p>
+
+              {/* get started button edit color */}
+              <div className="x flex flex-col items-center">
+                <AuthShowcase />
+              </div>
+            </div>
+          </section>
+
+          <section className="mt-16 pt-40" id="aboutus">
+            <div className="container mx-auto max-w-4xl">
+              <div className="flex flex-col items-center justify-center gap-4 lg:flex-row lg:justify-between lg:gap-8">
+                <div>
+                  <Image
+                    className="floating-image h-60 w-auto lg:h-80"
+                    src={about_us}
+                    alt="aboutus"
+                  />
+                </div>
+                <div className="text-center lg:text-left">
+                  <h1 className="text-6xl font-bold">About Us</h1>
+                  <p className="pt-3">
+                    Cause there we are again when I loved you so
+                    <br />
+                    Back before you lost the one real thing
+                    <br />
+                    have ever known. It was rare, I was there
                   </p>
-
-                  {/* get started button edit color */}
-                  <div className="flex flex-col items-center">
-                    <AuthShowcase />
-                  </div>
                 </div>
-              </section>
+              </div>
+            </div>
+          </section>
 
-              <section className="max-w-150px pb-20 pt-40">
-                <div className="item center flex justify-center" id="aboutus">
-                  <div className="h-50 grid grid-cols-2 justify-items-stretch gap-4">
-                    <div>
-                      <img
-                        className="scale-100"
-                        src={about_us.src}
-                        alt="aboutus"
-                      />
-                    </div>
-                    <div className="item center justify-self-center pt-40">
-                      <h1 className="text-start text-6xl font-bold">
-                        About Us
-                      </h1>
-                      <p className="pt-3">
-                        {" "}
-                        Cause there we are again when I loved you so
-                        <br />
-                        Back before you lost the one real thing you have ever
-                        known
-                        <br />
-                        It was rare, I was there, I remember it all too well
-                      </p>
-                    </div>
-                  </div>
+          <section className="mt-16 py-40" id="contactus">
+            <div className="container mx-auto max-w-4xl">
+              <div className="flex flex-col items-center justify-center gap-4 lg:flex-row lg:justify-between lg:gap-8">
+                <div className="text-center lg:text-left">
+                  <h1 className="text-6xl font-bold">Contact Us</h1>
+                  <p className="pt-3">
+                    Cause there we are again when I loved you so
+                    <br />
+                    Back before you lost the one real thing
+                    <br />
+                    have ever known. It was rare, I was there
+                  </p>
                 </div>
-              </section>
 
-              <section className="pb-40">
-                <div className="item center flex justify-center" id="contactus">
-                  <div className="h-50 grid grid-cols-2 justify-items-stretch gap-4">
-                    <div className="item center justify-self-center pt-20">
-                      <h1 className="pt-10 text-start text-6xl font-bold">
-                        Contact Us
-                      </h1>
-                      <p className="pt-3">
-                        {" "}
-                        Cause there we are again when I loved you so
-                        <br />
-                        Back before you lost the one real thing you have ever
-                        known
-                        <br />
-                        It was rare, I was there
-                      </p>
-                    </div>
-
-                    <div className="justify-self-end">
-                      <img
-                        className="scale-100"
-                        src={contact_us.src}
-                        alt="aboutus"
-                      />
-                    </div>
-                  </div>
+                <div>
+                  <Image
+                    className="floating-image h-60 w-auto lg:h-80"
+                    src={contact_us}
+                    alt="contactus"
+                  />
                 </div>
-              </section>
+              </div>
+            </div>
+          </section>
+        </div>
+
+        <footer className="bg-white dark:bg-gray-900">
+          <div className="mx-auto w-full max-w-screen-xl p-4 py-6 lg:py-8">
+            <div className="md:flex md:justify-between">
+              <div className="mb-6 md:mb-0">
+                <a href="homepage" className="flex items-center">
+                  <Image
+                    src={logo}
+                    className="mr-2 h-10 w-10"
+                    alt="FlowBite Logo"
+                  />
+                  <span className="self-center whitespace-nowrap text-2xl font-semibold dark:text-white">
+                    STALS
+                  </span>
+                </a>
+              </div>
+            </div>
+            <hr className="my-6 border-gray-200 dark:border-gray-700 sm:mx-auto lg:my-8" />
+            <div className="sm:flex sm:items-center sm:justify-between">
+              <span className="text-sm text-gray-500 dark:text-gray-400 sm:text-center">
+                © 2023{" "}
+                <a href="homepage" className="hover:underline">
+                  STALS
+                </a>
+                . All Rights Reserved.
+              </span>
+              <div className="mt-4 flex space-x-6 sm:mt-0 sm:justify-center">
+                <a
+                  href="#up"
+                  className="mx-2 font-bold text-white no-underline hover:text-gray-300 hover:underline"
+                >
+                  Go Up
+                </a>
+                <a
+                  href="homepage"
+                  className="mx-2 font-bold text-white no-underline hover:text-gray-300 hover:underline"
+                >
+                  Home
+                </a>
+              </div>
             </div>
           </div>
-        </div>
+        </footer>
       </main>
     </>
   );
@@ -182,7 +219,7 @@ const AuthShowcase: React.FC = () => {
         {sessionData && <span>Logged in as {fullName}</span>}
       </p>
       <button
-        className="rounded-full bg-[#1C5D99]/90 px-10 py-3 font-semibold text-white no-underline transition hover:bg-white/20"
+        className="rounded-full bg-[#1C5D99]/90 px-10 py-2 font-semibold text-white no-underline transition hover:bg-white/20"
         onClick={
           sessionData
             ? () => void signOut()

@@ -75,4 +75,20 @@
   .profile-dropdown {
     @apply absolute right-0 top-11 z-10 w-[15rem] overflow-hidden rounded-lg bg-white p-4 shadow-lg;
   }
+
+  .floating-image {
+    animation: floatAnimation 3s ease-in-out infinite;
+  }
+
+  @keyframes floatAnimation {
+    0% {
+      transform: translateY(0);
+    }
+    50% {
+      transform: translateY(-10px);
+    }
+    100% {
+      transform: translateY(0);
+    }
+  }
 }
