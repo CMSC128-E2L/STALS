@@ -131,6 +131,11 @@ const EditProfile: NextPage = () => {
                 {errors.contact_number?.message && (
                   <p>{errors.contact_number?.message as string}</p>
                 )}
+                <input
+                  {...register("type")}
+                  type="hidden"
+                  defaultValue={userSession.data?.profile.type || ""}
+                />
               </div>
               <br />
               <div>
