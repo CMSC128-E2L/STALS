@@ -269,7 +269,7 @@ export default function HomePage() {
         ) : hasNextPage ? (
           <div className="w-full text-center">
             <button
-              className="m-5 w-[50%] rounded-xl bg-p-dblue p-3 text-xl text-white"
+              className="m-5 w-[50%] rounded-full bg-p-dblue p-3 text-xl text-white"
               onClick={() => {
                 void fetchNextPage();
                 // eslint-disable-next-line
