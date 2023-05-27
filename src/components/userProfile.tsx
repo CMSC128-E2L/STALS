@@ -9,7 +9,6 @@ export default function UserProfile(props: {
   id: string | undefined;
 }) {
   const session = useSession();
-
   const { data: userReview, isLoading: reviewLoading } =
     api.review.getOne.useQuery(props.id!);
   const { data: userDetails, isLoading: userDetailsLoading } =
