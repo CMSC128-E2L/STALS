@@ -58,7 +58,7 @@ const Signup: NextPage = () => {
   return (
     <div className="">
       <img
-        className="absolute bg-cover bg-fixed bg-center"
+        className="relative h-full w-screen bg-cover bg-fixed bg-center"
         src={bgpic.src}
         alt="background"
       />
@@ -209,7 +209,7 @@ const Signup: NextPage = () => {
                   className=" pl-1 text-sm text-gray-500 underline"
                   onClick={() => setShowTerms(true)}
                 >
-                  Terms and Conditions
+                  See more
                 </button>
               </div>
             </div>

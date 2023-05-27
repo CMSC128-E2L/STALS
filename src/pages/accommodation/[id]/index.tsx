@@ -9,9 +9,13 @@ import { useRouter } from "next/router";
 import { dynamicRouteID } from "~/utils/helpers";
 import Error404 from "~/pages/404";
 import { useSession } from "next-auth/react";
+import Review from "~/components/review";
+import { useState } from "react";
 
 export default function Accommodation() {
   const { id } = dynamicRouteID(useRouter());
+
+  const [showReview, setShowReview] = useState(false);
 
   const { data: accommData, isLoading: accommLoading } =
     api.accommodation.getOneRelations.useQuery(id);
@@ -297,7 +301,7 @@ export default function Accommodation() {
                       <path d="M16 8.049c0-4.446-3.582-8.05-8-8.05C3.58 0-.002 3.603-.002 8.05c0 4.017 2.926 7.347 6.75 7.951v-5.625h-2.03V8.05H6.75V6.275c0-2.017 1.195-3.131 3.022-3.131.876 0 1.791.157 1.791.157v1.98h-1.009c-.993 0-1.303.621-1.303 1.258v1.51h2.218l-.354 2.326H9.25V16c3.824-.604 6.75-3.934 6.75-7.951z" />
                     </svg>
                   </div>
-                  Facebook link
+                  {accommData?.fb_page ?? "Facebook link"}
                 </div>
               </div>
 
@@ -335,13 +339,13 @@ export default function Accommodation() {
                       <h1 className="form-h2">Price</h1>
                       <h1 className="form-h2">Capacity</h1>
                       {/*TODO: CONTRACT LENGTH IS A CONDITIONAL THAT ONLY APPEARS IF THE ACCOMMODATION IS A DORMITORY */}
-                      <h1 className="form-h2">{accommData?.contract_length}</h1>
+                      <h1 className="form-h2">Contract Length</h1>
                     </div>
 
                     <div className="flex flex-col gap-2 p-2">
                       <p>{accommData?.price} Pesos</p>
                       <p>(min) to (max) people</p>
-                      <p>1 Academic Year</p>
+                      <p>{accommData?.contract_length}</p>
                     </div>
                   </div>
                 </div>
@@ -411,19 +415,21 @@ export default function Accommodation() {
 
               {/* Rest */}
               <div className="flex grow flex-row divide-x-2 divide-p-black">
-                <div className="basis-2/3 p-3">
-                  <h1 className="text-start text-2xl">Ratings and Reviews</h1>
+                <div className="basis-1/3 p-3">
                   <div className="flex flex-row">
-                    <div className="basis-1/2 place-self-center text-center ">
+                    <div className="place-self-center text-center ">
                       {/* wao */}
+                      <h1 className="text-start text-2xl">
+                        Ratings and Reviews
+                      </h1>
                       <p className="text-5xl font-bold">
                         {Number(accommData?.average_rating ?? 0).toFixed(1)} / 5
                       </p>
                       <p>out of {accommData?.total_reviews ?? 0} reviews</p>
+                      <StarRow rating={accommData?.average_rating ?? 0} />
                     </div>
 
                     {/* TODO: For this, go through the review array in schema.prisma and get the average ratings the plug the number in this component.*/}
-                    <StarRow rating={accommData?.average_rating ?? 0} />
                   </div>
                 </div>
                 {/* Review section */}
@@ -433,21 +439,34 @@ export default function Accommodation() {
                     <div className="basis-1/8">
                       {/* UserProfile must be the User that made that review*/}
                       <UserProfile />
-                      {/* StarRow is the rating of that review */}
-                      <StarRow rating={accommData?.average_rating} />
+                    </div>
+                    <div className="pl-20">
+                      <p className="line-clamp-2 text-sm">
+                        With the sects clashing against one another, there was
+                        no one who could blablahblahblah ye
+                      </p>
                     </div>
                     {/* This is the review */}
-                    <p className="line-clamp-2 text-sm">
-                      With the sects clashing against one another, there was no
-                      one who could blablahblahblah ye
-                    </p>
+                    {showReview && (
+                      <div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50">
+                        <div className="rounded-xl bg-white p-8">
+                          <Review />
 
-                    <Link
-                      href={`${id}/review`}
-                      className="text-end text-xxs underline"
+                          <button
+                            className="mt-4 rounded bg-blue-500 px-4 py-2 text-white hover:bg-blue-600"
+                            onClick={() => setShowReview(false)}
+                          >
+                            Close
+                          </button>
+                        </div>
+                      </div>
+                    )}
+                    <button
+                      className=" pl-1 text-sm text-gray-500 underline"
+                      onClick={() => setShowReview(true)}
                     >
-                      See More
-                    </Link>
+                      See more
+                    </button>
                   </div>
                 </div>
               </div>

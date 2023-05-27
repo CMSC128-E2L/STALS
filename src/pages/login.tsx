@@ -14,7 +14,11 @@ export default function SignIn({
 }: InferGetServerSidePropsType<typeof getServerSideProps>) {
   return (
     <div>
-      <img className="bg-cover bg-center" src={bgpic.src} alt="background" />
+      <img
+        className=" relative h-full w-screen bg-cover bg-center"
+        src={bgpic.src}
+        alt="background"
+      />
 
       <div className="absolute inset-x-0 top-20 flex justify-center">
         <div className="rounded-xl px-16 py-8">
