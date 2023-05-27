@@ -5,7 +5,7 @@ import { SessionProvider } from "next-auth/react";
 import { api } from "~/utils/api";
 
 import "~/styles/globals.css";
-import Validate from "../components/validate";
+import Validate from "../components/globalValidate";
 
 const MyApp: AppType<{ session: Session | null }> = ({
   Component,
