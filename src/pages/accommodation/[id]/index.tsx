@@ -359,6 +359,12 @@ export default function Accommodation() {
                               ? false
                               : room.is_archived
                           }
+                          roomAccID={room.accommodationId}
+                          roomPrice={room.price}
+                          roomBeds={room.num_of_beds}
+                          roomAircon={room.with_aircon}
+                          roomUtils={room.with_utilities}
+                          roomAvail={room.occupied}
                         />
                       ))
                     ) : (
@@ -879,7 +885,8 @@ export default function Accommodation() {
                     {showReview && (
                       <div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50">
                         <div className="flex max-h-[80%] w-[60%] flex-col rounded-xl bg-white p-2">
-                          <Review accom_id={userReview?.accommodationId} />
+                          {/* TODO: you cant do this */}
+                          {/* <Review accom_id={userReview?.accommodationId} /> */}
 
                           <button
                             className="m-3 mt-4 w-[20%] rounded bg-blue-500 px-4 py-2 text-white hover:bg-blue-600"
