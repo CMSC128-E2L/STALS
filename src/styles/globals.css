@@ -97,6 +97,28 @@
   }
 }
 
+@layer utilities {
+  .scrollbar::-webkit-scrollbar {
+    width: 8px;
+    height: 8px;
+  }
+
+  .scrollbar::-webkit-scrollbar-track {
+    border-radius: 100vh;
+    background: white;
+  }
+
+  .scrollbar::-webkit-scrollbar-thumb {
+    background: #eaeaea;
+    border-radius: 100vh;
+    border: 1px solid white;
+  }
+
+  .scrollbar::-webkit-scrollbar-thumb:hover {
+    background: #bfbfbf;
+  }
+}
+
 @keyframes floatAnimation {
   0% {
     transform: translateY(0);
