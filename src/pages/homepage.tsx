@@ -11,8 +11,12 @@ import { useForm, useWatch, type Control } from "react-hook-form";
 import jsPDF from "jspdf";
 import autoTable from "jspdf-autotable";
 import { Accommodation } from "@prisma/client";
+import { useSession } from "next-auth/react";
+import { notAuthenticated } from "~/utils/helpers";
 
 export default function HomePage() {
+  const userSession = useSession();
+
   const [showDropdown, setShowDropdown] = useState(false);
   const toggleDropdown = () => {
     setShowDropdown((prevState) => !prevState);
@@ -441,14 +445,16 @@ export default function HomePage() {
             </div>
             {/* should not be a button since the form will assume it is a submit button */}
             {/* hack is to use a div with onClick */}
-            <div
-              className="text-md cursor-pointer rounded-full bg-p-dblue p-2 text-center text-white"
-              onClick={() => {
-                setpdfdownload(true);
-              }}
-            >
-              Download PDF
-            </div>
+            {!notAuthenticated(userSession.status) && (
+              <div
+                className="text-md cursor-pointer rounded-full bg-p-dblue p-2 text-center text-white"
+                onClick={() => {
+                  setpdfdownload(true);
+                }}
+              >
+                Download PDF
+              </div>
+            )}
           </div>
           <AccommodationsList control={control} />
         </div>
