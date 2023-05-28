@@ -183,6 +183,9 @@ export const reviewRouter = createTRPCRouter({
       include: {
         user: true,
       },
+      where: {
+        accommodationId: input.accommodationId,
+      },
       orderBy: {
         rating: "desc",
       },
