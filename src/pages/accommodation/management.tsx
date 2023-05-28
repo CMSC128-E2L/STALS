@@ -6,6 +6,7 @@ import { api } from "~/utils/api";
 import { notAuthenticated, stalsDBstringArray } from "~/utils/helpers";
 import Accomm_Segment from "~/components/accomm_segment";
 import LoadingSpinner from "~/components/loadingSpinner";
+import Link from "next/link";
 
 export default function Delete_Archive_Accomm() {
   const userSession = useSession({ required: true });
@@ -61,6 +62,14 @@ export default function Delete_Archive_Accomm() {
             <br />
           </>
         ))}
+      <div className="flex justify-center">
+        <Link
+          className="mx-4 mb-4 rounded border border-gray-400 bg-white p-4 text-xl"
+          href={`/accommodation/add`}
+        >
+          Add Accommodation
+        </Link>
+      </div>
     </div>
   );
 }

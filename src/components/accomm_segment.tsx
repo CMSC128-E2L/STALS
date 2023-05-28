@@ -173,15 +173,6 @@ const Accomm_Segment: React.FC<{
           </div>
         </div>
         <br />
-
-        <div className="flex justify-center">
-          <Link
-            className="mx-4 mb-4 rounded border border-gray-400 bg-white p-4 text-xl"
-            href={`/accommodation/add`}
-          >
-            Add Accommodation
-          </Link>
-        </div>
       </>
     </div>
   );
