@@ -4,13 +4,16 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { type RouterInputs, api } from "~/utils/api";
 import { roomAddSchema } from "~/utils/apitypes";
 import { useRouter } from "next/router";
-import { dynamicRouteID } from "~/utils/helpers";
+import { dynamicRouteID, notAuthenticated } from "~/utils/helpers";
 import { useEffect } from "react";
 import Link from "next/link";
 import bgpic from "public/images/bg-05.png";
 import toast from "react-hot-toast";
+import { useSession } from "next-auth/react";
+import LoadingSpinner from "~/components/loadingSpinner";
 
 export default function AddRoom() {
+  const userSession = useSession({ required: true });
   const { id } = dynamicRouteID(useRouter());
 
   const {
@@ -30,6 +33,10 @@ export default function AddRoom() {
   }, [id, setValue]);
 
   const addRoom = api.room.add.useMutation();
+
+  if (notAuthenticated(userSession.status)) {
+    return <LoadingSpinner />;
+  }
 
   return (
     <div className="">

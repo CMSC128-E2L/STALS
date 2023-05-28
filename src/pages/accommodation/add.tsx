@@ -6,18 +6,26 @@ import { type RouterInputs, api } from "~/utils/api";
 import { accommodationAddSchema } from "~/utils/apitypes";
 import bgpic from "public/images/bg-05.png";
 import toast from "react-hot-toast";
+import { useSession } from "next-auth/react";
+import LoadingSpinner from "~/components/loadingSpinner";
+import { notAuthenticated } from "~/utils/helpers";
 
 export default function AddAccommodation() {
+  const userSession = useSession({ required: true });
+
   const {
     register,
     handleSubmit,
-
     formState: { errors },
   } = useForm({
     resolver: zodResolver(accommodationAddSchema),
   });
 
   const createAccommodation = api.accommodation.add.useMutation();
+
+  if (notAuthenticated(userSession.status)) {
+    return <LoadingSpinner />;
+  }
 
   return (
     <div className="overflow-visible">
