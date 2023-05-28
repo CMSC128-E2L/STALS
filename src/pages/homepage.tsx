@@ -406,17 +406,14 @@ export default function HomePage() {
       >
         <NavBar register={register} name={"name"} />
         <div className="flex">
-          <div className="sticky top-0 flex h-screen w-[210px] min-w-[210px] flex-col bg-p-lblue p-5">
+          <div className="sticky top-0 flex h-screen w-[210px] min-w-[210px] flex-col bg-p-lblue px-5 py-2">
             {/* Location */}
-            <div className="mb-4">
-              <h2 className="mb-2 text-base font-bold">Location</h2>
+            <div className="mb-1">
+              <h2 className="filter-header">Location</h2>
               <Location setUserInputs={setUserInputs} methods={methods} />
             </div>
             {/* Accommodation Type */}
-            <button
-              className="flex w-full items-center py-1 font-bold text-black"
-              onClick={toggleTypeDropdown}
-            >
+            <button className="filter-header" onClick={toggleTypeDropdown}>
               Type
               <div className=""></div>
               <svg
@@ -456,10 +453,7 @@ export default function HomePage() {
               </div>
             )}
             {/* Price Range */}
-            <button
-              className="flex w-full items-center py-1 font-bold text-black"
-              onClick={togglePriceDropdown}
-            >
+            <button className="filter-header" onClick={togglePriceDropdown}>
               Price Range
               <div className=""></div>
               <svg
@@ -498,29 +492,7 @@ export default function HomePage() {
                 ))}
               </div>
             )}
-            {/* Price Range */}
-            {/* <div className="mb-4">
-              <h2 className="mb-2 text-base font-bold">Price Range</h2>
-              {priceRanges.map((range) => (
-                <div className="mb-2 flex items-center" key={range.id}>
-                  <input
-                    id={range.id}
-                    type="radio"
-                    name="price_range"
-                    value={range.value}
-                    onChange={handlePriceRangeChange}
-                    className="ml-3 h-4 w-4 rounded border-gray-300 bg-gray-100 text-blue-600 focus:ring-2 focus:ring-blue-500 dark:border-gray-600 dark:bg-gray-700 dark:ring-offset-gray-800 dark:focus:ring-blue-600"
-                  />
-                  <label htmlFor={range.id} className="filter-text">
-                    {range.label}
-                  </label>
-                </div>
-              ))}
-            </div> */}
-            <button
-              className="flex w-full items-center py-1 font-bold text-black"
-              onClick={toggleSortDropdown}
-            >
+            <button className="filter-header" onClick={toggleSortDropdown}>
               Sort By
               <div className=""></div>
               <svg
@@ -542,7 +514,7 @@ export default function HomePage() {
             {showSortDropdown && (
               <div>
                 {sortTypes.map((range) => (
-                  <div className="mb-2 flex items-center" key={range.id}>
+                  <div className="mb-1 mt-2 flex items-center" key={range.id}>
                     <input
                       id={range.id}
                       type="radio"
@@ -550,7 +522,7 @@ export default function HomePage() {
                       value={range.value}
                       onChange={handleSortTypeChange}
                       defaultChecked={range.id === "NONE"}
-                      className="ml-3 h-4 w-4 rounded border-gray-300 bg-gray-100 text-blue-600 focus:ring-2 focus:ring-blue-500 dark:border-gray-600 dark:bg-gray-700 dark:ring-offset-gray-800 dark:focus:ring-blue-600"
+                      className="filter-radio inline-block"
                     />
                     <label htmlFor={range.id} className="filter-text">
                       {range.label}
@@ -562,7 +534,7 @@ export default function HomePage() {
 
             {/* Include */}
             <div className="mb-4">
-              <h2 className="mb-2 text-base font-bold">Include</h2>
+              <h2 className="filter-header">Include</h2>
               <input
                 className="filter-search"
                 placeholder="Type for suggestions..."
@@ -571,7 +543,7 @@ export default function HomePage() {
             {/* should not be a button since the form will assume it is a submit button */}
             {/* hack is to use a div with onClick */}
             <div
-              className="text-md cursor-pointer rounded-full bg-p-dblue p-2 text-center text-white"
+              className="button-style text-sm"
               onClick={() => {
                 setpdfdownload(true);
               }}
