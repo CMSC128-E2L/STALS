@@ -34,8 +34,8 @@ export const accommodationAddSchema = z.object({
   is_archived: z.boolean(),
   fb_page: z.string().optional(),
   type: z.nativeEnum(AccommodationType),
-  typeArray: z.set(z.string()).optional(),
-  tagArray: z.set(z.string()).optional(),
+  typeArray: z.array(z.string()).optional(),
+  tagArray: z.array(z.string()).optional(),
 });
 
 export const accommodationEditSchema = z.object({
