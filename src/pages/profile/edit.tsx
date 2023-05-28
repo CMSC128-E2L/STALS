@@ -1,17 +1,16 @@
-import type { NextPage } from "next";
 import { RouterInputs, api } from "~/utils/api";
 import { signOut, useSession } from "next-auth/react";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
 import { userEditSchema } from "~/utils/apitypes";
-import bgpic from "public/images/bg-05.png";
-import NavBar from "~/components/navbar";
 import { useState } from "react";
 import ConfirmationPrompt from "~/components/prompt";
 import GlobalToaster from "~/components/globalToster";
 import toast from "react-hot-toast";
 
-const EditProfile: NextPage = () => {
+const EditProfile: React.FC<{
+  onCancel: () => void;
+}> = ({ onCancel }) => {
   const userSession = useSession();
 
   const {
@@ -47,16 +46,8 @@ const EditProfile: NextPage = () => {
   const [usernameError, setUsernameError] = useState("");
   const [isChanged, seIsChanged] = useState(false);
 
-  const handleCancel = () => {
-    if (isChanged) {
-      setShowDiscardPrompt(true);
-    } else {
-      window.location.replace("/profile");
-    }
-  };
-
   const handleDelete = () => {
-    if (enteredUN === userSession.data?.profile.username) {
+    if (enteredUN === userSession.data?.profile.email) {
       void deleteProfile.mutate();
     } else {
       setUsernameError("Username does not match. Please try again.");
@@ -65,14 +56,8 @@ const EditProfile: NextPage = () => {
 
   return (
     <div>
-      <NavBar />
-      <div className="h-fullscreen">
-        <img
-          className="fixed h-auto w-screen bg-cover bg-fixed bg-center"
-          src={bgpic.src}
-          alt="background"
-        />
-        <div className="fixed inset-x-0 top-0 flex h-screen items-center justify-center">
+      <div className="fixed top-0 z-50 h-auto max-h-screen overflow-x-hidden overflow-y-hidden backdrop-blur-sm md:inset-0 ">
+        <div className="fixed inset-x-0 top-0 flex h-screen items-center justify-center drop-shadow-md  ">
           <div className="w-fit rounded-xl bg-white px-10 py-10">
             <div className="item-center flex justify-center px-2 pb-0 pt-0 drop-shadow-md">
               <h1 className="text-3xl font-bold text-blue-700">Edit profile</h1>
@@ -129,11 +114,12 @@ const EditProfile: NextPage = () => {
                     type="text"
                     placeholder="Suffix"
                     className="w-[28%] rounded-xl px-2 py-2 shadow shadow-gray-400/100"
+                    defaultValue={userSession.data?.profile.Suffix || ""}
                   />
                 </div>
                 <input
                   {...register("username")}
-                  type="text"
+                  type="hidden"
                   placeholder="Username"
                   className="rounded-xl px-2 py-2 shadow shadow-gray-400/100"
                   defaultValue={userSession.data?.profile.username || ""}
@@ -171,7 +157,7 @@ const EditProfile: NextPage = () => {
                 <div>
                   <button
                     className="group relative flex w-full justify-center rounded-full bg-slate-500 px-4 py-2 text-white shadow shadow-gray-400/100 hover:bg-slate-600"
-                    onClick={handleCancel}
+                    onClick={onCancel}
                     type="button"
                   >
                     Cancel
@@ -268,12 +254,12 @@ const EditProfile: NextPage = () => {
                       ></path>
                     </svg>
                     <h3 className="text-white-500 mb-3 text-lg font-normal dark:text-gray-400">
-                      Please enter your username to confirm.
+                      Please enter your email to confirm.
                     </h3>
                     <input
                       type="text"
                       className="mb-3 w-full rounded-xl bg-gray-100 px-2 py-2 shadow shadow-gray-400/100"
-                      placeholder="Username"
+                      placeholder="Email"
                       value={enteredUN}
                       onChange={(e) => {
                         setEnteredUN(e.target.value);

@@ -1,10 +1,12 @@
 import { type Accommodation } from "@prisma/client";
 import { useSession } from "next-auth/react";
+import { useState } from "react";
 import { stringify } from "superjson";
 import Image from "next/image";
 import { api } from "~/utils/api";
 import { stalsDBstringArray } from "~/utils/helpers";
 import Link from "next/link";
+import placeholder from "public/images/logo.png";
 
 {
   /* TODO: Tweak data types to be displayed for each variable in the component */
@@ -32,6 +34,10 @@ const Accomm_Segment: React.FC<{
   location,
   tags,
 }) => {
+  const [imgSrc, setImgSrc] = useState(
+    `https://stals-worker.p0lbang.workers.dev/${id}.jpg`,
+  );
+
   const session = useSession();
 
   const { data, isLoading, refetch } = api.accommodation.getMany.useQuery({
@@ -61,15 +67,21 @@ const Accomm_Segment: React.FC<{
           <div className="flex flex-row space-x-2">
             <img
               className="w-1/2 p-2"
-              src="https://via.placeholder.com/640x640"
+              src={imgSrc}
               alt="placeholder img"
+              onError={() => {
+                setImgSrc("https://via.placeholder.com/640x640");
+              }}
             />
 
             <div className="w-full bg-blue-200 p-2">
               <div className="mb-2 rounded-lg bg-blue-100 p-2">
-                <p>
-                  {name} | Archived: {String(is_archived)}
-                </p>
+                {/* ARCHIVED */}
+                {is_archived && <p>{name} (Archived) </p>}
+
+                {/* NOT ARCHIVED */}
+                {!is_archived && <p>{name}</p>}
+
                 {/* PRICE */}
                 <p>Price: {price}</p>
               </div>
@@ -115,18 +127,35 @@ const Accomm_Segment: React.FC<{
                   Edit
                 </Link>
 
+                {/* RESTORE */}
+                {is_archived && (
+                  <button
+                    className="rounded border border-gray-400 bg-white p-2"
+                    onClick={() => {
+                      archiveAccomm.mutate({
+                        id: id,
+                        is_archived: is_archived,
+                      });
+                    }}
+                  >
+                    Restore
+                  </button>
+                )}
+
                 {/* ARCHIVE */}
-                <button
-                  className="rounded border border-gray-400 bg-white p-2"
-                  onClick={() => {
-                    archiveAccomm.mutate({
-                      id: id,
-                      is_archived: is_archived,
-                    });
-                  }}
-                >
-                  Archive
-                </button>
+                {!is_archived && (
+                  <button
+                    className="rounded border border-gray-400 bg-white p-2"
+                    onClick={() => {
+                      archiveAccomm.mutate({
+                        id: id,
+                        is_archived: is_archived,
+                      });
+                    }}
+                  >
+                    Archive
+                  </button>
+                )}
 
                 {/* DELETE */}
                 <button
@@ -144,15 +173,6 @@ const Accomm_Segment: React.FC<{
           </div>
         </div>
         <br />
-
-        <div className="flex justify-center">
-          <Link
-            className="mx-4 mb-4 rounded border border-gray-400 bg-white p-4 text-xl"
-            href={`/accommodation/add`}
-          >
-            Add Accommodation
-          </Link>
-        </div>
       </>
     </div>
   );

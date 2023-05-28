@@ -77,7 +77,11 @@ export default function EditRoom() {
             onSubmit={handleSubmit(
               (d) => {
                 editRoom.mutate(d);
-                window.location.replace(`/room/${id}`);
+                window.location.replace(
+                  `/accommodation/${
+                    firstData ? firstData.accommodationId : ""
+                  }`,
+                );
                 toast.success("Successfully Edited Room!", {
                   position: "bottom-right",
                   duration: 1000,
@@ -193,7 +197,11 @@ export default function EditRoom() {
               </div>
 
               <div>
-                <Link href={`/room/${id}`}>
+                <Link
+                  href={`/accommodation/${
+                    firstData ? firstData.accommodationId : ""
+                  }`}
+                >
                   <button className="group relative flex w-full justify-center rounded-full bg-slate-500 px-4 py-2 font-bold text-white shadow shadow-gray-400/100">
                     Cancel
                   </button>

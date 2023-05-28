@@ -61,30 +61,32 @@ const RoomShow: React.FC<{
         <h1 className=" text-3xl font-bold text-p-dblue">Room Details</h1>
         {/* if landlord ka, makikita mo to, otherwise not */}
         {isLandlordViewing && (
-          <div>
+          <div className="flex flex-row items-center gap-x-1 p-1">
             {/* BUTTON NG EDIT */}
-            <button type="button" className="accomP-button m-2">
-              <svg
-                xmlns="http://www.w3.org/2000/svg"
-                fill="none"
-                viewBox="0 0 24 24"
-                strokeWidth="1.5"
-                stroke="currentColor"
-                className="h-8 w-8 fill-white stroke-p-dblue"
-              >
-                <path
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                  d="M16.862 4.487l1.687-1.688a1.875 1.875 0 112.652 2.652L10.582 16.07a4.5 4.5 0 01-1.897 1.13L6 18l.8-2.685a4.5 4.5 0 011.13-1.897l8.932-8.931zm0 0L19.5 7.125M18 14v4.75A2.25 2.25 0 0115.75 21H5.25A2.25 2.25 0 013 18.75V8.25A2.25 2.25 0 015.25 6H10"
-                />
-              </svg>
-            </button>
+            <Link href={`room/${roomID}/edit`}>
+              <button type="button" className="">
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  fill="none"
+                  viewBox="0 0 24 24"
+                  strokeWidth="1.5"
+                  stroke="currentColor"
+                  className="h-8 w-8 stroke-p-dblue"
+                >
+                  <path
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                    d="M16.862 4.487l1.687-1.688a1.875 1.875 0 112.652 2.652L10.582 16.07a4.5 4.5 0 01-1.897 1.13L6 18l.8-2.685a4.5 4.5 0 011.13-1.897l8.932-8.931zm0 0L19.5 7.125M18 14v4.75A2.25 2.25 0 0115.75 21H5.25A2.25 2.25 0 013 18.75V8.25A2.25 2.25 0 015.25 6H10"
+                  />
+                </svg>
+              </button>
+            </Link>
             {/* BUTTON NG ARCHIVE */}
             {/* to archive */}
             {roomArchive == false && (
               <button
                 type="button"
-                className="accomP-button m-2"
+                className=""
                 onClick={() => setShowPopUpArchive(true)}
               >
                 <svg
@@ -93,7 +95,7 @@ const RoomShow: React.FC<{
                   viewBox="0 0 24 24"
                   strokeWidth="1.5"
                   stroke="currentColor"
-                  className="h-8 w-8 fill-white stroke-p-dblue"
+                  className="h-8 w-8"
                 >
                   <path
                     strokeLinecap="round"
@@ -107,7 +109,7 @@ const RoomShow: React.FC<{
             {roomArchive == true && (
               <button
                 type="button"
-                className="accomP-button m-2"
+                className=""
                 onClick={() => setShowPopUpUnarchive(true)}
               >
                 <svg
@@ -116,7 +118,7 @@ const RoomShow: React.FC<{
                   viewBox="0 0 24 24"
                   strokeWidth="1.5"
                   stroke="currentColor"
-                  className="h-8 w-8 fill-white stroke-p-dblue"
+                  className="h-8 w-8 stroke-p-dblue"
                 >
                   <path
                     strokeLinecap="round"
@@ -129,7 +131,7 @@ const RoomShow: React.FC<{
             {/* BUTTON NG DELETE */}
             <button
               type="button"
-              className="accomP-button m-2"
+              className=""
               onClick={() => setShowPopUpDelete(true)}
             >
               <svg
@@ -138,7 +140,7 @@ const RoomShow: React.FC<{
                 viewBox="0 0 24 24"
                 strokeWidth="1.5"
                 stroke="currentColor"
-                className="h-8 w-8 fill-white stroke-p-dblue"
+                className="h-8 w-8 stroke-p-dblue"
               >
                 <path
                   strokeLinecap="round"

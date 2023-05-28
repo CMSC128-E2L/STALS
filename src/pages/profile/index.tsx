@@ -3,12 +3,14 @@ import MyAccom from "~/components/myAccom";
 import Image from "next/image";
 import user from "public/images/def_user.png";
 import Link from "next/link";
+import Edit from "./edit";
 import { useSession, signOut } from "next-auth/react";
 import { useRouter } from "next/router";
 import { api } from "~/utils/api";
 import { UserType } from "@prisma/client";
+import { useState } from "react";
 
-export default function HomePage() {
+export default function Profile() {
   const { data: sessionData } = useSession();
   const router = useRouter();
 
@@ -17,24 +19,23 @@ export default function HomePage() {
   } ${sessionData?.profile.last_name ?? ""}
   ${sessionData?.profile.Suffix ?? ""}`;
 
-  const handleEditProfile = () => {
-    void router.push("/profile/edit");
-  };
-
   const {
     data: reports,
     isLoading: queryLoading,
     isError: queryError,
   } = api.report.getAll.useQuery({ page: 0, multiplier: 4 });
 
+  const [showEdit, setShowEdit] = useState(false);
+
   if (sessionData?.profile.type == UserType.LANDLORD) {
     return (
       <div>
         <NavBar />
+        {showEdit && <Edit onCancel={() => setShowEdit(false)} />}
         {/* Content */}
-        <div className=" flex-row-2 m-10 flex h-auto w-auto ">
+        <div className="flex-row-2 m-10 flex h-auto w-auto ">
           <section className="mr-5 flex h-min flex-col items-center space-y-2 whitespace-nowrap rounded-3xl bg-white p-14 font-medium shadow-xl">
-            <div className="relative mb-5 ml-32 mr-32 mt-10 flex h-[10.5rem] w-[10.5rem]">
+            <div className="relative mb-2 ml-32 mr-32 mt-5 flex h-[10.5rem] w-[10.5rem]">
               <Image
                 src={sessionData?.user.image ?? user.src}
                 className="flex rounded-full object-contain"
@@ -62,7 +63,7 @@ export default function HomePage() {
               </span>
             </div>
             <div className="flex w-full justify-center rounded-3xl border-2 border-black p-2 shadow-lg">
-              <button className="w-full" onClick={handleEditProfile}>
+              <button className="w-full" onClick={() => setShowEdit(true)}>
                 Edit Account
               </button>
             </div>
@@ -83,6 +84,7 @@ export default function HomePage() {
     return (
       <div>
         <NavBar />
+        {showEdit && <Edit onCancel={() => setShowEdit(false)} />}
         {/* Content */}
         <div className="flex-row-2 m-10 flex h-auto w-auto ">
           <section className="mr-5 flex h-min flex-col items-center space-y-2 whitespace-nowrap rounded-3xl bg-white p-14 font-medium shadow-xl">
@@ -94,7 +96,7 @@ export default function HomePage() {
                 fill
               />
             </div>
-            <div className="m-10  flex ">
+            <div className="m-10 flex">
               <span className="text-3xl text-black">{fullName ?? "Guest"}</span>
             </div>
             <div className="m-10  flex ">
@@ -114,7 +116,7 @@ export default function HomePage() {
               </span>
             </div>
             <div className="flex w-full justify-center rounded-3xl border-2 border-black p-2 shadow-lg">
-              <button className="w-full" onClick={handleEditProfile}>
+              <button className="w-full" onClick={() => setShowEdit(true)}>
                 Edit Account
               </button>
             </div>
@@ -141,10 +143,11 @@ export default function HomePage() {
     return (
       <div>
         <NavBar />
+        {showEdit && <Edit onCancel={() => setShowEdit(false)} />}
         {/* profile */}
         <div className="flex-row-2 m-10 flex h-auto w-auto ">
           <section className="mr-5 flex h-min flex-col items-center space-y-2 whitespace-nowrap rounded-3xl bg-white p-14 font-medium shadow-xl">
-            <div className="relative mb-5 ml-32 mr-32 mt-10 flex h-[10.5rem] w-[10.5rem]">
+            <div className="relative mb-2 ml-32 mr-32 mt-5 flex h-[10.5rem] w-[10.5rem]">
               <Image
                 src={sessionData?.user.image ?? user.src}
                 className="flex rounded-full object-contain"
@@ -152,7 +155,7 @@ export default function HomePage() {
                 fill
               />
             </div>
-            <div className="m-10  flex ">
+            <div className="m-10 flex">
               <span className="text-3xl text-black">{fullName ?? "Guest"}</span>
             </div>
             <div className="m-10  flex ">
@@ -172,7 +175,7 @@ export default function HomePage() {
               </span>
             </div>
             <div className="flex w-full justify-center rounded-3xl border-2 border-black p-2 shadow-lg">
-              <button className="w-full" onClick={handleEditProfile}>
+              <button className="w-full" onClick={() => setShowEdit(true)}>
                 Edit Account
               </button>
             </div>

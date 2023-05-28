@@ -59,7 +59,7 @@ export default function Review() {
               <div className="grid h-10 grid-cols-2 justify-items-stretch gap-4 pl-4">
                 <div className="flex items-center">
                   <h1 className="text-start text-2xl font-bold">
-                    Ratings and Reviews
+                    Write a Review
                   </h1>
                 </div>
                 <div className="flex items-center justify-end pr-4 pt-2 text-gray-800">
@@ -77,7 +77,7 @@ export default function Review() {
                   id="editor"
                   rows={3}
                   className="block w-full border-0 bg-white px-3 pt-2 text-sm text-gray-800 focus:ring-0"
-                  placeholder="Write a review"
+                  placeholder="Share your thoughts on the accommodation"
                   {...register("review")}
                 ></textarea>
 
@@ -86,12 +86,6 @@ export default function Review() {
                   initialRating={rating}
                   onChange={handleRatingChange}
                 />
-
-                {/* <input
-                  type="number"
-                  placeholder="Rating"
-                  {...register("rating", { valueAsNumber: true })}
-                ></input> */}
               </div>
 
               <div className="grid h-10 grid-cols-1 justify-items-stretch px-2 pt-2">

@@ -2,11 +2,12 @@ import { type NextPage } from "next";
 import Image from "next/image";
 import Head from "next/head";
 import { signOut, useSession } from "next-auth/react";
-import bg from "public/images/bg-022.png";
+import bg from "public/images/background.png";
 import logo from "public/images/logo.png";
 import about_us from "public/images/about_us.png";
 import contact_us from "public/images/contact.png";
 import React, { useState, useEffect } from "react";
+import FooterComponent from "~/components/footer";
 
 const Home: NextPage = () => {
   const [isLargeText, setIsLargeText] = useState(false);
@@ -14,8 +15,7 @@ const Home: NextPage = () => {
   const [currentText, setCurrentText] = useState(0);
   const textList = [
     "You can search, get information, review, and\nrate apartments, bed spaces, hotels, dormitories,\nand transient spaces in Los Baños.",
-    "Creating a home away from home, where comfort meets community.\nWelcome to STALS, where your journey towards success begins with a space\ndesigned to inspire, connect, and thrive",
-    // "Text 3",
+    "Creating a home away from home, where comfort meets your needs.\nWelcome to STALS, where your journey in Los Baños begins with a\nspace designed for warmth, safety, and affection.",
     // Add additional texts for the slideshow
   ];
 
@@ -75,24 +75,24 @@ const Home: NextPage = () => {
                   <span className="text-xl font-bold">STALS</span>
                 </div>
 
-                <nav className="flex items-center font-bold ">
+                <nav className="flex items-center font-bold">
                   <a
                     href="homepage"
-                    className="mx-2 text-white no-underline hover:text-gray-300 hover:underline"
+                    className="mx-5 text-white no-underline hover:text-gray-300 hover:underline"
                   >
                     Home
                   </a>
                   <a
                     href="#contactus"
-                    className="mx-2 text-white no-underline hover:text-gray-300 hover:underline"
+                    className="mx-5 text-white no-underline hover:text-gray-300 hover:underline"
                   >
-                    Contact Us
+                    Contact
                   </a>
                   <a
                     href="#aboutus"
-                    className="mx-2 text-white no-underline hover:text-gray-300 hover:underline"
+                    className="mx-5 text-white no-underline hover:text-gray-300 hover:underline"
                   >
-                    About Us
+                    About
                   </a>
                 </nav>
               </div>
@@ -103,7 +103,7 @@ const Home: NextPage = () => {
             <div className="absolute inset-0 z-20 flex flex-col items-center justify-center">
               <p
                 className={`text-3xl font-extrabold tracking-tight lg:text-6xl xl:text-8xl ${
-                  isLargeText ? "text-white" : "text-black"
+                  isLargeText ? "text-white" : "text-violet-950"
                 } ${isLargeText ? "pt-5" : "pt-20"} `}
               >
                 Comfort At Its Best
@@ -123,7 +123,7 @@ const Home: NextPage = () => {
               </p>
 
               {/* get started button edit color */}
-              <div className="x flex flex-col items-center">
+              <div className="x flex flex-col items-center pt-2">
                 <AuthShowcase />
               </div>
             </div>
@@ -139,14 +139,47 @@ const Home: NextPage = () => {
                     alt="aboutus"
                   />
                 </div>
-                <div className="text-center lg:text-left">
+                <div className="px-10 text-center lg:text-left">
                   <h1 className="text-6xl font-bold">About Us</h1>
-                  <p className="pt-3">
-                    Cause there we are again when I loved you so
-                    <br />
-                    Back before you lost the one real thing
-                    <br />
-                    have ever known. It was rare, I was there
+                  <p className="max-w-lg pt-3">
+                    STALS is a student-led software engineering team from the
+                    University of the Philippines Los Baños. Our goal is to
+                    revolutionize the way students find lodging and help
+                    landlords advertise their spaces. With our web application,
+                    we centralize and simplify Los Baños&apos; accommodation
+                    systems for a better user experience.
+                  </p>
+                </div>
+              </div>
+
+              <div className="container mx-auto flex flex-col justify-between gap-10 px-4 py-10 lg:flex-row lg:px-0">
+                <div className="mb-4 w-full rounded-lg bg-purple-800 p-8 text-white transition-all hover:scale-105 lg:mb-0 lg:w-1/3">
+                  <h2 className="mb-4 text-2xl font-bold">SYSTEMATIC</h2>
+                  <p className="text-white">
+                    Being systematic is at the heart of our mission. We
+                    understand the importance of filtering out the right home in
+                    a quick and convenient way. We ensure that searching for the
+                    perfect accommodation will be a smooth and gratifying
+                    experience for you.
+                  </p>
+                </div>
+                <div className="mb-4 w-full rounded-lg bg-purple-700 p-8 text-white transition-all hover:scale-105 lg:mb-0 lg:w-1/3">
+                  <h2 className="mb-4 text-2xl font-bold">SERVICES</h2>
+                  <p className="text-white">
+                    We offer a wide range of services to support your
+                    preferences. With our comprehensive suite of features, you
+                    can search, get, and view reviews for the different types of
+                    accommodation on the platform.
+                  </p>
+                </div>
+                <div className="mb-4 w-full rounded-lg bg-purple-600 p-8 text-white transition-all hover:scale-105 lg:mb-0 lg:w-1/3">
+                  <h2 className="mb-4 text-2xl font-bold">SOLUTIONS</h2>
+                  <p className="text-white">
+                    At STALS, we are driven by a passion to solve real problems
+                    faced by students and landlords in having accommodations to
+                    reside in and accommodations to offer. We are committed to
+                    delivering the best solutions that are tailored to meet your
+                    specific needs.
                   </p>
                 </div>
               </div>
@@ -156,14 +189,20 @@ const Home: NextPage = () => {
           <section className="mt-16 py-40" id="contactus">
             <div className="container mx-auto max-w-4xl">
               <div className="flex flex-col items-center justify-center gap-4 lg:flex-row lg:justify-between lg:gap-8">
-                <div className="text-center lg:text-left">
+                <div className="px-10 text-center lg:text-left">
                   <h1 className="text-6xl font-bold">Contact Us</h1>
-                  <p className="pt-3">
-                    Cause there we are again when I loved you so
-                    <br />
-                    Back before you lost the one real thing
-                    <br />
-                    have ever known. It was rare, I was there
+                  <p className="max-w-lg pt-3">
+                    We appreciate your interest in our website and are here to
+                    assist you. If you have any questions or feedback, please
+                    feel free to reach out to us through our email:{" "}
+                    <a
+                      href="mailto:uplb.stals@gmail.com"
+                      className="font-bold text-purple-600"
+                    >
+                      uplb.stals@gmail.com
+                    </a>
+                    . We value your input and will respond to your inquiries or
+                    reviews as soon as possible.
                   </p>
                 </div>
 
@@ -179,48 +218,7 @@ const Home: NextPage = () => {
           </section>
         </div>
 
-        <footer className="bg-white dark:bg-gray-900">
-          <div className="mx-auto w-full max-w-screen-xl p-4 py-6 lg:py-8">
-            <div className="md:flex md:justify-between">
-              <div className="mb-6 md:mb-0">
-                <a href="homepage" className="flex items-center">
-                  <Image
-                    src={logo}
-                    className="mr-2 h-10 w-10"
-                    alt="FlowBite Logo"
-                  />
-                  <span className="self-center whitespace-nowrap text-2xl font-semibold dark:text-white">
-                    STALS
-                  </span>
-                </a>
-              </div>
-            </div>
-            <hr className="my-6 border-gray-200 dark:border-gray-700 sm:mx-auto lg:my-8" />
-            <div className="sm:flex sm:items-center sm:justify-between">
-              <span className="text-sm text-gray-500 dark:text-gray-400 sm:text-center">
-                © 2023{" "}
-                <a href="homepage" className="hover:underline">
-                  STALS
-                </a>
-                . All Rights Reserved.
-              </span>
-              <div className="mt-4 flex space-x-6 sm:mt-0 sm:justify-center">
-                <a
-                  href="#up"
-                  className="mx-2 font-bold text-white no-underline hover:text-gray-300 hover:underline"
-                >
-                  Back to Top
-                </a>
-                <a
-                  href="homepage"
-                  className="mx-2 font-bold text-white no-underline hover:text-gray-300 hover:underline"
-                >
-                  Home
-                </a>
-              </div>
-            </div>
-          </div>
-        </footer>
+        <FooterComponent />
       </main>
     </>
   );
@@ -235,12 +233,9 @@ const AuthShowcase: React.FC = () => {
   } ${sessionData?.profile.last_name ?? ""}
   ${sessionData?.profile.Suffix ?? ""}`;
   return (
-    <div className="flex flex-col items-start justify-start gap-4">
-      <p className="text-start text-2xl text-white">
-        {sessionData && <span>Logged in as {fullName}</span>}
-      </p>
+    <div className="flex flex-col items-center justify-start gap-4">
       <button
-        className="rounded-full bg-[#1C5D99]/90 px-10 py-2 font-semibold text-white no-underline transition hover:bg-white/20"
+        className="rounded-full bg-[#420EB3]/90 px-10 py-2 font-semibold text-white no-underline transition hover:bg-white/20"
         onClick={
           sessionData
             ? () => void signOut()
