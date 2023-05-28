@@ -398,7 +398,7 @@ export default function Accommodation() {
               </div>
 
               {/* Rest */}
-              <div className="mt-4 flex grow flex-row divide-x-2  divide-p-black">
+              <div className="mt-4 flex grow flex-row divide-x-2 divide-p-black">
                 <div className="w-[40%] p-3">
                   <div className="items-center">
                     <div className="text-center ">
@@ -414,82 +414,51 @@ export default function Accommodation() {
                     {/* TODO: For this, go through the review array in schema.prisma and get the average ratings the plug the number in this component.*/}
                   </div>
                 </div>
+
                 {/* Review section */}
-                <div className="grow basis-1/2">
-                  <div className="flex h-full flex-col p-2">
-                    {/* TODO: For this, get the first review from the accomm's review array, and load the following:*/}
-                    <UserProfile
-                      first_name={userReview?.user.first_name}
-                      last_name={userReview?.user.last_name}
-                      // commented out due to error encountered
-                      // date={userReview?.date}
-                      // time={userReview?.time}
-                      review={userReview?.review}
-                      rating={userReview?.rating}
-                    />
-                    {/* <div className="flex max-w-full flex-row gap-3 rounded-md p-3">
-                      <img
-                        src={userImage.src}
-                        className="w-[15%] self-start rounded-full"
-                      /> */}
+                {!userReview ? (
+                  <div className="grow basis-1/2">No reviews yet.</div>
+                ) : (
+                  <div className="grow basis-1/2">
+                    <div className="flex h-full flex-col p-2">
+                      {/* TODO: For this, get the first review from the accomm's review array, and load the following:*/}
+                      <UserProfile
+                        first_name={userReview?.user.first_name}
+                        last_name={userReview?.user.last_name}
+                        // commented out due to error encountered
+                        // date={userReview?.date}
+                        // time={userReview?.time}
+                        review={userReview?.review}
+                        rating={userReview?.rating}
+                      />
+                      {/* This is the review */}
+                      {showReview && (
+                        <div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50">
+                          <div className="flex max-h-[80%] w-[60%] flex-col rounded-xl bg-white p-2">
+                            {/* TODO: you cant do this */}
+                            {/* <Review accom_id={userReview?.accommodationId} /> */}
 
-                    {/* <div className="flex flex-col">
-                        <div>
-
-                          <h1 className="text-xl font-bold"></h1> 
-                        <p className="text-sm ">
-                            {" "}
-                            Reviewed Date Posted | Time
-                          </p>
+                            <button
+                              className="m-3 mt-4 w-[20%] rounded bg-blue-500 px-4 py-2 text-white hover:bg-blue-600"
+                              onClick={() => setShowReview(false)}
+                            >
+                              Close
+                            </button>
+                          </div>
                         </div>
-                        <label className="pb-1">
-                          <p className="line-clamp-2 cursor-pointer pt-2 text-sm">
-                            twink earrings wwx twink earrings wwx twink earrings
-                            wwx twink earrings wwx twink earrings wwx twink
-                            earrings wwx twink earrings wwx twink earrings wwx
-                            twink earrings wwx twink earrings wwx twink earrings
-                            wwx twink earrings wwx twink earrings wwx twink
-                            earrings wwx twink earrings wwx twink earrings wwx
-                            twink earrings wwx twink earrings wwx twink earrings
-                            wwx twink earrings wwx twink earrings wwx twink
-                            earrings wwx twink earrings wwx twink earrings wwx
-                            twink earrings wwx twink earrings wwx twink earrings
-                            wwx twink earrings wwx twink earrings wwx twink
-                            earrings wwx twink earrings wwx twink earrings wwx
-                            twink earrings wwx twink earrings wwx twink earrings
-                            wwx twink earrings wwx twink earrings wwx twink
-                            earrings wwx twink earrings wwx twink earrings wwx
-                            twink earrings wwx twink earrings wwx
-                          </p>
-                        </label>
-                      </div>
-                    </div> */}
-                    {/* This is the review */}
-                    {showReview && (
-                      <div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50">
-                        <div className="flex max-h-[80%] w-[60%] flex-col rounded-xl bg-white p-2">
-                          <Review />
+                      )}
 
-                          <button
-                            className="m-3 mt-4 w-[20%] rounded bg-blue-500 px-4 py-2 text-white hover:bg-blue-600"
-                            onClick={() => setShowReview(false)}
-                          >
-                            Close
-                          </button>
-                        </div>
+                      <div className="px-3 text-end text-xs">
+                        <button
+                          className=" pl-1 text-sm text-gray-500 underline"
+                          onClick={() => setShowReview(true)}
+                        >
+                          See more
+                        </button>
                       </div>
-                    )}
-
-                    <div className="px-3 text-end text-xs">
-                      <button
-                        className=" pl-1 text-sm text-gray-500 underline"
-                        onClick={() => setShowReview(true)}
-                      >
-                        See more
-                      </button>
                     </div>
                   </div>
-                </div>
+                )}
               </div>
             </div>
           </div>
