@@ -53,7 +53,9 @@ export const userEditSchema = z.object({
     .optional(),
   contact_number: z
     .string()
-    .min(10, { message: "Must be at least length of 10" })
+    .regex(/^09\d{9}$/, {
+      message: "Must be a valid phone number. e.g. (09123456789)",
+    })
     .optional(),
   type: z.nativeEnum(UserType),
 });
