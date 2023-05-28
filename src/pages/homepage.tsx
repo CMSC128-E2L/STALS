@@ -294,7 +294,7 @@ export default function HomePage() {
     useWatch({ control });
 
     return (
-      <div className="grow">
+      <div className="grow pl-5 pt-5">
         <div className="flex flex-row flex-wrap">
           {accommodationEntries ? (
             accommodationEntries?.pages.map((page, i: number) => (
