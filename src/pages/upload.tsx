@@ -1,5 +1,12 @@
-import Upload from "~/components/uploadInput";
+import UploadImageHeader, {
+  UploadImageMultiple,
+} from "~/components/uploadInput";
 
 export default function UploadPage() {
-  return <Upload />;
+  return (
+    <>
+      <UploadImageHeader accomId={"hatyezzir"} />
+      <UploadImageMultiple accomId={"istalsfolder"} />
+    </>
+  );
 }

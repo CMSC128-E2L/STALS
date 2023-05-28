@@ -1,21 +1,35 @@
 import toast from "react-hot-toast";
 
-export default function Upload() {
+const UploadImageHeader: React.FC<{ accomId: string }> = ({ accomId }) => {
   return (
     <input
       type="file"
       accept="image/png, image/jpeg"
-      onChange={(e) => void uploadPhoto(e)}
+      onChange={(e) => void uploadImageHeader(e, accomId)}
     />
   );
-}
+};
 
-const uploadPhoto = async (e: React.ChangeEvent<HTMLInputElement>) => {
-  // eslint-disable-next-line @typescript-eslint/no-non-null-assertion, @typescript-eslint/no-non-null-asserted-optional-chain
-  const file = e.target.files?.[0]!;
-  const filename = file.name;
-  const fileType = file.type;
+export default UploadImageHeader;
 
+export const UploadImageMultiple: React.FC<{ accomId: string }> = ({
+  accomId,
+}) => {
+  return (
+    <input
+      type="file"
+      accept="image/png, image/jpeg"
+      onChange={(e) => void uploadMultiplePhotos(e, accomId)}
+      multiple
+    />
+  );
+};
+
+const uploadSinglePhoto = async (
+  file: File,
+  filename: string,
+  fileType: string,
+) => {
   const res = await fetch(`/api/upload?file=${filename}&fileType=${fileType}`);
   const { url } = (await res.json()) as { url: string };
 
@@ -27,11 +41,49 @@ const uploadPhoto = async (e: React.ChangeEvent<HTMLInputElement>) => {
     body: file,
   });
 
-  console.log(uploading.status);
-  if (uploading.status === 200) {
-    toast.success("Image uploaded!", {
-      position: "bottom-right",
-      duration: 1000,
-    });
+  return uploading.status;
+};
+
+const uploadImageHeader = async (
+  e: React.ChangeEvent<HTMLInputElement>,
+  accomId: string,
+) => {
+  if (e.target.files === null) {
+    return;
   }
+
+  // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+  const file = e.target.files[0]!;
+  const fileType = file.type;
+  const filename = accomId + "/" + accomId;
+  await uploadSinglePhoto(file, filename, fileType);
+
+  toast.success("Images uploaded!", {
+    position: "bottom-right",
+    duration: 1000,
+  });
+};
+
+const uploadMultiplePhotos = async (
+  e: React.ChangeEvent<HTMLInputElement>,
+  accomId: string,
+) => {
+  if (e.target.files === null) {
+    return;
+  }
+
+  const filelength = e.target.files.length;
+
+  for (let index = 0; index < filelength; index++) {
+    // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+    const file = e.target.files[index]!;
+    const fileType = file.type;
+    const filename = accomId + "/" + file.name;
+    await uploadSinglePhoto(file, filename, fileType);
+  }
+
+  toast.success("Images uploaded!", {
+    position: "bottom-right",
+    duration: 1000,
+  });
 };

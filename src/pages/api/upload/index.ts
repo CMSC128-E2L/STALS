@@ -27,7 +27,7 @@ export default async function handler(
       Key: key,
       ContentType: contenttype,
     }),
-    { expiresIn: 3600 },
+    { expiresIn: 30 },
   );
 
   res.status(200).json({
