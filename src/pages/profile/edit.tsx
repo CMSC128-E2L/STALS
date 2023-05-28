@@ -8,6 +8,8 @@ import bgpic from "public/images/bg-05.png";
 import NavBar from "~/components/navbar";
 import { useState } from "react";
 import ConfirmationPrompt from "~/components/prompt";
+import GlobalToaster from "~/components/globalToster";
+import toast from "react-hot-toast";
 
 const EditProfile: NextPage = () => {
   const userSession = useSession();
@@ -22,6 +24,10 @@ const EditProfile: NextPage = () => {
 
   const editUser = api.user.edit.useMutation({
     onSuccess: () => {
+      toast.success("Changes saved!", {
+        position: "bottom-right",
+        duration: 3000,
+      });
       window.location.replace("/profile");
     },
   });
@@ -67,10 +73,17 @@ const EditProfile: NextPage = () => {
 
             <form
               // eslint-disable-next-line @typescript-eslint/no-misused-promises
-              onSubmit={handleSubmit((d) => {
-                console.log(d);
-                editUser.mutate(d as RouterInputs["user"]["edit"]);
-              })}
+              onSubmit={handleSubmit(
+                (d) => {
+                  editUser.mutate(d as RouterInputs["user"]["edit"]);
+                },
+                (error) => {
+                  toast.error("Something went wrong. Please try again later.", {
+                    position: "bottom-right",
+                    duration: 1000,
+                  });
+                },
+              )}
               onChange={() => seIsChanged(true)}
             >
               <div className="flex flex-col space-y-2.5">
@@ -148,10 +161,12 @@ const EditProfile: NextPage = () => {
                   <button
                     className="group relative flex w-full justify-center rounded-full bg-slate-500 px-4 py-2 font-bold text-white shadow shadow-gray-400/100"
                     onClick={handleCancel}
+                    type="button"
                   >
                     Cancel
                   </button>
                 </div>
+                <GlobalToaster />
               </div>
             </form>
 
