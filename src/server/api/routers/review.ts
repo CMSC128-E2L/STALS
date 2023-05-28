@@ -161,6 +161,9 @@ export const reviewRouter = createTRPCRouter({
             gt: 3,
           },
         },
+        include: {
+          user: true,
+        },
       });
     } catch (error) {
       console.log("error", error);

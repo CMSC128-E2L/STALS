@@ -3,11 +3,11 @@ import userImage from "public/placeholder_1.png";
 
 interface UserPorfileProps {
   userImageSrc?: string;
-  first_name?: string;
-  last_name?: string;
-  date?: string;
-  time?: string;
-  review?: string;
+  first_name?: string | null;
+  last_name?: string | null;
+  date?: string | null;
+  time?: string | null;
+  review?: string | null;
 }
 
 export const UserProfile: React.FC<UserPorfileProps> = ({
