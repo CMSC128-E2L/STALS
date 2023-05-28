@@ -554,7 +554,7 @@ export default function HomePage() {
                     <input
                       id={range.id}
                       type="radio"
-                      name="price_range"
+                      name="sort_by"
                       value={range.value}
                       onChange={handleSortTypeChange}
                       defaultChecked={range.id === "NONE"}
