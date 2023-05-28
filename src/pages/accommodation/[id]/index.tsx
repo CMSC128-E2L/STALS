@@ -407,7 +407,7 @@ export default function Accommodation() {
                 <div className="grow basis-1/2">
                   <div className="flex h-full flex-col p-2">
                     {/* TODO: For this, get the first review from the accomm's review array, and load the following:*/}
-                    <UserProfile uid={userReview?.userId} id={userReview?.id} />
+                    <UserProfile />
                     {/* <div className="flex max-w-full flex-row gap-3 rounded-md p-3">
                       <img
                         src={userImage.src}

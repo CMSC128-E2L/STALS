@@ -1,27 +1,30 @@
 import Image from "next/image";
 import userImage from "public/placeholder_1.png";
-import { useSession } from "next-auth/react";
-import { stringify } from "superjson";
-import { api } from "~/utils/api";
 
-export default function UserProfile(props: {
-  uid: string | undefined;
-  id: string | undefined;
-}) {
-  const { data: userReview, isLoading: reviewLoading } =
-    api.review.getOne.useQuery(props.id!);
-  const { data: userDetails, isLoading: userDetailsLoading } =
-    api.user.getOne.useQuery(props.uid!);
+interface UserPorfileProps {
+  userImageSrc?: string;
+  first_name?: string;
+  last_name?: string;
+  date?: string;
+  time?: string;
+  review?: string;
+}
 
-  const session = useSession();
-
+export const UserProfile: React.FC<UserPorfileProps> = ({
+  userImageSrc,
+  first_name,
+  last_name,
+  date,
+  time,
+  review,
+}) => {
   return (
     <>
       <div className="flex flex-row rounded-md bg-white p-3">
         {/* Insert Landlord Image here */}
         <div className="relative mr-3 h-12 w-12 place-self-center rounded-full">
           <Image
-            src={userImage.src}
+            src={userImageSrc ?? userImage.src}
             className="object-contain"
             alt="placeholder"
             fill
@@ -31,14 +34,16 @@ export default function UserProfile(props: {
           {/* <h1 className="font-bold"> {session.data?.user.name}</h1>  */}
           {/* placeholder only */}
           <h1 className="font-bold">
-            {userDetails?.first_name} {userDetails?.last_name}
+            {first_name} {last_name}
           </h1>
           <label>
-            {userReview?.date} | {userReview?.time}
+            {date} | {time}
           </label>
-          <p>{userReview?.review}</p>
+          <p>{review}</p>
         </div>
       </div>
     </>
   );
-}
+};
+
+export default UserProfile;
