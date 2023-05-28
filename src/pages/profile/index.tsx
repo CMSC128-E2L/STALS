@@ -73,7 +73,7 @@ export default function HomePage() {
             </div>
           </section>
 
-          <section className="flex w-full flex-row">
+          <section className="w-full">
             <div className="w-full rounded-3xl p-10 shadow-lg">
               <MyAccom showArchived={false} />
             </div>
