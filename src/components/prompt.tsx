@@ -2,7 +2,8 @@ const ConfirmationPrompt: React.FC<{
   onConfirm: () => void;
   onCancel: () => void;
   message: string;
-}> = ({ onConfirm, onCancel, message }) => {
+  submessage: string;
+}> = ({ onConfirm, onCancel, message, submessage }) => {
   return (
     <center>
       <div
@@ -48,9 +49,12 @@ const ConfirmationPrompt: React.FC<{
                   d="M12 8v4m0 4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"
                 ></path>
               </svg>
-              <h3 className="mb-5 text-lg font-normal text-gray-500 dark:text-gray-400">
+              <h3 className="mb-2 text-lg font-bold text-white dark:text-white">
                 {message}
               </h3>
+              <p className="mb-5 text-start font-normal text-gray-500 dark:text-gray-400">
+                {submessage}
+              </p>
               <button
                 onClick={onConfirm}
                 data-modal-hide="popup-modal"
