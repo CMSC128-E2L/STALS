@@ -84,6 +84,10 @@
     @apply w-full rounded-full px-3 py-1 text-sm;
   }
 
+  .filter-header {
+    @apply flex w-full items-center py-2 font-bold text-black;
+  }
+
   .profile-dropdown {
     @apply absolute right-0 top-11 z-10 w-[15rem] overflow-hidden rounded-lg bg-white p-4 shadow-lg;
   }
@@ -93,7 +97,7 @@
   }
 
   .button-style {
-    @apply rounded-full bg-p-dblue p-3 text-xl text-white;
+    @apply cursor-pointer rounded-full bg-p-dblue py-1 text-center text-xl font-bold text-white;
   }
 }
 
