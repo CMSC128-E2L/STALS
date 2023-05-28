@@ -13,8 +13,32 @@ import autoTable from "jspdf-autotable";
 import { Accommodation } from "@prisma/client";
 
 export default function HomePage() {
+  const priceRanges = [
+    { id: "all", value: "all", label: "All" },
+    { id: "below-1000", value: "below-1000", label: "Under ₱ 1001" },
+    { id: "one-to-two", value: "one-to-two", label: "₱ 1001 – ₱ 2000" },
+    { id: "two-to-three", value: "two-to-three", label: "₱ 2001 – ₱ 3000" },
+    { id: "three-to-four", value: "three-to-four", label: "₱ 3001 – ₱ 4000" },
+    { id: "above-four", value: "above-four", label: "Above ₱ 4001" },
+  ];
+
+  const accomTypes = [
+    { id: "ALL", value: "ALL", label: "All" },
+    { id: "APARTMENT", value: "APARTMENT", label: "Apartment" },
+    { id: "BEDSPACER", value: "BEDSPACER", label: "Bedspacer" },
+    { id: "DORMITORY", value: "DORMITORY", label: "Dormitory" },
+    { id: "HOTEL", value: "HOTEL", label: "Hotel" },
+    { id: "TRANSCIENT", value: "TRANSCIENT", label: "Transcient" },
+  ];
+
   const [showTypeDropdown, setTypeDropdown] = useState(false);
   const [showPriceDropdown, setPriceDropdown] = useState(false);
+
+  const [selectedAccomType, setSelectedAccomType] = useState(
+    accomTypes[0]?.label,
+  );
+  const [selectedPrice, setSelectedPrice] = useState(priceRanges[0]?.label);
+
   const toggleTypeDropdown = () => {
     setTypeDropdown((prevState) => !prevState);
   };
@@ -164,28 +188,11 @@ export default function HomePage() {
     }
   }
 
-  const priceRanges = [
-    { id: "all", value: "all", label: "All" },
-    { id: "below-1000", value: "below-1000", label: "Under ₱ 1001" },
-    { id: "one-to-two", value: "one-to-two", label: "₱ 1001 – ₱ 2000" },
-    { id: "two-to-three", value: "two-to-three", label: "₱ 2001 – ₱ 3000" },
-    { id: "three-to-four", value: "three-to-four", label: "₱ 3001 – ₱ 4000" },
-    { id: "above-four", value: "above-four", label: "Above ₱ 4001" },
-  ];
-
-  const accomTypes = [
-    { id: "ALL", value: "ALL", label: "All" },
-    { id: "APARTMENT", value: "APARTMENT", label: "Apartment" },
-    { id: "BEDSPACER", value: "BEDSPACER", label: "Bedspacer" },
-    { id: "DORMITORY", value: "DORMITORY", label: "Dormitory" },
-    { id: "HOTEL", value: "HOTEL", label: "Hotel" },
-    { id: "TRANSCIENT", value: "TRANSCIENT", label: "Transcient" },
-  ];
-
   const handleAccomTypeChange = (event: {
     target: { value: string; checked: boolean };
   }) => {
     const { value, checked } = event.target;
+
     if (checked) {
       switch (value) {
         case "ALL":
@@ -234,6 +241,8 @@ export default function HomePage() {
           break;
       }
     }
+
+    setSelectedAccomType(event.target.value);
   };
   const handlePriceRangeChange = (event: {
     target: { value: string; checked: boolean };
@@ -288,6 +297,8 @@ export default function HomePage() {
           break;
       }
     }
+
+    setSelectedPrice(event.target.value);
   };
 
   function AccommodationsList({
@@ -348,6 +359,7 @@ export default function HomePage() {
         )}
       >
         <NavBar register={register} name={"name"} />
+
         <div className="flex">
           <div className="sticky top-0 flex h-screen w-[210px] min-w-[210px] flex-col bg-p-lblue p-5">
             {/* Location */}
@@ -361,9 +373,11 @@ export default function HomePage() {
               onClick={toggleTypeDropdown}
             >
               Type
-              <div className=""></div>
+              <div className="mr-2"></div>
               <svg
-                className="h-5 w-5"
+                className={`h-5 w-5 ${
+                  showTypeDropdown ? "" : "rotate-[-90deg]"
+                }  duration-800' : 'transition-transform duration-800'} transition-transform`}
                 aria-hidden="true"
                 fill="none"
                 stroke="currentColor"
@@ -380,7 +394,7 @@ export default function HomePage() {
             </button>
             {showTypeDropdown && (
               <div>
-                {accomTypes.map((range) => (
+                {accomTypes.map((range, index) => (
                   <div className="mb-1 mt-2 flex items-center" key={range.id}>
                     <input
                       id={range.id}
@@ -389,6 +403,7 @@ export default function HomePage() {
                       value={range.value}
                       onChange={handleAccomTypeChange}
                       className="filter-radio inline-block"
+                      checked={range.value === selectedAccomType || index === 0}
                     />
                     <label htmlFor={range.id} className="filter-text">
                       {range.label}
@@ -403,9 +418,11 @@ export default function HomePage() {
               onClick={togglePriceDropdown}
             >
               Price Range
-              <div className=""></div>
+              <div className="mr-2"></div>
               <svg
-                className="h-5 w-5"
+                className={`h-5 w-5 ${
+                  showPriceDropdown ? "" : "rotate-[-90deg]"
+                }  duration-800' : 'transition-transform duration-800'} transition-transform`}
                 aria-hidden="true"
                 fill="none"
                 stroke="currentColor"
@@ -422,7 +439,7 @@ export default function HomePage() {
             </button>
             {showPriceDropdown && (
               <div>
-                {priceRanges.map((range) => (
+                {priceRanges.map((range, index) => (
                   <div className="mb-1 mt-2 flex items-center" key={range.id}>
                     <input
                       id={range.id}
@@ -431,6 +448,7 @@ export default function HomePage() {
                       value={range.value}
                       onChange={handlePriceRangeChange}
                       className="filter-radio inline-block"
+                      checked={range.value === selectedPrice || index === 0}
                     />
                     <label htmlFor={range.id} className="filter-text">
                       {range.label}
@@ -439,25 +457,6 @@ export default function HomePage() {
                 ))}
               </div>
             )}
-            {/* Price Range */}
-            {/* <div className="mb-4">
-              <h2 className="mb-2 text-base font-bold">Price Range</h2>
-              {priceRanges.map((range) => (
-                <div className="mb-2 flex items-center" key={range.id}>
-                  <input
-                    id={range.id}
-                    type="radio"
-                    name="price_range"
-                    value={range.value}
-                    onChange={handlePriceRangeChange}
-                    className="ml-3 h-4 w-4 rounded border-gray-300 bg-gray-100 text-blue-600 focus:ring-2 focus:ring-blue-500 dark:border-gray-600 dark:bg-gray-700 dark:ring-offset-gray-800 dark:focus:ring-blue-600"
-                  />
-                  <label htmlFor={range.id} className="filter-text">
-                    {range.label}
-                  </label>
-                </div>
-              ))}
-            </div> */}
 
             {/* Include */}
             <div className="mb-4">
