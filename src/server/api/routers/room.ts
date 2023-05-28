@@ -21,6 +21,9 @@ export const roomRouter = createTRPCRouter({
   getOne: publicProcedure.input(z.string()).query(({ ctx, input }) => {
     const id = input;
     return ctx.prisma.room.findFirst({
+      include: {
+        accommodation: true,
+      },
       where: { id: id },
     });
   }),

@@ -11,6 +11,8 @@ import bgpic from "public/images/bg-05.png";
 import toast from "react-hot-toast";
 import { useSession } from "next-auth/react";
 import LoadingSpinner from "~/components/loadingSpinner";
+import Error404 from "~/pages/404";
+import Error from "~/pages/_error";
 
 export default function EditRoom() {
   const userSession = useSession({ required: true });
@@ -39,6 +41,14 @@ export default function EditRoom() {
 
   if (notAuthenticated(userSession.status)) {
     return <LoadingSpinner />;
+  }
+
+  if (firstData === null) {
+    return Error404();
+  }
+
+  if (firstData?.accommodation.landlord !== userSession.data?.user.id) {
+    return <Error statusCode={401} />;
   }
 
   return (
