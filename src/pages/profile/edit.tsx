@@ -50,7 +50,7 @@ const EditProfile: React.FC<{
     if (enteredUN === userSession.data?.profile.email) {
       void deleteProfile.mutate();
     } else {
-      setUsernameError("Username does not match. Please try again.");
+      setUsernameError("Email does not match. Please try again.");
     }
   };
 

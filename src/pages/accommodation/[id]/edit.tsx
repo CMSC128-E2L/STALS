@@ -266,7 +266,8 @@ export default function EditAccommodation() {
   );
 }
 
-function tagCheckbox(array: string[]) { //for backend
+function tagCheckbox(array: string[]) {
+  //for backend
   return array.map((value: string) => (
     <div key={value} className="flex flex-row gap-2">
       <input id={value} type="checkbox" value={value} />
