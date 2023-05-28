@@ -41,7 +41,10 @@ const EditProfile: NextPage = () => {
   });
 
   const [showDeacPrompt, setShowDeacPrompt] = useState(false);
+  const [showConfirmDel, setShowConfirmDel] = useState(false);
   const [showDiscardPrompt, setShowDiscardPrompt] = useState(false);
+  const [enteredUN, setEnteredUN] = useState("");
+  const [usernameError, setUsernameError] = useState("");
   const [isChanged, seIsChanged] = useState(false);
 
   const handleCancel = () => {
@@ -49,6 +52,14 @@ const EditProfile: NextPage = () => {
       setShowDiscardPrompt(true);
     } else {
       window.location.replace("/profile");
+    }
+  };
+
+  const handleDelete = () => {
+    if (enteredUN === userSession.data?.profile.username) {
+      void deleteProfile.mutate();
+    } else {
+      setUsernameError("Username does not match. Please try again.");
     }
   };
 
@@ -153,13 +164,13 @@ const EditProfile: NextPage = () => {
               <br />
               <div>
                 <div className="py-2">
-                  <button className="group relative flex w-full justify-center rounded-full bg-p-dblue px-4 py-2 text-white shadow shadow-gray-400/100">
+                  <button className="group relative flex w-full justify-center rounded-full bg-p-dblue px-4 py-2 text-white shadow shadow-gray-400/100 hover:bg-blue-700">
                     Save changes
                   </button>
                 </div>
                 <div>
                   <button
-                    className="group relative flex w-full justify-center rounded-full bg-slate-500 px-4 py-2 text-white shadow shadow-gray-400/100"
+                    className="group relative flex w-full justify-center rounded-full bg-slate-500 px-4 py-2 text-white shadow shadow-gray-400/100 hover:bg-slate-600"
                     onClick={handleCancel}
                     type="button"
                   >
@@ -172,13 +183,13 @@ const EditProfile: NextPage = () => {
 
             <div
               data-modal-target="prompt"
-              className="mt-2 flex w-full justify-center rounded-3xl border-2 border-red-600 p-2 text-red-600 shadow-lg"
+              className="mt-2 flex w-full justify-center rounded-3xl border-2 border-red-600 p-2 text-red-600 shadow-lg hover:bg-red-800 hover:text-white"
             >
               <button
                 className="w-full "
                 onClick={() => setShowDeacPrompt(true)}
               >
-                Deactivate Account
+                Delete Account
               </button>
             </div>
           </div>
@@ -190,16 +201,101 @@ const EditProfile: NextPage = () => {
             }}
             onCancel={() => setShowDiscardPrompt(false)}
             message="Discard changes?"
+            submessage="This can’t be undone and you’ll lose your changes. "
           />
         )}
+
+        {/* Delete account confitmation */}
         {showDeacPrompt && (
           <ConfirmationPrompt
             onConfirm={() => {
-              void deleteProfile.mutate();
+              setShowConfirmDel(true);
+              setShowDeacPrompt(false);
             }}
             onCancel={() => setShowDeacPrompt(false)}
-            message="Are you sure you want to delete this account?"
+            message="Are you sure you want to delete your account? "
+            submessage="This action cannot be undone. Your profile information and other data, including any accommodation listings, reviews, and reports, will be permanently removed from our system and cannot be recovered."
           />
+        )}
+
+        {showConfirmDel && (
+          <center>
+            <div
+              id="prompt"
+              className="fixed z-50 h-[calc(100%-1rem)] max-h-full overflow-y-auto overflow-x-hidden p-4 backdrop-blur-sm md:inset-0"
+            >
+              <div className="relative max-h-full w-full max-w-md">
+                <div className="relative rounded-lg bg-white shadow dark:bg-gray-700">
+                  <button
+                    type="button"
+                    className="absolute right-2.5 top-3 ml-auto inline-flex items-center rounded-lg bg-transparent p-1.5 text-sm text-gray-400 hover:bg-gray-200 hover:text-gray-900 dark:hover:bg-gray-800 dark:hover:text-white"
+                    data-modal-hide="popup-modal"
+                    onClick={() => {
+                      setShowConfirmDel(false);
+                      setEnteredUN("");
+                      setUsernameError("");
+                    }}
+                  >
+                    <svg
+                      aria-hidden="true"
+                      className="h-5 w-5"
+                      fill="currentColor"
+                      viewBox="0 0 20 20"
+                      xmlns="http://www.w3.org/2000/svg"
+                    >
+                      <path
+                        fill-rule="evenodd"
+                        d="M4.293 4.293a1 1 0 011.414 0L10 8.586l4.293-4.293a1 1 0 111.414 1.414L11.414 10l4.293 4.293a1 1 0 01-1.414 1.414L10 11.414l-4.293 4.293a1 1 0 01-1.414-1.414L8.586 10 4.293 5.707a1 1 0 010-1.414z"
+                        clip-rule="evenodd"
+                      ></path>
+                    </svg>
+                    <span className="sr-only">Close modal</span>
+                  </button>
+                  <div className="p-6 text-center">
+                    <svg
+                      aria-hidden="true"
+                      className="mx-auto mb-4 h-14 w-14 text-gray-400 dark:text-gray-200"
+                      fill="none"
+                      stroke="currentColor"
+                      viewBox="0 0 24 24"
+                      xmlns="http://www.w3.org/2000/svg"
+                    >
+                      <path
+                        stroke-linecap="round"
+                        stroke-linejoin="round"
+                        stroke-width="2"
+                        d="M12 8v4m0 4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"
+                      ></path>
+                    </svg>
+                    <h3 className="text-white-500 mb-3 text-lg font-normal dark:text-gray-400">
+                      Please enter your username to confirm.
+                    </h3>
+                    <input
+                      type="text"
+                      className="mb-3 w-full rounded-xl bg-gray-100 px-2 py-2 shadow shadow-gray-400/100"
+                      placeholder="Username"
+                      value={enteredUN}
+                      onChange={(e) => {
+                        setEnteredUN(e.target.value);
+                        setUsernameError("");
+                      }}
+                    />
+                    {usernameError && (
+                      <p className="mb-2 text-red-600">{usernameError}</p>
+                    )}
+                    <button
+                      onClick={handleDelete}
+                      data-modal-hide="popup-modal"
+                      type="button"
+                      className="mt-2 w-full items-center rounded-lg bg-red-600 px-5 py-2.5 text-center text-sm font-medium text-white hover:bg-red-800 focus:outline-none focus:ring-4 focus:ring-red-300 dark:focus:ring-red-800"
+                    >
+                      I understand the consequences. Delete my account.
+                    </button>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </center>
         )}
       </div>
     </div>
