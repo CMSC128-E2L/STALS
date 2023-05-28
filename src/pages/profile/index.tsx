@@ -32,9 +32,9 @@ export default function HomePage() {
       <div>
         <NavBar />
         {/* Content */}
-        <div className="flex-row-2 m-10 flex h-auto w-auto ">
-          <section className="mr-5 flex flex-col items-center space-y-2 whitespace-nowrap rounded-3xl bg-white p-14 font-medium shadow-xl">
-            <div className="relative ml-32 mr-32 mt-10 flex h-[10.5rem] w-[10.5rem]">
+        <div className=" flex-row-2 m-10 flex h-auto w-auto ">
+          <section className="mr-5 flex h-min flex-col items-center space-y-2 whitespace-nowrap rounded-3xl bg-white p-14 font-medium shadow-xl">
+            <div className="relative mb-5 ml-32 mr-32 mt-10 flex h-[10.5rem] w-[10.5rem]">
               <Image
                 src={sessionData?.user.image ?? user.src}
                 className="flex rounded-full object-contain"
@@ -42,12 +42,7 @@ export default function HomePage() {
                 fill
               />
             </div>
-            <div className="m-10 flex ">
-              <span className="mb-10 text-2xl text-p-hdblue">
-                @{sessionData?.profile.username}
-              </span>
-            </div>
-            <div className="m-10  flex ">
+            <div className="m-10 flex">
               <span className="text-3xl text-black">{fullName ?? "Guest"}</span>
             </div>
             <div className="m-10  flex ">
@@ -90,19 +85,14 @@ export default function HomePage() {
         <NavBar />
         {/* Content */}
         <div className="flex-row-2 m-10 flex h-auto w-auto ">
-          <section className="mr-5 flex flex-col items-center space-y-2 whitespace-nowrap rounded-3xl bg-white p-14 font-medium shadow-xl">
-            <div className="relative ml-32 mr-32 mt-10 flex h-[10.5rem] w-[10.5rem]">
+          <section className="mr-5 flex h-min flex-col items-center space-y-2 whitespace-nowrap rounded-3xl bg-white p-14 font-medium shadow-xl">
+            <div className="relative mb-2 ml-32 mr-32 mt-5 flex h-[10.5rem] w-[10.5rem]">
               <Image
                 src={sessionData?.user.image ?? user.src}
                 className="flex rounded-full object-contain"
                 alt="User Photo"
                 fill
               />
-            </div>
-            <div className="m-10 flex ">
-              <span className="mb-10 text-2xl text-p-hdblue">
-                @{sessionData?.profile.username}
-              </span>
             </div>
             <div className="m-10  flex ">
               <span className="text-3xl text-black">{fullName ?? "Guest"}</span>
@@ -130,7 +120,7 @@ export default function HomePage() {
             </div>
           </section>
 
-          <section className="flex w-full flex-row">
+          <section className="w-full">
             <div className="w-full rounded-3xl p-10 shadow-lg">
               <div className="flex flex-col">
                 <div className="mb-4 flex flex-row items-center">
@@ -153,19 +143,14 @@ export default function HomePage() {
         <NavBar />
         {/* profile */}
         <div className="flex-row-2 m-10 flex h-auto w-auto ">
-          <section className="mr-5 flex flex-col items-center space-y-2 whitespace-nowrap rounded-3xl bg-white p-14 font-medium shadow-xl">
-            <div className="relative ml-32 mr-32 mt-10 flex h-[10.5rem] w-[10.5rem]">
+          <section className="mr-5 flex h-min flex-col items-center space-y-2 whitespace-nowrap rounded-3xl bg-white p-14 font-medium shadow-xl">
+            <div className="relative mb-5 ml-32 mr-32 mt-10 flex h-[10.5rem] w-[10.5rem]">
               <Image
                 src={sessionData?.user.image ?? user.src}
                 className="flex rounded-full object-contain"
                 alt="User Photo"
                 fill
               />
-            </div>
-            <div className="m-10 flex">
-              <span className="mb-10 text-center text-2xl text-p-hdblue ">
-                @{sessionData?.profile.username}
-              </span>
             </div>
             <div className="m-10  flex ">
               <span className="text-3xl text-black">{fullName ?? "Guest"}</span>
