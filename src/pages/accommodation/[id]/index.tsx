@@ -412,16 +412,18 @@ export default function Accommodation() {
               </div>
 
               {/* Rest */}
-              <div className="mt-4 flex grow flex-row divide-x-2 divide-p-black">
-                <div className="w-[40%] p-3">
+              <div className="mt-4 flex grow flex-row divide-x-2 divide-transparent pt-4">
+                <div className="w-[40%] rounded-[15px] border border-gray-200 bg-gray-200 p-3">
                   <div className="items-center">
                     <div className="text-center ">
                       {/* wao */}
-                      <h1 className="text-2xl">Ratings and Reviews</h1>
+                      <h1 className="text-2xl font-bold">Overall Rating</h1>
                       <p className="text-5xl font-bold">
-                        {Number(accommData?.average_rating ?? 0).toFixed(1)} / 5
+                        {Number(accommData?.average_rating ?? 0).toFixed(1)}
                       </p>
-                      <p>out of {accommData?.total_reviews ?? 0} reviews</p>
+                      <p className="italic">
+                        based on {accommData?.total_reviews ?? 0} reviews
+                      </p>
                       <StarRow rating={accommData?.average_rating ?? 0} />
                     </div>
 
@@ -430,8 +432,8 @@ export default function Accommodation() {
                 </div>
 
                 {/* Review section */}
-                <div className="grow basis-1/2">
-                  <div className="h-full">
+                <div className="grow basis-1/2 pl-2">
+                  <div className="h-full rounded-[15px] border border-gray-200 bg-gray-200">
                     {userReview ? (
                       <div className="flex h-full flex-col">
                         {/* TODO: For this, get the first review from the accomm's review array, and load the following:*/}
