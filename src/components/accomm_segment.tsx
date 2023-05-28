@@ -1,10 +1,12 @@
 import { type Accommodation } from "@prisma/client";
 import { useSession } from "next-auth/react";
+import { useState } from "react";
 import { stringify } from "superjson";
 import Image from "next/image";
 import { api } from "~/utils/api";
 import { stalsDBstringArray } from "~/utils/helpers";
 import Link from "next/link";
+import placeholder from "public/images/logo.png";
 
 {
   /* TODO: Tweak data types to be displayed for each variable in the component */
@@ -32,6 +34,10 @@ const Accomm_Segment: React.FC<{
   location,
   tags,
 }) => {
+  const [imgSrc, setImgSrc] = useState(
+    `https://stals-worker.p0lbang.workers.dev/${id}.jpg`,
+  );
+
   const session = useSession();
 
   const { data, isLoading, refetch } = api.accommodation.getMany.useQuery({
@@ -61,8 +67,11 @@ const Accomm_Segment: React.FC<{
           <div className="flex flex-row space-x-2">
             <img
               className="w-1/2 p-2"
-              src="https://via.placeholder.com/640x640"
+              src={imgSrc}
               alt="placeholder img"
+              onError={() => {
+                setImgSrc("https://via.placeholder.com/640x640");
+              }}
             />
 
             <div className="w-full bg-blue-200 p-2">
