@@ -19,6 +19,7 @@ export default function AddAccommodation() {
     register,
     handleSubmit,
     formState: { errors },
+    reset: resetFrom,
   } = useForm<z.infer<typeof accommodationAddSchema>>({
     resolver: zodResolver(accommodationAddSchema),
     defaultValues: {
@@ -70,6 +71,7 @@ export default function AddAccommodation() {
                     position: "bottom-right",
                     duration: 1000,
                   });
+                  resetFrom();
                 },
                 (error) => {
                   console.log(error);
