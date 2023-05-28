@@ -53,7 +53,7 @@ export const SearchItem: React.FC<{
             <p className="mb-4 text-xl">{location}</p>
 
             {tags !== "" ? (
-              <span className="mb-2 mr-2 inline-block rounded-full bg-gray-200 px-3 py-1 text-sm font-semibold text-gray-700">
+              <span className="mb-2 mr-2 inline-block rounded-full bg-blue-200 px-3 py-1 text-sm font-semibold text-gray-700">
                 {tags}
               </span>
             ) : (
