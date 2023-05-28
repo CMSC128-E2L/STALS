@@ -7,7 +7,7 @@ const ConfirmationPrompt: React.FC<{
     <center>
       <div
         id="prompt"
-        className="absolute z-50 h-[calc(100%-1rem)] max-h-full overflow-y-auto overflow-x-hidden p-4 backdrop-blur-sm md:inset-0"
+        className="fixed z-50 h-[calc(100%-1rem)] max-h-full overflow-y-auto overflow-x-hidden p-4 backdrop-blur-sm md:inset-0"
       >
         <div className="relative max-h-full w-full max-w-md">
           <div className="relative rounded-lg bg-white shadow dark:bg-gray-700">

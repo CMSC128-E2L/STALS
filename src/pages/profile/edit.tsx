@@ -57,7 +57,7 @@ const EditProfile: NextPage = () => {
       <NavBar />
       <div className="">
         <img
-          className="absolute h-screen w-screen bg-cover bg-fixed bg-center"
+          className="absolute h-auto w-screen bg-cover bg-fixed bg-center"
           src={bgpic.src}
           alt="background"
         />
@@ -153,13 +153,13 @@ const EditProfile: NextPage = () => {
               <br />
               <div>
                 <div className="py-2">
-                  <button className="group relative flex w-full justify-center rounded-full bg-p-dblue px-4 py-2 font-bold text-white shadow shadow-gray-400/100">
+                  <button className="group relative flex w-full justify-center rounded-full bg-p-dblue px-4 py-2 text-white shadow shadow-gray-400/100">
                     Save changes
                   </button>
                 </div>
                 <div>
                   <button
-                    className="group relative flex w-full justify-center rounded-full bg-slate-500 px-4 py-2 font-bold text-white shadow shadow-gray-400/100"
+                    className="group relative flex w-full justify-center rounded-full bg-slate-500 px-4 py-2 text-white shadow shadow-gray-400/100"
                     onClick={handleCancel}
                     type="button"
                   >
