@@ -18,18 +18,22 @@ export const OwnerAccommodations: React.FC<{ showArchived: boolean }> = ({
   if (!queryLoading && session.data) {
     return (
       <>
-        <div className="h-64 w-auto">
-          {firstData?.map(({ id, name, price, location, tags }) => (
-            <SearchItem
-              key={id + name}
-              id={id}
-              name={name}
-              price={price}
-              location={location}
-              tags={tags}
-            />
-          ))}
-        </div>
+        {firstData ? (
+          <>
+            {firstData?.map(({ id, name, price, location, tags }) => (
+              <SearchItem
+                key={id + name}
+                id={id}
+                name={name}
+                price={price}
+                location={location}
+                tags={tags}
+              />
+            ))}
+          </>
+        ) : (
+          <p>No content</p>
+        )}
       </>
     );
   }
@@ -37,10 +41,10 @@ export const OwnerAccommodations: React.FC<{ showArchived: boolean }> = ({
   // waiting for query output
   return (
     <>
-      <div className="-z-30 mr-4 mt-4 h-64 w-auto animate-pulse rounded-xl border bg-p-gray"></div>
-      <div className="-z-30 mr-4 mt-4 h-64 w-auto animate-pulse rounded-xl border bg-p-gray"></div>
-      <div className="-z-30 mr-4 mt-4 h-64 w-auto animate-pulse rounded-xl border bg-p-gray"></div>
-      <div className="-z-30 mr-4 mt-4 h-64 w-auto animate-pulse rounded-xl border bg-p-gray"></div>
+      <div className="-z-30 mr-4 mt-4 h-64 w-64 animate-pulse rounded-xl border bg-p-gray"></div>
+      <div className="-z-30 mr-4 mt-4 h-64 w-64 animate-pulse rounded-xl border bg-p-gray"></div>
+      <div className="-z-30 mr-4 mt-4 h-64 w-64 animate-pulse rounded-xl border bg-p-gray"></div>
+      <div className="-z-30 mr-4 mt-4 h-64 w-64 animate-pulse rounded-xl border bg-p-gray"></div>
     </>
   );
 };

@@ -33,8 +33,60 @@ export default function HomePage() {
         <NavBar />
         {/* Content */}
         <div className=" flex-row-2 m-10 flex h-auto w-auto ">
-          <section className="mr-5 flex max-h-screen flex-col items-center space-y-2 whitespace-nowrap rounded-3xl bg-white p-14 font-medium shadow-xl">
+          <section className="mr-5 flex h-min flex-col items-center space-y-2 whitespace-nowrap rounded-3xl bg-white p-14 font-medium shadow-xl">
             <div className="relative mb-5 ml-32 mr-32 mt-10 flex h-[10.5rem] w-[10.5rem]">
+              <Image
+                src={sessionData?.user.image ?? user.src}
+                className="flex rounded-full object-contain"
+                alt="User Photo"
+                fill
+              />
+            </div>
+            <div className="m-10 flex">
+              <span className="text-3xl text-black">{fullName ?? "Guest"}</span>
+            </div>
+            <div className="m-10  flex ">
+              <span className="text-xl text-black">
+                {sessionData?.profile.type}
+              </span>
+            </div>
+
+            <div className="flex grid h-48 grid-cols-2 place-content-center gap-3">
+              <span className="text-xl text-black">Contact no:</span>
+              <span className="text-xl text-black">
+                {sessionData?.profile.contact_number}
+              </span>
+              <span className="text-xl text-black">Email Address:</span>
+              <span className="text-xl text-black">
+                {sessionData?.user.email}
+              </span>
+            </div>
+            <div className="flex w-full justify-center rounded-3xl border-2 border-black p-2 shadow-lg">
+              <button className="w-full" onClick={handleEditProfile}>
+                Edit Account
+              </button>
+            </div>
+          </section>
+
+          <section className="w-full">
+            <div className="w-full rounded-3xl p-10 shadow-lg">
+              <MyAccom showArchived={false} />
+            </div>
+            <div className="w-full rounded-3xl p-10 shadow-lg">
+              <MyAccom showArchived={true} />
+            </div>
+          </section>
+        </div>
+      </div>
+    );
+  } else if (sessionData?.profile.type == UserType.USER) {
+    return (
+      <div>
+        <NavBar />
+        {/* Content */}
+        <div className="flex-row-2 m-10 flex h-auto w-auto ">
+          <section className="mr-5 flex h-min flex-col items-center space-y-2 whitespace-nowrap rounded-3xl bg-white p-14 font-medium shadow-xl">
+            <div className="relative mb-2 ml-32 mr-32 mt-5 flex h-[10.5rem] w-[10.5rem]">
               <Image
                 src={sessionData?.user.image ?? user.src}
                 className="flex rounded-full object-contain"
@@ -70,58 +122,6 @@ export default function HomePage() {
 
           <section className="w-full">
             <div className="w-full rounded-3xl p-10 shadow-lg">
-              <MyAccom showArchived={false} show={false} />
-            </div>
-            <div className="w-full rounded-3xl p-10 shadow-lg">
-              <MyAccom showArchived={true} show={false} />
-            </div>
-          </section>
-        </div>
-      </div>
-    );
-  } else if (sessionData?.profile.type == UserType.USER) {
-    return (
-      <div>
-        <NavBar />
-        {/* Content */}
-        <div className="flex-row-2 m-10 flex h-auto w-auto ">
-          <section className="mr-5 flex flex-col items-center space-y-2 whitespace-nowrap rounded-3xl bg-white p-14 font-medium shadow-xl">
-            <div className="relative mb-5 ml-32 mr-32 mt-10 flex h-[10.5rem] w-[10.5rem]">
-              <Image
-                src={sessionData?.user.image ?? user.src}
-                className="flex rounded-full object-contain"
-                alt="User Photo"
-                fill
-              />
-            </div>
-            <div className="m-10  flex ">
-              <span className="text-3xl text-black">{fullName ?? "Guest"}</span>
-            </div>
-            <div className="m-10  flex ">
-              <span className="text-xl text-black">
-                {sessionData?.profile.type}
-              </span>
-            </div>
-
-            <div className="flex grid h-48 grid-cols-2 place-content-center gap-3">
-              <span className="text-xl text-black">Contact no:</span>
-              <span className="text-xl text-black">
-                {sessionData?.profile.contact_number}
-              </span>
-              <span className="text-xl text-black">Email Address:</span>
-              <span className="text-xl text-black">
-                {sessionData?.user.email}
-              </span>
-            </div>
-            <div className="flex w-full justify-center rounded-3xl border-2 border-black p-2 shadow-lg">
-              <button className="w-full" onClick={handleEditProfile}>
-                Edit Account
-              </button>
-            </div>
-          </section>
-
-          <section className="flex w-full flex-row">
-            <div className="w-full rounded-3xl p-10 shadow-lg">
               <div className="flex flex-col">
                 <div className="mb-4 flex flex-row items-center">
                   <h1 className="mr-4 text-xl font-bold">My Favorites</h1>
@@ -143,7 +143,7 @@ export default function HomePage() {
         <NavBar />
         {/* profile */}
         <div className="flex-row-2 m-10 flex h-auto w-auto ">
-          <section className="mr-5 flex flex-col items-center space-y-2 whitespace-nowrap rounded-3xl bg-white p-14 font-medium shadow-xl">
+          <section className="mr-5 flex h-min flex-col items-center space-y-2 whitespace-nowrap rounded-3xl bg-white p-14 font-medium shadow-xl">
             <div className="relative mb-5 ml-32 mr-32 mt-10 flex h-[10.5rem] w-[10.5rem]">
               <Image
                 src={sessionData?.user.image ?? user.src}
