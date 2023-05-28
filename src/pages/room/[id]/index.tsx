@@ -4,7 +4,7 @@ import Link from "next/link";
 import Image from "next/image";
 import { api } from "~/utils/api";
 import { useRouter } from "next/router";
-import { useSession, signOut } from "next-auth/react";
+import { useSession } from "next-auth/react";
 import { dynamicRouteID } from "~/utils/helpers";
 import iconavail from "public/images/icon_avail.png";
 import iconaircon from "public/images/icon_aircon.png";
@@ -13,16 +13,11 @@ import iconarchive from "public/images/icon_archive.png";
 import { UserType } from "@prisma/client";
 import Error404 from "~/pages/404";
 import { useState } from "react";
-import toast, { Toaster } from "react-hot-toast";
+import toast from "react-hot-toast";
 
 export default function Room() {
-  const { shouldReturn, id } = dynamicRouteID(useRouter());
-  // if (shouldReturn) return;
+  const { id } = dynamicRouteID(useRouter());
 
-  // const { data: sessionData } = useSession();
-  // if (accommData === null) {
-  //   return Error404();
-  // }
   const { data: sessionData } = useSession();
 
   const router = useRouter();

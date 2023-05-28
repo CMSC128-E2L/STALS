@@ -8,10 +8,10 @@ import { dynamicRouteID } from "~/utils/helpers";
 import { useEffect } from "react";
 import Link from "next/link";
 import bgpic from "public/images/bg-05.png";
-import toast, { Toaster } from "react-hot-toast";
+import toast from "react-hot-toast";
 
 export default function EditRoom() {
-  const { shouldReturn, id } = dynamicRouteID(useRouter());
+  const { id } = dynamicRouteID(useRouter());
 
   const {
     register,
@@ -173,22 +173,6 @@ export default function EditRoom() {
                 <button className="group relative flex w-full justify-center rounded-full bg-p-dblue px-4 py-2 font-bold text-white shadow shadow-gray-400/100">
                   Save changes
                 </button>
-                <Toaster
-                  toastOptions={{
-                    success: {
-                      style: {
-                        background: "green",
-                        color: "white",
-                      },
-                    },
-                    error: {
-                      style: {
-                        background: "red",
-                        color: "white",
-                      },
-                    },
-                  }}
-                />
               </div>
 
               <div>

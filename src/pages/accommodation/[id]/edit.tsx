@@ -1,13 +1,12 @@
 import NavBar from "~/components/navbar";
-import Image from "next/image";
 import { useRouter } from "next/router";
 import { dynamicRouteID } from "~/utils/helpers";
 import { accommodationEditSchema } from "~/utils/apitypes";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { RouterInputs, api } from "~/utils/api";
+import { type RouterInputs, api } from "~/utils/api";
 import bgpic from "public/images/bg-05.png";
-import toast, { Toaster } from "react-hot-toast";
+import toast from "react-hot-toast";
 import Link from "next/link";
 
 export default function EditAccommodation() {
@@ -25,22 +24,6 @@ export default function EditAccommodation() {
 
   return (
     <div className="overflow-visible">
-      <Toaster
-        toastOptions={{
-          success: {
-            style: {
-              background: "green",
-              color: "white",
-            },
-          },
-          error: {
-            style: {
-              background: "red",
-              color: "white",
-            },
-          },
-        }}
-      />
       <img
         className="absolute bg-cover object-fill"
         src={bgpic.src}
@@ -262,22 +245,6 @@ export default function EditAccommodation() {
                   <button type="submit" className="formConfirm">
                     Save Changes
                   </button>
-                  <Toaster
-                    toastOptions={{
-                      success: {
-                        style: {
-                          background: "green",
-                          color: "white",
-                        },
-                      },
-                      error: {
-                        style: {
-                          background: "red",
-                          color: "white",
-                        },
-                      },
-                    }}
-                  />
                 </div>
                 <div>
                   <Link href={`/accommodation/${id}`}>
