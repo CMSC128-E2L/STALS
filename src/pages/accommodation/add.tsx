@@ -171,28 +171,22 @@ export default function AddAccommodation() {
 
                   <div className="col-span-2">
                     <label className="form-h2">Address</label>
-                    {/* Address input field */}
-                    <div className="pb-2">
-                      <input
-                        className="add-acc-input-text-field"
-                        placeholder="Address"
-                      ></input>
-                    </div>
+
                     <div className="mb-2 flex flex-row gap-2">
                       <input
                         className="add-acc-input-text-field w-1/3"
-                        type="text"
                         placeholder="St."
+                        {...register("street_number")}
                       ></input>
                       <input
                         className="add-acc-input-text-field w-2/3"
                         placeholder="Subdivision"
+                        {...register("subdivision")}
                       ></input>
                       <input
                         className="add-acc-input-text-field"
                         placeholder="Barangay"
-                        type="text"
-                        {...register("address")}
+                        {...register("barangay")}
                       ></input>
                     </div>
                   </div>
@@ -279,7 +273,7 @@ export default function AddAccommodation() {
                   </div>
                 </div>
                 {/* Manage gallery */}
-                <div>
+                <div className="hidden">
                   <div className="pb-3 text-center">
                     <label className="form-h3">
                       Upload Accommodation Photos
