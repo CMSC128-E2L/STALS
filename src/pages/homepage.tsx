@@ -11,6 +11,7 @@ import { useForm, useWatch, type Control } from "react-hook-form";
 import jsPDF from "jspdf";
 import autoTable from "jspdf-autotable";
 import { Accommodation } from "@prisma/client";
+import { useSession } from "next-auth/react";
 
 export default function HomePage() {
   const [showTypeDropdown, setTypeDropdown] = useState(false);
@@ -59,6 +60,24 @@ export default function HomePage() {
       getNextPageParam: (lastPage) => lastPage.nextCursor,
     },
   );
+
+  const DownloadPDFButton: React.FC = () => {
+    const { data: sessionData } = useSession();
+    if (sessionData) {
+      return (
+        <div
+          className="button-style text-sm"
+          onClick={() => {
+            setpdfdownload(true);
+          }}
+        >
+          Download PDF
+        </div>
+      );
+    } else {
+      return <></>;
+    }
+  };
 
   // pdf download logic
   const calledOnce = useRef(false);
@@ -540,16 +559,8 @@ export default function HomePage() {
                 placeholder="Type for suggestions..."
               ></input>
             </div>
-            {/* should not be a button since the form will assume it is a submit button */}
-            {/* hack is to use a div with onClick */}
-            <div
-              className="button-style text-sm"
-              onClick={() => {
-                setpdfdownload(true);
-              }}
-            >
-              Download PDF
-            </div>
+            {/* Button will not show up for guests */}
+            <DownloadPDFButton />
           </div>
           <AccommodationsList control={control} />
         </div>
