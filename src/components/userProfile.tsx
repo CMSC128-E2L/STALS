@@ -4,7 +4,15 @@ import { useSession } from "next-auth/react";
 import { stringify } from "superjson";
 import { api } from "~/utils/api";
 
-export default function UserProfile() {
+export default function UserProfile(props: {
+  uid: string | undefined;
+  id: string | undefined;
+}) {
+  const { data: userReview, isLoading: reviewLoading } =
+    api.review.getOne.useQuery(props.id!);
+  const { data: userDetails, isLoading: userDetailsLoading } =
+    api.user.getOne.useQuery(props.uid!);
+
   const session = useSession();
 
   return (
@@ -22,8 +30,13 @@ export default function UserProfile() {
         <div className="pl-2">
           {/* <h1 className="font-bold"> {session.data?.user.name}</h1>  */}
           {/* placeholder only */}
-          <h1 className="font-bold">Jamie Mari</h1>
-          <label>May 24, 2023 | 12:00 AM</label>
+          <h1 className="font-bold">
+            {userDetails?.first_name} {userDetails?.last_name}
+          </h1>
+          <label>
+            {userReview?.date} | {userReview?.time}
+          </label>
+          <p>{userReview?.review}</p>
         </div>
       </div>
     </>
