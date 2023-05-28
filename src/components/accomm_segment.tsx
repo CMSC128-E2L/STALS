@@ -11,7 +11,7 @@ import { stalsDBstringArray } from "~/utils/helpers";
 const Accomm_Segment: React.FC<{
   id: string;
   name: string;
-  price: number /* SHOULD BE FLOAT */;
+  price: number | null /* SHOULD BE FLOAT */;
   num_of_rooms: number;
   barangay: string;
   typeArray: Array<string>;
