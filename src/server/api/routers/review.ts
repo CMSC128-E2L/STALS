@@ -141,6 +141,10 @@ export const reviewRouter = createTRPCRouter({
         include: {
           user: true,
         },
+
+        orderBy: {
+          rating: "desc",
+        },
         where: { accommodationId: accommodationId },
       });
     }),
@@ -161,6 +165,9 @@ export const reviewRouter = createTRPCRouter({
       },
       where: {
         accommodationId: accommodationId,
+      },
+      orderBy: {
+        rating: "desc",
       },
     });
   }),
