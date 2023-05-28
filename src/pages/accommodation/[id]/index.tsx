@@ -11,7 +11,6 @@ import Error404 from "~/pages/404";
 import { useSession } from "next-auth/react";
 import Review from "~/components/review";
 import { useState } from "react";
-import userImage from "public/placeholder_1.png";
 
 export default function Accommodation() {
   const { id } = dynamicRouteID(useRouter());
@@ -296,21 +295,30 @@ export default function Accommodation() {
                 </div>
 
                 {/* SHOULD APPEAR IF SOCIAL MEDIA EXISTS */}
-                <div className="flex flex-row items-center gap-x-1 p-1">
-                  <div className="rounded-full bg-p-dblue p-1">
-                    <svg
-                      xmlns="http://www.w3.org/2000/svg"
-                      width="16"
-                      height="16"
-                      fill="white"
-                      className=""
-                      viewBox="0 0 16 16"
-                    >
-                      <path d="M16 8.049c0-4.446-3.582-8.05-8-8.05C3.58 0-.002 3.603-.002 8.05c0 4.017 2.926 7.347 6.75 7.951v-5.625h-2.03V8.05H6.75V6.275c0-2.017 1.195-3.131 3.022-3.131.876 0 1.791.157 1.791.157v1.98h-1.009c-.993 0-1.303.621-1.303 1.258v1.51h2.218l-.354 2.326H9.25V16c3.824-.604 6.75-3.934 6.75-7.951z" />
-                    </svg>
-                  </div>
-                  {accommData?.fb_page ?? "Facebook link"}
-                </div>
+                {accommData?.fb_page ? (
+                  <Link
+                    href={accommData.fb_page}
+                    className="cursor-pointer underline"
+                  >
+                    <div className="flex flex-row items-center gap-x-1 p-1">
+                      <div className="rounded-full bg-p-dblue p-1">
+                        <svg
+                          xmlns="http://www.w3.org/2000/svg"
+                          width="16"
+                          height="16"
+                          fill="white"
+                          className=""
+                          viewBox="0 0 16 16"
+                        >
+                          <path d="M16 8.049c0-4.446-3.582-8.05-8-8.05C3.58 0-.002 3.603-.002 8.05c0 4.017 2.926 7.347 6.75 7.951v-5.625h-2.03V8.05H6.75V6.275c0-2.017 1.195-3.131 3.022-3.131.876 0 1.791.157 1.791.157v1.98h-1.009c-.993 0-1.303.621-1.303 1.258v1.51h2.218l-.354 2.326H9.25V16c3.824-.604 6.75-3.934 6.75-7.951z" />
+                        </svg>
+                      </div>
+                      <p>Here</p>
+                    </div>
+                  </Link>
+                ) : (
+                  <div />
+                )}
               </div>
 
               {/* DESCRIPTION */}
@@ -409,23 +417,25 @@ export default function Accommodation() {
                 </div>
                 {/* Review section */}
                 <div className="grow basis-1/2">
-                  <div className="flex h-full flex-col p-2">
-                    {/* TODO: For this, get the first review from the accomm's review array, and load the following:*/}
-                    <UserProfile
-                      first_name={userReview?.user.first_name}
-                      last_name={userReview?.user.last_name}
-                      date={userReview?.date}
-                      time={userReview?.time}
-                      review={userReview?.review}
-                      rating={userReview?.rating}
-                    />
-                    {/* <div className="flex max-w-full flex-row gap-3 rounded-md p-3">
+                  <div className="h-full">
+                    {userReview ? (
+                      <div className="flex h-full flex-col">
+                        {/* TODO: For this, get the first review from the accomm's review array, and load the following:*/}
+                        <UserProfile
+                          first_name={userReview?.user.first_name}
+                          last_name={userReview?.user.last_name}
+                          date={userReview?.date}
+                          time={userReview?.time}
+                          review={userReview?.review}
+                          rating={userReview?.rating}
+                        />
+                        {/* <div className="flex max-w-full flex-row gap-3 rounded-md p-3">
                       <img
                         src={userImage.src}
                         className="w-[15%] self-start rounded-full"
                       /> */}
 
-                    {/* <div className="flex flex-col">
+                        {/* <div className="flex flex-col">
                         <div>
 
                           <h1 className="text-xl font-bold"></h1> 
@@ -436,27 +446,20 @@ export default function Accommodation() {
                         </div>
                         <label className="pb-1">
                           <p className="line-clamp-2 cursor-pointer pt-2 text-sm">
-                            twink earrings wwx twink earrings wwx twink earrings
-                            wwx twink earrings wwx twink earrings wwx twink
-                            earrings wwx twink earrings wwx twink earrings wwx
-                            twink earrings wwx twink earrings wwx twink earrings
-                            wwx twink earrings wwx twink earrings wwx twink
-                            earrings wwx twink earrings wwx twink earrings wwx
-                            twink earrings wwx twink earrings wwx twink earrings
-                            wwx twink earrings wwx twink earrings wwx twink
-                            earrings wwx twink earrings wwx twink earrings wwx
-                            twink earrings wwx twink earrings wwx twink earrings
-                            wwx twink earrings wwx twink earrings wwx twink
-                            earrings wwx twink earrings wwx twink earrings wwx
-                            twink earrings wwx twink earrings wwx twink earrings
-                            wwx twink earrings wwx twink earrings wwx twink
-                            earrings wwx twink earrings wwx twink earrings wwx
-                            twink earrings wwx twink earrings wwx
                           </p>
                         </label>
                       </div>
                     </div> */}
-                    {/* This is the review */}
+                        {/* This is the review */}
+                      </div>
+                    ) : (
+                      <div className="flex h-full items-center justify-center text-center">
+                        <p className="w-[60%]">
+                          This accommodation has no reviews! Add yours now by
+                          clicking see more below.
+                        </p>
+                      </div>
+                    )}
                     {showReview && (
                       <div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50">
                         <div className="flex max-h-[80%] w-[60%] flex-col rounded-xl bg-white p-2">
@@ -471,7 +474,6 @@ export default function Accommodation() {
                         </div>
                       </div>
                     )}
-
                     <div className="px-3 text-end text-xs">
                       <button
                         className=" pl-1 text-sm text-gray-500 underline"

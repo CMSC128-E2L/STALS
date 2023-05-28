@@ -22,27 +22,29 @@ export const UserProfile: React.FC<UserPorfileProps> = ({
 }) => {
   return (
     <>
-      <div className="flex flex-row rounded-md bg-white p-3">
+      <div className="flex flex-row rounded-md p-3">
         {/* Insert Landlord Image here */}
-        <div className="relative mr-3 h-12 w-12 place-self-center rounded-full">
+        <div className="relative mr-3 aspect-square h-[70%] place-self-center rounded-full ">
           <Image
             src={userImageSrc ?? userImage.src}
-            className="object-contain"
+            className="w-full rounded-full"
             alt="placeholder"
             fill
           />
         </div>
-        <div className="pl-2">
+        <div className="flex w-full flex-col">
           {/* <h1 className="font-bold"> {session.data?.user.name}</h1>  */}
           {/* placeholder only */}
-          <h1 className="font-bold">
+          <h1 className="text-xl font-bold">
             {first_name} {last_name}
           </h1>
-          <label>
-            {date} | {time}
-          </label>
-          <p>{review}</p>
-          <p>Rating: {rating}</p>
+          <div className="flex flex-row justify-between">
+            <label className="text-sm italic">
+              {date} | {time}
+            </label>
+            <p>Rating: {rating}</p>
+          </div>
+          <p className="line-clamp-2 pt-2 text-sm">{review}</p>
         </div>
       </div>
     </>
