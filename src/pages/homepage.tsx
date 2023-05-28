@@ -14,9 +14,39 @@ import { Accommodation } from "@prisma/client";
 import { useSession } from "next-auth/react";
 
 export default function HomePage() {
+  const priceRanges = [
+    { id: "all", value: "all", label: "All" },
+    { id: "below-1000", value: "below-1000", label: "Under ₱ 1001" },
+    { id: "one-to-two", value: "one-to-two", label: "₱ 1001 – ₱ 2000" },
+    { id: "two-to-three", value: "two-to-three", label: "₱ 2001 – ₱ 3000" },
+    { id: "three-to-four", value: "three-to-four", label: "₱ 3001 – ₱ 4000" },
+    { id: "above-four", value: "above-four", label: "Above ₱ 4001" },
+  ];
+
+  const accomTypes = [
+    { id: "ALL", value: "ALL", label: "All" },
+    { id: "APARTMENT", value: "APARTMENT", label: "Apartment" },
+    { id: "BEDSPACER", value: "BEDSPACER", label: "Bedspacer" },
+    { id: "DORMITORY", value: "DORMITORY", label: "Dormitory" },
+    { id: "HOTEL", value: "HOTEL", label: "Hotel" },
+    { id: "TRANSCIENT", value: "TRANSCIENT", label: "Transcient" },
+  ];
+
+  const sortTypes = [
+    { id: "NONE", value: "NONE", label: "None" },
+    { id: "NAME", value: "NAME", label: "Name" },
+    { id: "PRICE", value: "PRICE", label: "Price" },
+    { id: "RATING", value: "RATING", label: "Rating" },
+  ];
+
+  const [selectedAccomType, setSelectedAccomType] = useState("");
+  const [selectedPrice, setSelectedPrice] = useState("");
+  const [selectedSort, setSelectedSort] = useState("");
+
   const [showTypeDropdown, setTypeDropdown] = useState(false);
   const [showPriceDropdown, setPriceDropdown] = useState(false);
   const [showSortDropdown, setSortDropdown] = useState(false);
+
   const toggleTypeDropdown = () => {
     setTypeDropdown((prevState) => !prevState);
   };
@@ -26,6 +56,7 @@ export default function HomePage() {
   const toggleSortDropdown = () => {
     setSortDropdown((prevState) => !prevState);
   };
+
   const [userInputs, setUserInputs] = useState<
     z.infer<typeof accommodationGetManyExperiementSchema>
   >({
@@ -206,31 +237,6 @@ export default function HomePage() {
     }
   }
 
-  const priceRanges = [
-    { id: "all", value: "all", label: "All" },
-    { id: "below-1000", value: "below-1000", label: "Under ₱ 1001" },
-    { id: "one-to-two", value: "one-to-two", label: "₱ 1001 – ₱ 2000" },
-    { id: "two-to-three", value: "two-to-three", label: "₱ 2001 – ₱ 3000" },
-    { id: "three-to-four", value: "three-to-four", label: "₱ 3001 – ₱ 4000" },
-    { id: "above-four", value: "above-four", label: "Above ₱ 4001" },
-  ];
-
-  const accomTypes = [
-    { id: "ALL", value: "ALL", label: "All" },
-    { id: "APARTMENT", value: "APARTMENT", label: "Apartment" },
-    { id: "BEDSPACER", value: "BEDSPACER", label: "Bedspacer" },
-    { id: "DORMITORY", value: "DORMITORY", label: "Dormitory" },
-    { id: "HOTEL", value: "HOTEL", label: "Hotel" },
-    { id: "TRANSCIENT", value: "TRANSCIENT", label: "Transcient" },
-  ];
-
-  const sortTypes = [
-    { id: "NONE", value: "NONE", label: "None" },
-    { id: "NAME", value: "NAME", label: "Name" },
-    { id: "PRICE", value: "PRICE", label: "Price" },
-    { id: "RATING", value: "RATING", label: "Rating" },
-  ];
-
   const handleSortTypeChange = (event: {
     target: { value: string; checked: boolean };
   }) => {
@@ -273,6 +279,8 @@ export default function HomePage() {
           break;
       }
     }
+
+    setSelectedSort(event.target.value);
   };
 
   const handleAccomTypeChange = (event: {
@@ -327,6 +335,8 @@ export default function HomePage() {
           break;
       }
     }
+
+    setSelectedAccomType(event.target.value);
   };
   const handlePriceRangeChange = (event: {
     target: { value: string; checked: boolean };
@@ -381,6 +391,8 @@ export default function HomePage() {
           break;
       }
     }
+
+    setSelectedPrice(event.target.value);
   };
 
   function AccommodationsList({
@@ -453,7 +465,9 @@ export default function HomePage() {
               Type
               <div className=""></div>
               <svg
-                className="h-5 w-5"
+                className={`h-5 w-5 ${
+                  showTypeDropdown ? "" : "rotate-[-90deg]"
+                }  duration-800' : 'transition-transform duration-800'} transition-transform`}
                 aria-hidden="true"
                 fill="none"
                 stroke="currentColor"
@@ -470,7 +484,7 @@ export default function HomePage() {
             </button>
             {showTypeDropdown && (
               <div>
-                {accomTypes.map((range) => (
+                {accomTypes.map((range, index) => (
                   <div className="mb-1 mt-2 flex items-center" key={range.id}>
                     <input
                       id={range.id}
@@ -479,7 +493,7 @@ export default function HomePage() {
                       value={range.value}
                       onChange={handleAccomTypeChange}
                       className="filter-radio inline-block"
-                      defaultChecked={range.id === "ALL"}
+                      checked={range.value === selectedAccomType}
                     />
                     <label htmlFor={range.id} className="filter-text">
                       {range.label}
@@ -493,7 +507,9 @@ export default function HomePage() {
               Price Range
               <div className=""></div>
               <svg
-                className="h-5 w-5"
+                className={`h-5 w-5 ${
+                  showPriceDropdown ? "" : "rotate-[-90deg]"
+                }  duration-800' : 'transition-transform duration-800'} transition-transform`}
                 aria-hidden="true"
                 fill="none"
                 stroke="currentColor"
@@ -510,7 +526,7 @@ export default function HomePage() {
             </button>
             {showPriceDropdown && (
               <div>
-                {priceRanges.map((range) => (
+                {priceRanges.map((range, index) => (
                   <div className="mb-1 mt-2 flex items-center" key={range.id}>
                     <input
                       id={range.id}
@@ -519,7 +535,7 @@ export default function HomePage() {
                       value={range.value}
                       onChange={handlePriceRangeChange}
                       className="filter-radio inline-block"
-                      defaultChecked={range.id === "all"}
+                      checked={range.value === selectedPrice}
                     />
                     <label htmlFor={range.id} className="filter-text">
                       {range.label}
@@ -532,7 +548,9 @@ export default function HomePage() {
               Sort By
               <div className=""></div>
               <svg
-                className="h-5 w-5"
+                className={`h-5 w-5 ${
+                  showSortDropdown ? "" : "rotate-[-90deg]"
+                }  duration-800' : 'transition-transform duration-800'} transition-transform`}
                 aria-hidden="true"
                 fill="none"
                 stroke="currentColor"
@@ -549,15 +567,15 @@ export default function HomePage() {
             </button>
             {showSortDropdown && (
               <div>
-                {sortTypes.map((range) => (
+                {sortTypes.map((range, index) => (
                   <div className="mb-1 mt-2 flex items-center" key={range.id}>
                     <input
                       id={range.id}
                       type="radio"
-                      name="sort_by"
+                      name="sort"
                       value={range.value}
                       onChange={handleSortTypeChange}
-                      defaultChecked={range.id === "NONE"}
+                      checked={range.value === selectedSort}
                       className="filter-radio inline-block"
                     />
                     <label htmlFor={range.id} className="filter-text">

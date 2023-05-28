@@ -114,11 +114,12 @@ const EditProfile: React.FC<{
                     type="text"
                     placeholder="Suffix"
                     className="w-[28%] rounded-xl px-2 py-2 shadow shadow-gray-400/100"
+                    defaultValue={userSession.data?.profile.Suffix || ""}
                   />
                 </div>
                 <input
                   {...register("username")}
-                  type="text"
+                  type="hidden"
                   placeholder="Username"
                   className="rounded-xl px-2 py-2 shadow shadow-gray-400/100"
                   defaultValue={userSession.data?.profile.username || ""}
