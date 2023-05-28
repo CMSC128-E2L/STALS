@@ -9,6 +9,8 @@ import toast from "react-hot-toast";
 import { useSession } from "next-auth/react";
 import LoadingSpinner from "~/components/loadingSpinner";
 import { notAuthenticated } from "~/utils/helpers";
+import { type z } from "zod";
+import { useState } from "react";
 
 export default function AddAccommodation() {
   const userSession = useSession({ required: true });
@@ -17,8 +19,13 @@ export default function AddAccommodation() {
     register,
     handleSubmit,
     formState: { errors },
-  } = useForm({
+  } = useForm<z.infer<typeof accommodationAddSchema>>({
     resolver: zodResolver(accommodationAddSchema),
+    defaultValues: {
+      tagArray: [],
+      typeArray: [],
+      is_archived: false,
+    },
   });
 
   const createAccommodation = api.accommodation.add.useMutation();
@@ -74,8 +81,7 @@ export default function AddAccommodation() {
                     className="add-acc-input-text-field w-full"
                     placeholder="Name of Accommodation"
                     pattern="[\w\s]+"
-                    {...register("name")}
-                    required
+                    {...register("name", { required: true })}
                   ></input>
                 </div>
 
@@ -148,9 +154,7 @@ export default function AddAccommodation() {
                         className="add-acc-input-text-field"
                         placeholder="Contact No."
                         pattern="(09|\+639)[0-9]{9}"
-                        type="text"
                         {...register("contact_number")}
-                        required
                       ></input>
                     </div>
                     {/* Accommodation price input field */}
@@ -160,9 +164,7 @@ export default function AddAccommodation() {
                         className="add-acc-input-text-field"
                         placeholder="Price"
                         pattern="[0-9]+"
-                        type="text"
                         {...register("price", { valueAsNumber: true })}
-                        required
                       ></input>
                     </div>
                   </div>
@@ -194,9 +196,6 @@ export default function AddAccommodation() {
                       ></input>
                     </div>
                   </div>
-                  <div className="hidden">
-                    <input type="checkbox" {...register("is_archived")} />
-                  </div>
                 </div>
                 <div>
                   <h2 className="form-h3 text-center">Tags</h2>
@@ -214,18 +213,6 @@ export default function AddAccommodation() {
                         </div>
                       </div>
                       <div className="flex flex-col gap-1">
-                        <div className="hidden">
-                          {/* No of Available Rooms */}
-
-                          <input
-                            className="add-acc-input-text-field"
-                            placeholder="No. of Available Rooms"
-                            {...register("num_of_rooms", {
-                              valueAsNumber: true,
-                            })}
-                            type="number"
-                          ></input>
-                        </div>
                         <div>
                           <label className="form-h2">Kitchen</label>
                           <select name="cooking" className="form-dropdown">
