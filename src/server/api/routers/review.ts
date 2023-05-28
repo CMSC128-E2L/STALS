@@ -138,6 +138,9 @@ export const reviewRouter = createTRPCRouter({
       return ctx.prisma.review.findMany({
         skip: page,
         take: multiplier,
+        include: {
+          user: true,
+        },
         where: { accommodationId: accommodationId },
       });
     }),
