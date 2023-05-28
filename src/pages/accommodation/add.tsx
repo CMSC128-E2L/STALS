@@ -117,7 +117,7 @@ export default function AddAccommodation() {
                             Bedspacer
                           </option>
                           <option value={AccommodationType.HOTEL}>Hotel</option>
-                          <option value={AccommodationType.TRANSCIENT}>
+                          <option value={AccommodationType.TRANSIENT}>
                             Transient Space
                           </option>
                         </select>
