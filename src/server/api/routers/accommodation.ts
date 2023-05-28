@@ -113,9 +113,11 @@ export const accommodationRouter = createTRPCRouter({
         data: {
           ...input,
           num_of_rooms: 0,
+          average_rating: 0,
+          total_reviews: 0,
           landlord: userId,
-          tagArray: { values: [] },
-          typeArray: { values: [] },
+          tagArray: { values: input.tagArray },
+          typeArray: { values: input.typeArray },
         },
       });
     }),
@@ -254,6 +256,14 @@ export const accommodationRouter = createTRPCRouter({
               },
             },
           ],
+        },
+        orderBy: {
+          ...(input.sortByName == true ? { name: "asc" } : {}),
+          ...(input.sortByRating == true ? { average_rating: "desc" } : {}),
+          ...(input.sortByPrice == true ? { price: "asc" } : {}),
+          // // Add the properties you want to order by and their sorting direction
+          // name: 'asc', // Example: Sort by name in ascending order
+          // // Add more properties as needed
         },
       });
 

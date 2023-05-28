@@ -156,13 +156,13 @@ export default function Accommodation() {
                         xmlns="http://www.w3.org/2000/svg"
                         fill="none"
                         viewBox="0 0 24 24"
-                        stroke-width="1.5"
+                        strokeWidth="1.5"
                         stroke="currentColor"
                         className="h-8 w-8"
                       >
                         <path
-                          stroke-linecap="round"
-                          stroke-linejoin="round"
+                          strokeLinecap="round"
+                          strokeLinejoin="round"
                           d="M3 16.5v2.25A2.25 2.25 0 005.25 21h13.5A2.25 2.25 0 0021 18.75V16.5M16.5 12L12 16.5m0 0L7.5 12m4.5 4.5V3"
                         />
                       </svg>
@@ -343,6 +343,7 @@ export default function Accommodation() {
                 <div className="scrollbar flex flex-row items-stretch space-x-3 overflow-x-auto px-3 py-3">
                   {accommData?.Room && accommData?.Room.length > 0 ? (
                     accommData?.Room.map((room, i: number) => (
+                      // edited to cater room details popup
                       <RoomButton
                         key={room.id}
                         id={room.id}
@@ -355,6 +356,12 @@ export default function Accommodation() {
                             ? false
                             : room.is_archived
                         }
+                        roomAccID={room.accommodationId}
+                        roomAvail={room.occupied}
+                        roomPrice={room.price}
+                        roomBeds={room.num_of_beds}
+                        roomAircon={room.with_aircon}
+                        roomUtils={room.with_utilities}
                       />
                     ))
                   ) : (
@@ -414,8 +421,9 @@ export default function Accommodation() {
                     <UserProfile
                       first_name={userReview?.user.first_name}
                       last_name={userReview?.user.last_name}
-                      date={userReview?.date}
-                      time={userReview?.time}
+                      // commented out due to error encountered
+                      // date={userReview?.date}
+                      // time={userReview?.time}
                       review={userReview?.review}
                       rating={userReview?.rating}
                     />
@@ -485,6 +493,30 @@ export default function Accommodation() {
               </div>
             </div>
           </div>
+        </div>
+
+        {/*Report button*/}
+        <div className="w">
+          <button
+            className="m-5 space-y-10 rounded-full p-3"
+            // onClick={() => {;}}
+          >
+            Report a Problem
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              fill="none"
+              viewBox="0 0 24 24"
+              strokeWidth="1.5"
+              stroke="currentColor"
+              className="h-6 w-6"
+            >
+              <path
+                strokeLinecap="round"
+                strokeLinejoin="round"
+                d="M12 9v3.75m-9.303 3.376c-.866 1.5.217 3.374 1.948 3.374h14.71c1.73 0 2.813-1.874 1.948-3.374L13.949 3.378c-.866-1.5-3.032-1.5-3.898 0L2.697 16.126zM12 15.75h.007v.008H12v-.008z"
+              />
+            </svg>
+          </button>
         </div>
       </div>
     </div>
