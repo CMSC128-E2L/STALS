@@ -73,7 +73,7 @@
   }
 
   .dropdown-buttons {
-    @apply w-full rounded-lg bg-p-gray p-1 text-center hover:block hover:bg-p-dgray focus:outline-none;
+    @apply w-full rounded-lg p-1 hover:block hover:bg-p-gray focus:outline-none;
   }
 
   .filter-text {

@@ -151,7 +151,7 @@ const ProfileButton: React.FC = () => {
       return (
         <div className="profile-dropdown">
           <UserInfo />
-          <hr className="my-2 h-px border-0 bg-gray-200 dark:bg-gray-700"></hr>
+          <hr className="mb-4 h-px border-0 bg-gray-200 dark:bg-gray-700"></hr>
           <div className="flex flex-col items-stretch gap-2">
             <Link
               className="dropdown-buttons"
@@ -165,7 +165,10 @@ const ProfileButton: React.FC = () => {
             >
               My Archive
             </Link>
-            <button className="dropdown-buttons" onClick={handleLogout}>
+            <button
+              className="dropdown-buttons text-left"
+              onClick={handleLogout}
+            >
               Sign Out
             </button>
           </div>
