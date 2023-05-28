@@ -61,17 +61,17 @@ const RoomShow: React.FC<{
         <h1 className=" text-3xl font-bold text-p-dblue">Room Details</h1>
         {/* if landlord ka, makikita mo to, otherwise not */}
         {isLandlordViewing && (
-          <div>
+          <div className="flex flex-row items-center gap-x-1 p-1">
             {/* BUTTON NG EDIT */}
             <Link href={`room/${roomID}/edit`}>
-              <button type="button" className="accomP-button m-2">
+              <button type="button" className="">
                 <svg
                   xmlns="http://www.w3.org/2000/svg"
                   fill="none"
                   viewBox="0 0 24 24"
                   strokeWidth="1.5"
                   stroke="currentColor"
-                  className="h-8 w-8 fill-white stroke-p-dblue"
+                  className="h-8 w-8 stroke-p-dblue"
                 >
                   <path
                     strokeLinecap="round"
@@ -86,7 +86,7 @@ const RoomShow: React.FC<{
             {roomArchive == false && (
               <button
                 type="button"
-                className="accomP-button m-2"
+                className=""
                 onClick={() => setShowPopUpArchive(true)}
               >
                 <svg
@@ -95,7 +95,7 @@ const RoomShow: React.FC<{
                   viewBox="0 0 24 24"
                   strokeWidth="1.5"
                   stroke="currentColor"
-                  className="h-8 w-8 fill-white stroke-p-dblue"
+                  className="h-8 w-8"
                 >
                   <path
                     strokeLinecap="round"
@@ -109,7 +109,7 @@ const RoomShow: React.FC<{
             {roomArchive == true && (
               <button
                 type="button"
-                className="accomP-button m-2"
+                className=""
                 onClick={() => setShowPopUpUnarchive(true)}
               >
                 <svg
@@ -118,7 +118,7 @@ const RoomShow: React.FC<{
                   viewBox="0 0 24 24"
                   strokeWidth="1.5"
                   stroke="currentColor"
-                  className="h-8 w-8 fill-white stroke-p-dblue"
+                  className="h-8 w-8 stroke-p-dblue"
                 >
                   <path
                     strokeLinecap="round"
@@ -131,7 +131,7 @@ const RoomShow: React.FC<{
             {/* BUTTON NG DELETE */}
             <button
               type="button"
-              className="accomP-button m-2"
+              className=""
               onClick={() => setShowPopUpDelete(true)}
             >
               <svg
@@ -140,7 +140,7 @@ const RoomShow: React.FC<{
                 viewBox="0 0 24 24"
                 strokeWidth="1.5"
                 stroke="currentColor"
-                className="h-8 w-8 fill-white stroke-p-dblue"
+                className="h-8 w-8 stroke-p-dblue"
               >
                 <path
                   strokeLinecap="round"
