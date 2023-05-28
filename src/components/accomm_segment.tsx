@@ -1,16 +1,11 @@
-import { type Accommodation } from "@prisma/client";
-import { useSession } from "next-auth/react";
 import { useState } from "react";
-import { stringify } from "superjson";
-import Image from "next/image";
 import { api } from "~/utils/api";
-import { stalsDBstringArray } from "~/utils/helpers";
 import Link from "next/link";
-import placeholder from "public/images/logo.png";
 
 {
   /* TODO: Tweak data types to be displayed for each variable in the component */
 }
+// eslint-disable-next-line
 const Accomm_Segment: React.FC<{
   id: string;
   name: string;
@@ -22,6 +17,7 @@ const Accomm_Segment: React.FC<{
   is_archived: boolean;
   location: string;
   tags: string;
+  refetch?: any;
 }> = ({
   id,
   name,
@@ -33,29 +29,23 @@ const Accomm_Segment: React.FC<{
   is_archived,
   location,
   tags,
+  refetch,
 }) => {
   const [imgSrc, setImgSrc] = useState(
-    `https://stals-worker.p0lbang.workers.dev/${id}.jpg`,
+    // `https://stals-worker.p0lbang.workers.dev/${id}.jpg`,
+    `https://stals-worker.p0lbang.workers.dev/api/v2/${id}/${id}`,
   );
-
-  const session = useSession();
-
-  const { data, isLoading, refetch } = api.accommodation.getMany.useQuery({
-    landlord: session.data?.user.id,
-  });
-
-  {
-    /* TODO: Add functionality for "add" and "edit" accommodation buttons */
-  }
 
   const archiveAccomm = api.accommodation.archive.useMutation({
     onSuccess: () => {
+      // eslint-disable-next-line @typescript-eslint/no-unsafe-call
       void refetch();
     },
   });
 
   const deleteAccomm = api.accommodation.delete.useMutation({
     onSuccess: () => {
+      // eslint-disable-next-line @typescript-eslint/no-unsafe-call
       void refetch();
     },
   });
