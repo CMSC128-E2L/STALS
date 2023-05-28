@@ -1,7 +1,8 @@
 import OwnerAccommodations from "./OwnerAccommodations";
 
-export const MyAccom: React.FC<{ showArchived: boolean }> = ({
+export const MyAccom: React.FC<{ showArchived: boolean; show: boolean }> = ({
   showArchived,
+  show,
 }) => {
   return (
     <div className="flex flex-col">
@@ -10,10 +11,14 @@ export const MyAccom: React.FC<{ showArchived: boolean }> = ({
           My {showArchived ? "Archived" : "Accomodations"}
         </h1>
       </div>
-      <p>No {showArchived ? "Archived" : "Accomodations"} yet</p>
-      <div className="grid grid-cols-4 place-content-evenly gap-2">
-        <OwnerAccommodations showArchived={showArchived} />
-      </div>
+
+      {!show ? (
+        <p>No {showArchived ? "Archived" : "Accomodations"} yet</p>
+      ) : (
+        <div className="grid grid-cols-4 place-content-evenly gap-2">
+          <OwnerAccommodations showArchived={showArchived} />
+        </div>
+      )}
     </div>
   );
 };

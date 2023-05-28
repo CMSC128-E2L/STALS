@@ -32,20 +32,15 @@ export default function HomePage() {
       <div>
         <NavBar />
         {/* Content */}
-        <div className="flex-row-2 m-10 flex h-auto w-auto ">
-          <section className="mr-5 flex flex-col items-center space-y-2 whitespace-nowrap rounded-3xl bg-white p-14 font-medium shadow-xl">
-            <div className="relative ml-32 mr-32 mt-10 flex h-[10.5rem] w-[10.5rem]">
+        <div className=" flex-row-2 m-10 flex h-auto w-auto ">
+          <section className="mr-5 flex max-h-screen flex-col items-center space-y-2 whitespace-nowrap rounded-3xl bg-white p-14 font-medium shadow-xl">
+            <div className="relative mb-5 ml-32 mr-32 mt-10 flex h-[10.5rem] w-[10.5rem]">
               <Image
                 src={sessionData?.user.image ?? user.src}
                 className="flex rounded-full object-contain"
                 alt="User Photo"
                 fill
               />
-            </div>
-            <div className="m-10 flex ">
-              <span className="mb-10 text-2xl text-p-hdblue">
-                @{sessionData?.profile.username}
-              </span>
             </div>
             <div className="m-10  flex ">
               <span className="text-3xl text-black">{fullName ?? "Guest"}</span>
@@ -75,10 +70,10 @@ export default function HomePage() {
 
           <section className="w-full">
             <div className="w-full rounded-3xl p-10 shadow-lg">
-              <MyAccom showArchived={false} />
+              <MyAccom showArchived={false} show={false} />
             </div>
             <div className="w-full rounded-3xl p-10 shadow-lg">
-              <MyAccom showArchived={true} />
+              <MyAccom showArchived={true} show={false} />
             </div>
           </section>
         </div>
@@ -91,18 +86,13 @@ export default function HomePage() {
         {/* Content */}
         <div className="flex-row-2 m-10 flex h-auto w-auto ">
           <section className="mr-5 flex flex-col items-center space-y-2 whitespace-nowrap rounded-3xl bg-white p-14 font-medium shadow-xl">
-            <div className="relative ml-32 mr-32 mt-10 flex h-[10.5rem] w-[10.5rem]">
+            <div className="relative mb-5 ml-32 mr-32 mt-10 flex h-[10.5rem] w-[10.5rem]">
               <Image
                 src={sessionData?.user.image ?? user.src}
                 className="flex rounded-full object-contain"
                 alt="User Photo"
                 fill
               />
-            </div>
-            <div className="m-10 flex ">
-              <span className="mb-10 text-2xl text-p-hdblue">
-                @{sessionData?.profile.username}
-              </span>
             </div>
             <div className="m-10  flex ">
               <span className="text-3xl text-black">{fullName ?? "Guest"}</span>
@@ -154,18 +144,13 @@ export default function HomePage() {
         {/* profile */}
         <div className="flex-row-2 m-10 flex h-auto w-auto ">
           <section className="mr-5 flex flex-col items-center space-y-2 whitespace-nowrap rounded-3xl bg-white p-14 font-medium shadow-xl">
-            <div className="relative ml-32 mr-32 mt-10 flex h-[10.5rem] w-[10.5rem]">
+            <div className="relative mb-5 ml-32 mr-32 mt-10 flex h-[10.5rem] w-[10.5rem]">
               <Image
                 src={sessionData?.user.image ?? user.src}
                 className="flex rounded-full object-contain"
                 alt="User Photo"
                 fill
               />
-            </div>
-            <div className="m-10 flex">
-              <span className="mb-10 text-center text-2xl text-p-hdblue ">
-                @{sessionData?.profile.username}
-              </span>
             </div>
             <div className="m-10  flex ">
               <span className="text-3xl text-black">{fullName ?? "Guest"}</span>

@@ -55,13 +55,13 @@ const EditProfile: NextPage = () => {
   return (
     <div>
       <NavBar />
-      <div className="">
+      <div className="h-fullscreen">
         <img
-          className="absolute h-auto w-screen bg-cover bg-fixed bg-center"
+          className="fixed h-auto w-screen bg-cover bg-fixed bg-center"
           src={bgpic.src}
           alt="background"
         />
-        <div className="absolute inset-x-0 flex h-screen items-center justify-center">
+        <div className="fixed inset-x-0 top-0 flex h-screen items-center justify-center">
           <div className="w-fit rounded-xl bg-white px-10 py-10">
             <div className="item-center flex justify-center px-2 pb-0 pt-0 drop-shadow-md">
               <h1 className="text-3xl font-bold text-blue-700">Edit profile</h1>
