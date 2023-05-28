@@ -161,9 +161,6 @@ export const reviewRouter = createTRPCRouter({
       },
       where: {
         accommodationId: accommodationId,
-        rating: {
-          gt: 3,
-        },
       },
     });
   }),

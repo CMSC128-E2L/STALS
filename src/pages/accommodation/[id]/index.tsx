@@ -417,6 +417,7 @@ export default function Accommodation() {
                       date={userReview?.date}
                       time={userReview?.time}
                       review={userReview?.review}
+                      rating={userReview?.rating}
                     />
                     {/* <div className="flex max-w-full flex-row gap-3 rounded-md p-3">
                       <img
