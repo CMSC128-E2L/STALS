@@ -110,12 +110,28 @@ export default function Accommodation() {
                   )}
                 </div>
 
+                {/* Empty space to move download button closer to the fav button */}
+                <div className="flex w-1/2"></div>
+
+                <div className="flex flex-row items-stretch">
+                  <button
+                    className="accPButton mx-3 mb-2 self-end px-3 text-lg"
+                    onClick={() => {
+                      print();
+                    }}
+                  >
+                    {" "}
+                    Download{" "}
+                  </button>
+                </div>
+
                 {/* Right column: the editing thingy ig */}
                 <div className="shrink">
                   {/* TODO: So if a registered user is viewing it (remove hidden to show teehee)
-                  
                   WONDERING KUNG UNG IMPLEMENTATION NA LANG NITO VIA COMPONENT OR NAH*/}
-                  <div className="cursor-pointer">
+
+                  {/* empty space to move fav button to the right*/}
+                  <div className="mb-2 cursor-pointer">
                     <form>
                       <input
                         type="checkbox"
@@ -235,6 +251,7 @@ export default function Accommodation() {
                 </div>
 
                 {/* EMAIL */}
+                {/*
                 <div className="flex flex-row items-center gap-x-1 p-1">
                   <div className="rounded-full bg-p-dblue p-1">
                     <svg
@@ -254,6 +271,7 @@ export default function Accommodation() {
                   </div>
                   Email
                 </div>
+                */}
 
                 {/* LOCATION */}
                 <div className="flex flex-row items-center gap-x-1 p-1">
@@ -328,25 +346,24 @@ export default function Accommodation() {
                   )} */}
 
                   {/* TODO: since the tags of an accommodation is just a string, just print that string here.*/}
-                  <p className="py-1 text-sm">{accommData?.tags}</p>
+                  <p className="py-1 text-sm italic">{accommData?.tags}</p>
                 </div>
 
                 {/* Other deets */}
-                <div className="justify-self-start">
-                  <div className="grid grid-cols-2 px-3">
-                    {/* TODO get the corresponding info: */}
-                    <div className="flex flex-col gap-2 p-2">
-                      <h1 className="form-h2">Price</h1>
-                      <h1 className="form-h2">Capacity</h1>
-                      {/*TODO: CONTRACT LENGTH IS A CONDITIONAL THAT ONLY APPEARS IF THE ACCOMMODATION IS A DORMITORY */}
-                      <h1 className="form-h2">Contract Length</h1>
-                    </div>
 
-                    <div className="flex flex-col gap-2 p-2">
-                      <p>{accommData?.price} Pesos</p>
-                      <p>(min) to (max) people</p>
-                      <p>{accommData?.contract_length}</p>
-                    </div>
+                <div className="grid w-1/2 grid-cols-2 px-3">
+                  {/* TODO get the corresponding info: */}
+                  <div className="flex flex-col gap-2 p-4">
+                    <h1 className="form-h2">Price</h1>
+                    <h1 className="form-h2">Capacity</h1>
+                    {/*TODO: CONTRACT LENGTH IS A CONDITIONAL THAT ONLY APPEARS IF THE ACCOMMODATION IS A DORMITORY */}
+                    <h1 className="form-h2">Contract Length</h1>
+                  </div>
+
+                  <div className="flex flex-col gap-2 space-y-1 p-4">
+                    <p>{accommData?.price} Pesos</p>
+                    <p>(min) to (max) people</p>
+                    <p>{accommData?.contract_length}</p>
                   </div>
                 </div>
 
@@ -401,20 +418,9 @@ export default function Accommodation() {
                     )}
                 </div>
               </div>
-              <div className="flex flex-row items-stretch">
-                <button
-                  className="accPButton mx-3 mb-2 w-1/5 self-end px-3 text-lg"
-                  onClick={() => {
-                    print();
-                  }}
-                >
-                  {" "}
-                  Download{" "}
-                </button>
-              </div>
 
               {/* Rest */}
-              <div className="flex grow flex-row divide-x-2 divide-p-black">
+              <div className="mt-4 flex grow flex-row divide-x-2 divide-p-black">
                 <div className="basis-1/3 p-3">
                   <div className="flex flex-row">
                     <div className="place-self-center text-center ">
