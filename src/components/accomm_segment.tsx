@@ -67,9 +67,12 @@ const Accomm_Segment: React.FC<{
 
             <div className="w-full bg-blue-200 p-2">
               <div className="mb-2 rounded-lg bg-blue-100 p-2">
-                <p>
-                  {name} | Archived: {String(is_archived)}
-                </p>
+                {/* ARCHIVED */}
+                {is_archived && <p>{name} (Archived) </p>}
+
+                {/* NOT ARCHIVED */}
+                {!is_archived && <p>{name}</p>}
+
                 {/* PRICE */}
                 <p>Price: {price}</p>
               </div>
@@ -115,18 +118,35 @@ const Accomm_Segment: React.FC<{
                   Edit
                 </Link>
 
+                {/* RESTORE */}
+                {is_archived && (
+                  <button
+                    className="rounded border border-gray-400 bg-white p-2"
+                    onClick={() => {
+                      archiveAccomm.mutate({
+                        id: id,
+                        is_archived: is_archived,
+                      });
+                    }}
+                  >
+                    Restore
+                  </button>
+                )}
+
                 {/* ARCHIVE */}
-                <button
-                  className="rounded border border-gray-400 bg-white p-2"
-                  onClick={() => {
-                    archiveAccomm.mutate({
-                      id: id,
-                      is_archived: is_archived,
-                    });
-                  }}
-                >
-                  Archive
-                </button>
+                {!is_archived && (
+                  <button
+                    className="rounded border border-gray-400 bg-white p-2"
+                    onClick={() => {
+                      archiveAccomm.mutate({
+                        id: id,
+                        is_archived: is_archived,
+                      });
+                    }}
+                  >
+                    Archive
+                  </button>
+                )}
 
                 {/* DELETE */}
                 <button
