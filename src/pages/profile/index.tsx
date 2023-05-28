@@ -81,7 +81,7 @@ export default function Profile() {
         </div>
       </div>
     );
-  } else if (sessionData?.profile.type == UserType.ADMIN) {
+  } else if (sessionData?.profile.type == UserType.USER) {
     return (
       <div>
         <NavBar />
@@ -140,7 +140,7 @@ export default function Profile() {
         </div>
       </div>
     );
-  } else if (sessionData?.profile.type == UserType.USER) {
+  } else if (sessionData?.profile.type == UserType.ADMIN) {
     return (
       <div>
         <NavBar />
