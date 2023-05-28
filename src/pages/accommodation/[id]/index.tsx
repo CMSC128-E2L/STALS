@@ -500,7 +500,9 @@ export default function Accommodation() {
           </div>
         </div>
         {/*Report button*/}
-        <div className="m-3">
+        <div className="fixed bottom-2 left-0 m-3">
+          {" "}
+          {/*The report button will stick to the bottom left of the screen*/}
           <button
             className="flex flex-row space-x-10"
             onClick={() => {
