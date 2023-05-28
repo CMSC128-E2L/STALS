@@ -4,6 +4,7 @@ import { stringify } from "superjson";
 import Image from "next/image";
 import { api } from "~/utils/api";
 import { stalsDBstringArray } from "~/utils/helpers";
+import Link from "next/link";
 
 {
   /* TODO: Tweak data types to be displayed for each variable in the component */
@@ -107,9 +108,12 @@ const Accomm_Segment: React.FC<{
                 <div className="w-full bg-blue-200"></div>
 
                 {/* EDIT */}
-                <button className="rounded border border-gray-400 bg-white p-2">
+                <Link
+                  className="rounded border border-gray-400 bg-white p-2"
+                  href={`${id}/edit`}
+                >
                   Edit
-                </button>
+                </Link>
 
                 {/* ARCHIVE */}
                 <button
@@ -142,9 +146,12 @@ const Accomm_Segment: React.FC<{
         <br />
 
         <div className="flex justify-center">
-          <button className="mx-4 mb-4 rounded border border-gray-400 bg-white p-4 text-xl">
+          <Link
+            className="mx-4 mb-4 rounded border border-gray-400 bg-white p-4 text-xl"
+            href={`/accommodation/add`}
+          >
             Add Accommodation
-          </button>
+          </Link>
         </div>
       </>
     </div>
