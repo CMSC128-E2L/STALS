@@ -2,7 +2,7 @@ import NavBar from "~/components/navbar";
 import { useRouter } from "next/router";
 import { dynamicRouteID, notAuthenticated } from "~/utils/helpers";
 import { accommodationEditSchema } from "~/utils/apitypes";
-import { useForm } from "react-hook-form";
+import { UseFormRegister, useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { type RouterInputs, api } from "~/utils/api";
 import bgpic from "public/images/bg-05.png";
@@ -99,9 +99,19 @@ export default function EditAccommodation() {
                   ></input>
                 </div>
               </div>
+              <h2 className="form-h2 px-3 pt-3">Type of Accommodation</h2>
+              <div className="flex flex-row justify-evenly gap-4 px-5 pt-2">
+                {tagCheckbox([
+                  "Dormitory",
+                  "Apartment",
+                  "Hotel",
+                  "Transient",
+                  "Bedspace",
+                ])}
+              </div>
               <div className="grid grid-cols-2 gap-2 object-contain">
                 <div className="form-col-deets">
-                  <div className="">
+                  <div className="hidden">
                     <label className="form-h2">Type of Accommodation</label>
                     <select
                       name="Accommodation Type"
@@ -167,33 +177,6 @@ export default function EditAccommodation() {
                       type="text"
                       {...register("price", { valueAsNumber: true })}
                       required
-                    ></input>
-                  </div>
-                </div>
-                <div className="col-span-2">
-                  <label className="form-h2">Address</label>
-                  {/* Address input field */}
-                  <div className="pb-2">
-                    <input
-                      className="add-acc-input-text-field"
-                      placeholder="Address"
-                    ></input>
-                  </div>
-                  <div className="mb-2 flex flex-row gap-2">
-                    <input
-                      className="add-acc-input-text-field w-1/3"
-                      type="text"
-                      placeholder="St."
-                    ></input>
-                    <input
-                      className="add-acc-input-text-field w-2/3"
-                      placeholder="Subdivision"
-                    ></input>
-                    <input
-                      className="add-acc-input-text-field"
-                      placeholder="Barangay"
-                      type="text"
-                      {...register("address")}
                     ></input>
                   </div>
                 </div>
@@ -281,4 +264,13 @@ export default function EditAccommodation() {
       </div>
     </div>
   );
+}
+
+function tagCheckbox(array: string[]) { //for backend
+  return array.map((value: string) => (
+    <div key={value} className="flex flex-row gap-2">
+      <input id={value} type="checkbox" value={value} />
+      <label htmlFor={value}>{value}</label>
+    </div>
+  ));
 }
