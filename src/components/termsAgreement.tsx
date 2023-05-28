@@ -6,7 +6,7 @@ export default function TermsCondition() {
       </h2>
       <div className="mb-4 h-60 max-w-xl overflow-y-scroll px-1">
         <p className="py-3 text-sm">
-          Privacy Policy Last updated: April 18, 2023
+          Privacy Policy Last updated: May 28, 2023
           <br />
           <br />
           This document describes the policies and procedures used by the{" "}
@@ -99,7 +99,7 @@ export default function TermsCondition() {
           </p>
           <p>
             <span className="font-bold">Website</span> refers to STALS,
-            accessible from https://stals.com
+            accessible from https://stals.vercel.app/
           </p>
           <p>
             <span className="font-bold">You</span> refers to the individual
@@ -131,8 +131,9 @@ export default function TermsCondition() {
 
           <ol className="list-inside list-disc pl-4">
             <li>Email address</li>
-            <li>First name and last name</li>
-            <li>Address, State, Province, ZIP/Postal code, City</li>
+            <li>Full Name</li>
+            <li>Contact Number</li>
+            <li>Complete Address</li>
             <li>Images of property</li>
           </ol>
           <br />
@@ -530,7 +531,7 @@ export default function TermsCondition() {
 
         <ol className="list-inside list-disc pl-4 text-sm">
           <li>
-            <span className="font-bold">By email:</span> cgrodriguez@up.edu.ph
+            <span className="font-bold">By email:</span> uplb.stals@gmail.com
           </li>
         </ol>
         <br />

@@ -52,6 +52,9 @@ export default function Delete_Archive_Accomm() {
                   barangay={accomm.barangay}
                   typeArray={stalsDBstringArray(accomm.typeArray)}
                   tagArray={stalsDBstringArray(accomm.tagArray)}
+                  is_archived={accomm.is_archived}
+                  location={accomm.location}
+                  tags={accomm.tags}
                 />
               </div>
             </div>

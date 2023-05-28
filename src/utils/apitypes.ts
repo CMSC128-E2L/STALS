@@ -16,6 +16,8 @@ export const accommodationGetManyExperiementSchema = z.object({
   price_max: z.number().optional(),
   is_archived: z.boolean().optional(),
   limit: z.number().min(1).max(100).nullish(),
+  sortByName: z.boolean().optional(),
+  sortByRating: z.boolean().optional(),
   cursor: z.string().nullish(), // <-- "cursor" needs to exist, but can be any type
 });
 
@@ -53,7 +55,9 @@ export const userEditSchema = z.object({
     .optional(),
   contact_number: z
     .string()
-    .min(10, { message: "Must be at least length of 10" })
+    .regex(/^09\d{9}$/, {
+      message: "Must be a valid phone number. e.g. (09123456789)",
+    })
     .optional(),
   type: z.nativeEnum(UserType),
 });

@@ -13,9 +13,13 @@ import autoTable from "jspdf-autotable";
 import { Accommodation } from "@prisma/client";
 
 export default function HomePage() {
-  const [showDropdown, setShowDropdown] = useState(false);
-  const toggleDropdown = () => {
-    setShowDropdown((prevState) => !prevState);
+  const [showTypeDropdown, setTypeDropdown] = useState(false);
+  const [showPriceDropdown, setPriceDropdown] = useState(false);
+  const toggleTypeDropdown = () => {
+    setTypeDropdown((prevState) => !prevState);
+  };
+  const togglePriceDropdown = () => {
+    setPriceDropdown((prevState) => !prevState);
   };
   const [userInputs, setUserInputs] = useState<
     z.infer<typeof accommodationGetManyExperiementSchema>
@@ -33,6 +37,8 @@ export default function HomePage() {
     price_min: undefined,
     price_max: undefined,
     is_archived: false,
+    sortByName: false,
+    sortByRating: false,
   });
   const {
     register,
@@ -178,6 +184,45 @@ export default function HomePage() {
     { id: "TRANSCIENT", value: "TRANSCIENT", label: "Transcient" },
   ];
 
+  const sortTypes = [
+    { id: "NONE", value: "NONE", label: "None" },
+    { id: "NAME", value: "NAME", label: "Name" },
+    { id: "RATING", value: "RATING", label: "Average Rating" },
+  ];
+
+  const handleSortTypeChange = (event: {
+    target: { value: string; checked: boolean };
+  }) => {
+    const { value, checked } = event.target;
+    if (checked) {
+      switch (value) {
+        case "NONE":
+          setUserInputs((prevInputs) => ({
+            ...prevInputs,
+            sortByName: false,
+            sortByRating: false,
+          }));
+          break;
+        case "NAME":
+          setUserInputs((prevInputs) => ({
+            ...prevInputs,
+            sortByName: true,
+            sortByRating: false,
+          }));
+          break;
+        case "RATING":
+          setUserInputs((prevInputs) => ({
+            ...prevInputs,
+            sortByName: false,
+            sortByRating: true,
+          }));
+          break;
+        default:
+          break;
+      }
+    }
+  };
+
   const handleAccomTypeChange = (event: {
     target: { value: string; checked: boolean };
   }) => {
@@ -294,7 +339,7 @@ export default function HomePage() {
     useWatch({ control });
 
     return (
-      <div className="grow pl-5 pt-5">
+      <div className="grow">
         <div className="flex flex-row flex-wrap">
           {accommodationEntries ? (
             accommodationEntries?.pages.map((page, i: number) => (
@@ -330,7 +375,7 @@ export default function HomePage() {
   }
 
   return (
-    <div className="bg-p-ngray">
+    <div>
       <form
         // eslint-disable-next-line @typescript-eslint/no-misused-promises
         onSubmit={handleSubmit(
@@ -345,19 +390,19 @@ export default function HomePage() {
       >
         <NavBar register={register} name={"name"} />
         <div className="flex">
-          <div className="sticky top-0 flex h-screen w-[220px] min-w-[220px] flex-col bg-p-lblue p-5">
+          <div className="sticky top-0 flex h-screen w-[210px] min-w-[210px] flex-col bg-p-lblue p-5">
             {/* Location */}
             <div className="mb-4">
               <h2 className="mb-2 text-base font-bold">Location</h2>
               <Location setUserInputs={setUserInputs} methods={methods} />
             </div>
             {/* Accommodation Type */}
-            {/* <h2 className="relative mb-2 text-base font-bold">Accommodation Type</h2>   */}
-            {/* <button
-              className="w-full mr-2 flex items-center rounded-full bg-p-dblue px-3 py-1 text-sm text-white hover:bg-p-rblue"
-              onClick={toggleDropdown}
+            <button
+              className="flex w-full items-center py-1 font-bold text-black"
+              onClick={toggleTypeDropdown}
             >
-              Select type
+              Type
+              <div className=""></div>
               <svg
                 className="h-5 w-5"
                 aria-hidden="true"
@@ -373,46 +418,70 @@ export default function HomePage() {
                   d="M19 9l-7 7-7-7"
                 ></path>
               </svg>
-          </button>
-        {showDropdown && (
-          <div className="absolute rounded-lg bg-white p-3 pt-0 text-sm shadow-lg z-10">
-            {accomTypes.map((range) => (
-                <div className="mt-2 mb-1 flex items-center dropdown-buttons" key={range.id} >
-                  <input
-                    id={range.id}
-                    type="radio"
-                    name="accom_type"
-                    value={range.value}
-                    onChange={handleAccomTypeChange}
-                    className="hidden ml-3 h-4 w-4 rounded border-gray-300 bg-gray-100 text-blue-600 focus:ring-2 focus:ring-blue-500 dark:border-gray-600 dark:bg-gray-700 dark:ring-offset-gray-800 dark:focus:ring-blue-600"
-                  />
-                  <label htmlFor={range.id} className="filter-text">
-                    {range.label}
-                  </label>
-                </div>
-              ))}
-          </div>
-        )} */}
-            <div className="mb-4">
-              <h2 className="mb-2 text-base font-bold">Type</h2>
-              {accomTypes.map((range) => (
-                <div className="mb-2 flex items-center" key={range.id}>
-                  <input
-                    id={range.id}
-                    type="radio"
-                    name="accom_type"
-                    value={range.value}
-                    onChange={handleAccomTypeChange}
-                    className="ml-3 h-4 w-4 rounded border-gray-300 bg-gray-100 text-blue-600 focus:ring-2 focus:ring-blue-500 dark:border-gray-600 dark:bg-gray-700 dark:ring-offset-gray-800 dark:focus:ring-blue-600"
-                  />
-                  <label htmlFor={range.id} className="filter-text">
-                    {range.label}
-                  </label>
-                </div>
-              ))}
-            </div>
+            </button>
+            {showTypeDropdown && (
+              <div>
+                {accomTypes.map((range) => (
+                  <div className="mb-1 mt-2 flex items-center" key={range.id}>
+                    <input
+                      id={range.id}
+                      type="radio"
+                      name="accom_type"
+                      value={range.value}
+                      onChange={handleAccomTypeChange}
+                      className="filter-radio inline-block"
+                    />
+                    <label htmlFor={range.id} className="filter-text">
+                      {range.label}
+                    </label>
+                  </div>
+                ))}
+              </div>
+            )}
             {/* Price Range */}
-            <div className="mb-4">
+            <button
+              className="flex w-full items-center py-1 font-bold text-black"
+              onClick={togglePriceDropdown}
+            >
+              Price Range
+              <div className=""></div>
+              <svg
+                className="h-5 w-5"
+                aria-hidden="true"
+                fill="none"
+                stroke="currentColor"
+                viewBox="0 0 24 24"
+                xmlns="http://www.w3.org/2000/svg"
+              >
+                <path
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                  stroke-width="2"
+                  d="M19 9l-7 7-7-7"
+                ></path>
+              </svg>
+            </button>
+            {showPriceDropdown && (
+              <div>
+                {priceRanges.map((range) => (
+                  <div className="mb-1 mt-2 flex items-center" key={range.id}>
+                    <input
+                      id={range.id}
+                      type="radio"
+                      name="price_range"
+                      value={range.value}
+                      onChange={handlePriceRangeChange}
+                      className="filter-radio inline-block"
+                    />
+                    <label htmlFor={range.id} className="filter-text">
+                      {range.label}
+                    </label>
+                  </div>
+                ))}
+              </div>
+            )}
+            {/* Price Range */}
+            {/* <div className="mb-4">
               <h2 className="mb-2 text-base font-bold">Price Range</h2>
               {priceRanges.map((range) => (
                 <div className="mb-2 flex items-center" key={range.id}>
@@ -422,6 +491,25 @@ export default function HomePage() {
                     name="price_range"
                     value={range.value}
                     onChange={handlePriceRangeChange}
+                    className="ml-3 h-4 w-4 rounded border-gray-300 bg-gray-100 text-blue-600 focus:ring-2 focus:ring-blue-500 dark:border-gray-600 dark:bg-gray-700 dark:ring-offset-gray-800 dark:focus:ring-blue-600"
+                  />
+                  <label htmlFor={range.id} className="filter-text">
+                    {range.label}
+                  </label>
+                </div>
+              ))}
+            </div> */}
+
+            <div className="mb-4">
+              <h2 className="mb-2 text-base font-bold">Sort By</h2>
+              {sortTypes.map((range) => (
+                <div className="mb-2 flex items-center" key={range.id}>
+                  <input
+                    id={range.id}
+                    type="radio"
+                    name="price_range"
+                    value={range.value}
+                    onChange={handleSortTypeChange}
                     className="ml-3 h-4 w-4 rounded border-gray-300 bg-gray-100 text-blue-600 focus:ring-2 focus:ring-blue-500 dark:border-gray-600 dark:bg-gray-700 dark:ring-offset-gray-800 dark:focus:ring-blue-600"
                   />
                   <label htmlFor={range.id} className="filter-text">

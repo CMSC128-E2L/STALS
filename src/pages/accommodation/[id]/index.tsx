@@ -25,7 +25,7 @@ export default function Accommodation() {
     api.file.getAccommImages.useQuery({ id });
 
   const { data: userReview, isLoading: reviewLoading } =
-    api.review.getOneTopReview.useQuery();
+    api.review.getTopReview.useQuery(id);
 
   // const { data: RoomList, isLoading: roomLoading } = api.room.getMany.useQuery({
   //   id: id,
@@ -343,6 +343,7 @@ export default function Accommodation() {
                 <div className="scrollbar flex flex-row items-stretch space-x-3 overflow-x-auto px-3 py-3">
                   {accommData?.Room && accommData?.Room.length > 0 ? (
                     accommData?.Room.map((room, i: number) => (
+                      // edited to cater room details popup
                       <RoomButton
                         key={room.id}
                         id={room.id}
@@ -355,6 +356,12 @@ export default function Accommodation() {
                             ? false
                             : room.is_archived
                         }
+                        roomAccID={room.accommodationId}
+                        roomAvail={room.occupied}
+                        roomPrice={room.price}
+                        roomBeds={room.num_of_beds}
+                        roomAircon={room.with_aircon}
+                        roomUtils={room.with_utilities}
                       />
                     ))
                   ) : (
@@ -414,9 +421,11 @@ export default function Accommodation() {
                     <UserProfile
                       first_name={userReview?.user.first_name}
                       last_name={userReview?.user.last_name}
-                      date={userReview?.date}
-                      time={userReview?.time}
+                      // commented out due to error encountered
+                      // date={userReview?.date}
+                      // time={userReview?.time}
                       review={userReview?.review}
+                      rating={userReview?.rating}
                     />
                     {/* <div className="flex max-w-full flex-row gap-3 rounded-md p-3">
                       <img

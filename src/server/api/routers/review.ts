@@ -153,20 +153,32 @@ export const reviewRouter = createTRPCRouter({
     });
   }),
 
-  getOneTopReview: publicProcedure.query(async ({ ctx }) => {
-    try {
-      return await ctx.prisma.review.findFirst({
-        where: {
-          rating: {
-            gt: 3,
-          },
-        },
-        include: {
-          user: true,
-        },
-      });
-    } catch (error) {
-      console.log("error", error);
-    }
+  getTopReview: publicProcedure.input(z.string()).query(({ ctx, input }) => {
+    const accommodationId = input;
+    return ctx.prisma.review.findFirst({
+      include: {
+        user: true,
+      },
+      where: {
+        accommodationId: accommodationId,
+      },
+    });
   }),
+
+  // getOneTopReview: publicProcedure.query(async ({ ctx }) => {
+  //   try {
+  //     return await ctx.prisma.review.findFirst({
+  //       where: {
+  //         rating: {
+  //           gt: 3,
+  //         },
+  //       },
+  //       include: {
+  //         user: true,
+  //       },
+  //     });
+  //   } catch (error) {
+  //     console.log("error", error);
+  //   }
+  // }),
 });
