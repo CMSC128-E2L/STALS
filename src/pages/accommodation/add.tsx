@@ -1,14 +1,16 @@
 import NavBar from "~/components/navbar";
-import { useForm } from "react-hook-form";
+import { type UseFormRegister, useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { AccommodationType } from "@prisma/client";
-import { type RouterInputs, api } from "~/utils/api";
+import { api } from "~/utils/api";
 import { accommodationAddSchema } from "~/utils/apitypes";
 import bgpic from "public/images/bg-05.png";
 import toast from "react-hot-toast";
 import { useSession } from "next-auth/react";
 import LoadingSpinner from "~/components/loadingSpinner";
 import { notAuthenticated } from "~/utils/helpers";
+import { type z } from "zod";
+import { useState } from "react";
 
 export default function AddAccommodation() {
   const userSession = useSession({ required: true });
@@ -17,11 +19,21 @@ export default function AddAccommodation() {
     register,
     handleSubmit,
     formState: { errors },
-  } = useForm({
+    reset: resetFrom,
+  } = useForm<z.infer<typeof accommodationAddSchema>>({
     resolver: zodResolver(accommodationAddSchema),
+    defaultValues: {
+      tagArray: [],
+      typeArray: [],
+      is_archived: false,
+    },
   });
 
   const createAccommodation = api.accommodation.add.useMutation();
+
+  const [tagGenders, settagGenders] = useState("Coed");
+  const [tagKitchen, settagKitchen] = useState("Cooking Not Allowed");
+  const [tagCustom, settagCustom] = useState("");
 
   if (notAuthenticated(userSession.status)) {
     return <LoadingSpinner />;
@@ -45,14 +57,21 @@ export default function AddAccommodation() {
               // eslint-disable-next-line
               onSubmit={handleSubmit(
                 (d) => {
-                  console.log(d);
-                  createAccommodation.mutate(
-                    d as RouterInputs["accommodation"]["add"],
+                  const newAddAccomInputs = { ...d };
+                  newAddAccomInputs.tagArray?.push(tagGenders);
+                  newAddAccomInputs.tagArray?.push(tagKitchen);
+                  newAddAccomInputs.tagArray?.push(
+                    ...tagCustom.split(",").map(function (item) {
+                      return item.trim();
+                    }),
                   );
+                  console.log(newAddAccomInputs);
+                  createAccommodation.mutate(newAddAccomInputs);
                   toast.success("Successfully Added Accommodation!", {
                     position: "bottom-right",
                     duration: 1000,
                   });
+                  resetFrom();
                 },
                 (error) => {
                   console.log(error);
@@ -74,8 +93,7 @@ export default function AddAccommodation() {
                     className="add-acc-input-text-field w-full"
                     placeholder="Name of Accommodation"
                     pattern="[\w\s]+"
-                    {...register("name")}
-                    required
+                    {...register("name", { required: true })}
                   ></input>
                 </div>
 
@@ -99,7 +117,7 @@ export default function AddAccommodation() {
                             Bedspacer
                           </option>
                           <option value={AccommodationType.HOTEL}>Hotel</option>
-                          <option value={AccommodationType.TRANSCIENT}>
+                          <option value={AccommodationType.TRANSIENT}>
                             Transient Space
                           </option>
                         </select>
@@ -148,9 +166,7 @@ export default function AddAccommodation() {
                         className="add-acc-input-text-field"
                         placeholder="Contact No."
                         pattern="(09|\+639)[0-9]{9}"
-                        type="text"
                         {...register("contact_number")}
-                        required
                       ></input>
                     </div>
                     {/* Accommodation price input field */}
@@ -160,42 +176,31 @@ export default function AddAccommodation() {
                         className="add-acc-input-text-field"
                         placeholder="Price"
                         pattern="[0-9]+"
-                        type="text"
                         {...register("price", { valueAsNumber: true })}
-                        required
                       ></input>
                     </div>
                   </div>
 
                   <div className="col-span-2">
                     <label className="form-h2">Address</label>
-                    {/* Address input field */}
-                    <div className="pb-2">
-                      <input
-                        className="add-acc-input-text-field"
-                        placeholder="Address"
-                      ></input>
-                    </div>
+
                     <div className="mb-2 flex flex-row gap-2">
                       <input
                         className="add-acc-input-text-field w-1/3"
-                        type="text"
                         placeholder="St."
+                        {...register("street_number")}
                       ></input>
                       <input
                         className="add-acc-input-text-field w-2/3"
                         placeholder="Subdivision"
+                        {...register("subdivision")}
                       ></input>
                       <input
                         className="add-acc-input-text-field"
                         placeholder="Barangay"
-                        type="text"
-                        {...register("address")}
+                        {...register("barangay")}
                       ></input>
                     </div>
-                  </div>
-                  <div className="hidden">
-                    <input type="checkbox" {...register("is_archived")} />
                   </div>
                 </div>
                 <div>
@@ -206,72 +211,65 @@ export default function AddAccommodation() {
                       <div className="flex flex-col gap-1">
                         <label className="form-h2">Genders</label>
                         <div className="h-10 w-full items-center justify-items-stretch rounded-md bg-white">
-                          <select name="gender" className="form-dropdown">
-                            <option value="">Coed</option>
-                            <option value="">Male</option>
-                            <option value="">Female</option>
+                          <select
+                            className="form-dropdown"
+                            onChange={(e) => {
+                              settagGenders(e.target.value);
+                            }}
+                          >
+                            <option value="Coed" defaultChecked>
+                              Coed
+                            </option>
+                            <option value="Male">Male</option>
+                            <option value="Female">Female</option>
                           </select>
                         </div>
                       </div>
                       <div className="flex flex-col gap-1">
-                        <div className="hidden">
-                          {/* No of Available Rooms */}
-
-                          <input
-                            className="add-acc-input-text-field"
-                            placeholder="No. of Available Rooms"
-                            {...register("num_of_rooms", {
-                              valueAsNumber: true,
-                            })}
-                            type="number"
-                          ></input>
-                        </div>
                         <div>
                           <label className="form-h2">Kitchen</label>
-                          <select name="cooking" className="form-dropdown">
-                            <option value="">Communal Kitchen</option>
-                            <option value="">Kitchen in Room</option>
-                            <option value="">Cooking Not Allowed</option>
+                          <select
+                            className="form-dropdown"
+                            onChange={(e) => {
+                              settagKitchen(e.target.value);
+                            }}
+                          >
+                            <option value="Cooking Not Allowed" defaultChecked>
+                              Cooking Not Allowed
+                            </option>
+                            <option value="Communal Kitchen">
+                              Communal Kitchen
+                            </option>
+                            <option value="Kitchen in Room">
+                              Kitchen in Room
+                            </option>
                           </select>
                         </div>
                       </div>
                     </div>
                     <div className="form-col-deets">
-                      <div className="flex flex-row gap-2">
-                        <input type="checkbox" name="bathroom"></input>
-                        <label className="">Communal bathroom</label>
-                      </div>
-                      <div>
-                        <input type="checkbox" name="pets"></input> Pets
-                      </div>
-                      <div>
-                        <input type="checkbox" name="pets"></input> Aircon
-                      </div>
-                      <div>
-                        <input type="checkbox" name="pets"></input> Utilities
-                      </div>
-                      <div>
-                        <input type="checkbox" name="pets"></input> Parking
-                      </div>
+                      {tagCheckbox(
+                        [
+                          "Communal bathroom",
+                          "Pet(s)",
+                          "Aircon",
+                          "Utilities",
+                          "Parking",
+                        ],
+                        register,
+                      )}
                     </div>
                     <div className="form-col-deets">
-                      <div>
-                        <input type="checkbox" name="pets"></input> CCTV
-                      </div>
-                      <div>
-                        <input type="checkbox" name="visitors"></input> Visitors
-                      </div>
-                      <div>
-                        <input type="checkbox" name="pets"></input> Guards
-                      </div>
-                      <div>
-                        <input type="checkbox" name="curfew"></input>{" "}
-                        <label className="">Curfew</label>
-                      </div>
-                      <div>
-                        <input type="checkbox" name="Laundry"></input>{" "}
-                        <label className="">Laundry Service</label>
-                      </div>
+                      {tagCheckbox(
+                        [
+                          "CCTV",
+                          "Visitor(s)",
+                          "Guard(s)",
+                          "Curfew",
+                          "Laundry Service",
+                        ],
+                        register,
+                      )}
                     </div>
                   </div>
                 </div>
@@ -288,11 +286,12 @@ export default function AddAccommodation() {
                       {...register("tags")}
                       pattern="(([\w\s]+), ?){,4}([\w\s])?"
                       className="add-acc-input-text-field"
+                      onChange={(e) => settagCustom(e.target.value)}
                     ></input>
                   </div>
                 </div>
                 {/* Manage gallery */}
-                <div>
+                <div className="hidden">
                   <div className="pb-3 text-center">
                     <label className="form-h3">
                       Upload Accommodation Photos
@@ -365,4 +364,21 @@ export default function AddAccommodation() {
       </div>
     </div>
   );
+}
+
+function tagCheckbox(
+  array: string[],
+  register: UseFormRegister<z.infer<typeof accommodationAddSchema>>,
+) {
+  return array.map((value: string) => (
+    <div key={value} className="flex flex-row gap-2">
+      <input
+        id={value}
+        type="checkbox"
+        value={value}
+        {...register("tagArray")}
+      />
+      <label htmlFor={value}>{value}</label>
+    </div>
+  ));
 }

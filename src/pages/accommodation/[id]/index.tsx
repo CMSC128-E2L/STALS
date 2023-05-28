@@ -363,6 +363,12 @@ export default function Accommodation() {
                             ? false
                             : room.is_archived
                         }
+                        roomAccID={room.accommodationId}
+                        roomAvail={room.occupied}
+                        roomPrice={room.price}
+                        roomBeds={room.num_of_beds}
+                        roomAircon={room.with_aircon}
+                        roomUtils={room.with_utilities}
                       />
                     ))
                   ) : (
