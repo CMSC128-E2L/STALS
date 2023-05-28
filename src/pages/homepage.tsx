@@ -191,7 +191,8 @@ export default function HomePage() {
   const sortTypes = [
     { id: "NONE", value: "NONE", label: "None" },
     { id: "NAME", value: "NAME", label: "Name" },
-    { id: "RATING", value: "RATING", label: "Average Rating" },
+    { id: "PRICE", value: "PRICE", label: "Price" },
+    { id: "RATING", value: "RATING", label: "Rating" },
   ];
 
   const handleSortTypeChange = (event: {
@@ -205,6 +206,7 @@ export default function HomePage() {
             ...prevInputs,
             sortByName: false,
             sortByRating: false,
+            sortByPrice: false,
           }));
           break;
         case "NAME":
@@ -212,6 +214,7 @@ export default function HomePage() {
             ...prevInputs,
             sortByName: true,
             sortByRating: false,
+            sortByPrice: false,
           }));
           break;
         case "RATING":
@@ -219,6 +222,15 @@ export default function HomePage() {
             ...prevInputs,
             sortByName: false,
             sortByRating: true,
+            sortByPrice: false,
+          }));
+          break;
+        case "PRICE":
+          setUserInputs((prevInputs) => ({
+            ...prevInputs,
+            sortByName: false,
+            sortByRating: false,
+            sortByPrice: true,
           }));
           break;
         default:
