@@ -405,7 +405,7 @@ export default function Accommodation() {
               </div>
 
               {/* Rest */}
-              <div className="mt-4 flex grow flex-row divide-x-2  divide-p-black">
+              <div className="mt-4 flex grow flex-row divide-x-2 divide-p-black">
                 <div className="w-[40%] p-3">
                   <div className="items-center">
                     <div className="text-center ">
@@ -421,6 +421,7 @@ export default function Accommodation() {
                     {/* TODO: For this, go through the review array in schema.prisma and get the average ratings the plug the number in this component.*/}
                   </div>
                 </div>
+
                 {/* Review section */}
                 <div className="grow basis-1/2">
                   <div className="h-full">
