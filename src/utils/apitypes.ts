@@ -22,15 +22,22 @@ export const accommodationGetManyExperiementSchema = z.object({
 });
 
 export const accommodationAddSchema = z.object({
-  name: z.string(),
-  address: z.string(),
+  name: z.string().min(1, { message: "Must not be empty" }),
+  street_number: z.string().min(1),
+  subdivision: z.string().min(1),
+  barangay: z.string().min(1),
   location: z.string(),
-  contact_number: z.string(),
+  contact_number: z.string().regex(/^09\d{9}$/, {
+    message: "Must be a valid phone number. e.g. (09123456789)",
+  }),
   tags: z.string(),
+  price: z.number(),
   // num_of_rooms: z.number().optional(),
   is_archived: z.boolean(),
   fb_page: z.string().optional(),
   type: z.nativeEnum(AccommodationType),
+  typeArray: z.array(z.string()).optional(),
+  tagArray: z.array(z.string()).optional(),
 });
 
 export const accommodationEditSchema = z.object({
@@ -38,7 +45,12 @@ export const accommodationEditSchema = z.object({
   name: z.string().optional(),
   address: z.string().optional(),
   location: z.string().optional(),
-  contact_number: z.string().optional(),
+  contact_number: z
+    .string()
+    .regex(/^09\d{9}$/, {
+      message: "Must be a valid phone number. e.g. (09123456789)",
+    })
+    .optional(),
   fb_page: z.string().optional(),
 });
 
