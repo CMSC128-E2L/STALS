@@ -11,7 +11,8 @@ export const SearchItem: React.FC<{
   tags: string;
 }> = ({ id, name, price, location, tags }) => {
   const [imgSrc, setImgSrc] = useState(
-    `https://stals-worker.p0lbang.workers.dev/${id}.jpg`,
+    // `https://stals-worker.p0lbang.workers.dev/${id}.jpg`,
+    `https://stals-worker.p0lbang.workers.dev/api/v2/${id}/${id}`,
   );
 
   return (
