@@ -10,10 +10,15 @@ import toast from "react-hot-toast";
 import Link from "next/link";
 import { useSession } from "next-auth/react";
 import LoadingSpinner from "~/components/loadingSpinner";
+import Error404 from "~/pages/404";
+import Error from "~/pages/_error";
 
 export default function EditAccommodation() {
   const userSession = useSession({ required: true });
   const { id } = dynamicRouteID(useRouter());
+
+  const { data: accommData, isLoading: accommLoading } =
+    api.accommodation.getOneRelations.useQuery(id);
 
   const {
     register,
@@ -26,8 +31,16 @@ export default function EditAccommodation() {
 
   const editAccommodation = api.accommodation.edit.useMutation();
 
-  if (notAuthenticated(userSession.status)) {
+  if (notAuthenticated(userSession.status) || accommLoading) {
     return <LoadingSpinner />;
+  }
+
+  if (accommData === null) {
+    return Error404();
+  }
+
+  if (accommData?.landlord !== userSession.data?.user.id) {
+    return <Error statusCode={401} />;
   }
 
   return (
