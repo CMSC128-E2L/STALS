@@ -487,9 +487,9 @@ export default function Accommodation() {
         </div>
 
         {/*Report button*/}
-        <div>
+        <div className="w">
           <button
-            className="xxs m-5 space-y-10 rounded-full p-3"
+            className="m-5 space-y-10 rounded-full p-3"
             // onClick={() => {;}}
           >
             Report a Problem
