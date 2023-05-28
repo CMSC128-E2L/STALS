@@ -19,3 +19,7 @@ export function stalsDBstringArray(json?: Prisma.JsonValue): string[] {
 
   return [];
 }
+
+export function notAuthenticated(status: string) {
+  return status !== "authenticated";
+}
