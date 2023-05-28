@@ -25,7 +25,7 @@ export default function Accommodation() {
     api.file.getAccommImages.useQuery({ id });
 
   const { data: userReview, isLoading: reviewLoading } =
-    api.review.getOneTopReview.useQuery();
+    api.review.getTopReview.useQuery(id);
 
   // const { data: RoomList, isLoading: roomLoading } = api.room.getMany.useQuery({
   //   id: id,
