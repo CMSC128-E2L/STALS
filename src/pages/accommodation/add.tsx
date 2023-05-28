@@ -5,7 +5,7 @@ import { AccommodationType } from "@prisma/client";
 import { type RouterInputs, api } from "~/utils/api";
 import { accommodationAddSchema } from "~/utils/apitypes";
 import bgpic from "public/images/bg-05.png";
-import toast, { Toaster } from "react-hot-toast";
+import toast from "react-hot-toast";
 
 export default function AddAccommodation() {
   const {
@@ -21,22 +21,6 @@ export default function AddAccommodation() {
 
   return (
     <div className="overflow-visible">
-      <Toaster
-        toastOptions={{
-          success: {
-            style: {
-              background: "green",
-              color: "white",
-            },
-          },
-          error: {
-            style: {
-              background: "red",
-              color: "white",
-            },
-          },
-        }}
-      />
       <img
         className="absolute bg-cover object-fill"
         src={bgpic.src}
@@ -361,22 +345,6 @@ export default function AddAccommodation() {
                     <button type="submit" className="formConfirm">
                       Submit
                     </button>
-                    <Toaster
-                      toastOptions={{
-                        success: {
-                          style: {
-                            background: "green",
-                            color: "white",
-                          },
-                        },
-                        error: {
-                          style: {
-                            background: "red",
-                            color: "white",
-                          },
-                        },
-                      }}
-                    />
                   </div>
                   <button type="reset" className="formReject">
                     Reset
