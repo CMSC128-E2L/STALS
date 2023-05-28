@@ -24,6 +24,9 @@ export default function Accommodation() {
   const { data: ImageList, isLoading: imageLoading } =
     api.file.getAccommImages.useQuery({ id });
 
+  const { data: userReview, isLoading: reviewLoading } =
+    api.review.getOneTopReview.useQuery();
+
   // const { data: RoomList, isLoading: roomLoading } = api.room.getMany.useQuery({
   //   id: id,
   //   status: undefined,
@@ -404,15 +407,18 @@ export default function Accommodation() {
                 <div className="grow basis-1/2">
                   <div className="flex h-full flex-col p-2">
                     {/* TODO: For this, get the first review from the accomm's review array, and load the following:*/}
-                    <div className="flex max-w-full flex-row gap-3 rounded-md p-3">
+                    <UserProfile />
+                    {/* <div className="flex max-w-full flex-row gap-3 rounded-md p-3">
                       <img
                         src={userImage.src}
                         className="w-[15%] self-start rounded-full"
-                      />
-                      <div className="flex flex-col">
+                      /> */}
+
+                    {/* <div className="flex flex-col">
                         <div>
-                          <h1 className="text-xl font-bold"> Reviewer Name</h1>
-                          <p className="text-sm ">
+
+                          <h1 className="text-xl font-bold"></h1> 
+                        <p className="text-sm ">
                             {" "}
                             Reviewed Date Posted | Time
                           </p>
@@ -438,7 +444,7 @@ export default function Accommodation() {
                           </p>
                         </label>
                       </div>
-                    </div>
+                    </div> */}
                     {/* This is the review */}
                     {showReview && (
                       <div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50">

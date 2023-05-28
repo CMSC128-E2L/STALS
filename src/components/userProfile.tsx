@@ -1,19 +1,30 @@
 import Image from "next/image";
 import userImage from "public/placeholder_1.png";
-import { useSession } from "next-auth/react";
-import { stringify } from "superjson";
-import { api } from "~/utils/api";
 
-export default function UserProfile() {
-  const session = useSession();
+interface UserPorfileProps {
+  userImageSrc?: string;
+  first_name?: string;
+  last_name?: string;
+  date?: string;
+  time?: string;
+  review?: string;
+}
 
+export const UserProfile: React.FC<UserPorfileProps> = ({
+  userImageSrc,
+  first_name,
+  last_name,
+  date,
+  time,
+  review,
+}) => {
   return (
     <>
       <div className="flex flex-row rounded-md bg-white p-3">
         {/* Insert Landlord Image here */}
         <div className="relative mr-3 h-12 w-12 place-self-center rounded-full">
           <Image
-            src={userImage.src}
+            src={userImageSrc ?? userImage.src}
             className="object-contain"
             alt="placeholder"
             fill
@@ -22,10 +33,17 @@ export default function UserProfile() {
         <div className="pl-2">
           {/* <h1 className="font-bold"> {session.data?.user.name}</h1>  */}
           {/* placeholder only */}
-          <h1 className="font-bold">Jamie Mari</h1>
-          <label>May 24, 2023 | 12:00 AM</label>
+          <h1 className="font-bold">
+            {first_name} {last_name}
+          </h1>
+          <label>
+            {date} | {time}
+          </label>
+          <p>{review}</p>
         </div>
       </div>
     </>
   );
-}
+};
+
+export default UserProfile;
