@@ -1,17 +1,16 @@
-import React, { useState } from "react";
+import React from "react";
 import StarRow from "./starRow";
+import { type User } from "@prisma/client";
+import userImage from "public/placeholder_1.png";
 
 const ReviewItem: React.FC<{
   id: string;
-  user: {
-    name: string;
-    profilePicture: string;
-  };
-  datePosted: string;
-  time: string;
-  review: string;
+  user: User;
+  date: string | null;
+  time: string | null;
+  review: string | null;
   rating: number;
-}> = ({ id, user, datePosted, time, review, rating }) => {
+}> = ({ id, user, date, time, review, rating }) => {
   return (
     <>
       {/* {items.map((item, index) => ( */}
@@ -20,7 +19,7 @@ const ReviewItem: React.FC<{
         className="flex max-w-full flex-row gap-3 rounded-md p-3"
       >
         <img
-          src={user.profilePicture}
+          src={user.image ?? userImage.src}
           alt="User Profile"
           className="h-[8%] w-[8%] self-start rounded-full"
         />
@@ -28,7 +27,7 @@ const ReviewItem: React.FC<{
           <div>
             <h1 className="text-xl font-bold">{user.name}</h1>
             <p className="text-sm ">
-              {datePosted} | {time}
+              {date} | {time}
             </p>
           </div>
           <label className="pb-1">

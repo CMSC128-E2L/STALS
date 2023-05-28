@@ -1,18 +1,22 @@
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useState } from "react";
 import { useForm } from "react-hook-form";
-import { z } from "zod";
+import { type z } from "zod";
 import { RouterOutputs, api } from "~/utils/api";
 import { reviewGetInfSchema } from "~/utils/apitypes";
 import ReviewItem from "./reviewItem";
 import LoadingSpinner from "./loadingSpinner";
+import { type Review, type User } from "@prisma/client";
 
-export default function TryReview() {
+export const TryReview: React.FC<{ accomId: string }> = ({ accomId }) => {
   const [userInputs, setUserInputs] = useState<
     z.infer<typeof reviewGetInfSchema>
   >({
-    accommodationId: undefined,
+    accommodationId: accomId,
+    limit: 5,
   });
+
+  console.log(accomId);
   const {
     register,
     handleSubmit,
@@ -25,9 +29,11 @@ export default function TryReview() {
   const {
     data: reviews,
     fetchNextPage,
+    isFetchingNextPage,
+    hasNextPage,
     isLoading,
     isError,
-  } = api.accommodation.getManyExperiment.useInfiniteQuery(userInputs, {
+  } = api.review.getInfinite.useInfiniteQuery(userInputs, {
     getNextPageParam: (lastPage) => lastPage.nextCursor,
   });
 
@@ -40,21 +46,46 @@ export default function TryReview() {
       ) : (
         <LoadingSpinner />
       )}
+
+      {isFetchingNextPage ? (
+        <LoadingSpinner />
+      ) : hasNextPage ? (
+        <div className="w-full text-center">
+          <button
+            className="button-style m-5 w-[50%]"
+            onClick={() => {
+              void fetchNextPage();
+              // eslint-disable-next-line
+              setUserInputs((prevInputs: any) => ({
+                ...prevInputs,
+              }));
+            }}
+            disabled={!hasNextPage || isFetchingNextPage}
+          >
+            Load More
+          </button>
+        </div>
+      ) : (
+        ""
+      )}
     </div>
   );
-}
+};
+
+export default TryReview;
 
 const GetReviews: React.FC<{
-  items: RouterOutputs["review"]["getInfinite"] | undefined;
+  items: RouterOutputs["review"]["getMany"];
 }> = ({ items }) => {
-  if (items) {
+  if (items && items.length != 0) {
     return (
       <>
-        {items?.map(({ id, user, datePosted, time, review, rating }) => (
+        {items?.map(({ id, user, date, time, review, rating }) => (
           <ReviewItem
+            key={id}
             id={id}
             user={user}
-            datePosted={datePosted}
+            date={date}
             time={time}
             review={review}
             rating={rating}
@@ -63,4 +94,6 @@ const GetReviews: React.FC<{
       </>
     );
   }
+
+  return <></>;
 };

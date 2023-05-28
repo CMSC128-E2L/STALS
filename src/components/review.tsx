@@ -1,17 +1,13 @@
 import React, { useState } from "react";
-import { useForm, UseFormGetValues } from "react-hook-form";
-import { type RouterInputs, api, RouterOutputs } from "~/utils/api";
+import { useForm } from "react-hook-form";
+import { type RouterInputs, api } from "~/utils/api";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { reviewAddSchema, reviewGetInfSchema } from "~/utils/apitypes";
+import { reviewAddSchema } from "~/utils/apitypes";
 import Link from "next/link";
 import { dynamicRouteID } from "~/utils/helpers";
 import { useRouter } from "next/router";
 import { useEffect } from "react";
-import UserProfile from "~/components/userProfile";
-import userImage from "public/placeholder_1.png";
 import StarRating from "./StarRating";
-import ReviewItem from "~/components/reviewItem";
-import z from "zod/lib";
 import TryReview from "~/components/tryreview";
 
 export default function Review() {
@@ -104,7 +100,7 @@ export default function Review() {
             </div>
           </form>
         </div>
-        <TryReview />
+        <TryReview accomId={id} />
         {/* <div className="h-full">
           {isError ? (
             <p>Error fetching reviews.</p>
