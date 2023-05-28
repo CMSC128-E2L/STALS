@@ -1,6 +1,6 @@
 import type { NextPage } from "next";
 import { signOut, useSession } from "next-auth/react";
-import bgpic from "public/images/bg-01.png";
+import bgpic from "public/images/signup_bg.png";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
 import { type RouterInputs, api } from "~/utils/api";
@@ -65,7 +65,7 @@ const Signup: NextPage = () => {
       <div className="absolute inset-x-0 top-10 flex h-screen items-center justify-center">
         <div className="w-fit rounded-xl bg-white px-10 py-10">
           <div className="item-center flex justify-center px-2 pb-0 pt-0 drop-shadow-md">
-            <h1 className="text-5xl font-bold text-blue-700">Welcome!</h1>
+            <h1 className="text-5xl font-extrabold text-[#420EB3]">Welcome!</h1>
           </div>
 
           <div className="flex justify-center pb-6 drop-shadow-md">
@@ -151,22 +151,6 @@ const Signup: NextPage = () => {
               )}
 
               <div className="flex justify-center rounded-xl px-2 py-2 text-base">
-                {/* <input
-                  type="radio"
-                  id="user"
-                  value={"USER"}
-                  {...register("type")}
-                />
-                <label className="pl-2 pr-10"> User </label>
-                <input
-                  type="radio"
-                  id="landlord"
-                  value={"LANDLORD"}
-                  {...register("type")}
-                />
-                <label className="pl-2"> Landlord </label>
-                <br /> */}
-
                 <label className="inline-flex cursor-pointer items-center rounded-md p-0 dark:text-gray-800">
                   <input
                     type="checkbox"
@@ -179,7 +163,7 @@ const Signup: NextPage = () => {
                   <span
                     className={`rounded-l-md px-5 py-1 ${
                       toggleValue === "USER"
-                        ? "bg-gray-200 font-bold dark:bg-blue-500"
+                        ? "bg-gray-200 font-bold text-white dark:bg-[#420EB3]"
                         : "bg-blue-500 dark:bg-gray-200"
                     }`}
                   >
@@ -188,7 +172,7 @@ const Signup: NextPage = () => {
                   <span
                     className={`rounded-r-md px-4 py-1 ${
                       toggleValue === "LANDLORD"
-                        ? "bg-gray-200 font-bold dark:bg-blue-500"
+                        ? "bg-gray-200 font-bold text-white dark:bg-[#420EB3]"
                         : "bg-blue-500 dark:bg-gray-200"
                     }`}
                   >
@@ -209,14 +193,14 @@ const Signup: NextPage = () => {
                   className=" pl-1 text-sm text-gray-500 underline"
                   onClick={() => setShowTerms(true)}
                 >
-                  See more
+                  Terms and Conditions
                 </button>
               </div>
             </div>
             <br />
             <div>
               <div className="py-2">
-                <button className="group flex w-full justify-center rounded-full bg-p-dblue px-4 py-2 font-bold text-white shadow shadow-gray-400/100">
+                <button className="group flex w-full justify-center rounded-full bg-[#420EB3] px-4 py-2 font-bold text-white shadow shadow-gray-400/100">
                   Sign up
                 </button>
               </div>

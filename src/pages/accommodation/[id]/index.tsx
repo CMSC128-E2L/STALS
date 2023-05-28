@@ -11,6 +11,7 @@ import Error404 from "~/pages/404";
 import { useSession } from "next-auth/react";
 import Review from "~/components/review";
 import { useState } from "react";
+import toast from "react-hot-toast";
 
 export default function Accommodation() {
   const { id } = dynamicRouteID(useRouter());
@@ -499,18 +500,27 @@ export default function Accommodation() {
           </div>
         </div>
         {/*Report button*/}
-        <div className="m-3">
+        <div className="fixed bottom-2 left-0 m-3">
+          {" "}
+          {/*The report button will stick to the bottom left of the screen*/}
           <button
-            className=""
+            className="flex flex-row space-x-10"
             onClick={() => {
               reportAccomm.mutate({
                 reported_id: id,
                 report: "",
                 type_reported: "",
               });
+              toast.success(
+                "Thank you for reporting this accommodation.\nAn alert has been sent to the administrators.",
+                {
+                  position: "bottom-center",
+                  duration: 4000,
+                },
+              );
             }}
           >
-            <span>Report a Problem</span>
+            Report Accommodation
             <svg
               xmlns="http://www.w3.org/2000/svg"
               fill="none"

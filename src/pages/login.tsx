@@ -7,7 +7,7 @@ import { getServerSession } from "next-auth/next";
 import { authOptions } from "~/server/auth";
 import Link from "next/link";
 import Image from "next/image";
-import bgpic from "public/images/bg-05.png";
+import bgpic from "public/images/login_bg.png";
 
 export default function SignIn({
   providers,
@@ -23,7 +23,9 @@ export default function SignIn({
       <div className="absolute inset-x-0 top-20 flex justify-center">
         <div className="rounded-xl px-16 py-8">
           <div className="item-center flex justify-center px-2 pb-0 pt-0 drop-shadow-md">
-            <h1 className="text-5xl font-bold text-blue-700">Welcome back!</h1>
+            <h1 className="text-5xl font-extrabold text-[#420EB3]">
+              Welcome to STALS!
+            </h1>
           </div>
 
           <div className="flex justify-center pb-4 drop-shadow-md">
