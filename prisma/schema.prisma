@@ -83,8 +83,9 @@ model User {
   email_address  String?
   is_visible     Boolean?
 
-  Report Report[]
-  Review Review[]
+  Report        Report[]
+  Review        Review[]
+  Accommodation Accommodation[]
 }
 
 enum AccommodationType {
@@ -103,6 +104,7 @@ model Accommodation {
   subdivision     String?
   barangay        String? // TODO: required
   location        String
+  landlordUser    User    @relation(fields: [landlord], references: [id])
   landlord        String
   contract_length String?
   contact_number  String
@@ -120,6 +122,8 @@ model Accommodation {
   Review Review[]
   Room   Room[]
   type   AccommodationType
+
+  @@index([landlord])
 }
 
 model Room {
