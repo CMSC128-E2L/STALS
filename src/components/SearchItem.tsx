@@ -32,7 +32,7 @@ export const SearchItem: React.FC<{
     // </Link>
 
     <Link href={`/accommodation/${id}`}>
-      <div className="... m-5 flex h-96 w-96 max-w-sm flex-col items-center rounded-xl shadow-xl transition delay-150 duration-300 ease-in-out hover:-translate-y-1 hover:scale-110 hover:bg-p-lblue">
+      <div className="... m-5 flex h-96 w-96 max-w-sm flex-col items-center rounded-xl border-2 border-solid shadow-xl transition delay-150 duration-300 ease-in-out hover:-translate-y-1 hover:scale-110 hover:bg-p-lblue">
         <div className="relative mb-3 ml-3 mt-3 flex h-64 w-64 items-center justify-center">
           <Image
             src={imgSrc}
@@ -53,7 +53,7 @@ export const SearchItem: React.FC<{
             <p className="mb-4 text-xl">{location}</p>
 
             {tags !== "" ? (
-              <span className="mb-2 mr-2 inline-block rounded-full bg-gray-200 px-3 py-1 text-sm font-semibold text-gray-700">
+              <span className="mb-2 mr-2 inline-block rounded-full bg-blue-200 px-3 py-1 text-sm font-semibold text-gray-700">
                 {tags}
               </span>
             ) : (
