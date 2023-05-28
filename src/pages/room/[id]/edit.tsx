@@ -4,13 +4,18 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { type RouterInputs, api } from "~/utils/api";
 import { roomEditSchema } from "~/utils/apitypes";
 import { useRouter } from "next/router";
-import { dynamicRouteID } from "~/utils/helpers";
+import { dynamicRouteID, notAuthenticated } from "~/utils/helpers";
 import { useEffect } from "react";
 import Link from "next/link";
 import bgpic from "public/images/bg-05.png";
 import toast from "react-hot-toast";
+import { useSession } from "next-auth/react";
+import LoadingSpinner from "~/components/loadingSpinner";
+import Error404 from "~/pages/404";
+import Error from "~/pages/_error";
 
 export default function EditRoom() {
+  const userSession = useSession({ required: true });
   const { id } = dynamicRouteID(useRouter());
 
   const {
@@ -33,6 +38,18 @@ export default function EditRoom() {
 
   const { data: firstData, isLoading: queryLoading } =
     api.room.getOne.useQuery(id);
+
+  if (notAuthenticated(userSession.status)) {
+    return <LoadingSpinner />;
+  }
+
+  if (firstData === null) {
+    return Error404();
+  }
+
+  if (firstData?.accommodation.landlord !== userSession.data?.user.id) {
+    return <Error statusCode={401} />;
+  }
 
   return (
     <div className="">

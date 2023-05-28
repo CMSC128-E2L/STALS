@@ -21,13 +21,11 @@ export default function HomePage() {
     void router.push("/profile/edit");
   };
 
-  const deleteProfile = api.user.delete.useMutation({
-    onSuccess: () => {
-      void signOut({
-        callbackUrl: "/",
-      });
-    },
-  });
+  const {
+    data: reports,
+    isLoading: queryLoading,
+    isError: queryError,
+  } = api.report.getAll.useQuery({ page: 0, multiplier: 4 });
 
   if (sessionData?.profile.type == UserType.LANDLORD) {
     return (
@@ -213,47 +211,41 @@ export default function HomePage() {
               <h1 className="mb-10 text-center text-xl font-bold">
                 Notifications
               </h1>
-              <div className="mb-2 flex flex-row">
-                <div className="relative flex h-[2.5rem] w-[2.5rem] flex-col">
-                  <Image
-                    src={sessionData?.user.image ?? user.src}
-                    className="flex rounded-full object-contain"
-                    alt="User Photo"
-                    fill
-                  />
+              {queryLoading ? (
+                <div>Loading...</div>
+              ) : queryError ? (
+                <div>Error occurred while fetching reports.</div>
+              ) : (
+                <div>
+                  {reports.map((report) => {
+                    return (
+                      <div key={report.id} className="mb-6">
+                        <div className="mb-2 flex flex-row">
+                          <div className="relative flex h-[2.5rem] w-[2.5rem] flex-col">
+                            <Image
+                              src={user.src}
+                              className="flex rounded-full object-contain"
+                              alt="User Photo"
+                              fill
+                            />
+                          </div>
+                          <div className="ml-4">
+                            <p className="mb-1 flex text-sm font-semibold">
+                              {report.user.username}
+                            </p>
+                            <p className="flex text-xs text-gray-400">
+                              {report.type_reported}
+                            </p>
+                          </div>
+                        </div>
+                        <div className="mb-4 ml-14 flex">
+                          <p className="flex text-base">{report.report}</p>
+                        </div>
+                      </div>
+                    );
+                  })}
                 </div>
-                <div className="ml-4">
-                  <p className="mb-1 flex text-sm font-semibold">
-                    James Alfred R. Arellano
-                  </p>
-                  <p className="flex text-xs text-gray-400">
-                    March 23, 2023 | 12:51 pm
-                  </p>
-                </div>
-              </div>
-              <div className="mb-4 ml-14 flex">
-                <p className="flex text-base">added accommodation</p>
-              </div>
-
-              <div className="mb-2 flex flex-row">
-                <div className="relative flex h-[2.5rem] w-[2.5rem] flex-col">
-                  <Image
-                    src={sessionData?.user.image ?? user.src}
-                    className="flex rounded-full object-contain"
-                    alt="User Photo"
-                    fill
-                  />
-                </div>
-                <div className="ml-4">
-                  <p className="mb-1 flex text-sm font-semibold">Kong Pagong</p>
-                  <p className="flex text-xs text-gray-400">
-                    March 26, 2023 | 1:24 pm
-                  </p>
-                </div>
-              </div>
-              <div className="mb-4 ml-14 flex">
-                <p className="flex text-base">deleted account</p>
-              </div>
+              )}
 
               <div className="flex w-full justify-center rounded-3xl border-2 border-black p-2 shadow-lg">
                 <button className="w-full">Manage Report</button>

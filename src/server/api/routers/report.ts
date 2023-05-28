@@ -51,6 +51,18 @@ export const reportRouter = createTRPCRouter({
         where: {
           type_reported: input.type,
         },
+        select: {
+          id: true,
+          userId: true,
+          type_reported: true,
+          reported_id: true,
+          report: true,
+          user: {
+            select: {
+              username: true,
+            },
+          },
+        },
         skip: input.page,
         take: input.multiplier,
       });
@@ -65,6 +77,19 @@ export const reportRouter = createTRPCRouter({
     )
     .query(({ ctx, input }) => {
       return ctx.prisma.report.findMany({
+        select: {
+          id: true,
+          userId: true,
+          type_reported: true,
+          reported_id: true,
+          report: true,
+          user: {
+            select: {
+              image: true,
+              username: true,
+            },
+          },
+        },
         skip: input.page,
         take: input.multiplier,
       });

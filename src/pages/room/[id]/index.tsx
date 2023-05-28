@@ -317,10 +317,10 @@ export default function Room() {
                   // );
                   setShowPopUpArchive(false);
                   router.reload();
-                  toast.success("Successfully Archived Room!", {
-                    position: "bottom-right",
-                    duration: 1000,
-                  });
+                  // toast.success("Successfully Archived Room!", {
+                  //   position: "bottom-right",
+                  //   duration: 1000,
+                  // });
                 }}
               >
                 Yes

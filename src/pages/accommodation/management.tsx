@@ -1,17 +1,17 @@
 import { type Accommodation } from "@prisma/client";
 import { useSession } from "next-auth/react";
-import { stringify } from "superjson";
 import Image from "next/image";
 import NavBar from "~/components/navbar";
 import { api } from "~/utils/api";
-import { stalsDBstringArray } from "~/utils/helpers";
+import { notAuthenticated, stalsDBstringArray } from "~/utils/helpers";
 import Accomm_Segment from "~/components/accomm_segment";
+import LoadingSpinner from "~/components/loadingSpinner";
 
 export default function Delete_Archive_Accomm() {
-  const session = useSession();
+  const userSession = useSession({ required: true });
 
   const { data, isLoading, refetch } = api.accommodation.getMany.useQuery({
-    landlord: session.data?.user.id,
+    landlord: userSession.data?.user.id,
   });
 
   const archiveAccomm = api.accommodation.archive.useMutation({
@@ -26,6 +26,10 @@ export default function Delete_Archive_Accomm() {
     },
   });
 
+  if (notAuthenticated(userSession.status)) {
+    return <LoadingSpinner />;
+  }
+
   return (
     <div className="">
       <NavBar />
@@ -34,7 +38,7 @@ export default function Delete_Archive_Accomm() {
         Accommodations
       </p>
 
-      {session.data?.user &&
+      {userSession.data?.user &&
         data?.map((accomm: Accommodation) => (
           <>
             <div className="mx-4 flex rounded bg-blue-200 p-2">
