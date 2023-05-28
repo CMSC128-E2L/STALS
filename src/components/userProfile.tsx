@@ -1,5 +1,6 @@
 import Image from "next/image";
 import userImage from "public/placeholder_1.png";
+import StarRow from "~/components/starRow";
 
 interface UserPorfileProps {
   userImageSrc?: string;
@@ -35,15 +36,15 @@ export const UserProfile: React.FC<UserPorfileProps> = ({
         <div className="flex w-full flex-col">
           {/* <h1 className="font-bold"> {session.data?.user.name}</h1>  */}
           {/* placeholder only */}
-          <h1 className="text-xl font-bold">
-            {first_name} {last_name}
-          </h1>
           <div className="flex flex-row justify-between">
-            <label className="text-sm italic">
-              {date} | {time}
-            </label>
-            <p>Rating: {rating}</p>
+            <h1 className="text-xl font-bold">
+              {first_name} {last_name}
+            </h1>
+            <StarRow rating={rating ?? 0} />
           </div>
+          <label className="text-sm italic">
+            {date} | {time}
+          </label>
           <p className="line-clamp-2 pt-2 text-sm">{review}</p>
         </div>
       </div>

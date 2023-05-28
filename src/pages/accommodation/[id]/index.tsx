@@ -440,62 +440,18 @@ export default function Accommodation() {
                           review={userReview?.review}
                           rating={userReview?.rating}
                         />
-                        {/* <div className="flex max-w-full flex-row gap-3 rounded-md p-3">
-                      <img
-                        src={userImage.src}
-                        className="w-[15%] self-start rounded-full"
-                      /> */}
-
-                        {/* <div className="flex flex-col">
-                        <div>
-
-                          <h1 className="text-xl font-bold"></h1> 
-                        <p className="text-sm ">
-                            {" "}
-                            Reviewed Date Posted | Time
-                          </p>
-                        </div>
-                        <label className="pb-1">
-                          <p className="line-clamp-2 cursor-pointer pt-2 text-sm">
-                          </p>
-                        </label>
-                      </div>
-                    </div> */}
-                        {/* This is the review */}
                       </div>
                     ) : (
                       <div className="flex h-full items-center justify-center text-center">
                         <p className="w-[60%]">
-                          This accommodation has no reviews! Add yours now by
-                          clicking see more below.
+                          This accommodation has no reviews yet.
                         </p>
                       </div>
                     )}
-                    {showReview && (
-                      <div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50">
-                        <div className="flex max-h-[80%] w-[60%] flex-col rounded-xl bg-white p-2">
-                          <Review />
-
-                          <button
-                            className="m-3 mt-4 w-[20%] rounded bg-blue-500 px-4 py-2 text-white hover:bg-blue-600"
-                            onClick={() => setShowReview(false)}
-                          >
-                            Close
-                          </button>
-                        </div>
-                      </div>
-                    )}
-                    <div className="px-3 text-end text-xs">
-                      <button
-                        className=" pl-1 text-sm text-gray-500 underline"
-                        onClick={() => setShowReview(true)}
-                      >
-                        See more
-                      </button>
-                    </div>
                   </div>
                 </div>
               </div>
+              <Review />
             </div>
           </div>
         </div>

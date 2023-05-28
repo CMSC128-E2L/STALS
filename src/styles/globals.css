@@ -56,7 +56,7 @@
   }
 
   .star-unfavorite {
-    @apply h-6 w-6;
+    @apply h-6 w-6 fill-gray-400 stroke-gray-400;
   }
 
   .navbar-header {
