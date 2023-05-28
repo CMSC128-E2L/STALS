@@ -1,10 +1,14 @@
 import toast from "react-hot-toast";
 
-const UploadImageHeader: React.FC<{ accomId: string }> = ({ accomId }) => {
+const UploadImageHeader: React.FC<{ accomId: string; className?: string }> = ({
+  accomId,
+  className,
+}) => {
   return (
     <input
       type="file"
       accept="image/png, image/jpeg"
+      className={className}
       onChange={(e) => void uploadImageHeader(e, accomId)}
     />
   );
