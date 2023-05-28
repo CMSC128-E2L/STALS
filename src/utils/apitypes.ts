@@ -18,6 +18,7 @@ export const accommodationGetManyExperiementSchema = z.object({
   limit: z.number().min(1).max(100).nullish(),
   sortByName: z.boolean().optional(),
   sortByRating: z.boolean().optional(),
+  sortByPrice: z.boolean().optional(),
   cursor: z.string().nullish(), // <-- "cursor" needs to exist, but can be any type
 });
 
