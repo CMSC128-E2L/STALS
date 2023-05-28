@@ -151,23 +151,71 @@ const ProfileButton: React.FC = () => {
       return (
         <div className="profile-dropdown">
           <UserInfo />
-          <hr className="my-2 h-px border-0 bg-gray-200 dark:bg-gray-700"></hr>
+          <hr className="mb-4 h-px border-0 bg-gray-200 dark:bg-gray-700"></hr>
           <div className="flex flex-col items-stretch gap-2">
-            <Link
-              className="dropdown-buttons"
-              href={"/accommodation/management"}
-            >
-              My Accommodations
-            </Link>
-            <Link
-              className="dropdown-buttons"
-              href={"/accommodation/management"}
-            >
-              My Archive
-            </Link>
-            <button className="dropdown-buttons" onClick={handleLogout}>
-              Sign Out
-            </button>
+            <div className="dropdown-buttons">
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                className="icon icon-tabler icon-tabler-home mr-2"
+                width="24"
+                height="24"
+                viewBox="0 0 24 24"
+                stroke-width="2"
+                stroke="currentColor"
+                fill="none"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+              >
+                <path stroke="none" d="M0 0h24v24H0z" fill="none"></path>
+                <path d="M5 12l-2 0l9 -9l9 9l-2 0"></path>
+                <path d="M5 12v7a2 2 0 0 0 2 2h10a2 2 0 0 0 2 -2v-7"></path>
+                <path d="M9 21v-6a2 2 0 0 1 2 -2h2a2 2 0 0 1 2 2v6"></path>
+              </svg>
+              <Link href={"/accommodation/management"}>My Accommodations</Link>
+            </div>
+            <div className="dropdown-buttons">
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                className="icon icon-tabler icon-tabler-archive mr-2"
+                width="24"
+                height="24"
+                viewBox="0 0 24 24"
+                stroke-width="2"
+                stroke="currentColor"
+                fill="none"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+              >
+                <path stroke="none" d="M0 0h24v24H0z" fill="none"></path>
+                <path d="M3 4m0 2a2 2 0 0 1 2 -2h14a2 2 0 0 1 2 2v0a2 2 0 0 1 -2 2h-14a2 2 0 0 1 -2 -2z"></path>
+                <path d="M5 8v10a2 2 0 0 0 2 2h10a2 2 0 0 0 2 -2v-10"></path>
+                <path d="M10 12l4 0"></path>
+              </svg>
+              <Link href={"/accommodation/management"}>My Archive</Link>
+            </div>
+            <div className="dropdown-buttons">
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                className="icon icon-tabler icon-tabler-logout mr-2"
+                width="24"
+                height="24"
+                viewBox="0 0 24 24"
+                stroke-width="2"
+                stroke="currentColor"
+                fill="none"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+              >
+                <path stroke="none" d="M0 0h24v24H0z" fill="none"></path>
+                <path d="M14 8v-2a2 2 0 0 0 -2 -2h-7a2 2 0 0 0 -2 2v12a2 2 0 0 0 2 2h7a2 2 0 0 0 2 -2v-2"></path>
+                <path d="M9 12h12l-3 -3"></path>
+                <path d="M18 15l3 -3"></path>
+              </svg>
+
+              <button className="text-left" onClick={handleLogout}>
+                Sign Out
+              </button>
+            </div>
           </div>
         </div>
       );
@@ -177,12 +225,46 @@ const ProfileButton: React.FC = () => {
           <UserInfo />
           <hr className="my-2 h-px border-0 bg-gray-200  dark:bg-gray-700"></hr>
           <div className="flex flex-col items-stretch gap-2">
-            <Link className="dropdown-buttons" href={"/login"}>
-              Sign In
-            </Link>
-            <Link className="dropdown-buttons" href={"/login"}>
-              Sign Up
-            </Link>
+            <div className="dropdown-buttons">
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                className="icon icon-tabler icon-tabler-login mr-2"
+                width="24"
+                height="24"
+                viewBox="0 0 24 24"
+                stroke-width="2"
+                stroke="currentColor"
+                fill="none"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+              >
+                <path stroke="none" d="M0 0h24v24H0z" fill="none"></path>
+                <path d="M14 8v-2a2 2 0 0 0 -2 -2h-7a2 2 0 0 0 -2 2v12a2 2 0 0 0 2 2h7a2 2 0 0 0 2 -2v-2"></path>
+                <path d="M20 12h-13l3 -3m0 6l-3 -3"></path>
+              </svg>
+              <Link href={"/login"}>Sign In</Link>
+            </div>
+            <div className="dropdown-buttons">
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                className="icon icon-tabler icon-tabler-user-plus -ml-1 mr-2"
+                width="24"
+                height="24"
+                viewBox="0 0 24 24"
+                stroke-width="2"
+                stroke="currentColor"
+                fill="none"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+              >
+                <path stroke="none" d="M0 0h24v24H0z" fill="none"></path>
+                <path d="M8 7a4 4 0 1 0 8 0a4 4 0 0 0 -8 0"></path>
+                <path d="M16 19h6"></path>
+                <path d="M19 16v6"></path>
+                <path d="M6 21v-2a4 4 0 0 1 4 -4h4"></path>
+              </svg>
+              <Link href={"/login"}>Sign Up</Link>
+            </div>
           </div>
         </div>
       );

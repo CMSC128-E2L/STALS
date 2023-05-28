@@ -1,4 +1,5 @@
-import { useForm } from "react-hook-form";
+import React, { useState } from "react";
+import { useForm, UseFormGetValues } from "react-hook-form";
 import { type RouterInputs, api } from "~/utils/api";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { reviewAddSchema } from "~/utils/apitypes";
@@ -8,6 +9,7 @@ import { useRouter } from "next/router";
 import { useEffect } from "react";
 import UserProfile from "~/components/userProfile";
 import userImage from "public/placeholder_1.png";
+import StarRating from "./StarRating";
 
 export default function Review() {
   const { shouldReturn, id } = dynamicRouteID(useRouter());
@@ -16,6 +18,7 @@ export default function Review() {
     handleSubmit,
     setValue,
     formState: { errors },
+    getValues,
   } = useForm<RouterInputs["review"]["add"]>({
     resolver: zodResolver(reviewAddSchema),
     defaultValues: {
@@ -37,6 +40,13 @@ export default function Review() {
     date?: string | undefined;
   }) => {
     addReview.mutate(data);
+  };
+
+  const [rating, setRating] = useState(0); // State for storing the selected rating
+
+  const handleRatingChange = (selectedRating: number) => {
+    setRating(selectedRating);
+    setValue("rating", selectedRating); // Set the value of the "rating" field in the form
   };
 
   return (
@@ -71,11 +81,17 @@ export default function Review() {
                   {...register("review")}
                 ></textarea>
 
-                <input
+                <StarRating
+                  totalStars={5}
+                  initialRating={rating}
+                  onChange={handleRatingChange}
+                />
+
+                {/* <input
                   type="number"
                   placeholder="Rating"
                   {...register("rating", { valueAsNumber: true })}
-                ></input>
+                ></input> */}
               </div>
 
               <div className="grid h-10 grid-cols-1 justify-items-stretch px-2 pt-2">
