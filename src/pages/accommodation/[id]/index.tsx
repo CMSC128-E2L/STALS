@@ -117,26 +117,27 @@ export default function Accommodation() {
                   WONDERING KUNG UNG IMPLEMENTATION NA LANG NITO VIA COMPONENT OR NAH*/}
                   <div className="cursor-pointer">
                     <form>
-                      <input
-                        type="checkbox"
-                        value="favorite"
-                        className="peer sr-only"
-                      ></input>
-                      {/* hover: active-within: static rounded-full bg-transparent fill-p-red p-2 opacity-75 transition hover:bg-p-red */}
-                      <svg
-                        xmlns="http://www.w3.org/2000/svg"
-                        fill="none"
-                        viewBox="0 0 24 24"
-                        strokeWidth={1.5}
-                        stroke="currentColor"
-                        className="h-8 w-8 transition hover:h-9 hover:w-9 peer-checked:fill-p-red peer-checked:stroke-p-red"
-                      >
-                        <path
-                          strokeLinecap="round"
-                          strokeLinejoin="round"
-                          d="M21 8.25c0-2.485-2.099-4.5-4.688-4.5-1.935 0-3.597 1.126-4.312 2.733-.715-1.607-2.377-2.733-4.313-2.733C5.1 3.75 3 5.765 3 8.25c0 7.22 9 12 9 12s9-4.78 9-12z"
+                      <label>
+                        <input
+                          type="checkbox"
+                          value="favorite"
+                          className="peer sr-only"
                         />
-                      </svg>
+                        <svg
+                          xmlns="http://www.w3.org/2000/svg"
+                          fill="none"
+                          viewBox="0 0 24 24"
+                          strokeWidth={1.5}
+                          stroke="currentColor"
+                          className="h-8 w-8 transition hover:h-9 hover:w-9 peer-checked:fill-p-red peer-checked:stroke-p-red"
+                        >
+                          <path
+                            strokeLinecap="round"
+                            strokeLinejoin="round"
+                            d="M21 8.25c0-2.485-2.099-4.5-4.688-4.5-1.935 0-3.597 1.126-4.312 2.733-.715-1.607-2.377-2.733-4.313-2.733C5.1 3.75 3 5.765 3 8.25c0 7.22 9 12 9 12s9-4.78 9-12z"
+                          />
+                        </svg>
+                      </label>
                     </form>
                   </div>
 
@@ -233,28 +234,6 @@ export default function Accommodation() {
                     </div>
                   )}
                 </div>
-
-                {/* EMAIL */}
-                <div className="flex flex-row items-center gap-x-1 p-1">
-                  <div className="rounded-full bg-p-dblue p-1">
-                    <svg
-                      xmlns="http://www.w3.org/2000/svg"
-                      fill="none"
-                      viewBox="0 0 24 24"
-                      strokeWidth="1.5"
-                      stroke="currentColor"
-                      className="h-5 w-5 fill-white stroke-p-dblue"
-                    >
-                      <path
-                        strokeLinecap="round"
-                        strokeLinejoin="round"
-                        d="M21.75 6.75v10.5a2.25 2.25 0 01-2.25 2.25h-15a2.25 2.25 0 01-2.25-2.25V6.75m19.5 0A2.25 2.25 0 0019.5 4.5h-15a2.25 2.25 0 00-2.25 2.25m19.5 0v.243a2.25 2.25 0 01-1.07 1.916l-7.5 4.615a2.25 2.25 0 01-2.36 0L3.32 8.91a2.25 2.25 0 01-1.07-1.916V6.75"
-                      />
-                    </svg>
-                  </div>
-                  Email
-                </div>
-
                 {/* LOCATION */}
                 <div className="flex flex-row items-center gap-x-1 p-1">
                   <div className="rounded-full bg-p-dblue p-1">
@@ -449,11 +428,11 @@ export default function Accommodation() {
                     {/* This is the review */}
                     {showReview && (
                       <div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50">
-                        <div className="rounded-xl bg-white p-8">
+                        <div className="flex max-h-[80%] w-[60%] flex-col rounded-xl bg-white p-2">
                           <Review />
 
                           <button
-                            className="mt-4 rounded bg-blue-500 px-4 py-2 text-white hover:bg-blue-600"
+                            className="m-3 mt-4 w-[20%] rounded bg-blue-500 px-4 py-2 text-white hover:bg-blue-600"
                             onClick={() => setShowReview(false)}
                           >
                             Close
