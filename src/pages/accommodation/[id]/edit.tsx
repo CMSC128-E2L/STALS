@@ -12,6 +12,7 @@ import { useSession } from "next-auth/react";
 import LoadingSpinner from "~/components/loadingSpinner";
 import Error404 from "~/pages/404";
 import Error from "~/pages/_error";
+import UploadImageHeader from "~/components/uploadInput";
 
 export default function EditAccommodation() {
   const userSession = useSession({ required: true });
@@ -216,6 +217,10 @@ export default function EditAccommodation() {
                           >
                             Upload a file
                           </button>
+                          <UploadImageHeader
+                            className="focus:shadow-outline mt-2 rounded-sm bg-gray-200 px-3 py-1 hover:bg-gray-300 focus:outline-none"
+                            accomId={id}
+                          />
                         </header>
                         <div>
                           <h1 className="form-h2 text-center">To Upload</h1>
@@ -266,7 +271,8 @@ export default function EditAccommodation() {
   );
 }
 
-function tagCheckbox(array: string[]) { //for backend
+function tagCheckbox(array: string[]) {
+  //for backend
   return array.map((value: string) => (
     <div key={value} className="flex flex-row gap-2">
       <input id={value} type="checkbox" value={value} />
