@@ -37,6 +37,8 @@ export default function HomePage() {
     price_min: undefined,
     price_max: undefined,
     is_archived: false,
+    sortByName: false,
+    sortByRating: false,
   });
   const {
     register,
@@ -181,6 +183,45 @@ export default function HomePage() {
     { id: "HOTEL", value: "HOTEL", label: "Hotel" },
     { id: "TRANSCIENT", value: "TRANSCIENT", label: "Transcient" },
   ];
+
+  const sortTypes = [
+    { id: "NONE", value: "NONE", label: "None" },
+    { id: "NAME", value: "NAME", label: "Name" },
+    { id: "RATING", value: "RATING", label: "Average Rating" },
+  ];
+
+  const handleSortTypeChange = (event: {
+    target: { value: string; checked: boolean };
+  }) => {
+    const { value, checked } = event.target;
+    if (checked) {
+      switch (value) {
+        case "NONE":
+          setUserInputs((prevInputs) => ({
+            ...prevInputs,
+            sortByName: false,
+            sortByRating: false,
+          }));
+          break;
+        case "NAME":
+          setUserInputs((prevInputs) => ({
+            ...prevInputs,
+            sortByName: true,
+            sortByRating: false,
+          }));
+          break;
+        case "RATING":
+          setUserInputs((prevInputs) => ({
+            ...prevInputs,
+            sortByName: false,
+            sortByRating: true,
+          }));
+          break;
+        default:
+          break;
+      }
+    }
+  };
 
   const handleAccomTypeChange = (event: {
     target: { value: string; checked: boolean };
@@ -458,6 +499,25 @@ export default function HomePage() {
                 </div>
               ))}
             </div> */}
+
+            <div className="mb-4">
+              <h2 className="mb-2 text-base font-bold">Sort By</h2>
+              {sortTypes.map((range) => (
+                <div className="mb-2 flex items-center" key={range.id}>
+                  <input
+                    id={range.id}
+                    type="radio"
+                    name="price_range"
+                    value={range.value}
+                    onChange={handleSortTypeChange}
+                    className="ml-3 h-4 w-4 rounded border-gray-300 bg-gray-100 text-blue-600 focus:ring-2 focus:ring-blue-500 dark:border-gray-600 dark:bg-gray-700 dark:ring-offset-gray-800 dark:focus:ring-blue-600"
+                  />
+                  <label htmlFor={range.id} className="filter-text">
+                    {range.label}
+                  </label>
+                </div>
+              ))}
+            </div>
 
             {/* Include */}
             <div className="mb-4">

@@ -37,6 +37,10 @@ const Accomm_Segment: React.FC<{
     landlord: session.data?.user.id,
   });
 
+  {
+    /* TODO: Add functionality for "add" and "edit" accommodation buttons */
+  }
+
   const archiveAccomm = api.accommodation.archive.useMutation({
     onSuccess: () => {
       void refetch();
@@ -66,7 +70,6 @@ const Accomm_Segment: React.FC<{
                   {name} | Archived: {String(is_archived)}
                 </p>
                 {/* PRICE */}
-                {/* <p>Php. XX,XXXX.XX - XX,XXXX.XX</p> */}
                 <p>Price: {price}</p>
               </div>
 
@@ -99,9 +102,14 @@ const Accomm_Segment: React.FC<{
               </div>
               <div className="h-20 w-full bg-blue-200"></div>
 
-              {/* ARCHIVE & DELETE BUTTONS */}
+              {/* ARCHIVE, EDIT, & DELETE  BUTTONS */}
               <div className="flex w-full flex-row space-x-2">
                 <div className="w-full bg-blue-200"></div>
+
+                {/* EDIT */}
+                <button className="rounded border border-gray-400 bg-white p-2">
+                  Edit
+                </button>
 
                 {/* ARCHIVE */}
                 <button
@@ -132,6 +140,12 @@ const Accomm_Segment: React.FC<{
           </div>
         </div>
         <br />
+
+        <div className="flex justify-center">
+          <button className="mx-4 mb-4 rounded border border-gray-400 bg-white p-4 text-xl">
+            Add Accommodation
+          </button>
+        </div>
       </>
     </div>
   );
