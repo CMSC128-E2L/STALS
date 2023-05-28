@@ -23,7 +23,9 @@ export const accommodationGetManyExperiementSchema = z.object({
 
 export const accommodationAddSchema = z.object({
   name: z.string().min(1, { message: "Must not be empty" }),
-  address: z.string(),
+  street_number: z.string().min(1),
+  subdivision: z.string().min(1),
+  barangay: z.string().min(1),
   location: z.string(),
   contact_number: z.string().regex(/^09\d{9}$/, {
     message: "Must be a valid phone number. e.g. (09123456789)",
