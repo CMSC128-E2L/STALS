@@ -4,6 +4,7 @@ import Image from "next/image";
 import user from "public/images/def_user.png";
 import Link from "next/link";
 import Edit from "./edit";
+import ManageReport from "../managereport";
 import { useSession, signOut } from "next-auth/react";
 import { useRouter } from "next/router";
 import { api } from "~/utils/api";
@@ -80,7 +81,7 @@ export default function Profile() {
         </div>
       </div>
     );
-  } else if (sessionData?.profile.type == UserType.USER) {
+  } else if (sessionData?.profile.type == UserType.ADMIN) {
     return (
       <div>
         <NavBar />
@@ -139,7 +140,7 @@ export default function Profile() {
         </div>
       </div>
     );
-  } else if (sessionData?.profile.type == UserType.ADMIN) {
+  } else if (sessionData?.profile.type == UserType.USER) {
     return (
       <div>
         <NavBar />
@@ -191,9 +192,6 @@ export default function Profile() {
               <p className="mb-2 mt-2 text-sm text-gray-400">
                 <Link href="">Manage Accommodations</Link>
               </p>
-              <p className="mb-2 mt-2 text-sm text-gray-400">
-                <Link href="">Manage Landlord Applications</Link>
-              </p>
             </div>
             <div className="rounded-3xl p-10 shadow-lg ">
               <h1 className="mb-10 text-center text-xl font-bold">
@@ -236,7 +234,9 @@ export default function Profile() {
               )}
 
               <div className="flex w-full justify-center rounded-3xl border-2 border-black p-2 shadow-lg">
-                <button className="w-full">Manage Report</button>
+                <Link href="managereport">
+                  <button className="w-full">Manage Report</button>
+                </Link>
               </div>
             </div>
           </section>
