@@ -26,6 +26,8 @@ export default function Accommodation() {
   const { data: userReview, isLoading: reviewLoading } =
     api.review.getTopReview.useQuery(id);
 
+  const reportAccomm = api.report.add.useMutation();
+
   // const { data: RoomList, isLoading: roomLoading } = api.room.getMany.useQuery({
   //   id: id,
   //   status: undefined,
@@ -500,7 +502,13 @@ export default function Accommodation() {
         <div className="m-3">
           <button
             className=""
-            // onClick={() => {;}}
+            onClick={() => {
+              reportAccomm.mutate({
+                reported_id: id,
+                report: "",
+                type_reported: "",
+              });
+            }}
           >
             <span>Report a Problem</span>
             <svg
