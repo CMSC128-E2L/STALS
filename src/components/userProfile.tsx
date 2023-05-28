@@ -8,6 +8,7 @@ interface UserPorfileProps {
   date?: string | null;
   time?: string | null;
   review?: string | null;
+  rating?: number | null;
 }
 
 export const UserProfile: React.FC<UserPorfileProps> = ({
@@ -17,6 +18,7 @@ export const UserProfile: React.FC<UserPorfileProps> = ({
   date,
   time,
   review,
+  rating,
 }) => {
   return (
     <>
@@ -40,6 +42,7 @@ export const UserProfile: React.FC<UserPorfileProps> = ({
             {date} | {time}
           </label>
           <p>{review}</p>
+          <p>Rating: {rating}</p>
         </div>
       </div>
     </>
