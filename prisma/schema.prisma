@@ -92,7 +92,7 @@ enum AccommodationType {
   DORMITORY
   APARTMENT
   BEDSPACER
-  TRANSCIENT
+  TRANSIENT
 }
 
 model Accommodation {
