@@ -14,6 +14,7 @@ const RoomButton: React.FC<{
   roomBeds: number;
   roomAircon: boolean;
   roomUtils: boolean;
+  roomArchive: boolean;
 }> = ({
   id,
   roomIndex,
@@ -25,6 +26,7 @@ const RoomButton: React.FC<{
   roomBeds,
   roomAircon,
   roomUtils,
+  roomArchive,
 }) => {
   const [showRooms, setShowRooms] = useState(false);
 
@@ -34,17 +36,34 @@ const RoomButton: React.FC<{
   if (hidden == false) {
     return (
       <div>
-        <button
-          className="accPButton flex flex-none flex-col px-8"
-          onClick={() => setShowRooms(true)}
-        >
-          <label className="bold self-center text-lg">
-            Room {String(roomIndex + 1)}
-          </label>
-          <p className="text-md self-center px-1 italic ">
-            {status ? "Occupied" : "Unoccupied"}
-          </p>
-        </button>
+        {/* if unoccupied */}
+        {status == false && (
+          <button
+            className="flex flex-none flex-col rounded-md bg-p-dblue px-5 px-8 py-1 text-sm shadow shadow-p-dblue/50"
+            onClick={() => setShowRooms(true)}
+          >
+            <label className="bold self-center text-lg text-white">
+              Room {String(roomIndex + 1)}
+            </label>
+            <p className="text-md self-center px-1 italic text-white ">
+              {status ? "Occupied" : "Unoccupied"} | ₱ {roomPrice}
+            </p>
+          </button>
+        )}
+        {/* if occupied */}
+        {status == true && (
+          <button
+            className="flex flex-none flex-col rounded-md bg-p-gray px-5 px-8 py-1 text-sm shadow shadow-p-black/50"
+            onClick={() => setShowRooms(true)}
+          >
+            <label className="bold self-center text-lg">
+              Room {String(roomIndex + 1)}
+            </label>
+            <p className="text-md self-center px-1 italic ">
+              {status ? "Occupied" : "Unoccupied"} | ₱ {roomPrice}
+            </p>
+          </button>
+        )}
 
         {/* POPUP HELPER */}
         {showRooms && (
@@ -58,7 +77,7 @@ const RoomButton: React.FC<{
                 roomBeds={roomBeds}
                 roomAircon={roomAircon}
                 roomUtils={roomUtils}
-                roomArchived={status}
+                roomArchive={roomArchive}
               />
               <button
                 className="mt-4 w-[15%] rounded bg-p-dblue px-4 py-2 text-white hover:bg-blue-600"

@@ -362,6 +362,7 @@ export default function Accommodation() {
                         roomBeds={room.num_of_beds}
                         roomAircon={room.with_aircon}
                         roomUtils={room.with_utilities}
+                        roomArchive={room.is_archived}
                       />
                     ))
                   ) : (
