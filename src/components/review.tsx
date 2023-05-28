@@ -50,7 +50,7 @@ export default function Review() {
   };
 
   return (
-    <div className="scrollbar overflow-y-auto p-8">
+    <div className="scrollbar overflow-y-auto pt-8">
       <div className="grid grid-cols-1 justify-items-stretch gap-4">
         <div className="w-auto flex-row ">
           {/* eslint-disable-next-line @typescript-eslint/no-misused-promises */}
@@ -63,7 +63,7 @@ export default function Review() {
                   </h1>
                 </div>
                 <div className="flex items-center justify-end pr-4 pt-2 text-gray-800">
-                  <Link href="ye" className="pt-3 text-end text-xxs underline">
+                  <Link href="ye" className="pt-0 text-end text-xxs underline">
                     Report a problem
                   </Link>
                 </div>

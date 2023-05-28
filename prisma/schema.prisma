@@ -104,7 +104,7 @@ model Accommodation {
   subdivision     String?
   barangay        String? // TODO: required
   location        String
-  landlordUser    User    @relation(fields: [landlord], references: [id])
+  landlordUser    User    @relation(fields: [landlord], references: [id], onDelete: Cascade)
   landlord        String
   contract_length String?
   contact_number  String
@@ -149,7 +149,7 @@ enum TypeReported {
 
 model Report {
   id     String @id @default(cuid())
-  user   User   @relation(fields: [userId], references: [id])
+  user   User   @relation(fields: [userId], references: [id], onDelete: Cascade)
   userId String
 
   type_reported String
@@ -161,9 +161,9 @@ model Report {
 
 model Review {
   id              String        @id @default(cuid())
-  user            User          @relation(fields: [userId], references: [id])
+  user            User          @relation(fields: [userId], references: [id], onDelete: Cascade)
   userId          String
-  accommodation   Accommodation @relation(fields: [accommodationId], references: [id])
+  accommodation   Accommodation @relation(fields: [accommodationId], references: [id], onDelete: Cascade)
   accommodationId String
   is_archived     Boolean?
   rating          Int

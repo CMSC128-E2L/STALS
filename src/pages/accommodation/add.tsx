@@ -96,10 +96,22 @@ export default function AddAccommodation() {
                     {...register("name", { required: true })}
                   ></input>
                 </div>
-
+                <h2 className="form-h2 px-3 pt-3">Type of Accommodation</h2>
+                <div className="flex flex-row justify-evenly gap-4 px-5 pt-2">
+                  {tagCheckbox(
+                    [
+                      "Dormitory",
+                      "Apartment",
+                      "Hotel",
+                      "Transient",
+                      "Bedspace",
+                    ],
+                    register,
+                  )}
+                </div>
                 <div className="grid grid-cols-2 gap-2 object-contain p-3">
                   <div className="form-col-deets">
-                    <div>
+                    <div className="hidden">
                       <label className="form-h2">Type of Accommodation</label>
                       <div className="h-10 w-full items-center justify-items-stretch rounded-md bg-white">
                         <select
@@ -144,6 +156,17 @@ export default function AddAccommodation() {
                         {...register("fb_page")}
                       ></input>
                     </div>
+                    {/* Accommodation price input field */}
+                    <div className="">
+                      <label className="form-h2"> Price of Accommodation</label>
+                      <input
+                        className="add-acc-input-text-field"
+                        placeholder="Price"
+                        pattern="[0-9]+"
+                        {...register("price", { valueAsNumber: true })}
+                        required
+                      ></input>
+                    </div>
                   </div>
                   <div className="form-col-deets">
                     <div className="flex flex-col">
@@ -169,38 +192,6 @@ export default function AddAccommodation() {
                         {...register("contact_number")}
                       ></input>
                     </div>
-                    {/* Accommodation price input field */}
-                    <div className="">
-                      <label className="form-h2"> Price of Accommodation</label>
-                      <input
-                        className="add-acc-input-text-field"
-                        placeholder="Price"
-                        pattern="[0-9]+"
-                        {...register("price", { valueAsNumber: true })}
-                      ></input>
-                    </div>
-                  </div>
-
-                  <div className="col-span-2">
-                    <label className="form-h2">Address</label>
-
-                    <div className="mb-2 flex flex-row gap-2">
-                      <input
-                        className="add-acc-input-text-field w-1/3"
-                        placeholder="St."
-                        {...register("street_number")}
-                      ></input>
-                      <input
-                        className="add-acc-input-text-field w-2/3"
-                        placeholder="Subdivision"
-                        {...register("subdivision")}
-                      ></input>
-                      <input
-                        className="add-acc-input-text-field"
-                        placeholder="Barangay"
-                        {...register("barangay")}
-                      ></input>
-                    </div>
                   </div>
                 </div>
                 <div>
@@ -209,7 +200,7 @@ export default function AddAccommodation() {
                   <div className="margin-40 grid grid-cols-3 gap-4 px-3">
                     <div className="form-col-deets">
                       <div className="flex flex-col gap-1">
-                        <label className="form-h2">Genders</label>
+                        <label className="form-h2">Dorm Type</label>
                         <div className="h-10 w-full items-center justify-items-stretch rounded-md bg-white">
                           <select
                             className="form-dropdown"
@@ -218,7 +209,7 @@ export default function AddAccommodation() {
                             }}
                           >
                             <option value="Coed" defaultChecked>
-                              Coed
+                              Co-ed
                             </option>
                             <option value="Male">Male</option>
                             <option value="Female">Female</option>
