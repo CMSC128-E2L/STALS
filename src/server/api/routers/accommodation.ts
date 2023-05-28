@@ -116,8 +116,8 @@ export const accommodationRouter = createTRPCRouter({
           average_rating: 0,
           total_reviews: 0,
           landlord: userId,
-          tagArray: { values: [] },
-          typeArray: { values: [] },
+          tagArray: { values: input.tagArray },
+          typeArray: { values: input.typeArray },
         },
       });
     }),
