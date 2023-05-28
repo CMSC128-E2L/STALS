@@ -13,7 +13,7 @@ const Accomm_Segment: React.FC<{
   name: string;
   price: number | null /* SHOULD BE FLOAT */;
   num_of_rooms: number;
-  barangay: string;
+  barangay: string | null;
   typeArray: Array<string>;
   tagArray: Array<string>;
 }> = ({ id, name, price, num_of_rooms, barangay, typeArray, tagArray }) => {
