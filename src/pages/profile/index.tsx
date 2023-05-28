@@ -34,7 +34,7 @@ export default function HomePage() {
         {/* Content */}
         <div className="flex-row-2 m-10 flex h-auto w-auto ">
           <section className="mr-5 flex flex-col items-center space-y-2 whitespace-nowrap rounded-3xl bg-white p-14 font-medium shadow-xl">
-            <div className="relative mt-10 flex h-[10.5rem] w-[10.5rem]">
+            <div className="relative ml-32 mr-32 mt-10 flex h-[10.5rem] w-[10.5rem]">
               <Image
                 src={sessionData?.user.image ?? user.src}
                 className="flex rounded-full object-contain"
@@ -84,14 +84,14 @@ export default function HomePage() {
         </div>
       </div>
     );
-  } else if (sessionData?.profile.type == UserType.ADMIN) {
+  } else if (sessionData?.profile.type == UserType.USER) {
     return (
       <div>
         <NavBar />
         {/* Content */}
         <div className="flex-row-2 m-10 flex h-auto w-auto ">
           <section className="mr-5 flex flex-col items-center space-y-2 whitespace-nowrap rounded-3xl bg-white p-14 font-medium shadow-xl">
-            <div className="relative mt-10 flex h-[10.5rem] w-[10.5rem]">
+            <div className="relative ml-32 mr-32 mt-10 flex h-[10.5rem] w-[10.5rem]">
               <Image
                 src={sessionData?.user.image ?? user.src}
                 className="flex rounded-full object-contain"
@@ -147,14 +147,14 @@ export default function HomePage() {
         </div>
       </div>
     );
-  } else if (sessionData?.profile.type == UserType.USER) {
+  } else if (sessionData?.profile.type == UserType.ADMIN) {
     return (
       <div>
         <NavBar />
         {/* profile */}
         <div className="flex-row-2 m-10 flex h-auto w-auto ">
           <section className="mr-5 flex flex-col items-center space-y-2 whitespace-nowrap rounded-3xl bg-white p-14 font-medium shadow-xl">
-            <div className="relative mt-10 flex h-[10.5rem] w-[10.5rem]">
+            <div className="relative ml-32 mr-32 mt-10 flex h-[10.5rem] w-[10.5rem]">
               <Image
                 src={sessionData?.user.image ?? user.src}
                 className="flex rounded-full object-contain"
