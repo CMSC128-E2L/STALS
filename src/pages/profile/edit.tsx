@@ -1,11 +1,8 @@
-import type { NextPage } from "next";
 import { RouterInputs, api } from "~/utils/api";
 import { signOut, useSession } from "next-auth/react";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
 import { userEditSchema } from "~/utils/apitypes";
-import bgpic from "public/images/bg-05.png";
-import NavBar from "~/components/navbar";
 import { useState } from "react";
 import ConfirmationPrompt from "~/components/prompt";
 import GlobalToaster from "~/components/globalToster";
@@ -50,7 +47,7 @@ const EditProfile: React.FC<{
   const [isChanged, seIsChanged] = useState(false);
 
   const handleDelete = () => {
-    if (enteredUN === userSession.data?.profile.username) {
+    if (enteredUN === userSession.data?.profile.email) {
       void deleteProfile.mutate();
     } else {
       setUsernameError("Username does not match. Please try again.");
@@ -256,12 +253,12 @@ const EditProfile: React.FC<{
                       ></path>
                     </svg>
                     <h3 className="text-white-500 mb-3 text-lg font-normal dark:text-gray-400">
-                      Please enter your username to confirm.
+                      Please enter your email to confirm.
                     </h3>
                     <input
                       type="text"
                       className="mb-3 w-full rounded-xl bg-gray-100 px-2 py-2 shadow shadow-gray-400/100"
-                      placeholder="Username"
+                      placeholder="Email"
                       value={enteredUN}
                       onChange={(e) => {
                         setEnteredUN(e.target.value);
