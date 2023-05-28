@@ -11,6 +11,7 @@ import Error404 from "~/pages/404";
 import { useSession } from "next-auth/react";
 import Review from "~/components/review";
 import { useState } from "react";
+import userImage from "public/placeholder_1.png";
 
 export default function Accommodation() {
   const { id } = dynamicRouteID(useRouter());
@@ -34,7 +35,7 @@ export default function Accommodation() {
   }
 
   return (
-    <div className="flex h-screen flex-col">
+    <div className="scrollbar flex h-screen flex-col overflow-auto bg-p-ngray">
       {/* HEADER */}
       <NavBar />
 
@@ -100,40 +101,23 @@ export default function Accommodation() {
               {/* ACCOMMODATION NAME + edit + delete thngy idk*/}
               <div className="flex flex-row items-stretch justify-between">
                 {/* Left column (accommodation name) */}
-                <div className="flex shrink items-center px-3">
+                <div className="flex flex-auto items-center px-3">
                   {!accommLoading ? (
-                    <h1 className="form-h1">{accommData?.name}</h1>
+                    <h1 className="text-3xl font-bold">{accommData?.name}</h1>
                   ) : (
-                    <h1 className="form-h1 w-[100%] animate-pulse rounded-full bg-gray-400">
+                    <h1 className="w-[100%] animate-pulse rounded-full bg-gray-400 text-3xl font-bold">
                       &nbsp;&nbsp;
                     </h1>
                   )}
-                </div>
-
-                {/* Empty space to move download button closer to the fav button */}
-                <div className="flex w-1/2"></div>
-
-                <div className="flex flex-row items-stretch">
-                  <button
-                    className="accPButton mx-3 mb-2 self-end px-3 text-lg"
-                    onClick={() => {
-                      print();
-                    }}
-                  >
-                    {" "}
-                    Download{" "}
-                  </button>
                 </div>
 
                 {/* Right column: the editing thingy ig */}
                 <div className="shrink">
                   {/* TODO: So if a registered user is viewing it (remove hidden to show teehee)
                   WONDERING KUNG UNG IMPLEMENTATION NA LANG NITO VIA COMPONENT OR NAH*/}
-
-                  {/* empty space to move fav button to the right*/}
-                  <div className="mb-2 cursor-pointer">
+                  <div className="flex flex-row items-center gap-2">
                     <form>
-                      <label>
+                      <label className="cursor-pointer">
                         <input
                           type="checkbox"
                           value="favorite"
@@ -145,7 +129,7 @@ export default function Accommodation() {
                           viewBox="0 0 24 24"
                           strokeWidth={1.5}
                           stroke="currentColor"
-                          className="h-8 w-8 transition hover:h-9 hover:w-9 peer-checked:fill-p-red peer-checked:stroke-p-red"
+                          className="h-8 w-8 transition peer-checked:fill-p-red peer-checked:stroke-p-red"
                         >
                           <path
                             strokeLinecap="round"
@@ -155,8 +139,30 @@ export default function Accommodation() {
                         </svg>
                       </label>
                     </form>
+                    <label className="cursor-pointer">
+                      <button
+                        className="accPButton sr-only mx-3 mb-2 self-end px-3 text-lg"
+                        onClick={() => {
+                          print();
+                        }}
+                      />
+                      <svg
+                        xmlns="http://www.w3.org/2000/svg"
+                        fill="none"
+                        viewBox="0 0 24 24"
+                        stroke-width="1.5"
+                        stroke="currentColor"
+                        className="h-8 w-8"
+                      >
+                        {" "}
+                        <path
+                          stroke-linecap="round"
+                          stroke-linejoin="round"
+                          d="M3 16.5v2.25A2.25 2.25 0 005.25 21h13.5A2.25 2.25 0 0021 18.75V16.5M16.5 12L12 16.5m0 0L7.5 12m4.5 4.5V3"
+                        />
+                      </svg>
+                    </label>
                   </div>
-
                   {/* If a landlord is viewing the page */}
                   <div className="float-right flex hidden gap-1">
                     {/* Edit button */}
@@ -303,25 +309,6 @@ export default function Accommodation() {
               {/* DESCRIPTION */}
               <div className="flex basis-1/2 flex-col">
                 <div className="group overflow-hidden px-4 py-2">
-                  {/* placeholder description to test line cram thing
-                  WALA PALA DESCRIPTION KIMMY
-
-                  {!queryLoading ? (
-                    <p className="">{stringify(firstData)}</p>
-                  ) : (
-                    <>
-                      <p className="mb-2 animate-pulse rounded-full bg-gray-400">
-                        &nbsp;&nbsp;
-                      </p>
-                      <p className="mb-2 animate-pulse rounded-full bg-gray-400">
-                        &nbsp;&nbsp;
-                      </p>
-                      <p className="mb-2 animate-pulse rounded-full bg-gray-400">
-                        &nbsp;&nbsp;
-                      </p>
-                    </>
-                  )} */}
-
                   {/* TODO: since the tags of an accommodation is just a string, just print that string here.*/}
                   <p className="py-1 text-sm italic">{accommData?.tags}</p>
                 </div>
@@ -346,7 +333,7 @@ export default function Accommodation() {
 
                 {/* Rooms 
                 TODO: This is gonna get the list of rooms in prisma/schema.prisma and load the component <RoomButton /> (components/RoomButton.tsx) with the room id.*/}
-                <div className="flex flex-row items-stretch space-x-3 overflow-x-auto px-3 py-3">
+                <div className="scrollbar flex flex-row items-stretch space-x-3 overflow-x-auto px-3 py-3">
                   {accommData?.Room && accommData?.Room.length > 0 ? (
                     accommData?.Room.map((room, i: number) => (
                       <RoomButton
@@ -397,14 +384,12 @@ export default function Accommodation() {
               </div>
 
               {/* Rest */}
-              <div className="mt-4 flex grow flex-row divide-x-2 divide-p-black">
-                <div className="basis-1/3 p-3">
-                  <div className="flex flex-row">
-                    <div className="place-self-center text-center ">
+              <div className="mt-4 flex grow flex-row divide-x-2  divide-p-black">
+                <div className="w-[40%] p-3">
+                  <div className="items-center">
+                    <div className="text-center ">
                       {/* wao */}
-                      <h1 className="text-start text-2xl">
-                        Ratings and Reviews
-                      </h1>
+                      <h1 className="text-2xl">Ratings and Reviews</h1>
                       <p className="text-5xl font-bold">
                         {Number(accommData?.average_rating ?? 0).toFixed(1)} / 5
                       </p>
@@ -417,17 +402,42 @@ export default function Accommodation() {
                 </div>
                 {/* Review section */}
                 <div className="grow basis-1/2">
-                  <div className="flex flex-col p-2">
+                  <div className="flex h-full flex-col p-2">
                     {/* TODO: For this, get the first review from the accomm's review array, and load the following:*/}
-                    <div className="basis-1/8">
-                      {/* UserProfile must be the User that made that review*/}
-                      <UserProfile />
-                    </div>
-                    <div className="pl-20">
-                      <p className="line-clamp-2 text-sm">
-                        With the sects clashing against one another, there was
-                        no one who could blablahblahblah ye
-                      </p>
+                    <div className="flex max-w-full flex-row gap-3 rounded-md p-3">
+                      <img
+                        src={userImage.src}
+                        className="w-[15%] self-start rounded-full"
+                      />
+                      <div className="flex flex-col">
+                        <div>
+                          <h1 className="text-xl font-bold"> Reviewer Name</h1>
+                          <p className="text-sm ">
+                            {" "}
+                            Reviewed Date Posted | Time
+                          </p>
+                        </div>
+                        <label className="pb-1">
+                          <p className="line-clamp-2 cursor-pointer pt-2 text-sm">
+                            twink earrings wwx twink earrings wwx twink earrings
+                            wwx twink earrings wwx twink earrings wwx twink
+                            earrings wwx twink earrings wwx twink earrings wwx
+                            twink earrings wwx twink earrings wwx twink earrings
+                            wwx twink earrings wwx twink earrings wwx twink
+                            earrings wwx twink earrings wwx twink earrings wwx
+                            twink earrings wwx twink earrings wwx twink earrings
+                            wwx twink earrings wwx twink earrings wwx twink
+                            earrings wwx twink earrings wwx twink earrings wwx
+                            twink earrings wwx twink earrings wwx twink earrings
+                            wwx twink earrings wwx twink earrings wwx twink
+                            earrings wwx twink earrings wwx twink earrings wwx
+                            twink earrings wwx twink earrings wwx twink earrings
+                            wwx twink earrings wwx twink earrings wwx twink
+                            earrings wwx twink earrings wwx twink earrings wwx
+                            twink earrings wwx twink earrings wwx
+                          </p>
+                        </label>
+                      </div>
                     </div>
                     {/* This is the review */}
                     {showReview && (
@@ -444,12 +454,15 @@ export default function Accommodation() {
                         </div>
                       </div>
                     )}
-                    <button
-                      className=" pl-1 text-sm text-gray-500 underline"
-                      onClick={() => setShowReview(true)}
-                    >
-                      See more
-                    </button>
+
+                    <div className="px-3 text-end text-xs">
+                      <button
+                        className=" pl-1 text-sm text-gray-500 underline"
+                        onClick={() => setShowReview(true)}
+                      >
+                        See more
+                      </button>
+                    </div>
                   </div>
                 </div>
               </div>

@@ -330,7 +330,7 @@ export default function HomePage() {
   }
 
   return (
-    <div>
+    <div className="bg-p-ngray">
       <form
         // eslint-disable-next-line @typescript-eslint/no-misused-promises
         onSubmit={handleSubmit(
