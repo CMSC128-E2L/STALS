@@ -15,18 +15,6 @@ export default function Delete_Archive_Accomm() {
     landlord: userSession.data?.user.id,
   });
 
-  const archiveAccomm = api.accommodation.archive.useMutation({
-    onSuccess: () => {
-      void refetch();
-    },
-  });
-
-  const deleteAccomm = api.accommodation.delete.useMutation({
-    onSuccess: () => {
-      void refetch();
-    },
-  });
-
   if (notAuthenticated(userSession.status)) {
     return <LoadingSpinner />;
   }
@@ -56,6 +44,7 @@ export default function Delete_Archive_Accomm() {
                   is_archived={accomm.is_archived}
                   location={accomm.location}
                   tags={accomm.tags}
+                  refetch={refetch}
                 />
               </div>
             </div>
