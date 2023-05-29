@@ -101,7 +101,7 @@ export default function Accommodation() {
   const isUserViewing = userSession?.profile.type === UserType.USER;
 
   return (
-    <div className="scrollbar flex h-screen flex-col overflow-auto bg-p-ngray">
+    <div className="flex h-full flex-col bg-p-ngray">
       {/* HEADER */}
       <NavBar />
 
