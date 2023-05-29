@@ -1,3 +1,4 @@
+/* eslint-disable @next/next/no-img-element */
 import React from "react";
 import StarRow from "./starRow";
 import { type User } from "@prisma/client";
@@ -12,38 +13,29 @@ const ReviewItem: React.FC<{
   rating: number;
 }> = ({ id, user, date, time, review, rating }) => {
   return (
-    <>
-      {/* {items.map((item, index) => ( */}
-      <div
-        //   key={index}
-        className="flex max-w-full flex-row gap-3 rounded-md p-3"
-      >
-        <img
-          src={user.image ?? userImage.src}
-          alt="User Profile"
-          className="h-[8%] w-[8%] self-start rounded-full"
-        />
-        <div className="flex flex-col">
-          <div>
-            <h1 className="text-xl font-bold">{`${user.first_name ?? ""} ${
-              user.middle_name ?? ""
-            } ${user.last_name ?? ""}
+    <div className="flex max-w-full flex-row border-b-2 border-b-neutral-200 py-4 ">
+      <img
+        src={user.image ?? userImage.src}
+        alt="User Profile"
+        className="h-14 self-start rounded-full"
+      />
+      <div className="flex flex-col pl-2">
+        <h1 className="text-xl font-bold">{`${user.first_name ?? ""} ${
+          user.middle_name ?? ""
+        } ${user.last_name ?? ""}
   ${user.Suffix ?? ""}`}</h1>
-            <p className="text-sm ">
-              {date} | {time}
-            </p>
-          </div>
-          <label className="pb-1">
-            <input type="checkbox" value="" className="peer sr-only" />
-            <p className="line-clamp-2 cursor-pointer pt-2 text-sm peer-checked:line-clamp-none">
-              {review}
-            </p>
-          </label>
-          <StarRow rating={rating ?? 0} />
-        </div>
+        <StarRow rating={rating ?? 0} class={"justify-left !grow-0"} />
+        <p className="text-sm">
+          {date} | {time}
+        </p>
+        <label className="pb-1">
+          <input type="checkbox" value="" className="peer sr-only" />
+          <p className="line-clamp-2 cursor-pointer pt-2 text-sm peer-checked:line-clamp-none">
+            {review}
+          </p>
+        </label>
       </div>
-      {/* ))} */}
-    </>
+    </div>
   );
 };
 
