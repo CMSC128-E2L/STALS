@@ -5,8 +5,8 @@ import StarRow from "~/components/starRow";
 
 interface UserPorfileProps {
   user: User;
-  first_name?: string | null;
-  last_name?: string | null;
+  // first_name?: string | null;
+  // last_name?: string | null;
   date?: string | null;
   time?: string | null;
   review?: string | null;
@@ -15,8 +15,8 @@ interface UserPorfileProps {
 
 export const UserProfile: React.FC<UserPorfileProps> = ({
   user,
-  first_name,
-  last_name,
+  // first_name,
+  // last_name,
   date,
   time,
   review,
@@ -39,7 +39,8 @@ export const UserProfile: React.FC<UserPorfileProps> = ({
           {/* placeholder only */}
           <div className="flex flex-row justify-between">
             <h1 className="text-xl font-bold">
-              {first_name} {last_name}
+              {user.name}
+              {/* {first_name} {last_name} */}
             </h1>
             <StarRow rating={rating ?? 0} />
           </div>
