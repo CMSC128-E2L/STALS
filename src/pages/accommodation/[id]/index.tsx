@@ -472,7 +472,7 @@ export default function Accommodation() {
                         href={`/accommodation/${id}/room/add`}
                         className="flex items-stretch"
                       >
-                        <button className="flex flex-col items-center rounded-lg border-2 border-dashed border-p-black/50 px-8">
+                        <button className="flex flex-col items-center justify-center rounded-lg border-2 border-dashed border-p-black/50 px-8">
                           <svg
                             xmlns="http://www.w3.org/2000/svg"
                             fill="none"

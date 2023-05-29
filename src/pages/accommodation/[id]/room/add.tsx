@@ -7,7 +7,7 @@ import { useRouter } from "next/router";
 import { dynamicRouteID, notAuthenticated } from "~/utils/helpers";
 import { useEffect } from "react";
 import Link from "next/link";
-import bgpic from "public/images/bg-05.png";
+import bgpic from "public/images/addaccom_bg.png";
 import toast from "react-hot-toast";
 import { useSession } from "next-auth/react";
 import LoadingSpinner from "~/components/loadingSpinner";
