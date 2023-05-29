@@ -503,44 +503,46 @@ export default function Accommodation() {
           </div>
         </div>
         {/*Report button*/}
-        <div className="fixed bottom-2 left-0 m-3">
-          {" "}
-          {/*The report button will stick to the bottom left of the screen*/}
-          <button
-            className="flex flex-row space-x-10"
-            onClick={() => {
-              reportAccomm.mutate({
-                reported_id: id,
-                reported_name: accomm!.name,
-                report: "",
-                type_reported: "ACCOMMODATION",
-              });
-              toast.success(
-                "Thank you for reporting this accommodation.\nAn alert has been sent to the administrators.",
-                {
-                  position: "bottom-center",
-                  duration: 4000,
-                },
-              );
-            }}
-          >
-            Report Accommodation
-            <svg
-              xmlns="http://www.w3.org/2000/svg"
-              fill="none"
-              viewBox="0 0 24 24"
-              strokeWidth="1.5"
-              stroke="currentColor"
-              className="h-6 w-6"
+        {userSession !== null && (
+          <div className="fixed bottom-2 left-0 m-3">
+            {" "}
+            {/*The report button will stick to the bottom left of the screen*/}
+            <button
+              className="flex flex-row space-x-10"
+              onClick={() => {
+                reportAccomm.mutate({
+                  reported_id: id,
+                  reported_name: accomm!.name,
+                  report: "",
+                  type_reported: "ACCOMMODATION",
+                });
+                toast.success(
+                  "Thank you for reporting this accommodation.\nAn alert has been sent to the administrators.",
+                  {
+                    position: "bottom-center",
+                    duration: 4000,
+                  },
+                );
+              }}
             >
-              <path
-                strokeLinecap="round"
-                strokeLinejoin="round"
-                d="M12 9v3.75m-9.303 3.376c-.866 1.5.217 3.374 1.948 3.374h14.71c1.73 0 2.813-1.874 1.948-3.374L13.949 3.378c-.866-1.5-3.032-1.5-3.898 0L2.697 16.126zM12 15.75h.007v.008H12v-.008z"
-              />
-            </svg>
-          </button>
-        </div>
+              Report Accommodation
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                fill="none"
+                viewBox="0 0 24 24"
+                strokeWidth="1.5"
+                stroke="currentColor"
+                className="h-6 w-6"
+              >
+                <path
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  d="M12 9v3.75m-9.303 3.376c-.866 1.5.217 3.374 1.948 3.374h14.71c1.73 0 2.813-1.874 1.948-3.374L13.949 3.378c-.866-1.5-3.032-1.5-3.898 0L2.697 16.126zM12 15.75h.007v.008H12v-.008z"
+                />
+              </svg>
+            </button>
+          </div>
+        )}
       </div>
     </div>
   );
