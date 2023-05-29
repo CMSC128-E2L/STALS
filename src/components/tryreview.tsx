@@ -1,12 +1,9 @@
-import { zodResolver } from "@hookform/resolvers/zod";
-import { useState } from "react";
-import { useForm } from "react-hook-form";
+import { useEffect, useState } from "react";
 import { type z } from "zod";
-import { RouterOutputs, api } from "~/utils/api";
-import { reviewGetInfSchema } from "~/utils/apitypes";
+import { type RouterOutputs, api } from "~/utils/api";
+import { type reviewGetInfSchema } from "~/utils/apitypes";
 import ReviewItem from "./reviewItem";
 import LoadingSpinner from "./loadingSpinner";
-import { type Review, type User } from "@prisma/client";
 
 export const TryReview: React.FC<{ accomId: string }> = ({ accomId }) => {
   const [userInputs, setUserInputs] = useState<
@@ -16,16 +13,6 @@ export const TryReview: React.FC<{ accomId: string }> = ({ accomId }) => {
     limit: 5,
   });
 
-  console.log(accomId);
-  const {
-    register,
-    handleSubmit,
-    control,
-    formState: { errors },
-  } = useForm({
-    resolver: zodResolver(reviewGetInfSchema),
-  });
-
   const {
     data: reviews,
     fetchNextPage,
@@ -33,9 +20,18 @@ export const TryReview: React.FC<{ accomId: string }> = ({ accomId }) => {
     hasNextPage,
     isLoading,
     isError,
+    refetch,
   } = api.review.getInfinite.useInfiniteQuery(userInputs, {
     getNextPageParam: (lastPage) => lastPage.nextCursor,
   });
+
+  useEffect(() => {
+    setUserInputs({
+      accommodationId: accomId,
+      limit: 5,
+    });
+    void refetch();
+  }, [accomId, refetch]);
 
   return (
     <div className="h-full">
@@ -95,5 +91,9 @@ const GetReviews: React.FC<{
     );
   }
 
-  return <></>;
+  return (
+    <div className="flex h-40 items-center justify-center text-center">
+      <p className="w-[60%]">This accommodation has no reviews yet.</p>
+    </div>
+  );
 };
