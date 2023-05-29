@@ -404,7 +404,7 @@ export default function HomePage() {
 
     return (
       <div className="grow">
-        <div className="flex flex-row flex-wrap">
+        <div className="flex flex-col sm:flex-row sm:flex-wrap">
           {accommodationEntries ? (
             accommodationEntries?.pages.map((page, i: number) => (
               <SearchAccoms key={i} items={page?.items} />
