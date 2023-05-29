@@ -18,7 +18,7 @@ export const NavBar: React.FC<NavBarProps> = ({ register, name, showBack }) => {
   return (
     <>
       {/* Navigation bar */}
-      <nav className="sticky top-0 z-50 flex w-full flex-wrap items-center justify-between bg-p-dblue p-4 py-1">
+      <nav className="sticky top-0 z-50 flex w-full flex-wrap items-center justify-between bg-p-dviolet p-4 py-1">
         {/* Left side */}
         <div className="flex space-x-0">
           {/* div button hack again */}
