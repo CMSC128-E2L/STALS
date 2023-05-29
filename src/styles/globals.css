@@ -77,15 +77,15 @@
   }
 
   .filter-text {
-    @apply ml-2 text-sm;
+    @apply ml-2 text-xs;
   }
 
   .filter-search {
-    @apply w-full rounded-full px-3 py-1 text-sm;
+    @apply w-full rounded-full px-3 py-1 text-xs;
   }
 
   .filter-header {
-    @apply flex w-full items-center py-2 font-bold text-black;
+    @apply flex w-full items-center pt-3 text-sm font-bold text-black;
   }
 
   .profile-dropdown {
