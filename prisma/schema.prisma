@@ -86,6 +86,7 @@ model User {
   Report        Report[]
   Review        Review[]
   Accommodation Accommodation[]
+  Favorite      Favorite[]
 }
 
 enum AccommodationType {
@@ -120,6 +121,7 @@ model Accommodation {
 
   Review Review[]
   Room   Room[]
+  Favorite Favorite[]
   type   AccommodationType
 
   @@index([landlord])
@@ -169,6 +171,17 @@ model Review {
   review          String?
   date            String?
   time            String?
+
+  @@index([accommodationId])
+  @@index([userId])
+}
+
+model Favorite {
+  id              String        @id @default(cuid())
+  user            User          @relation(fields: [userId], references: [id], onDelete: Cascade)
+  userId          String
+  accommodation   Accommodation @relation(fields: [accommodationId], references: [id], onDelete: Cascade)
+  accommodationId String
 
   @@index([accommodationId])
   @@index([userId])

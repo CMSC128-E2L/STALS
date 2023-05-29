@@ -10,13 +10,17 @@ import { dynamicRouteID } from "~/utils/helpers";
 import Error404 from "~/pages/404";
 import { useSession } from "next-auth/react";
 import Review from "~/components/review";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import Landlord from "~/components/landlord";
+import toast from "react-hot-toast";
+import GlobalToaster from "~/components/globalToster";
 
 export default function Accommodation() {
   const { id } = dynamicRouteID(useRouter());
 
   const [showReview, setShowReview] = useState(false);
+
+  const [isFavorite, setIsFavorite] = useState(false);
 
   const { data: accommData, isLoading: accommLoading } =
     api.accommodation.getOneRelations.useQuery(id);
@@ -28,6 +32,38 @@ export default function Accommodation() {
     api.review.getTopReview.useQuery(id);
 
   const reportAccomm = api.report.add.useMutation();
+
+  const { data: favorites, isLoading: favoritesLoading } =
+    api.user.getFavorites.useQuery();
+
+  const addFavorite = api.user.addFavorite.useMutation();
+
+  const removeFavorite = api.user.removeFavorite.useMutation();
+
+  const handleFavorite = (event: { target: { checked: boolean } }) => {
+    const isChecked = event.target.checked;
+    const accommodationId = accommData?.id;
+    if (isChecked) {
+      addFavorite.mutate(accommodationId || "");
+      toast.success("Added to favorites!", {
+        position: "bottom-right",
+        duration: 3000,
+      });
+    } else {
+      removeFavorite.mutate(accommodationId || "");
+    }
+    setIsFavorite(!isFavorite);
+  };
+
+  useEffect(() => {
+    // Check if accommodationId exists in favorites
+    if (favorites) {
+      const isFavorite = favorites.some(
+        (favorite) => favorite.accommodation.id === accommData?.id,
+      );
+      setIsFavorite(isFavorite);
+    }
+  }, [favorites, accommData?.id]);
 
   // const { data: RoomList, isLoading: roomLoading } = api.room.getMany.useQuery({
   //   id: id,
@@ -130,6 +166,8 @@ export default function Accommodation() {
                           type="checkbox"
                           value="favorite"
                           className="peer sr-only"
+                          checked={isFavorite}
+                          onChange={handleFavorite}
                         />
                         <svg
                           xmlns="http://www.w3.org/2000/svg"
@@ -137,7 +175,9 @@ export default function Accommodation() {
                           viewBox="0 0 24 24"
                           strokeWidth={1.5}
                           stroke="currentColor"
-                          className="h-8 w-8 transition peer-checked:fill-p-red peer-checked:stroke-p-red"
+                          className={`h-8 w-8 transition ${
+                            isFavorite ? "fill-p-red stroke-p-red" : ""
+                          }`}
                         >
                           <path
                             strokeLinecap="round"
@@ -146,6 +186,7 @@ export default function Accommodation() {
                           />
                         </svg>
                       </label>
+                      <GlobalToaster />
                     </form>
                     <label className="cursor-pointer">
                       <button
@@ -234,7 +275,9 @@ export default function Accommodation() {
               <div className="px-4 text-xl italic">{accommData?.type}</div>
 
               {/* LANDLORD */}
-              <div className="text-xl"><Landlord id={accommData?.landlord}/></div>
+              <div className="text-xl">
+                <Landlord id={accommData?.landlord} />
+              </div>
 
               {/* STATS */}
 
