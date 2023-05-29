@@ -25,6 +25,8 @@ export default function Accommodation() {
   const { data: accommData, isLoading: accommLoading } =
     api.accommodation.getOneRelations.useQuery(id);
 
+  const { data: accomm } = api.accommodation.getOne.useQuery(id);
+
   const { data: ImageList, isLoading: imageLoading } =
     api.file.getAccommImages.useQuery({ id });
 
@@ -557,8 +559,9 @@ export default function Accommodation() {
             onClick={() => {
               reportAccomm.mutate({
                 reported_id: id,
+                reported_name: accomm!.name,
                 report: "",
-                type_reported: "",
+                type_reported: "ACCOMMODATION",
               });
               toast.success(
                 "Thank you for reporting this accommodation.\nAn alert has been sent to the administrators.",
