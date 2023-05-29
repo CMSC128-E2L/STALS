@@ -10,6 +10,7 @@ import { useRouter } from "next/router";
 import { api } from "~/utils/api";
 import { UserType } from "@prisma/client";
 import { useState } from "react";
+import FaveAccoms from "~/components/FaveAccoms";
 
 export default function Profile() {
   const { data: sessionData } = useSession();
@@ -124,15 +125,17 @@ export default function Profile() {
           </section>
 
           <section className="w-full">
-            <div className="w-full rounded-3xl p-10 shadow-lg">
-              <div className="flex flex-col">
+            <div className="w-full rounded-3xl shadow-lg">
+              <div className="flex w-full flex-col">
                 <div className="mb-4 flex flex-row items-center">
-                  <h1 className="mr-4 text-xl font-bold">My Favorites</h1>
+                  <h1 className="ml-4 mr-4 mt-3 text-xl font-bold">
+                    My Favorites
+                  </h1>
                 </div>
                 <div className="flex justify-center pb-6 drop-shadow-md">
-                  <p className="text-sm italic text-gray-400">
-                    No favorites added.
-                  </p>
+                  <div className="flex flex-wrap">
+                    <FaveAccoms />
+                  </div>
                 </div>
               </div>
             </div>
