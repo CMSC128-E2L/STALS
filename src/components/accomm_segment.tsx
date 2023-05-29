@@ -53,7 +53,7 @@ const Accomm_Segment: React.FC<{
   return (
     <div className="">
       <>
-        <div className="mx-4 flex rounded bg-blue-200 p-2">
+        <div className="mx-20 flex rounded bg-violet-300 p-2 shadow-md">
           <div className="flex flex-row space-x-2">
             <img
               className="w-1/2 p-2"
@@ -64,54 +64,68 @@ const Accomm_Segment: React.FC<{
               }}
             />
 
-            <div className="w-full bg-blue-200 p-2">
-              <div className="mb-2 rounded-lg bg-blue-100 p-2">
+            <div className="w-full bg-violet-300 p-2">
+              <div className="mb-2 rounded-lg bg-p-dbviolet p-2 shadow-md">
                 {/* ARCHIVED */}
-                {is_archived && <p>{name} (Archived) </p>}
+                {is_archived && (
+                  <p className="mb-0.5 text-xl font-bold text-white">
+                    {name} (Archived){" "}
+                  </p>
+                )}
 
                 {/* NOT ARCHIVED */}
-                {!is_archived && <p>{name}</p>}
+                {!is_archived && (
+                  <p className="mb-0.5 text-xl font-bold text-white">{name}</p>
+                )}
 
                 {/* PRICE */}
-                <p>Price: {price}</p>
+                <p className="text-white">Price: {price}</p>
               </div>
 
               <div className="flex flex-row space-x-2">
-                <div className="w-full rounded-lg bg-blue-100">
+                <div className="w-full rounded-lg bg-p-dbviolet shadow-md">
                   {/* CATEGORY */}
-                  <p className="p-2 text-center">Category:</p>
-                  <p className="p-2 text-center">{typeArray.join(", ")}</p>
+                  <p className="mb-0.5 p-2 text-center text-xl font-bold text-white">
+                    Category:
+                  </p>
+                  <p className="p-2 text-center text-white">
+                    {typeArray.join(", ")}
+                  </p>
                 </div>
 
-                <div className="w-full rounded-lg bg-blue-100">
+                <div className="w-full rounded-lg bg-p-dbviolet shadow-md">
                   {/* LOCATION */}
-                  <p className="p-2 text-center">Location:</p>
-                  <p className="p-2 text-center">{location}</p>
+                  <p className="mb-0.5 p-2 text-center text-xl font-bold text-white">
+                    Location:
+                  </p>
+                  <p className="p-2 text-center text-white">{location}</p>
                 </div>
 
-                <div className="w-full rounded-lg bg-blue-100">
+                <div className="w-full rounded-lg bg-p-dbviolet shadow-md">
                   {/* NUM OF ROOMS */}
-                  <p className="p-2 text-center">Rooms:</p>
-                  <p className="p-2 text-center">{num_of_rooms}</p>
+                  <p className="mb-0.5 p-2 text-center text-xl font-bold text-white">
+                    Rooms:
+                  </p>
+                  <p className="p-2 text-center text-white">{num_of_rooms}</p>
                 </div>
               </div>
             </div>
 
-            <div className="w-full bg-blue-200 p-2">
-              <div className="mb-2 rounded-lg bg-blue-100 p-2">
+            <div className="w-full bg-violet-300 p-2">
+              <div className="mb-2 rounded-lg bg-p-dbviolet p-2">
                 {/* TAGS */}
-                <p>Tags:</p>
-                <p>{tags}</p>
+                <p className="mb-0.5 text-xl font-bold text-white">Tags:</p>
+                <p className="italic text-white">{tags}</p>
               </div>
-              <div className="h-20 w-full bg-blue-200"></div>
+              <div className="h-20 w-full bg-violet-300"></div>
 
               {/* ARCHIVE, EDIT, & DELETE  BUTTONS */}
               <div className="flex w-full flex-row space-x-2">
-                <div className="w-full bg-blue-200"></div>
+                <div className="w-full bg-violet-300"></div>
 
                 {/* EDIT */}
                 <Link
-                  className="rounded border border-gray-400 bg-white p-2"
+                  className="rounded-md bg-p-pviolet p-2 text-xl font-bold text-white shadow"
                   href={`${id}/edit`}
                 >
                   Edit
@@ -120,7 +134,7 @@ const Accomm_Segment: React.FC<{
                 {/* RESTORE */}
                 {is_archived && (
                   <button
-                    className="rounded border border-gray-400 bg-white p-2"
+                    className="rounded-md bg-p-pviolet p-2 text-xl font-bold text-white shadow"
                     onClick={() => {
                       archiveAccomm.mutate({
                         id: id,
@@ -135,7 +149,7 @@ const Accomm_Segment: React.FC<{
                 {/* ARCHIVE */}
                 {!is_archived && (
                   <button
-                    className="rounded border border-gray-400 bg-white p-2"
+                    className="rounded-md bg-p-pviolet p-2 text-xl font-bold text-white shadow"
                     onClick={() => {
                       archiveAccomm.mutate({
                         id: id,
@@ -149,7 +163,7 @@ const Accomm_Segment: React.FC<{
 
                 {/* DELETE */}
                 <button
-                  className="rounded border border-gray-400 bg-white p-2"
+                  className="rounded-md bg-p-pviolet p-2 text-xl font-bold text-white shadow"
                   onClick={() => {
                     deleteAccomm.mutate({
                       id: id,
