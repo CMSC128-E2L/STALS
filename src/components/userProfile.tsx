@@ -1,9 +1,10 @@
+import { type User } from "@prisma/client";
 import Image from "next/image";
 import userImage from "public/placeholder_1.png";
 import StarRow from "~/components/starRow";
 
 interface UserPorfileProps {
-  userImageSrc?: string;
+  user: User;
   first_name?: string | null;
   last_name?: string | null;
   date?: string | null;
@@ -13,7 +14,7 @@ interface UserPorfileProps {
 }
 
 export const UserProfile: React.FC<UserPorfileProps> = ({
-  userImageSrc,
+  user,
   first_name,
   last_name,
   date,
@@ -27,7 +28,7 @@ export const UserProfile: React.FC<UserPorfileProps> = ({
         {/* Insert Landlord Image here */}
         <div className="relative mr-3 aspect-square h-[70%] place-self-center rounded-full ">
           <Image
-            src={userImageSrc ?? userImage.src}
+            src={user.image ?? userImage.src}
             className="w-full rounded-full"
             alt="placeholder"
             fill

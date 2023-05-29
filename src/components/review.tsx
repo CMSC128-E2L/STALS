@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useCallback, useState } from "react";
 import { useForm } from "react-hook-form";
 import { type RouterInputs, api } from "~/utils/api";
 import { zodResolver } from "@hookform/resolvers/zod";
@@ -9,6 +9,7 @@ import { useRouter } from "next/router";
 import { useEffect } from "react";
 import StarRating from "./StarRating";
 import TryReview from "~/components/tryreview";
+import toast from "react-hot-toast";
 
 export default function Review() {
   const { shouldReturn, id } = dynamicRouteID(useRouter());
@@ -16,6 +17,7 @@ export default function Review() {
     register,
     handleSubmit,
     setValue,
+    reset,
     formState: { errors },
     getValues,
   } = useForm<RouterInputs["review"]["add"]>({
@@ -39,7 +41,19 @@ export default function Review() {
     date?: string | undefined;
   }) => {
     addReview.mutate(data);
+    toast.success("Form submitted successfully!", {
+      position: "bottom-center",
+      duration: 3000,
+    });
+    reset();
+    setReloadReviews(true);
   };
+
+  const [reloadReviews, setReloadReviews] = useState(false);
+
+  const refetchReviews = useCallback(() => {
+    setReloadReviews(false); // Reset the reload flag
+  }, []);
 
   const [rating, setRating] = useState(0); // State for storing the selected rating
 
@@ -100,7 +114,7 @@ export default function Review() {
             </div>
           </form>
         </div>
-        <TryReview accomId={id} />
+        <TryReview accomId={id} refetchReviews={refetchReviews} />
         {/* <div className="h-full">
           {isError ? (
             <p>Error fetching reviews.</p>

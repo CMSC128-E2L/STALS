@@ -526,6 +526,7 @@ export default function Accommodation() {
                       <div className="flex h-full flex-col">
                         {/* TODO: For this, get the first review from the accomm's review array, and load the following:*/}
                         <UserProfile
+                          user={userReview?.user}
                           first_name={userReview?.user.first_name}
                           last_name={userReview?.user.last_name}
                           date={userReview?.date}

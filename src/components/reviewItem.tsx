@@ -23,7 +23,19 @@ const ReviewItem: React.FC<{
           alt="User Profile"
           className="h-[8%] w-[8%] self-start rounded-full"
         />
-        <div className="flex flex-col">
+        <div className="flex w-full flex-col">
+          <div className="flex flex-row items-center justify-between">
+            <h1 className="text-xl font-bold">{user.name}</h1>
+            <div className="flex items-center">
+              <StarRow rating={rating ?? 0} />
+            </div>
+          </div>
+          <label className="text-sm italic">
+            {date} | {time}
+          </label>
+          <p className="line-clamp-2 pt-2 text-sm">{review}</p>
+        </div>
+        {/* <div className="flex flex-col">
           <div>
             <h1 className="text-xl font-bold">{user.name}</h1>
             <p className="text-sm ">
@@ -37,7 +49,7 @@ const ReviewItem: React.FC<{
             </p>
           </label>
           <StarRow rating={rating ?? 0} />
-        </div>
+        </div> */}
       </div>
       {/* ))} */}
     </>

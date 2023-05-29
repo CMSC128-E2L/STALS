@@ -1,5 +1,5 @@
 import { zodResolver } from "@hookform/resolvers/zod";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
 import { type z } from "zod";
 import { RouterOutputs, api } from "~/utils/api";
@@ -8,7 +8,10 @@ import ReviewItem from "./reviewItem";
 import LoadingSpinner from "./loadingSpinner";
 import { type Review, type User } from "@prisma/client";
 
-export const TryReview: React.FC<{ accomId: string }> = ({ accomId }) => {
+export const TryReview: React.FC<{ accomId: string; refetchReviews: any }> = ({
+  accomId,
+  refetchReviews,
+}) => {
   const [userInputs, setUserInputs] = useState<
     z.infer<typeof reviewGetInfSchema>
   >({
@@ -36,6 +39,12 @@ export const TryReview: React.FC<{ accomId: string }> = ({ accomId }) => {
   } = api.review.getInfinite.useInfiniteQuery(userInputs, {
     getNextPageParam: (lastPage) => lastPage.nextCursor,
   });
+
+  useEffect(() => {
+    if (typeof refetchReviews === "function") {
+      (refetchReviews as () => void)();
+    }
+  }, [refetchReviews]);
 
   return (
     <div className="h-full">
