@@ -102,12 +102,12 @@ export default function Accommodation() {
   }
 
   return (
-    <div className="flex h-full flex-col bg-p-ngray">
+    <div className="flex h-full flex-col justify-center bg-p-ngray">
       {/* HEADER */}
       <NavBar />
 
       {/* BODY */}
-      <div className="mt-10 flex flex-auto flex-col">
+      <div className="mt-10 flex flex-auto flex-col px-0 md:px-24 2xl:px-52">
         {/* cONTAINS THE ACCOMMODATION INFO */}
         <div className="flex flex-row justify-center object-contain">
           {/* Box that contains the accommodation thingy */}
