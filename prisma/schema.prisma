@@ -86,6 +86,7 @@ model User {
   Report        Report[]
   Review        Review[]
   Accommodation Accommodation[]
+  Favorite      Favorite[]
 }
 
 enum AccommodationType {
@@ -113,7 +114,6 @@ model Accommodation {
   is_archived     Boolean
   fb_page         String?
   price           Float?
-  Capacity        Int?
   average_rating  Float?
   total_reviews   Int?
   tagArray        Json? // TODO: required
@@ -121,6 +121,7 @@ model Accommodation {
 
   Review Review[]
   Room   Room[]
+  Favorite Favorite[]
   type   AccommodationType
 
   @@index([landlord])
@@ -170,6 +171,17 @@ model Review {
   review          String?
   date            String?
   time            String?
+
+  @@index([accommodationId])
+  @@index([userId])
+}
+
+model Favorite {
+  id              String        @id @default(cuid())
+  user            User          @relation(fields: [userId], references: [id], onDelete: Cascade)
+  userId          String
+  accommodation   Accommodation @relation(fields: [accommodationId], references: [id], onDelete: Cascade)
+  accommodationId String
 
   @@index([accommodationId])
   @@index([userId])

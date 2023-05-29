@@ -77,15 +77,15 @@
   }
 
   .filter-text {
-    @apply ml-2 text-sm;
+    @apply ml-2 text-xs text-violet-950;
   }
 
   .filter-search {
-    @apply w-full rounded-full px-3 py-1 text-sm;
+    @apply w-full rounded-full px-3 py-1 text-xs;
   }
 
   .filter-header {
-    @apply flex w-full items-center py-2 font-bold text-black;
+    @apply flex w-full items-center pt-3 text-sm font-bold text-violet-950;
   }
 
   .profile-dropdown {
@@ -97,7 +97,7 @@
   }
 
   .button-style {
-    @apply cursor-pointer rounded-full bg-p-dblue py-1 text-center text-xl font-bold text-white;
+    @apply cursor-pointer rounded-full bg-p-dbviolet py-1 text-center text-xl font-bold text-white;
   }
 }
 

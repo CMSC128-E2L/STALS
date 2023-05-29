@@ -23,11 +23,11 @@ export default async function handler(
   const preSignedUrl: string = await getSignedUrl(
     s3Client,
     new PutObjectCommand({
-      Bucket: "stals-testing",
+      Bucket: "stals",
       Key: key,
       ContentType: contenttype,
     }),
-    { expiresIn: 3600 },
+    { expiresIn: 30 },
   );
 
   res.status(200).json({

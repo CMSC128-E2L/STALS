@@ -92,9 +92,18 @@ export const reviewEditSchema = z.object({
 });
 
 export const reviewGetManySchema = z.object({
-  accommodationId: z.string(),
+  accommodationId: z.string().optional(),
   page: z.number(),
   multiplier: z.number(),
+});
+
+export const reviewGetInfSchema = z.object({
+  accommodationId: z.string().optional(),
+  limit: z.number().min(1).max(100).nullish(),
+  cursor: z.string().nullish(), // <-- "cursor" needs to exist, but can be any type
+
+  // page: z.number(),
+  // multiplier: z.number(),
 });
 
 /* ROOM */

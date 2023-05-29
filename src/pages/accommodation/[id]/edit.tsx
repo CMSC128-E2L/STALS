@@ -12,6 +12,9 @@ import { useSession } from "next-auth/react";
 import LoadingSpinner from "~/components/loadingSpinner";
 import Error404 from "~/pages/404";
 import Error from "~/pages/_error";
+import UploadImageHeader, {
+  UploadImageMultiple,
+} from "~/components/uploadInput";
 
 export default function EditAccommodation() {
   const userSession = useSession({ required: true });
@@ -200,11 +203,11 @@ export default function EditAccommodation() {
                     >
                       <section className="flex w-full flex-col gap-3 overflow-auto p-3">
                         <header className="flex flex-col items-center justify-center rounded-md border border-dashed border-p-gray p-12">
-                          <p className="mb-3 flex flex-wrap justify-center font-semibold">
+                          {/* <p className="mb-3 flex flex-wrap justify-center font-semibold">
                             <span>Drag and drop your</span>&nbsp;
                             <span>files anywhere or</span>
-                          </p>
-                          <input
+                          </p> */}
+                          {/* <input
                             id="hidden-input"
                             type="file"
                             multiple
@@ -215,7 +218,18 @@ export default function EditAccommodation() {
                             className="focus:shadow-outline mt-2 rounded-sm bg-gray-200 px-3 py-1 hover:bg-gray-300 focus:outline-none"
                           >
                             Upload a file
-                          </button>
+                          </button> */}
+                          <p className="mb-3 flex flex-wrap justify-center font-semibold">
+                            <span>Accommodation Header</span>
+                          </p>
+                          <UploadImageHeader
+                            // className="focus:shadow-outline mt-2 rounded-sm bg-gray-200 px-3 py-1 hover:bg-gray-300 focus:outline-none"
+                            accomId={id}
+                          />
+                          <p className="mb-3 mt-3 flex flex-wrap justify-center font-semibold">
+                            <span>Accommodation Images</span>
+                          </p>
+                          <UploadImageMultiple accomId={id} />
                         </header>
                         <div>
                           <h1 className="form-h2 text-center">To Upload</h1>
@@ -233,7 +247,7 @@ export default function EditAccommodation() {
                                 src="https://user-images.githubusercontent.com/507615/54591670-ac0a0180-4a65-11e9-846c-e55ffce0fe7b.png"
                                 alt="no data"
                               />
-                              <span className="text-small text-gray-500">
+                              <span className="text-small hidden text-gray-500">
                                 No files selected
                               </span>
                             </li>

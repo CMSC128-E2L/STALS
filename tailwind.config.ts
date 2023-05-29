@@ -16,6 +16,11 @@ export default {
         "p-gray": "#D9D9D9",
         "p-dgray": "#bfbfbf",
         "p-ngray": "#f6f9ff",
+        "p-dviolet": "#292076", // Dark purple
+        "p-dbviolet": "#420eb3", // Dark Bright purple
+        "p-bviolet": "#6600cc", // Bright purple
+        "p-pviolet": "#9900cc", // Pinkish purple
+        "p-lviolet": "#d6d1ff", // Pinkish purple
       },
       fontSize: {
         xs: ["12px", "12px"],

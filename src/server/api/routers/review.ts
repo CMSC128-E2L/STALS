@@ -10,6 +10,7 @@ import {
   reviewAddSchema,
   reviewEditSchema,
   reviewGetManySchema,
+  reviewGetInfSchema,
 } from "~/utils/apitypes";
 
 export const reviewRouter = createTRPCRouter({
@@ -172,20 +173,32 @@ export const reviewRouter = createTRPCRouter({
     });
   }),
 
-  // getOneTopReview: publicProcedure.query(async ({ ctx }) => {
-  //   try {
-  //     return await ctx.prisma.review.findFirst({
-  //       where: {
-  //         rating: {
-  //           gt: 3,
-  //         },
-  //       },
-  //       include: {
-  //         user: true,
-  //       },
-  //     });
-  //   } catch (error) {
-  //     console.log("error", error);
-  //   }
-  // }),
+  getInfinite: publicProcedure.input(reviewGetInfSchema).query(async (opts) => {
+    const { input, ctx } = opts;
+    const limit = input.limit ?? 50;
+    const { cursor } = input;
+    const items = await ctx.prisma.review.findMany({
+      take: limit + 1,
+      cursor: cursor ? { id: cursor } : undefined,
+      include: {
+        user: true,
+      },
+      where: {
+        accommodationId: input.accommodationId,
+      },
+      orderBy: {
+        rating: "desc",
+      },
+    });
+
+    let nextCursor: typeof cursor | undefined = undefined;
+    if (items.length > limit) {
+      const nextItem = items.pop();
+      nextCursor = nextItem?.id;
+    }
+    return {
+      items,
+      nextCursor,
+    };
+  }),
 });

@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { useForm, UseFormGetValues } from "react-hook-form";
+import { useForm } from "react-hook-form";
 import { type RouterInputs, api } from "~/utils/api";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { reviewAddSchema } from "~/utils/apitypes";
@@ -7,9 +7,8 @@ import Link from "next/link";
 import { dynamicRouteID } from "~/utils/helpers";
 import { useRouter } from "next/router";
 import { useEffect } from "react";
-import UserProfile from "~/components/userProfile";
-import userImage from "public/placeholder_1.png";
 import StarRating from "./StarRating";
+import TryReview from "~/components/tryreview";
 
 export default function Review() {
   const { shouldReturn, id } = dynamicRouteID(useRouter());
@@ -101,8 +100,20 @@ export default function Review() {
             </div>
           </form>
         </div>
+        <TryReview accomId={id} />
+        {/* <div className="h-full">
+          {isError ? (
+            <p>Error fetching reviews.</p>
+          ) : isLoading ? (
+            <p>Loading reviews...</p>
+          ) : (
+            reviews.pages.map((page, i) => (
+              <GetReviews key={i} items={page?.items} /> //.map((item) => item)
+            ))
+          )}
+        </div> */}
 
-        <div className="h-full">
+        {/* <div className="h-full">
           <div className="h-full w-full rounded-[15px] border border-gray-200 bg-gray-50">
             <div className="flex max-w-full flex-row gap-3 rounded-md p-3">
               <img
@@ -167,7 +178,7 @@ export default function Review() {
               </div>
             </div>
           </div>
-        </div>
+        </div> */}
       </div>
     </div>
   );
