@@ -109,6 +109,28 @@ export default function AddAccommodation() {
                     register,
                   )}
                 </div>
+                <div className="px-3">
+                  <label className="form-h2">Address</label>
+
+                  <div className="flex flex-row gap-2">
+                    <input
+                      className="add-acc-input-text-field w-1/3"
+                      placeholder="St."
+                      {...register("street_number")}
+                    ></input>
+                    <input
+                      className="add-acc-input-text-field w-2/3"
+                      placeholder="Subdivision"
+                      {...register("subdivision")}
+                    ></input>
+                    <input
+                      className="add-acc-input-text-field"
+                      placeholder="Barangay"
+                      {...register("barangay")}
+                    ></input>
+                  </div>
+                </div>
+
                 <div className="grid grid-cols-2 gap-2 object-contain p-3">
                   <div className="form-col-deets">
                     <div className="hidden">
