@@ -10,6 +10,7 @@ import { useEffect } from "react";
 import StarRating from "./StarRating";
 import TryReview from "~/components/tryreview";
 import { useSession } from "next-auth/react";
+import toast from "react-hot-toast";
 
 export default function Review() {
   const { id } = dynamicRouteID(useRouter());
@@ -18,7 +19,7 @@ export default function Review() {
     handleSubmit,
     setValue,
     formState: { errors },
-    getValues,
+    reset,
   } = useForm<RouterInputs["review"]["add"]>({
     resolver: zodResolver(reviewAddSchema),
     defaultValues: {
@@ -30,7 +31,23 @@ export default function Review() {
     setValue("accommodationId", id);
   }, [id, setValue]);
 
-  const addReview = api.review.add.useMutation();
+  const addReview = api.review.add.useMutation({
+    onSuccess: () => {
+      toast.success("Review submitted successfully!", {
+        position: "bottom-center",
+        duration: 3000,
+      });
+      void reset();
+      setRating(0);
+      setValue("rating", 0);
+    },
+    onError: () => {
+      toast.error("Review failed to submit!", {
+        position: "bottom-center",
+        duration: 3000,
+      });
+    },
+  });
 
   const handleFormSubmit = (data: {
     accommodationId: string;
@@ -66,12 +83,12 @@ export default function Review() {
                     </h1>
                   </div>
                   <div className="flex items-center justify-end pr-4 pt-2 text-gray-800">
-                    <Link
+                    {/* <Link
                       href="ye"
                       className="pt-0 text-end text-xxs underline"
                     >
                       Report a problem
-                    </Link>
+                    </Link> */}
                   </div>
                 </div>
 

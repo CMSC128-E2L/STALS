@@ -17,8 +17,10 @@ import toast from "react-hot-toast";
 
 export default function Accommodation() {
   const { id } = dynamicRouteID(useRouter());
+  const { data: userSession } = useSession();
 
-  const [showReview, setShowReview] = useState(false);
+  const isUserViewing = userSession?.profile.type === UserType.USER;
+  const isGuest = userSession === null;
 
   const [isFavorite, setIsFavorite] = useState(false);
 
@@ -30,8 +32,8 @@ export default function Accommodation() {
   const { data: ImageList, isLoading: imageLoading } =
     api.file.getAccommImages.useQuery({ id });
 
-  const { data: userReview, isLoading: reviewLoading } =
-    api.review.getTopReview.useQuery(id);
+  // const { data: userReview, isLoading: reviewLoading } =
+  //   api.review.getTopReview.useQuery(id);
 
   const reportAccomm = api.report.add.useMutation();
 
@@ -71,36 +73,33 @@ export default function Accommodation() {
   const handleFavorite = (event: { target: { checked: boolean } }) => {
     const isChecked = event.target.checked;
     if (isChecked) {
-      addFavorite.mutate(id || "");
+      addFavorite.mutate(id);
     } else {
-      removeFavorite.mutate(id || "");
+      removeFavorite.mutate(id);
     }
     setIsFavorite(!isFavorite);
   };
 
   useEffect(() => {
     // Check if accommodationId exists in favorites
-    if (favorites) {
+    if (favorites && !isGuest) {
       const isFavorite = favorites.some(
         (favorite) => favorite.accommodation.id === accommData?.id,
       );
       setIsFavorite(isFavorite);
     }
-  }, [favorites, accommData?.id]);
+  }, [favorites, accommData?.id, isGuest]);
 
   // const { data: RoomList, isLoading: roomLoading } = api.room.getMany.useQuery({
   //   id: id,
   //   status: undefined,
   // });
 
-  const { data: userSession } = useSession();
+  const isLandlordViewing = accommData?.landlord === userSession?.user?.id;
 
   if (accommData === null) {
     return Error404();
   }
-
-  const isLandlordViewing = accommData?.landlord === userSession?.user?.id;
-  const isUserViewing = userSession?.profile.type === UserType.USER;
 
   return (
     <div className="flex h-full flex-col bg-p-ngray">
