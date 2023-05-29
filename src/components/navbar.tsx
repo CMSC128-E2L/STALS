@@ -19,7 +19,7 @@ export const NavBar: React.FC<NavBarProps> = ({ register, name, showBack }) => {
   return (
     <>
       {/* Navigation bar */}
-      <nav className="sticky top-0 z-50 flex w-full flex-wrap items-center justify-between bg-p-dviolet p-4 py-1">
+      <nav className="sticky top-0 z-50 flex w-full flex-col items-center justify-between bg-p-dviolet p-4 py-1 sm:flex-row">
         {/* Left side */}
         <div className="flex space-x-0">
           {/* div button hack again */}
@@ -65,10 +65,10 @@ export const NavBar: React.FC<NavBarProps> = ({ register, name, showBack }) => {
 
         {/* Right side */}
         <div className="w-full md:block md:w-auto">
-          <ul className="mr-2 mt-4 flex flex-col items-center p-4 font-medium md:mt-0 md:flex-row md:space-x-5 md:border-0 md:p-0">
+          <ul className="mr-2 mt-4 flex items-center p-4 font-medium sm:flex-col md:mt-0 md:flex-row md:space-x-5 md:border-0 md:p-0">
             <li>
               {register && name ? (
-                <div className="flex items-center">
+                <div className="mr-4 flex items-center sm:mr-0">
                   <input
                     {...register(name)}
                     type="text"

@@ -457,10 +457,10 @@ export default function HomePage() {
         )}
       >
         <NavBar register={register} name={"name"} />
-        <div className="flex flex-row">
+        <div className="flex flex-col sm:flex-row">
           {/* Sidebar */}
           {/* fixed top-16  w-[210px] min-w-[210px] flex-col overflow-scroll  */}
-          <aside className="sticky top-16 h-[100vh] w-[210px] min-w-[210px] overflow-scroll bg-p-lviolet px-5  py-2">
+          <aside className="overflow-scroll bg-p-lviolet px-5 py-2 sm:sticky sm:top-16 sm:h-[100vh] sm:w-[210px] sm:min-w-[210px]">
             {/* Location */}
             <div className="mb-1">
               <h2 className="filter-header">Location</h2>
