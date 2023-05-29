@@ -20,6 +20,7 @@ export default {
         "p-dbviolet": "#420eb3", // Dark Bright purple
         "p-bviolet": "#6600cc", // Bright purple
         "p-pviolet": "#9900cc", // Pinkish purple
+        "p-lviolet": "#d6d1ff", // Pinkish purple
       },
       fontSize: {
         xs: ["12px", "12px"],

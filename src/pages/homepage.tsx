@@ -454,7 +454,7 @@ export default function HomePage() {
       >
         <NavBar register={register} name={"name"} />
         <div className="flex">
-          <div className="fixed top-16 h-screen w-[210px] min-w-[210px] flex-col overflow-scroll bg-p-lblue px-5 py-2">
+          <div className="fixed top-16 h-screen w-[210px] min-w-[210px] flex-col overflow-scroll bg-p-lviolet px-5 py-2">
             {/* <div className="sticky top-0 flex h-screen w-[210px] min-w-[210px] flex-col bg-p-lblue px-5 py-2"> */}
             {/* Location */}
             <div className="mb-1">
