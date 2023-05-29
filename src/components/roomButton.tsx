@@ -39,28 +39,28 @@ const RoomButton: React.FC<{
         {/* if unoccupied */}
         {status == false && (
           <button
-            className="flex flex-none flex-col rounded-md bg-p-dblue px-5 px-8 py-1 text-sm shadow shadow-p-dblue/50"
+            className="flex flex-none flex-col rounded-md bg-p-dviolet px-5 px-8 py-1 text-sm shadow shadow-p-dblue/50 hover:bg-p-dbviolet"
             onClick={() => setShowRooms(true)}
           >
             <label className="bold self-center text-lg text-white">
               Room {String(roomIndex + 1)}
             </label>
             <p className="text-md self-center px-1 italic text-white ">
-              {status ? "Occupied" : "Unoccupied"} | ₱ {roomPrice}
+              {status ? "Occupied" : "Unoccupied"} <br /> ₱ {roomPrice}
             </p>
           </button>
         )}
         {/* if occupied */}
         {status == true && (
           <button
-            className="flex flex-none flex-col rounded-md bg-p-gray px-5 px-8 py-1 text-sm shadow shadow-p-black/50"
+            className="flex flex-none flex-col rounded-md bg-gray-300 px-5 px-8 py-1 text-sm shadow shadow-p-black/50 hover:bg-gray-400"
             onClick={() => setShowRooms(true)}
           >
             <label className="bold self-center text-lg">
               Room {String(roomIndex + 1)}
             </label>
             <p className="text-md self-center px-1 italic ">
-              {status ? "Occupied" : "Unoccupied"} | ₱ {roomPrice}
+              {status ? "Occupied" : "Unoccupied"} <br /> ₱ {roomPrice}
             </p>
           </button>
         )}
@@ -80,7 +80,7 @@ const RoomButton: React.FC<{
                 roomArchive={roomArchive}
               />
               <button
-                className="mt-4 w-[15%] rounded bg-p-dblue px-4 py-2 text-white hover:bg-blue-600"
+                className="mt-4 w-[15%] rounded bg-p-dviolet px-4 py-2 text-white hover:bg-p-dbviolet"
                 onClick={() => setShowRooms(false)}
               >
                 Close

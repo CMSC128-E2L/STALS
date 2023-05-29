@@ -58,7 +58,7 @@ const RoomShow: React.FC<{
     <div className="flex flex-col">
       {/* HEADER + BUTTONS*/}
       <div className="flex items-center justify-between">
-        <h1 className=" text-3xl font-bold text-p-dblue">Room Details</h1>
+        <h1 className=" text-3xl font-bold text-p-dviolet">Room Details</h1>
         {/* if landlord ka, makikita mo to, otherwise not */}
         {isLandlordViewing && (
           <div className="flex flex-row items-center gap-x-1 p-1">
@@ -71,7 +71,7 @@ const RoomShow: React.FC<{
                   viewBox="0 0 24 24"
                   strokeWidth="1.5"
                   stroke="currentColor"
-                  className="h-8 w-8 stroke-p-dblue"
+                  className="h-8 w-8 stroke-p-dviolet"
                 >
                   <path
                     strokeLinecap="round"
@@ -95,7 +95,7 @@ const RoomShow: React.FC<{
                   viewBox="0 0 24 24"
                   strokeWidth="1.5"
                   stroke="currentColor"
-                  className="h-8 w-8"
+                  className="h-8 w-8 stroke-p-dviolet"
                 >
                   <path
                     strokeLinecap="round"
@@ -118,7 +118,7 @@ const RoomShow: React.FC<{
                   viewBox="0 0 24 24"
                   strokeWidth="1.5"
                   stroke="currentColor"
-                  className="h-8 w-8 stroke-p-dblue"
+                  className="h-8 w-8 stroke-p-dviolet"
                 >
                   <path
                     strokeLinecap="round"
@@ -140,7 +140,7 @@ const RoomShow: React.FC<{
                 viewBox="0 0 24 24"
                 strokeWidth="1.5"
                 stroke="currentColor"
-                className="h-8 w-8 stroke-p-dblue"
+                className="h-8 w-8 stroke-p-dviolet"
               >
                 <path
                   strokeLinecap="round"
@@ -156,7 +156,7 @@ const RoomShow: React.FC<{
       <div className="flex flex-col justify-center">
         <div className="flex flex-col">
           {/* PRICE AND NO OF BED */}
-          <div className="mt-1 flex flex-row justify-center rounded-xl border-2 bg-p-dblue px-5 py-1">
+          <div className="mt-1 flex flex-row justify-center rounded-xl border-2 bg-p-dviolet px-5 py-1">
             <div className="flex w-[50%] flex-col">
               <h1 className="text-2xl font-bold text-white">Price</h1>
               <h2 className="text-xl font-bold text-white">{roomPrice}</h2>
@@ -178,7 +178,7 @@ const RoomShow: React.FC<{
                 />
               </div>
               <div className="px-4">
-                <h1 className="text-2xl font-bold text-p-dblue">
+                <h1 className="text-2xl font-bold text-p-dviolet">
                   Availability
                 </h1>
                 <h1 className="text-xl">
@@ -199,7 +199,7 @@ const RoomShow: React.FC<{
                 />
               </div>
               <div className="px-4">
-                <h1 className="text-2xl font-bold text-p-dblue">
+                <h1 className="text-2xl font-bold text-p-dviolet">
                   Airconditioner
                 </h1>
                 <h1 className="text-xl">{roomAircon ? "With" : "Without"}</h1>
@@ -218,7 +218,7 @@ const RoomShow: React.FC<{
                 />
               </div>
               <div className="px-4">
-                <h1 className="text-2xl font-bold text-p-dblue">Utilities</h1>
+                <h1 className="text-2xl font-bold text-p-dviolet">Utilities</h1>
                 <h1 className="text-xl">{roomUtils ? "With" : "Without"}</h1>
               </div>
             </div>
@@ -237,7 +237,9 @@ const RoomShow: React.FC<{
                   />
                 </div>
                 <div className="px-4">
-                  <h1 className="text-2xl font-bold text-p-dblue">Archived</h1>
+                  <h1 className="text-2xl font-bold text-p-dviolet">
+                    Archived
+                  </h1>
                   <h1 className="text-xl">{roomArchive ? "Yes" : "No"}</h1>
                 </div>
               </div>
@@ -255,7 +257,7 @@ const RoomShow: React.FC<{
             <h1 className="flex justify-center">Archive This Room?</h1>
             <div className="flex flex-row">
               <button
-                className="mx-2 mt-4 rounded bg-blue-500 px-4 py-2 text-white hover:bg-blue-600"
+                className="mx-2 mt-4 rounded bg-p-dviolet px-4 py-2 text-white hover:bg-p-dbviolet"
                 onClick={(d) => {
                   archiveRoom.mutate(roomID);
                   toast.success("Successfully Archived Room!", {
@@ -269,7 +271,7 @@ const RoomShow: React.FC<{
                 Yes
               </button>
               <button
-                className="mx-2 mt-4 rounded bg-blue-500 px-4 py-2 text-white hover:bg-blue-600"
+                className="mx-2 mt-4 rounded bg-p-dviolet px-4 py-2 text-white hover:bg-p-dbviolet"
                 onClick={() => setShowPopUpArchive(false)}
               >
                 No
@@ -285,7 +287,7 @@ const RoomShow: React.FC<{
             <h1 className="flex justify-center">Unarchive This Room?</h1>
             <div className="flex flex-row">
               <button
-                className="mx-2 mt-4 rounded bg-blue-500 px-4 py-2 text-white hover:bg-blue-600"
+                className="mx-2 mt-4 rounded bg-p-dviolet px-4 py-2 text-white hover:bg-p-dbviolet"
                 onClick={(d) => {
                   unarchiveRoom.mutate(roomID);
                   toast.success("Successfully Unarchived Room!", {
@@ -299,7 +301,7 @@ const RoomShow: React.FC<{
                 Yes
               </button>
               <button
-                className="mx-2 mt-4 rounded bg-blue-500 px-4 py-2 text-white hover:bg-blue-600"
+                className="mx-2 mt-4 rounded bg-p-dviolet px-4 py-2 text-white hover:bg-p-dbviolet"
                 onClick={() => setShowPopUpUnarchive(false)}
               >
                 No
@@ -315,7 +317,7 @@ const RoomShow: React.FC<{
             <h1 className="flex justify-center">Delete This Room?</h1>
             <div className="flex flex-row">
               <button
-                className="mx-2 mt-4 rounded bg-blue-500 px-4 py-2 text-white hover:bg-blue-600"
+                className="mx-2 mt-4 rounded bg-p-dviolet px-4 py-2 text-white hover:bg-p-dbviolet"
                 onClick={(d) => {
                   deleteRoom.mutate(roomID);
                   setShowPopUpDelete(false);
@@ -329,7 +331,7 @@ const RoomShow: React.FC<{
                 Yes
               </button>
               <button
-                className="mx-2 mt-4 rounded bg-blue-500 px-4 py-2 text-white hover:bg-blue-600"
+                className="mx-2 mt-4 rounded bg-p-dviolet px-4 py-2 text-white hover:bg-p-dbviolet"
                 onClick={() => setShowPopUpDelete(false)}
               >
                 No

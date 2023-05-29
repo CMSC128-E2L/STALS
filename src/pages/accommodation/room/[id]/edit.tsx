@@ -65,7 +65,7 @@ export default function EditRoom() {
       <div className="absolute inset-x-0 flex h-screen items-center justify-center">
         <div className="w-1/3 rounded-xl bg-white px-10 py-10">
           <div className="item-center flex justify-center px-2 pb-0 pt-0 drop-shadow-md">
-            <h1 className="text-3xl font-bold text-blue-700">Edit Room</h1>
+            <h1 className="text-3xl font-bold text-p-dviolet">Edit Room</h1>
           </div>
 
           <div className="flex justify-center pb-6 drop-shadow-md">
@@ -191,7 +191,7 @@ export default function EditRoom() {
             <br />
             <div>
               <div className="py-2">
-                <button className="group relative flex w-full justify-center rounded-full bg-p-dblue px-4 py-2 font-bold text-white shadow shadow-gray-400/100">
+                <button className="group relative flex w-full justify-center rounded-full bg-p-dviolet px-4 py-2 font-bold text-white shadow shadow-gray-400/100">
                   Save changes
                 </button>
               </div>
@@ -202,7 +202,7 @@ export default function EditRoom() {
                     firstData ? firstData.accommodationId : ""
                   }`}
                 >
-                  <button className="group relative flex w-full justify-center rounded-full bg-slate-500 px-4 py-2 font-bold text-white shadow shadow-gray-400/100">
+                  <button className="group relative flex w-full justify-center rounded-full bg-gray-500 px-4 py-2 font-bold text-white opacity-75 shadow shadow-gray-400/100">
                     Cancel
                   </button>
                 </Link>
