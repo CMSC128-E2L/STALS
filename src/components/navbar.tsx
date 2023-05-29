@@ -6,6 +6,7 @@ import user from "public/images/def_user.png";
 import Image from "next/image";
 import { type FieldValues, type UseFormRegister } from "react-hook-form";
 import { useRouter } from "next/router";
+import { UserType } from "@prisma/client";
 
 interface NavBarProps {
   register?: UseFormRegister<FieldValues>;
@@ -122,7 +123,7 @@ const ProfileButton: React.FC = () => {
       return (
         <div className="block w-full rounded-lg p-2 text-left">
           <Link href={"/profile"} className="">
-            <p className="text-lg font-bold text-p-rblue">
+            <p className="text-lg font-bold text-p-dbviolet">
               {`${sessionData?.profile.first_name ?? ""} ${
                 sessionData?.profile.middle_name ?? ""
               } ${sessionData?.profile.last_name ?? ""}
@@ -153,46 +154,30 @@ const ProfileButton: React.FC = () => {
           <UserInfo />
           <hr className="mb-4 h-px border-0 bg-gray-200 dark:bg-gray-700"></hr>
           <div className="flex flex-col items-stretch gap-2">
-            <div className="dropdown-buttons">
-              <svg
-                xmlns="http://www.w3.org/2000/svg"
-                className="icon icon-tabler icon-tabler-home mr-2"
-                width="24"
-                height="24"
-                viewBox="0 0 24 24"
-                stroke-width="2"
-                stroke="currentColor"
-                fill="none"
-                stroke-linecap="round"
-                stroke-linejoin="round"
-              >
-                <path stroke="none" d="M0 0h24v24H0z" fill="none"></path>
-                <path d="M5 12l-2 0l9 -9l9 9l-2 0"></path>
-                <path d="M5 12v7a2 2 0 0 0 2 2h10a2 2 0 0 0 2 -2v-7"></path>
-                <path d="M9 21v-6a2 2 0 0 1 2 -2h2a2 2 0 0 1 2 2v6"></path>
-              </svg>
-              <Link href={"/accommodation/management"}>My Accommodations</Link>
-            </div>
-            <div className="dropdown-buttons">
-              <svg
-                xmlns="http://www.w3.org/2000/svg"
-                className="icon icon-tabler icon-tabler-archive mr-2"
-                width="24"
-                height="24"
-                viewBox="0 0 24 24"
-                stroke-width="2"
-                stroke="currentColor"
-                fill="none"
-                stroke-linecap="round"
-                stroke-linejoin="round"
-              >
-                <path stroke="none" d="M0 0h24v24H0z" fill="none"></path>
-                <path d="M3 4m0 2a2 2 0 0 1 2 -2h14a2 2 0 0 1 2 2v0a2 2 0 0 1 -2 2h-14a2 2 0 0 1 -2 -2z"></path>
-                <path d="M5 8v10a2 2 0 0 0 2 2h10a2 2 0 0 0 2 -2v-10"></path>
-                <path d="M10 12l4 0"></path>
-              </svg>
-              <Link href={"/accommodation/management"}>My Archive</Link>
-            </div>
+            {sessionData?.profile.type != UserType.USER && (
+              <div className="dropdown-buttons">
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  className="icon icon-tabler icon-tabler-home mr-2"
+                  width="24"
+                  height="24"
+                  viewBox="0 0 24 24"
+                  stroke-width="2"
+                  stroke="currentColor"
+                  fill="none"
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                >
+                  <path stroke="none" d="M0 0h24v24H0z" fill="none"></path>
+                  <path d="M5 12l-2 0l9 -9l9 9l-2 0"></path>
+                  <path d="M5 12v7a2 2 0 0 0 2 2h10a2 2 0 0 0 2 -2v-7"></path>
+                  <path d="M9 21v-6a2 2 0 0 1 2 -2h2a2 2 0 0 1 2 2v6"></path>
+                </svg>
+                <Link href={"/accommodation/management"}>
+                  My Accommodations
+                </Link>
+              </div>
+            )}
             <div className="dropdown-buttons">
               <svg
                 xmlns="http://www.w3.org/2000/svg"

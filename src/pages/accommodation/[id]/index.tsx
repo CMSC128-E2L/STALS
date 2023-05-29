@@ -318,6 +318,8 @@ export default function Accommodation() {
                 <Landlord
                   firstname={accommData?.landlordUser.first_name}
                   lastname={accommData?.landlordUser.last_name}
+                  middle={accommData?.landlordUser.middle_name}
+                  suffix={accommData?.landlordUser.Suffix}
                 />
               </div>
 

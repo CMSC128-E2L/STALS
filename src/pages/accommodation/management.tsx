@@ -27,6 +27,15 @@ export default function Delete_Archive_Accomm() {
         My Accommodations
       </p>
 
+      <div className="mb-4 flex justify-center">
+        <Link
+          className="rounded-md bg-p-dviolet p-4 text-xl font-bold text-white shadow hover:bg-p-dbviolet"
+          href={`/accommodation/add`}
+        >
+          Add New Accommodation
+        </Link>
+      </div>
+
       {userSession.data?.user &&
         data?.map((accomm: Accommodation) => (
           <>
@@ -51,14 +60,6 @@ export default function Delete_Archive_Accomm() {
             </div>
           </>
         ))}
-      <div className="mb-4 flex justify-center">
-        <Link
-          className="rounded-md bg-p-dbviolet p-4 text-xl font-bold text-white shadow"
-          href={`/accommodation/add`}
-        >
-          Add Accommodation
-        </Link>
-      </div>
     </div>
   );
 }
