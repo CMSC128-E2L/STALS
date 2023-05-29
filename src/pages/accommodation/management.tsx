@@ -23,14 +23,14 @@ export default function Delete_Archive_Accomm() {
     <div className="">
       <NavBar />
       <br />
-      <p className="mb-4 text-center text-xl font-bold drop-shadow-md">
-        Accommodations
+      <p className="mb-6 text-center text-3xl font-bold text-p-dviolet drop-shadow-sm">
+        My Accommodations
       </p>
 
       {userSession.data?.user &&
         data?.map((accomm: Accommodation) => (
           <>
-            <div className="mx-4 flex rounded bg-blue-200 p-2">
+            <div className="flex items-center justify-center">
               <div className="flex flex-row space-x-2">
                 {/* TODO: Display each accommodation with the component "accomm_segment.tsx" */}
                 <Accomm_Segment
@@ -47,13 +47,13 @@ export default function Delete_Archive_Accomm() {
                   refetch={refetch}
                 />
               </div>
+              <br />
             </div>
-            <br />
           </>
         ))}
-      <div className="flex justify-center">
+      <div className="mb-4 flex justify-center">
         <Link
-          className="mx-4 mb-4 rounded border border-gray-400 bg-white p-4 text-xl"
+          className="rounded-md bg-p-dbviolet p-4 text-xl font-bold text-white shadow"
           href={`/accommodation/add`}
         >
           Add Accommodation
