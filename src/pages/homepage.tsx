@@ -410,11 +410,15 @@ export default function HomePage() {
               <SearchAccoms key={i} items={page?.items} />
             ))
           ) : (
-            <LoadingSpinner />
+            <div className="ml-[600px]">
+              <LoadingSpinner />
+            </div>
           )}
         </div>
         {isFetchingNextPage ? (
-          <LoadingSpinner />
+          <div className="ml-[600px]">
+            <LoadingSpinner />
+          </div>
         ) : hasNextPage ? (
           <div className="w-full text-center">
             <button
