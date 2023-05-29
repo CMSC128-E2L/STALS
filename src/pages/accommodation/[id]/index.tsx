@@ -321,7 +321,10 @@ export default function Accommodation() {
 
               {/* LANDLORD */}
               <div className="text-xl">
-                <Landlord id={accommData?.landlord} />
+                <Landlord
+                  firstname={accommData?.landlordUser.first_name}
+                  lastname={accommData?.landlordUser.last_name}
+                />
               </div>
 
               {/* STATS */}
