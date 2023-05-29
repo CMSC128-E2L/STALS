@@ -43,9 +43,9 @@ export default function HomePage() {
   const [selectedPrice, setSelectedPrice] = useState("");
   const [selectedSort, setSelectedSort] = useState("");
 
-  const [showTypeDropdown, setTypeDropdown] = useState(false);
-  const [showPriceDropdown, setPriceDropdown] = useState(false);
-  const [showSortDropdown, setSortDropdown] = useState(false);
+  const [showTypeDropdown, setTypeDropdown] = useState(true);
+  const [showPriceDropdown, setPriceDropdown] = useState(true);
+  const [showSortDropdown, setSortDropdown] = useState(true);
 
   const toggleTypeDropdown = () => {
     setTypeDropdown((prevState) => !prevState);
@@ -458,8 +458,9 @@ export default function HomePage() {
       >
         <NavBar register={register} name={"name"} />
         <div className="flex">
-          <div className="fixed top-16 h-screen w-[210px] min-w-[210px] flex-col overflow-scroll bg-p-lviolet px-5 py-2">
-            {/* <div className="sticky top-0 flex h-screen w-[210px] min-w-[210px] flex-col bg-p-lblue px-5 py-2"> */}
+          {/* Sidebar */}
+          {/* fixed top-16  w-[210px] min-w-[210px] flex-col overflow-scroll  */}
+          <aside className="absolute left-0 top-16  h-[100%] overflow-scroll bg-p-lviolet px-5  py-2">
             {/* Location */}
             <div className="mb-1">
               <h2 className="filter-header">Location</h2>
@@ -472,7 +473,7 @@ export default function HomePage() {
               <svg
                 className={`h-5 w-5 ${
                   showTypeDropdown ? "" : "rotate-[-90deg]"
-                }  duration-800' : 'transition-transform duration-800'} transition-transform`}
+                }  transition-transform duration-1000`}
                 aria-hidden="true"
                 fill="none"
                 stroke="currentColor"
@@ -603,7 +604,7 @@ export default function HomePage() {
             <div className="mt-3">
               <DownloadPDFButton />
             </div>
-          </div>
+          </aside>
           <div className="ml-56">
             <AccommodationsList control={control} />
           </div>
