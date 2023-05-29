@@ -230,7 +230,9 @@ export default function Profile() {
                           </div>
                         </div>
                         <div className="mb-4 ml-14 flex">
-                          <p className="flex text-base">{report.report}</p>
+                          <p className="flex text-base">
+                            reported {report.reported_name}
+                          </p>
                         </div>
                       </div>
                     );

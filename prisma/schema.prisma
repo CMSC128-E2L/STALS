@@ -155,6 +155,7 @@ model Report {
 
   type_reported String
   reported_id   String
+  reported_name String?
   report        String
 
   @@index([userId])

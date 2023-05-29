@@ -12,17 +12,19 @@ export const reportRouter = createTRPCRouter({
       z.object({
         type_reported: z.string(),
         reported_id: z.string(),
+        reported_name: z.string(),
         report: z.string(),
       }),
     )
     .mutation(({ ctx, input }) => {
       const user_id = ctx?.session?.user?.id;
-      const { type_reported, reported_id, report } = input;
+      const { type_reported, reported_id, report, reported_name } = input;
       return ctx.prisma.report.create({
         data: {
           user: { connect: { id: user_id } },
           type_reported,
           reported_id,
+          reported_name,
           report,
         },
       });
@@ -68,6 +70,33 @@ export const reportRouter = createTRPCRouter({
       });
     }),
 
+  getAllType: publicProcedure
+    .input(
+      z.object({
+        type: z.string(),
+      }),
+    )
+    .query(({ ctx, input }) => {
+      return ctx.prisma.report.findMany({
+        where: {
+          type_reported: input.type,
+        },
+        select: {
+          id: true,
+          userId: true,
+          type_reported: true,
+          reported_id: true,
+          reported_name: true,
+          report: true,
+          user: {
+            select: {
+              username: true,
+            },
+          },
+        },
+      });
+    }),
+
   getAll: publicProcedure
     .input(
       z.object({
@@ -82,6 +111,7 @@ export const reportRouter = createTRPCRouter({
           userId: true,
           type_reported: true,
           reported_id: true,
+          reported_name: true,
           report: true,
           user: {
             select: {
