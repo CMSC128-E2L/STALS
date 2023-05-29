@@ -104,7 +104,7 @@ export default function HomePage() {
         >
           <svg
             xmlns="http://www.w3.org/2000/svg"
-            className="icon icon-tabler icon-tabler-download ml-4 mr-2"
+            className="icon icon-tabler icon-tabler-download ml-3 mr-1"
             width="20"
             height="18"
             viewBox="0 0 24 24"
@@ -454,7 +454,8 @@ export default function HomePage() {
       >
         <NavBar register={register} name={"name"} />
         <div className="flex">
-          <div className="sticky top-0 flex h-screen w-[210px] min-w-[210px] flex-col bg-p-lblue px-5 py-2">
+          <div className="fixed top-16 h-screen w-[210px] min-w-[210px] flex-col overflow-scroll bg-p-lblue px-5 py-2">
+            {/* <div className="sticky top-0 flex h-screen w-[210px] min-w-[210px] flex-col bg-p-lblue px-5 py-2"> */}
             {/* Location */}
             <div className="mb-1">
               <h2 className="filter-header">Location</h2>
@@ -587,17 +588,21 @@ export default function HomePage() {
             )}
 
             {/* Include */}
-            <div className="mb-4">
+            {/* <div className="mb-4">
               <h2 className="filter-header">Include</h2>
               <input
                 className="filter-search"
                 placeholder="Type for suggestions..."
               ></input>
-            </div>
+            </div> */}
             {/* Button will not show up for guests */}
-            <DownloadPDFButton />
+            <div className="mt-3">
+              <DownloadPDFButton />
+            </div>
           </div>
-          <AccommodationsList control={control} />
+          <div className="ml-56">
+            <AccommodationsList control={control} />
+          </div>
         </div>
       </form>
     </div>
