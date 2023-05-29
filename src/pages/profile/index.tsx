@@ -193,7 +193,9 @@ export default function Profile() {
                 <Link href="">Manage Reviews</Link>
               </p>
               <p className="mb-2 mt-2 text-sm text-gray-400">
-                <Link href="">Manage Accommodations</Link>
+                <Link href="accommodation/management">
+                  Manage Accommodations
+                </Link>
               </p>
             </div>
             <div className="rounded-3xl p-10 shadow-lg ">
