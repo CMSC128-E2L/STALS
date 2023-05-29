@@ -410,13 +410,13 @@ export default function HomePage() {
               <SearchAccoms key={i} items={page?.items} />
             ))
           ) : (
-            <div className="ml-[600px]">
+            <div className="">
               <LoadingSpinner />
             </div>
           )}
         </div>
         {isFetchingNextPage ? (
-          <div className="ml-[600px]">
+          <div className="">
             <LoadingSpinner />
           </div>
         ) : hasNextPage ? (
@@ -469,11 +469,11 @@ export default function HomePage() {
             {/* Accommodation Type */}
             <button className="filter-header" onClick={toggleTypeDropdown}>
               Type
-              <div className=""></div>
+              <div className="mr-2"></div>
               <svg
                 className={`h-5 w-5 ${
                   showTypeDropdown ? "" : "rotate-[-90deg]"
-                }  transition-transform duration-1000`}
+                }  duration-250 transition-transform`}
                 aria-hidden="true"
                 fill="none"
                 stroke="currentColor"
@@ -511,11 +511,11 @@ export default function HomePage() {
             {/* Price Range */}
             <button className="filter-header" onClick={togglePriceDropdown}>
               Price Range
-              <div className=""></div>
+              <div className="mr-2"></div>
               <svg
                 className={`h-5 w-5 ${
                   showPriceDropdown ? "" : "rotate-[-90deg]"
-                }  duration-800' : 'transition-transform duration-800'} transition-transform`}
+                }  duration-250 transition-transform`}
                 aria-hidden="true"
                 fill="none"
                 stroke="currentColor"
@@ -552,11 +552,11 @@ export default function HomePage() {
             )}
             <button className="filter-header" onClick={toggleSortDropdown}>
               Sort By
-              <div className=""></div>
+              <div className="mr-2"></div>
               <svg
                 className={`h-5 w-5 ${
                   showSortDropdown ? "" : "rotate-[-90deg]"
-                }  duration-800' : 'transition-transform duration-800'} transition-transform`}
+                }  duration-250 transition-transform`}
                 aria-hidden="true"
                 fill="none"
                 stroke="currentColor"
