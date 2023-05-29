@@ -36,21 +36,42 @@ export default function Accommodation() {
   const { data: favorites, isLoading: favoritesLoading } =
     api.user.getFavorites.useQuery();
 
-  const addFavorite = api.user.addFavorite.useMutation();
-
-  const removeFavorite = api.user.removeFavorite.useMutation();
-
-  const handleFavorite = (event: { target: { checked: boolean } }) => {
-    const isChecked = event.target.checked;
-    const accommodationId = accommData?.id;
-    if (isChecked) {
-      addFavorite.mutate(accommodationId || "");
+  const addFavorite = api.user.addFavorite.useMutation({
+    onSuccess: () => {
       toast.success("Added to favorites!", {
         position: "bottom-right",
         duration: 3000,
       });
+    },
+    onError: () => {
+      toast.error("Failed to add to favorites!", {
+        position: "bottom-right",
+        duration: 3000,
+      });
+    },
+  });
+
+  const removeFavorite = api.user.removeFavorite.useMutation({
+    onSuccess: () => {
+      toast.success("Removed from favorites!", {
+        position: "bottom-right",
+        duration: 3000,
+      });
+    },
+    onError: () => {
+      toast.error("Failed to remove from favorites!", {
+        position: "bottom-right",
+        duration: 3000,
+      });
+    },
+  });
+
+  const handleFavorite = (event: { target: { checked: boolean } }) => {
+    const isChecked = event.target.checked;
+    if (isChecked) {
+      addFavorite.mutate(id || "");
     } else {
-      removeFavorite.mutate(accommodationId || "");
+      removeFavorite.mutate(id || "");
     }
     setIsFavorite(!isFavorite);
   };
