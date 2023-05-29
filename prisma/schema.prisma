@@ -113,7 +113,6 @@ model Accommodation {
   is_archived     Boolean
   fb_page         String?
   price           Float?
-  Capacity        Int?
   average_rating  Float?
   total_reviews   Int?
   tagArray        Json? // TODO: required
