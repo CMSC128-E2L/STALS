@@ -4,16 +4,19 @@ import StarRow from "~/components/starRow";
 import { api } from "~/utils/api";
 
 interface LandlordProps {
-  id: string | undefined;
+  firstname: string | null | undefined;
+  lastname: string | null | undefined;
 }
 
-export const Landlord: React.FC<LandlordProps> = ({ id }) => {
-  const { data: landLord, isLoading: landLordLoading } =
-    api.user.getOne.useQuery(id!);
+export const Landlord: React.FC<LandlordProps> = ({ firstname, lastname }) => {
+  // const { data: landLord, isLoading: landLordLoading } =
+  //   api.user.getOne.useQuery(id);
 
   return (
     <>
-      <div className="flex flex-row rounded-md p-3">{landLord?.name}</div>
+      <div className="flex flex-row rounded-md p-3">
+        {firstname} {lastname}
+      </div>
     </>
   );
 };
