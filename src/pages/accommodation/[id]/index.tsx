@@ -98,6 +98,7 @@ export default function Accommodation() {
   }
 
   const isLandlordViewing = accommData?.landlord === userSession?.user?.id;
+  const isUserViewing = UserType.USER === userSession?.profile.type;
 
   return (
     <div className="scrollbar flex h-screen flex-col overflow-auto bg-p-ngray">
@@ -181,33 +182,35 @@ export default function Accommodation() {
                   {/* TODO: So if a registered user is viewing it (remove hidden to show teehee)
                   WONDERING KUNG UNG IMPLEMENTATION NA LANG NITO VIA COMPONENT OR NAH*/}
                   <div className="flex flex-row items-center gap-2">
-                    <form>
-                      <label className="cursor-pointer">
-                        <input
-                          type="checkbox"
-                          value="favorite"
-                          className="peer sr-only"
-                          checked={isFavorite}
-                          onChange={handleFavorite}
-                        />
-                        <svg
-                          xmlns="http://www.w3.org/2000/svg"
-                          fill="none"
-                          viewBox="0 0 24 24"
-                          strokeWidth={1.5}
-                          stroke="currentColor"
-                          className={`h-8 w-8 transition ${
-                            isFavorite ? "fill-p-red stroke-p-red" : ""
-                          }`}
-                        >
-                          <path
-                            strokeLinecap="round"
-                            strokeLinejoin="round"
-                            d="M21 8.25c0-2.485-2.099-4.5-4.688-4.5-1.935 0-3.597 1.126-4.312 2.733-.715-1.607-2.377-2.733-4.313-2.733C5.1 3.75 3 5.765 3 8.25c0 7.22 9 12 9 12s9-4.78 9-12z"
+                    {isUserViewing && (
+                      <form>
+                        <label className="cursor-pointer">
+                          <input
+                            type="checkbox"
+                            value="favorite"
+                            className="peer sr-only"
+                            checked={isFavorite}
+                            onChange={handleFavorite}
                           />
-                        </svg>
-                      </label>
-                    </form>
+                          <svg
+                            xmlns="http://www.w3.org/2000/svg"
+                            fill="none"
+                            viewBox="0 0 24 24"
+                            strokeWidth={1.5}
+                            stroke="currentColor"
+                            className={`h-8 w-8 transition ${
+                              isFavorite ? "fill-p-red stroke-p-red" : ""
+                            }`}
+                          >
+                            <path
+                              strokeLinecap="round"
+                              strokeLinejoin="round"
+                              d="M21 8.25c0-2.485-2.099-4.5-4.688-4.5-1.935 0-3.597 1.126-4.312 2.733-.715-1.607-2.377-2.733-4.313-2.733C5.1 3.75 3 5.765 3 8.25c0 7.22 9 12 9 12s9-4.78 9-12z"
+                            />
+                          </svg>
+                        </label>
+                      </form>
+                    )}
                     {/* If a landlord is viewing the page */}
                     {isLandlordViewing && (
                       <div className="float-right flex gap-2">
@@ -264,31 +267,6 @@ export default function Accommodation() {
                           </svg>
                         </button>
                       </div>
-                    )}
-                    {userSession?.profile.type === UserType.USER && (
-                      <form>
-                        <label className="cursor-pointer">
-                          <input
-                            type="checkbox"
-                            value="favorite"
-                            className="peer sr-only"
-                          />
-                          <svg
-                            xmlns="http://www.w3.org/2000/svg"
-                            fill="none"
-                            viewBox="0 0 24 24"
-                            strokeWidth={1.5}
-                            stroke="currentColor"
-                            className="h-8 w-8 transition peer-checked:fill-p-red peer-checked:stroke-p-red"
-                          >
-                            <path
-                              strokeLinecap="round"
-                              strokeLinejoin="round"
-                              d="M21 8.25c0-2.485-2.099-4.5-4.688-4.5-1.935 0-3.597 1.126-4.312 2.733-.715-1.607-2.377-2.733-4.313-2.733C5.1 3.75 3 5.765 3 8.25c0 7.22 9 12 9 12s9-4.78 9-12z"
-                            />
-                          </svg>
-                        </label>
-                      </form>
                     )}
                     <label className="cursor-pointer">
                       <button
@@ -544,10 +522,31 @@ export default function Accommodation() {
                         </p>
                       </div>
                     )}
+                    {showReview && (
+                      <div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50">
+                        <div className="flex max-h-[80%] w-[60%] flex-col rounded-xl bg-white p-2">
+                          <Review />
+
+                          <button
+                            className="m-3 mt-4 w-[20%] rounded bg-blue-500 px-4 py-2 text-white hover:bg-blue-600"
+                            onClick={() => setShowReview(false)}
+                          >
+                            Close
+                          </button>
+                        </div>
+                      </div>
+                    )}
+                    <div className="px-3 text-end text-xs">
+                      <button
+                        className=" pl-1 text-sm text-gray-500 underline"
+                        onClick={() => setShowReview(true)}
+                      >
+                        See more
+                      </button>
+                    </div>
                   </div>
                 </div>
               </div>
-              <Review />
             </div>
           </div>
         </div>
