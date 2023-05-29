@@ -11,6 +11,7 @@ import Error404 from "~/pages/404";
 import { useSession } from "next-auth/react";
 import Review from "~/components/review";
 import { useState } from "react";
+import Landlord from "~/components/landlord";
 
 export default function Accommodation() {
   const { id } = dynamicRouteID(useRouter());
@@ -231,6 +232,9 @@ export default function Accommodation() {
 
               {/* ACCOMMODATION DESCRIPTION */}
               <div className="px-4 text-xl italic">{accommData?.type}</div>
+
+              {/* LANDLORD */}
+              <div className="text-xl"><Landlord id={accommData?.landlord}/></div>
 
               {/* STATS */}
 
