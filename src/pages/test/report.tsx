@@ -27,6 +27,7 @@ export default function Backend() {
             addReport.mutate({
               report: e.currentTarget.value,
               type_reported: "ACCOMMODATION",
+              reported_name: "test",
               reported_id: "7",
             });
             e.currentTarget.value = "";
