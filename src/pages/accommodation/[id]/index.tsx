@@ -496,34 +496,7 @@ export default function Accommodation() {
               <br />
               <div className="border-t border-black"></div>
 
-              {userSession === null ? (
-                <>
-                  <br />
-                  <div className="w-[100%] rounded-[15px]">
-                    {userReview ? (
-                      <div className="flex h-40 flex-col">
-                        {/* TODO: For this, get the first review from the accomm's review array, and load the following:*/}
-                        <UserProfile
-                          first_name={userReview?.user.first_name}
-                          last_name={userReview?.user.last_name}
-                          date={userReview?.date}
-                          time={userReview?.time}
-                          review={userReview?.review}
-                          rating={userReview?.rating}
-                        />
-                      </div>
-                    ) : (
-                      <div className="flex h-40 items-center justify-center text-center">
-                        <p className="w-[60%]">
-                          This accommodation has no reviews yet.
-                        </p>
-                      </div>
-                    )}
-                  </div>
-                </>
-              ) : (
-                <Review />
-              )}
+              <Review />
             </div>
           </div>
         </div>
