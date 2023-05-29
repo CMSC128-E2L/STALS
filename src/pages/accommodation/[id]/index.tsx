@@ -234,7 +234,9 @@ export default function Accommodation() {
               <div className="px-4 text-xl italic">{accommData?.type}</div>
 
               {/* LANDLORD */}
-              <div className="text-xl"><Landlord id={accommData?.landlord}/></div>
+              <div className="text-xl">
+                <Landlord id={accommData?.landlord} />
+              </div>
 
               {/* STATS */}
 
