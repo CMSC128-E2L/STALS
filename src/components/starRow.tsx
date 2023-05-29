@@ -1,12 +1,19 @@
 import React from "react";
 
-export default function StarRow(props: { rating: number | undefined | null }) {
+export default function StarRow(props: {
+  rating: number | undefined | null;
+  class?: string;
+}) {
   const filledStars = Math.floor(props.rating || 0); // Number of filled stars based on the rating
   const remainingStar = 5 - filledStars; // Number of empty stars
 
   return (
     <>
-      <div className="flex grow flex-row items-center justify-center">
+      <div
+        className={`flex grow flex-row items-center ${
+          props.class ?? "justify-center"
+        }`}
+      >
         {Array(filledStars)
           .fill(undefined)
           .map((_, index) => (
