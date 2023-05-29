@@ -25,7 +25,10 @@ const ReviewItem: React.FC<{
         />
         <div className="flex flex-col">
           <div>
-            <h1 className="text-xl font-bold">{user.name}</h1>
+            <h1 className="text-xl font-bold">{`${user.first_name ?? ""} ${
+              user.middle_name ?? ""
+            } ${user.last_name ?? ""}
+  ${user.Suffix ?? ""}`}</h1>
             <p className="text-sm ">
               {date} | {time}
             </p>
