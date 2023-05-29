@@ -714,13 +714,13 @@ const SearchAccoms: React.FC<{
   if (items && items.length != 0) {
     return (
       <>
-        {items?.map(({ id, name, price, location, tags }) => (
+        {items?.map(({ id, name, price, barangay, tags }) => (
           <SearchItem
             key={id + name}
             id={id}
             name={name}
             price={price}
-            location={location}
+            location={barangay}
             tags={tags}
           />
         ))}

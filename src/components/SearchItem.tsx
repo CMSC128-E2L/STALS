@@ -1,13 +1,13 @@
 import Link from "next/link";
 import { useState } from "react";
 import Image from "next/image";
-import placeholder from "public/images/logo.png";
+import placeholder from "public/images/logo d-violet.png";
 
 export const SearchItem: React.FC<{
   id: string;
   name: string;
   price: number | null;
-  location: string;
+  location: string | null;
   tags: string;
 }> = ({ id, name, price, location, tags }) => {
   const [imgSrc, setImgSrc] = useState(
@@ -54,7 +54,7 @@ export const SearchItem: React.FC<{
             <p className="mb-4 text-xl">{location}</p>
 
             {tags !== "" ? (
-              <span className="mb-2 mr-2 inline-block rounded-full bg-blue-200 px-3 py-1 text-sm font-semibold text-gray-700">
+              <span className="mb-2 mr-2 inline-block rounded-full bg-p-lviolet px-3 py-1 text-sm font-semibold text-gray-700">
                 {tags}
               </span>
             ) : (

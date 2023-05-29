@@ -98,7 +98,7 @@ export default function Review() {
                   <div className="justify-self-end pr-2">
                     <button
                       type="submit"
-                      className="inline-flex items-center justify-self-end rounded-lg bg-blue-700 px-10 py-1 text-center text-sm font-medium text-white hover:bg-blue-800 focus:ring-4 focus:ring-blue-200 dark:focus:ring-blue-900"
+                      className="inline-flex items-center justify-self-end rounded-lg bg-p-dviolet px-10 py-1 text-center text-sm font-medium text-white hover:bg-p-dbviolet focus:ring-4 focus:ring-blue-200 dark:focus:ring-blue-900"
                     >
                       Publish post
                     </button>
