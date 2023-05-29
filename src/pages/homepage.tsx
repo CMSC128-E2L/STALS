@@ -10,7 +10,7 @@ import { type UseInfiniteQueryResult } from "@tanstack/react-query";
 import { useForm, useWatch, type Control } from "react-hook-form";
 import jsPDF from "jspdf";
 import autoTable from "jspdf-autotable";
-import { Accommodation } from "@prisma/client";
+import { type Accommodation } from "@prisma/client";
 import { useSession } from "next-auth/react";
 
 export default function HomePage() {
@@ -410,7 +410,7 @@ export default function HomePage() {
               <SearchAccoms key={i} items={page?.items} />
             ))
           ) : (
-            <div className="">
+            <div className="flex h-screen grow items-center justify-center overflow-y-hidden">
               <LoadingSpinner />
             </div>
           )}
@@ -457,10 +457,10 @@ export default function HomePage() {
         )}
       >
         <NavBar register={register} name={"name"} />
-        <div className="flex">
+        <div className="flex flex-row">
           {/* Sidebar */}
           {/* fixed top-16  w-[210px] min-w-[210px] flex-col overflow-scroll  */}
-          <aside className="absolute left-0 top-16  h-[100%] overflow-scroll bg-p-lviolet px-5  py-2">
+          <aside className="sticky top-16 h-[100vh] w-[210px] min-w-[210px] overflow-scroll bg-p-lviolet px-5  py-2">
             {/* Location */}
             <div className="mb-1">
               <h2 className="filter-header">Location</h2>
@@ -605,9 +605,7 @@ export default function HomePage() {
               <DownloadPDFButton />
             </div>
           </aside>
-          <div className="ml-56">
-            <AccommodationsList control={control} />
-          </div>
+          <AccommodationsList control={control} />
         </div>
       </form>
     </div>
@@ -731,11 +729,8 @@ const SearchAccoms: React.FC<{
 
   // waiting for query output
   return (
-    <>
-      <div className="-z-30 mr-4 mt-4 h-64 w-64 animate-pulse rounded-xl border bg-p-gray"></div>
-      <div className="-z-30 mr-4 mt-4 h-64 w-64 animate-pulse rounded-xl border bg-p-gray"></div>
-      <div className="-z-30 mr-4 mt-4 h-64 w-64 animate-pulse rounded-xl border bg-p-gray"></div>
-      <div className="-z-30 mr-4 mt-4 h-64 w-64 animate-pulse rounded-xl border bg-p-gray"></div>
-    </>
+    <div className="flex h-screen grow items-center justify-center overflow-y-hidden">
+      <div>No search result</div>
+    </div>
   );
 };
