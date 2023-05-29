@@ -9,6 +9,7 @@ import { useRouter } from "next/router";
 import { useEffect } from "react";
 import StarRating from "./StarRating";
 import TryReview from "~/components/tryreview";
+import toast from "react-hot-toast";
 
 export default function Review() {
   const { shouldReturn, id } = dynamicRouteID(useRouter());
@@ -18,6 +19,7 @@ export default function Review() {
     setValue,
     formState: { errors },
     getValues,
+    reset: reviewFormReset,
   } = useForm<RouterInputs["review"]["add"]>({
     resolver: zodResolver(reviewAddSchema),
     defaultValues: {
@@ -29,7 +31,15 @@ export default function Review() {
     setValue("accommodationId", id);
   }, [id, setValue]);
 
-  const addReview = api.review.add.useMutation();
+  const addReview = api.review.add.useMutation({
+    onSuccess: () => {
+      void reviewFormReset();
+      toast.success("Review Submitted!", {
+        position: "bottom-right",
+        duration: 3000,
+      });
+    },
+  });
 
   const handleFormSubmit = (data: {
     accommodationId: string;
