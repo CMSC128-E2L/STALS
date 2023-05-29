@@ -98,7 +98,7 @@ export default function Accommodation() {
   }
 
   const isLandlordViewing = accommData?.landlord === userSession?.user?.id;
-  const isUserViewing = UserType.USER === userSession?.profile.type;
+  const isUserViewing = userSession?.profile.type === UserType.USER;
 
   return (
     <div className="scrollbar flex h-screen flex-col overflow-auto bg-p-ngray">
@@ -159,6 +159,20 @@ export default function Accommodation() {
                     <div className="max-w relative aspect-video animate-pulse rounded-md bg-gray-400"></div>
                   </>
                 )}
+              </div>
+              <div className="mt-4 flex flex-row divide-x-2 divide-transparent pt-4">
+                <div className="w-[100%] rounded-[15px] border border-gray-200 bg-gray-200 p-3">
+                  <div className="text-center">
+                    <h1 className="text-2xl font-bold">Overall Rating</h1>
+                    <p className="text-5xl font-bold">
+                      {Number(accommData?.average_rating ?? 0).toFixed(1)}
+                    </p>
+                    <p className="italic">
+                      based on {accommData?.total_reviews ?? 0} reviews
+                    </p>
+                    <StarRow rating={accommData?.average_rating ?? 0} />
+                  </div>
+                </div>
               </div>
             </div>
 
@@ -479,32 +493,15 @@ export default function Accommodation() {
                     )}
                 </div>
               </div>
+              <br />
+              <div className="border-t border-black"></div>
 
-              {/* Rest */}
-              <div className="mt-4 flex grow flex-row divide-x-2 divide-transparent pt-4">
-                <div className="w-[40%] rounded-[15px] border border-gray-200 bg-gray-200 p-3">
-                  <div className="items-center">
-                    <div className="text-center ">
-                      {/* wao */}
-                      <h1 className="text-2xl font-bold">Overall Rating</h1>
-                      <p className="text-5xl font-bold">
-                        {Number(accommData?.average_rating ?? 0).toFixed(1)}
-                      </p>
-                      <p className="italic">
-                        based on {accommData?.total_reviews ?? 0} reviews
-                      </p>
-                      <StarRow rating={accommData?.average_rating ?? 0} />
-                    </div>
-
-                    {/* TODO: For this, go through the review array in schema.prisma and get the average ratings the plug the number in this component.*/}
-                  </div>
-                </div>
-
-                {/* Review section */}
-                <div className="grow basis-1/2 pl-2">
-                  <div className="h-full rounded-[15px] border border-gray-200 bg-gray-200">
+              {userSession === null ? (
+                <>
+                  <br />
+                  <div className="w-[100%] rounded-[15px]">
                     {userReview ? (
-                      <div className="flex h-full flex-col">
+                      <div className="flex h-40 flex-col">
                         {/* TODO: For this, get the first review from the accomm's review array, and load the following:*/}
                         <UserProfile
                           first_name={userReview?.user.first_name}
@@ -516,16 +513,17 @@ export default function Accommodation() {
                         />
                       </div>
                     ) : (
-                      <div className="flex h-full items-center justify-center text-center">
+                      <div className="flex h-40 items-center justify-center text-center">
                         <p className="w-[60%]">
                           This accommodation has no reviews yet.
                         </p>
                       </div>
                     )}
                   </div>
-                </div>
-              </div>
-              <Review />
+                </>
+              ) : (
+                <Review />
+              )}
             </div>
           </div>
         </div>
