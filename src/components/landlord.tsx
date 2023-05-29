@@ -7,17 +7,13 @@ interface LandlordProps {
   id: string | undefined;
 }
 
-export const Landlord: React.FC<LandlordProps> = ({
-  id
-}) => {
+export const Landlord: React.FC<LandlordProps> = ({ id }) => {
   const { data: landLord, isLoading: landLordLoading } =
-  api.user.getOne.useQuery(id!);
-  
+    api.user.getOne.useQuery(id!);
+
   return (
     <>
-      <div className="flex flex-row rounded-md p-3">
-        {landLord?.name}
-      </div>
+      <div className="flex flex-row rounded-md p-3">{landLord?.name}</div>
     </>
   );
 };
