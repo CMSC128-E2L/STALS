@@ -15,6 +15,7 @@ import Error from "~/pages/_error";
 import UploadImageHeader, {
   UploadImageMultiple,
 } from "~/components/uploadInput";
+import { z } from "zod";
 
 export default function EditAccommodation() {
   const userSession = useSession({ required: true });
@@ -23,6 +24,10 @@ export default function EditAccommodation() {
   const { data: accommData, isLoading: accommLoading } =
     api.accommodation.getOneRelations.useQuery(id);
 
+  const { data: oldData, isLoading: oldDataLoading } =
+    api.accommodation.getOne.useQuery(id);
+
+  //console.log(oldData)
   const {
     register,
     handleSubmit,
@@ -30,6 +35,10 @@ export default function EditAccommodation() {
     formState: { errors },
   } = useForm({
     resolver: zodResolver(accommodationEditSchema),
+    // defaultValues:{
+    //   id: id,
+    //   //price: undefined
+    // }
   });
 
   const editAccommodation = api.accommodation.edit.useMutation();
@@ -64,15 +73,15 @@ export default function EditAccommodation() {
               // eslint-disable-next-line @typescript-eslint/no-misused-promises
               onSubmit={handleSubmit(
                 (d) => {
+                  // console.log(d);
                   const obj = { id };
                   d.id = obj.id;
                   for (const key in d) {
                     if (d[key] === "") {
-                      console.log(d[key]);
                       delete d[key];
                     }
                   }
-                  console.log(d);
+                  // console.log(d`
                   editAccommodation.mutate(
                     d as RouterInputs["accommodation"]["edit"],
                   );
@@ -96,7 +105,7 @@ export default function EditAccommodation() {
                   <label className="form-h2">Accommodation Name</label>
                   <input
                     className="add-acc-input-text-field text-xl"
-                    placeholder="Current Accommodation Name"
+                    placeholder={oldData?.name}
                     type="text"
                     {...register("name")}
                   ></input>
@@ -132,20 +141,24 @@ export default function EditAccommodation() {
                     <label className="form-h2">Contract Length</label>
                     <select
                       className="form-dropdown"
-                      placeholder="Contract Length"
+                      {...register("contract_length")}
+                      // placeholder={oldData?.contract_length!}
                     >
-                      <option>1 Academic Year</option>
-                      <option>1 Semester</option>
+                      <option selected disabled hidden>
+                        {oldData?.contract_length}
+                      </option>
+                      <option>1 ACADEMIC YEAR</option>
+                      <option>1 SEMESTER</option>
                     </select>
                   </div>
                   <div>
                     <label className="form-h2">FB Page</label>
                     <input
                       className="add-acc-input-text-field"
-                      placeholder="FB Page"
                       type="text"
                       pattern="(?:https?:\/\/)?(?:www\.)?(mbasic.facebook|m\.facebook|facebook|fb)\.(com|me)\/(?:(?:\w\.)*#!\/)?(?:pages\/)?(?:[\w\-\.]*\/)*([\w\-\.]*)"
                       {...register("fb_page")}
+                      // placeholder={oldData?.fb_page!}
                     ></input>
                   </div>
                 </div>
@@ -154,9 +167,12 @@ export default function EditAccommodation() {
                     <label className="form-h2">Location</label>
                     <select
                       className="form-dropdown shadow shadow-p-black/50"
-                      placeholder="Contract Length"
                       {...register("location")}
+                      placeholder={oldData?.location}
                     >
+                      <option selected disabled hidden>
+                        {oldData?.location}
+                      </option>
                       <option>Within UPLB</option>
                       <option>Outside UPLB</option>
                     </select>
@@ -165,7 +181,7 @@ export default function EditAccommodation() {
                     <label className="form-h2">Contact No.</label>
                     <input
                       className="add-acc-input-text-field"
-                      placeholder="09123456789"
+                      placeholder={oldData?.contact_number}
                       pattern="^(09|\+639)[0-9]{9}"
                       type="text"
                       {...register("contact_number")}
@@ -175,11 +191,10 @@ export default function EditAccommodation() {
                     <label className="form-h2"> Price of Accommodation</label>
                     <input
                       className="add-acc-input-text-field"
-                      placeholder="Price"
+                      // placeholder={oldData?.price!}
                       pattern="[0-9]+"
-                      type="text"
-                      {...register("price", { valueAsNumber: true })}
-                      required
+                      type="number"
+                      //{...register("price", { valueAsNumber: true })}
                     ></input>
                   </div>
                 </div>
@@ -231,7 +246,7 @@ export default function EditAccommodation() {
                           </p>
                           <UploadImageMultiple accomId={id} />
                         </header>
-                        <div>
+                        {/* <div>
                           <h1 className="form-h2 text-center">To Upload</h1>
 
                           <ul
@@ -252,7 +267,7 @@ export default function EditAccommodation() {
                               </span>
                             </li>
                           </ul>
-                        </div>
+                        </div> */}
                       </section>
                     </article>
                   </main>

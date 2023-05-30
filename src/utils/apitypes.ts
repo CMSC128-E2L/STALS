@@ -46,13 +46,17 @@ export const accommodationEditSchema = z.object({
   name: z.string().optional(),
   address: z.string().optional(),
   location: z.string().optional(),
+  contract_length: z.string().optional(),
   contact_number: z
     .string()
-    .regex(/^09\d{9}$/, {
-      message: "Must be a valid phone number. e.g. (09123456789)",
-    })
-    .optional(),
+    .optional()
+    .or(
+      z.string().regex(/^09\d{9}$/, {
+        message: "Must be a valid phone number. e.g. (09123456789)",
+      }),
+    ),
   fb_page: z.string().optional(),
+  //price: z.number().nullish()
 });
 
 /* USER */
