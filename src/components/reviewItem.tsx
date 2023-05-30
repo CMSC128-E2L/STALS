@@ -37,8 +37,42 @@ const ReviewItem: React.FC<{
         </label>
       </div>
 
+      {/*Edit review button*/}
+      <div className="m-3 text-xs">
+        <button
+          className="flex flex-row space-x-10"
+          onClick={() => {
+            // reportAccomm.mutate({
+            //   reported_id: id,
+            //   reported_name: accomm!.name,
+            //   report: "",
+            //   type_reported: "ACCOMMODATION",
+            // });
+          }}
+        >
+          Edit
+        </button>
+      </div>
+
+      {/*Delete review button*/}
+      <div className="m-3 text-xs">
+        <button
+          className="flex flex-row space-x-10"
+          onClick={() => {
+            // reportAccomm.mutate({
+            //   reported_id: id,
+            //   reported_name: accomm!.name,
+            //   report: "",
+            //   type_reported: "ACCOMMODATION",
+            // });
+          }}
+        >
+          Delete
+        </button>
+      </div>
+
       <div className="absolute right-0 m-3 text-xxs">
-        {/*The report button will stick to the bottom left of the screen*/}
+        {/*The report button will stick to the right of the review*/}
         <button
           className="flex flex-row space-x-10"
           onClick={() => {
