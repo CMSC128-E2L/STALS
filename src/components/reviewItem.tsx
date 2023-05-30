@@ -43,6 +43,41 @@ const ReviewItem: React.FC<{
           </p>
         </label>
       </div>
+
+      {/*Edit review button*/}
+      <div className="m-3 text-xs">
+        <button
+          className="flex flex-row space-x-10"
+          onClick={() => {
+            // reportAccomm.mutate({
+            //   reported_id: id,
+            //   reported_name: accomm!.name,
+            //   report: "",
+            //   type_reported: "ACCOMMODATION",
+            // });
+          }}
+        >
+          Edit
+        </button>
+      </div>
+
+      {/*Delete review button*/}
+      <div className="m-3 text-xs">
+        <button
+          className="flex flex-row space-x-10"
+          onClick={() => {
+            // reportAccomm.mutate({
+            //   reported_id: id,
+            //   reported_name: accomm!.name,
+            //   report: "",
+            //   type_reported: "ACCOMMODATION",
+            // });
+          }}
+        >
+          Delete
+        </button>
+      </div>
+
       {/* Report button for review */}
       {userSession !== null && (
         <div className="absolute right-0 m-3 text-xxs">
