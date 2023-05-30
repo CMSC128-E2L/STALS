@@ -664,7 +664,7 @@ const Location: React.FC<{
               }
             }
           }}
-          className="filter-search"
+          className="filter-search text-p-dviolet"
           placeholder="Type for suggestions..."
         />
         {showSuggestions && (
