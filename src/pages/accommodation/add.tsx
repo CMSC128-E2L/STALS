@@ -142,6 +142,32 @@ export default function AddAccommodation() {
 
                 <div className="grid grid-cols-2 gap-2 object-contain p-3">
                   <div className="form-col-deets">
+                    <div className="hidden">
+                      <label className="form-h2 text-p-dviolet">
+                        Type of Accommodation
+                      </label>
+                      <div className="h-10 w-full items-center justify-items-stretch rounded-md bg-white">
+                        <select
+                          className="form-dropdown peer"
+                          placeholder="Type"
+                          {...register("type")}
+                        >
+                          <option value={AccommodationType.DORMITORY}>
+                            Dormitory
+                          </option>
+                          <option value={AccommodationType.APARTMENT}>
+                            Apartment
+                          </option>
+                          <option value={AccommodationType.BEDSPACER}>
+                            Bedspacer
+                          </option>
+                          <option value={AccommodationType.HOTEL}>Hotel</option>
+                          <option value={AccommodationType.TRANSIENT}>
+                            Transient Space
+                          </option>
+                        </select>
+                      </div>
+                    </div>
                     <div className="">
                       <label className="form-h2 text-p-dviolet">
                         Contract Length
