@@ -49,7 +49,7 @@ const ReviewItem: React.FC<{
             //   type_reported: "ACCOMMODATION",
             // });
             toast.success(
-              "Thank you for reporting this accommodation.\nAn alert has been sent to the administrators.",
+              "Thank you for reporting this review.\nAn alert has been sent to the administrators.",
               {
                 position: "bottom-center",
                 duration: 4000,
