@@ -10,12 +10,14 @@ import { dynamicRouteID, stalsDBstringArray } from "~/utils/helpers";
 import Error404 from "~/pages/404";
 import { useSession } from "next-auth/react";
 import Review from "~/components/review";
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import Landlord from "~/components/landlord";
 import { UserType } from "@prisma/client";
 import toast from "react-hot-toast";
 import Carousel from "~/components/carousel";
 import LoadingSpinner from "~/components/loadingSpinner";
+import jsPDF from "jspdf";
+import autoTable from "jspdf-autotable";
 
 export default function Accommodation() {
   const { id } = dynamicRouteID(useRouter());
@@ -33,9 +35,6 @@ export default function Accommodation() {
 
   const { data: ImageList, isLoading: imageLoading } =
     api.file.getAccommImages.useQuery({ id });
-
-  // const { data: userReview, isLoading: reviewLoading } =
-  //   api.review.getTopReview.useQuery(id);
 
   const reportAccomm = api.report.add.useMutation();
 
@@ -100,6 +99,102 @@ export default function Accommodation() {
   // });
 
   const isLandlordViewing = accommData?.landlord === userSession?.user?.id;
+
+  const calledOnce = useRef(false);
+  const [pdfdownload, setpdfdownload] = useState(false);
+  const pdf = new jsPDF();
+
+  useEffect(() => {
+    if (calledOnce.current) {
+      calledOnce.current = false;
+      return;
+    }
+
+    if (pdfdownload) {
+      calledOnce.current = true;
+      setpdfdownload(false);
+
+      const roominfo: (string | number)[][] = [];
+
+      accommData?.Room.map((i, n) => {
+        if (i.is_archived == false) {
+          roominfo.push([
+            n + 1,
+            i.price,
+            i.occupied ? "Yes" : "No",
+            i.num_of_beds,
+            i.with_aircon ? "with" : "without",
+            i.with_utilities ? "with" : "without",
+          ]);
+        }
+      });
+
+      autoTable(pdf, {
+        head: [["Accommodation", "Details"]],
+        body: [
+          ["Name", accommData?.name ?? ""],
+          [
+            "Address",
+            `${accommData?.street_number ?? ""}${
+              accommData?.subdivision ?? ""
+            }${accommData?.barangay ? `Brgy. ${accommData?.barangay}` : ""}`,
+          ],
+          // `${accommData?.street_number ? `${accommData?.street_number} St. `:""}${accommData?.subdivision ? `${accommData?.subdivision} Subd. `:""}${accommData?.subdivision ?? ""}${accommData?.barangay ? `Brgy. ${accommData?.barangay}`:""}`],
+          [
+            "Type",
+            (accommData?.type ||
+              stalsDBstringArray(accommData?.typeArray).toString()) ??
+              "",
+          ],
+          ["Price", accommData?.price ?? ""],
+          ["Contract Length", accommData?.contract_length ?? "None specified"],
+          ["Tags", stalsDBstringArray(accommData?.tagArray).toString()],
+        ],
+
+        didDrawPage: function (data) {
+          // Page Header
+          pdf.setFillColor(29, 93, 154);
+          pdf.rect(10, 10, pdf.internal.pageSize.width - 20, 15, "F");
+          pdf.setFont("helvetica", "bold");
+          pdf.setFontSize(18);
+          pdf.setTextColor(255, 255, 255);
+          const textX = 20;
+          const textY = 20;
+          pdf.text("STALS", textX, textY);
+        },
+        margin: { top: 30 },
+        columnStyles: { 0: { cellWidth: 40 } },
+      });
+
+      autoTable(pdf, {
+        head: [
+          ["Room", "Price", "Occupied", "Beds", "Airconditioner", "Utilities"],
+        ],
+        body: roominfo,
+        margin: { top: 30 },
+        columnStyles: { 0: { cellWidth: 30 } },
+      });
+
+      autoTable(pdf, {
+        head: [["Landlord", "Details"]],
+        body: [
+          [
+            "Name",
+            `${accommData?.landlordUser.first_name ?? ""}  ${
+              accommData?.landlordUser.last_name ?? ""
+            }`,
+          ],
+          ["Contact Number", accommData?.landlordUser.contact_number ?? ""],
+          ["Email", accommData?.landlordUser.email_address ?? ""],
+        ],
+        margin: { top: 30 },
+        columnStyles: { 0: { cellWidth: 30 } },
+      });
+    }
+
+    if (calledOnce.current) pdf.save("STALS.pdf");
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [pdfdownload]);
 
   if (accommData === null) {
     return Error404();
@@ -265,7 +360,7 @@ export default function Accommodation() {
                       <button
                         className="accPButton sr-only mx-3 mb-2 self-end px-3 text-lg"
                         onClick={() => {
-                          print();
+                          setpdfdownload(true);
                         }}
                       />
                       <svg
