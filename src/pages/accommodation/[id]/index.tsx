@@ -326,41 +326,44 @@ export default function Accommodation() {
                 />
               </div>
 
-              {/* STATS */}
+              {/* DESCRIPTION */}
+              <div className="flex basis-1/2 flex-col">
+                <div className="group overflow-hidden px-4 py-2">
+                  {/* TODO: since the tags of an accommodation is just a string, just print that string here.*/}
 
-              {/* TODO:
-              Yung idea na meron ako for dito is ipasa na lang ung PATH and ung i-priprint na info tulad ng number and address
-
-              Make the parts that have info appear only. */}
-              <div className="flex flex-row gap-2 px-3 text-sm">
-                {/* pHONE NUMBER */}
-                <div className="flex flex-row items-center gap-x-1 p-1">
-                  <div className="">
-                    <svg
-                      fill="none"
-                      viewBox="0 0 24 24"
-                      strokeWidth="1.5"
-                      stroke="currentColor"
-                      className="h-5 w-5"
+                  {/* {accommData?.tags} */}
+                  {tagArr.map((tags, index) => (
+                    <span
+                      key={index}
+                      className="mb-2 mr-2 inline-block rounded-full bg-p-lviolet px-3 py-1 text-sm font-semibold text-gray-700"
                     >
-                      <path
-                        strokeLinecap="round"
-                        strokeLinejoin="round"
-                        d="M15.75 6a3.75 3.75 0 11-7.5 0 3.75 3.75 0 017.5 0zM4.501 20.118a7.5 7.5 0 0114.998 0A17.933 17.933 0 0112 21.75c-2.676 0-5.216-.584-7.499-1.632z"
-                      />
-                    </svg>
-                  </div>
-                  {!accommLoading ? (
-                    <div className="">{accommData?.contact_number}</div>
-                  ) : (
-                    <div className="w-10 animate-pulse overflow-hidden rounded-full bg-gray-400">
-                      &nbsp;&nbsp;
-                    </div>
-                  )}
+                      {tags}
+                    </span>
+                  ))}
                 </div>
-                {/* LOCATION */}
-                <div className="flex flex-row items-center gap-x-1 p-1">
-                  <div className="">
+
+                {/* Other deets */}
+
+                <div className="flex flex-col gap-2">
+                  {/* Price */}
+                  <div className="flex flex-row gap-10 px-3">
+                    <svg
+                      fill="#000000"
+                      width="16"
+                      height="16"
+                      viewBox="0 0 36 36"
+                      version="1.1"
+                      preserveAspectRatio="xMidYMid meet"
+                      xmlns="http://www.w3.org/2000/svg"
+                      className="aspect-square h-full place-self-center"
+                    >
+                      <path d="M31,13.2H27.89A6.81,6.81,0,0,0,28,12a7.85,7.85,0,0,0-.1-1.19h2.93a.8.8,0,0,0,0-1.6H27.46A8.44,8.44,0,0,0,19.57,4H11a1,1,0,0,0-1,1V9.2H7a.8.8,0,0,0,0,1.6h3v2.4H7a.8.8,0,0,0,0,1.6h3V31a1,1,0,0,0,2,0V20h7.57a8.45,8.45,0,0,0,7.89-5.2H31a.8.8,0,0,0,0-1.6ZM12,6h7.57a6.51,6.51,0,0,1,5.68,3.2H12Zm0,4.8H25.87a5.6,5.6,0,0,1,0,2.4H12ZM19.57,18H12V14.8H25.25A6.51,6.51,0,0,1,19.57,18Z"></path>
+                    </svg>
+                    <p>{accommData?.price}</p>
+                  </div>
+
+                  {/* Location */}
+                  <div className="flex flex-row gap-10 px-2">
                     <svg
                       xmlns="http://www.w3.org/2000/svg"
                       fill="none"
@@ -380,78 +383,64 @@ export default function Accommodation() {
                         d="M19.5 10.5c0 7.142-7.5 11.25-7.5 11.25S4.5 17.642 4.5 10.5a7.5 7.5 0 1115 0z"
                       />
                     </svg>
+                    {!accommLoading ? (
+                      <div className="">
+                        {accommData?.street_number} {accommData?.subdivision}{" "}
+                        {accommData?.barangay}
+                      </div>
+                    ) : (
+                      <div className="w-10 animate-pulse overflow-hidden rounded-full bg-gray-400">
+                        &nbsp;&nbsp;
+                      </div>
+                    )}
                   </div>
-                  {!accommLoading ? (
-                    <div className="">
-                      {accommData?.street_number} {accommData?.subdivision}{" "}
-                      {accommData?.barangay}
+
+                  {/* Address */}
+                  <div className="flex flex-row gap-10 px-2">
+                    {accommData?.contact_number ? (
+                      <>
+                        <svg
+                          fill="none"
+                          viewBox="0 0 24 24"
+                          strokeWidth="1.5"
+                          stroke="currentColor"
+                          className="h-5 w-5"
+                        >
+                          <path
+                            strokeLinecap="round"
+                            strokeLinejoin="round"
+                            d="M15.75 6a3.75 3.75 0 11-7.5 0 3.75 3.75 0 017.5 0zM4.501 20.118a7.5 7.5 0 0114.998 0A17.933 17.933 0 0112 21.75c-2.676 0-5.216-.584-7.499-1.632z"
+                          />
+                        </svg>
+                        <p>{accommData?.contact_number}</p>
+                      </>
+                    ) : (
+                      <></>
+                    )}
+                  </div>
+
+                  {accommData?.fb_page ? (
+                    <div className="flex flex-row gap-10 px-2">
+                      <svg
+                        xmlns="http://www.w3.org/2000/svg"
+                        width="16"
+                        height="16"
+                        fill="p-dblue"
+                        className="h-5 w-5"
+                        viewBox="0 0 16 16"
+                      >
+                        <path d="M16 8.049c0-4.446-3.582-8.05-8-8.05C3.58 0-.002 3.603-.002 8.05c0 4.017 2.926 7.347 6.75 7.951v-5.625h-2.03V8.05H6.75V6.275c0-2.017 1.195-3.131 3.022-3.131.876 0 1.791.157 1.791.157v1.98h-1.009c-.993 0-1.303.621-1.303 1.258v1.51h2.218l-.354 2.326H9.25V16c3.824-.604 6.75-3.934 6.75-7.951z" />
+                      </svg>
+                      <Link
+                        href={accommData.fb_page}
+                        className="cursor-pointer underline"
+                      >
+                        <p>{accommData.fb_page}</p>
+                      </Link>
                     </div>
                   ) : (
-                    <div className="w-10 animate-pulse overflow-hidden rounded-full bg-gray-400">
-                      &nbsp;&nbsp;
-                    </div>
+                    <></>
                   )}
-                </div>
-
-                {/* SHOULD APPEAR IF SOCIAL MEDIA EXISTS */}
-                {accommData?.fb_page ? (
-                  <Link
-                    href={accommData.fb_page}
-                    className="cursor-pointer underline"
-                  >
-                    <div className="flex flex-row items-center gap-x-1 p-1">
-                      <div className="">
-                        <svg
-                          xmlns="http://www.w3.org/2000/svg"
-                          width="16"
-                          height="16"
-                          fill="p-dblue"
-                          className="h-5 w-5"
-                          viewBox="0 0 16 16"
-                        >
-                          <path d="M16 8.049c0-4.446-3.582-8.05-8-8.05C3.58 0-.002 3.603-.002 8.05c0 4.017 2.926 7.347 6.75 7.951v-5.625h-2.03V8.05H6.75V6.275c0-2.017 1.195-3.131 3.022-3.131.876 0 1.791.157 1.791.157v1.98h-1.009c-.993 0-1.303.621-1.303 1.258v1.51h2.218l-.354 2.326H9.25V16c3.824-.604 6.75-3.934 6.75-7.951z" />
-                        </svg>
-                      </div>
-                      <p>Here</p>
-                    </div>
-                  </Link>
-                ) : (
-                  <div />
-                )}
-              </div>
-
-              {/* DESCRIPTION */}
-              <div className="flex basis-1/2 flex-col">
-                <div className="group overflow-hidden px-4 py-2">
-                  {/* TODO: since the tags of an accommodation is just a string, just print that string here.*/}
-
-                  {/* {accommData?.tags} */}
-                  {tagArr.map((tags, index) => (
-                    <span
-                      key={index}
-                      className="mb-2 mr-2 inline-block rounded-full bg-p-lviolet px-3 py-1 text-sm font-semibold text-gray-700"
-                    >
-                      {tags}
-                    </span>
-                  ))}
-                </div>
-
-                {/* Other deets */}
-
-                <div className="grid w-1/2 grid-cols-2 px-3">
-                  {/* TODO get the corresponding info: */}
-                  <div className="flex flex-col gap-2 p-4">
-                    <h1 className="form-h2">Price</h1>
-                    {/* <h1 className="form-h2">Capacity</h1> */}
-                    {/*TODO: CONTRACT LENGTH IS A CONDITIONAL THAT ONLY APPEARS IF THE ACCOMMODATION IS A DORMITORY */}
-                    {/* <h1 className="form-h2">Contract Length</h1> */}
-                  </div>
-
-                  <div className="flex flex-col gap-2 space-y-1 p-4">
-                    <p>{accommData?.price} Pesos</p>
-                    {/* <p>(min) to (max) people</p> */}
-                    {/* <p>{accommData?.contract_length}</p> */}
-                  </div>
                 </div>
 
                 {/* Rooms 
