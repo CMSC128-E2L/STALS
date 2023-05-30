@@ -16,11 +16,12 @@ export default {
         "p-gray": "#D9D9D9",
         "p-dgray": "#bfbfbf",
         "p-ngray": "#f6f9ff",
-        "p-dviolet": "#292076", // Dark purple
-        "p-dbviolet": "#420eb3", // Dark Bright purple
-        "p-bviolet": "#6600cc", // Bright purple
-        "p-pviolet": "#9900cc", // Pinkish purple
-        "p-lviolet": "#d6d1ff", // Pinkish purple
+        "p-vdviolet": "#200444", // Very dark violet
+        "p-dviolet": "#292076", // Dark violet
+        "p-dbviolet": "#420eb3", // Dark Bright violet
+        "p-bviolet": "#6600cc", // Bright violet
+        "p-pviolet": "#9900cc", // Pinkish violet
+        "p-lviolet": "#d6d1ff", // Pinkish violet
       },
       fontSize: {
         xs: ["12px", "12px"],
