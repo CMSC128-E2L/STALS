@@ -14,6 +14,8 @@ import { useEffect, useState } from "react";
 import Landlord from "~/components/landlord";
 import { UserType } from "@prisma/client";
 import toast from "react-hot-toast";
+import Carousel from "~/components/carousel";
+import LoadingSpinner from "~/components/loadingSpinner";
 
 export default function Accommodation() {
   const { id } = dynamicRouteID(useRouter());
@@ -118,51 +120,25 @@ export default function Accommodation() {
             <div className="w-1/4 flex-none p-4">
               <div className="grid grid-cols-2 gap-4">
                 {/* main image */}
-                {!imageLoading && ImageList ? (
-                  ImageList?.length > 0 ? (
-                    ImageList?.map((src, i) => {
-                      if (i == 0) {
-                        return (
-                          <div
-                            key={i}
-                            className="max-w relative col-span-2 aspect-square"
-                          >
-                            <Image
-                              className="rounded-lg object-cover"
-                              src={src}
-                              alt="image"
-                              fill
-                              unoptimized
-                            />
-                          </div>
-                        );
-                      } else {
-                        return (
-                          <div key={i} className="max-w relative aspect-video">
-                            <Image
-                              className="rounded-lg object-cover"
-                              src={src}
-                              alt="image"
-                              fill
-                              unoptimized
-                            />
-                          </div>
-                        );
-                      }
-                    })
+                <div className="max-w relative col-span-2 aspect-square">
+                  {!imageLoading && ImageList ? (
+                    ImageList.length > 0 ? (
+                      <div className="max-w relative col-span-2 aspect-square">
+                        <Carousel imageList={ImageList} />
+                      </div>
+                    ) : (
+                      <div className="max-w relative col-span-2 aspect-square rounded-md bg-gray-400 text-center">
+                        No Image
+                      </div>
+                    )
                   ) : (
-                    <div className="max-w relative col-span-2 aspect-square rounded-md bg-gray-400 text-center">
-                      No Image
+                    <div>
+                      <LoadingSpinner />
                     </div>
-                  )
-                ) : (
-                  <>
-                    <div className="max-w relative col-span-2 aspect-square animate-pulse rounded-md bg-gray-400"></div>
-                    <div className="max-w relative aspect-video animate-pulse rounded-md bg-gray-400"></div>
-                    <div className="max-w relative aspect-video animate-pulse rounded-md bg-gray-400"></div>
-                  </>
-                )}
+                  )}
+                </div>
               </div>
+
               <div className="mt-4 flex flex-row divide-x-2 divide-transparent pt-4">
                 <div className="w-[100%] rounded-[15px] border border-gray-200 bg-gray-200 p-3">
                   <div className="text-center">
