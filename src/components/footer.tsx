@@ -4,13 +4,13 @@ import React from "react";
 
 export default function FooterComponent() {
   return (
-    <footer className="bg-white dark:bg-gray-900">
+    <footer className="bg-p-vdviolet">
       <div className="mx-auto w-full max-w-screen-xl p-4 py-6 lg:py-8">
         <div className="md:flex md:justify-between">
           <div className="mb-6 md:mb-0">
             <a href="homepage" className="flex items-center">
               <Image src={logo} className="mr-2 h-10 w-10" alt="Stals Logo" />
-              <span className="self-center whitespace-nowrap text-2xl font-semibold dark:text-white">
+              <span className="self-center whitespace-nowrap text-2xl font-semibold text-white">
                 STALS
               </span>
             </a>
