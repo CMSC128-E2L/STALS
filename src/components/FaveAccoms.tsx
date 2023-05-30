@@ -35,7 +35,9 @@ export const FaveAccoms: React.FC = () => {
             ))}
           </>
         ) : (
-          <p className="text-sm italic text-gray-400">No favorites added.</p>
+          <p className="justify center mt-5 text-sm italic text-gray-400">
+            No favorites added.
+          </p>
         )}
       </>
     );
