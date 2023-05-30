@@ -14,7 +14,7 @@ const ReviewItem: React.FC<{
   rating: number;
 }> = ({ id, user, date, time, review, rating }) => {
   return (
-    <div className="flex max-w-full flex-row border-b-2 border-b-neutral-200 py-4 ">
+    <div className="relative flex max-w-full flex-row border-b-2 border-b-neutral-200 py-4">
       <img
         src={user.image ?? userImage.src}
         alt="User Profile"
@@ -37,7 +37,7 @@ const ReviewItem: React.FC<{
         </label>
       </div>
 
-      <div className="m-3 text-xxs">
+      <div className="absolute right-0 m-3 text-xxs">
         {/*The report button will stick to the bottom left of the screen*/}
         <button
           className="flex flex-row space-x-10"
