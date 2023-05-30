@@ -33,8 +33,8 @@ export const SearchItem: React.FC<{
     // </Link>
 
     <Link href={`/accommodation/${id}`}>
-      <div className="... m-5 flex max-w-sm flex-col items-center rounded-xl border-2 border-solid shadow-xl transition delay-150 duration-300 ease-in-out hover:-translate-y-1 hover:scale-110 hover:bg-p-lviolet sm:h-96 sm:w-96">
-        <div className="relative m-3 flex h-64 w-64 items-center justify-center">
+      <div className="... m-5 flex max-w-sm flex-col items-center rounded-xl border-2 border-solid shadow-xl transition delay-150 duration-300 ease-in-out hover:-translate-y-1 hover:scale-110 hover:bg-p-lviolet sm:h-auto sm:w-96">
+        <div className="relative m-3 flex h-32 w-32 items-center justify-center">
           <Image
             src={imgSrc}
             alt={name}
