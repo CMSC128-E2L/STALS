@@ -19,7 +19,10 @@ export const NavBar: React.FC<NavBarProps> = ({ register, name, showBack }) => {
   return (
     <>
       {/* Navigation bar */}
-      <nav className="sticky top-0 z-50 flex w-full flex-wrap items-center justify-between bg-p-dviolet p-4 py-1 sm:flex-row">
+      <nav
+        id="up"
+        className="sticky top-0 z-50 flex w-full flex-wrap items-center justify-between bg-p-dviolet p-4 py-1 sm:flex-row"
+      >
         {/* Left side */}
         {showBack && (
           <div
