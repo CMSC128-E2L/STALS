@@ -448,6 +448,7 @@ export default function HomePage() {
 
   function handleSidebarChange() {
     setToggleSidebar(!toggleSidebar);
+
     // alert(toggleSidebar);
   }
   // setToggleSidebar
@@ -473,11 +474,11 @@ export default function HomePage() {
       >
         <NavBar register={register} name={"name"} />
 
-        {/* Sidebar */}
         <div className="flex flex-col sm:flex-row">
-          <div className="mr-20 flex sm:sticky sm:top-16 sm:h-[100vh] sm:w-[210px] sm:min-w-[210px]">
+          {/* Sidebar */}
+          <div className="flex sm:sticky sm:top-16 sm:h-[100vh]">
             {toggleSidebar && (
-              <aside className="overflow-scroll bg-p-lviolet px-5 py-2">
+              <aside className="overflow-scroll bg-p-lviolet px-5 py-3 sm:w-[300px] sm:min-w-[300px]">
                 {/* Location */}
                 <div className="mb-1">
                   <h2 className="filter-header">Location</h2>
@@ -632,10 +633,40 @@ export default function HomePage() {
                 </div>
               </aside>
             )}
-            <div onClick={handleSidebarChange}>Click Me</div>
+            <div
+              className="mt-16 h-fit rounded-br-2xl rounded-tr-2xl bg-p-lviolet p-5"
+              onClick={handleSidebarChange}
+            >
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                className={` -violet-600 icon icon-tabler icon-tabler-circle-arrow-right-filled text-p-dviolet hover:text-p-dbviolet ${
+                  toggleSidebar ? "rotate-[-180deg]" : ""
+                } transition-transform duration-700`}
+                width="32"
+                height="32"
+                viewBox="0 0 24 24"
+                stroke-width="2"
+                stroke="currentColor"
+                fill="none"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+              >
+                <path stroke="none" d="M0 0h24v24H0z" fill="none"></path>
+                <path
+                  d="M12 2l.324 .005a10 10 0 1 1 -.648 0l.324 -.005zm.613 5.21a1 1 0 0 0 -1.32 1.497l2.291 2.293h-5.584l-.117 .007a1 1 0 0 0 .117 1.993h5.584l-2.291 2.293l-.083 .094a1 1 0 0 0 1.497 1.32l4 -4l.073 -.082l.064 -.089l.062 -.113l.044 -.11l.03 -.112l.017 -.126l.003 -.075l-.007 -.118l-.029 -.148l-.035 -.105l-.054 -.113l-.071 -.111a1.008 1.008 0 0 0 -.097 -.112l-4 -4z"
+                  stroke-width="0"
+                  fill="currentColor"
+                ></path>
+              </svg>
+            </div>
           </div>
           {/* fixed top-16  w-[210px] min-w-[210px] flex-col overflow-scroll  */}
-          <AccommodationsList control={control} />
+          <div className="flex flex-col items-center">
+            {/* <div className="">
+              <img className="object-fit h-auto" src="https://cdn3.photoblogstop.com/wp-content/uploads/2012/07/Sierra_HDR_DFX8048_2280x819_Q40_wm_mini-1726x819__-1140x541.jpg" alt="fd" />
+            </div> */}
+            <AccommodationsList control={control} />
+          </div>
         </div>
       </form>
     </div>
