@@ -72,11 +72,11 @@ export const NavBar: React.FC<NavBarProps> = ({ register, name, showBack }) => {
                   {...register(name)}
                   type="text"
                   placeholder="Search accommodations..."
-                  className="w-56 rounded-l-full px-4 py-2 outline outline-1 outline-white sm:w-fit"
+                  className="w-56 rounded-l-full px-4 py-2 text-p-dviolet outline outline-1 outline-white sm:w-fit"
                 />
                 <button className="rounded-r-full bg-white py-2 pl-2 pr-3 text-white outline outline-1 outline-white">
                   <svg
-                    className="h-6 w-6 pb-0.5 text-p-dgray hover:text-p-rblue"
+                    className="h-6 w-6 pb-0.5 text-p-dviolet opacity-50 hover:text-p-rblue"
                     viewBox="0 0 24 24"
                     fill="none"
                     stroke="currentColor"
