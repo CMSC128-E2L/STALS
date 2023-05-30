@@ -121,13 +121,13 @@ const ProfileButton: React.FC = () => {
       return (
         <div className="block w-full rounded-lg p-2 text-left">
           <Link href={"/profile"} className="">
-            <p className="text-lg font-bold text-p-dbviolet">
+            <p className="text-lg font-bold text-p-bviolet">
               {`${sessionData?.profile.first_name ?? ""} ${
                 sessionData?.profile.middle_name ?? ""
               } ${sessionData?.profile.last_name ?? ""}
             ${sessionData?.profile.Suffix ?? ""}`}
             </p>
-            <p className="mb-5 mt-1 overflow-hidden truncate text-sm italic text-gray-400">
+            <p className="mb-3 mt-0 overflow-hidden truncate text-sm italic text-gray-400">
               {sessionData?.user.email}
             </p>
           </Link>
