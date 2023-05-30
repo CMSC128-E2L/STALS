@@ -1,4 +1,4 @@
-import { type Accommodation } from "@prisma/client";
+import { UserType, type Accommodation } from "@prisma/client";
 import { useSession } from "next-auth/react";
 import Image from "next/image";
 import NavBar from "~/components/navbar";
@@ -7,6 +7,7 @@ import { notAuthenticated, stalsDBstringArray } from "~/utils/helpers";
 import Accomm_Segment from "~/components/accomm_segment";
 import LoadingSpinner from "~/components/loadingSpinner";
 import Link from "next/link";
+import Error401 from "~/pages/401";
 
 export default function Delete_Archive_Accomm() {
   const userSession = useSession({ required: true });
@@ -18,7 +19,9 @@ export default function Delete_Archive_Accomm() {
   if (notAuthenticated(userSession.status)) {
     return <LoadingSpinner />;
   }
-
+  if (userSession?.data?.profile.type === UserType.USER) {
+    return Error401();
+  }
   return (
     <div className="">
       <NavBar />

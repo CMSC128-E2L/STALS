@@ -11,11 +11,13 @@ import bgpic from "public/images/addaccom_bg.png";
 import toast from "react-hot-toast";
 import { useSession } from "next-auth/react";
 import LoadingSpinner from "~/components/loadingSpinner";
+import Error401 from "~/pages/401";
+import { UserType } from "@prisma/client";
 
 export default function AddRoom() {
   const userSession = useSession({ required: true });
   const { id } = dynamicRouteID(useRouter());
-
+  const router = useRouter();
   const {
     register,
     handleSubmit,
@@ -36,6 +38,10 @@ export default function AddRoom() {
 
   if (notAuthenticated(userSession.status)) {
     return <LoadingSpinner />;
+  }
+
+  if (userSession?.data?.profile.type === UserType.USER) {
+    return Error401();
   }
 
   return (
