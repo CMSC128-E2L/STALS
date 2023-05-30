@@ -443,6 +443,14 @@ export default function HomePage() {
     );
   }
 
+  const [toggleSidebar, setToggleSidebar] = useState(true);
+
+  function handleSidebarChange() {
+    setToggleSidebar(!toggleSidebar);
+    // alert(toggleSidebar);
+  }
+  // setToggleSidebar
+
   return (
     <div>
       <form
@@ -458,154 +466,169 @@ export default function HomePage() {
         )}
       >
         <NavBar register={register} name={"name"} />
-        <div className="flex flex-col sm:flex-row">
-          {/* Sidebar */}
-          {/* fixed top-16  w-[210px] min-w-[210px] flex-col overflow-scroll  */}
-          <aside className="overflow-scroll bg-p-lviolet px-5 py-2 sm:sticky sm:top-16 sm:h-[100vh] sm:w-[210px] sm:min-w-[210px]">
-            {/* Location */}
-            <div className="mb-1">
-              <h2 className="filter-header">Location</h2>
-              <Location setUserInputs={setUserInputs} methods={methods} />
-            </div>
-            {/* Accommodation Type */}
-            <button className="filter-header" onClick={toggleTypeDropdown}>
-              Type
-              <div className="mr-2"></div>
-              <svg
-                className={`h-5 w-5 ${
-                  showTypeDropdown ? "" : "rotate-[-90deg]"
-                }  duration-250 transition-transform`}
-                aria-hidden="true"
-                fill="none"
-                stroke="currentColor"
-                viewBox="0 0 24 24"
-                xmlns="http://www.w3.org/2000/svg"
-              >
-                <path
-                  stroke-linecap="round"
-                  stroke-linejoin="round"
-                  stroke-width="2"
-                  d="M19 9l-7 7-7-7"
-                ></path>
-              </svg>
-            </button>
-            {showTypeDropdown && (
-              <div>
-                {accomTypes.map((range, index) => (
-                  <div className="mb-1 mt-2 flex items-center" key={range.id}>
-                    <input
-                      id={range.id}
-                      type="radio"
-                      name="accom_type"
-                      value={range.value}
-                      onChange={handleAccomTypeChange}
-                      className="filter-radio inline-block"
-                      checked={range.value === selectedAccomType}
-                    />
-                    <label htmlFor={range.id} className="filter-text">
-                      {range.label}
-                    </label>
-                  </div>
-                ))}
-              </div>
-            )}
-            {/* Price Range */}
-            <button className="filter-header" onClick={togglePriceDropdown}>
-              Price Range
-              <div className="mr-2"></div>
-              <svg
-                className={`h-5 w-5 ${
-                  showPriceDropdown ? "" : "rotate-[-90deg]"
-                }  duration-250 transition-transform`}
-                aria-hidden="true"
-                fill="none"
-                stroke="currentColor"
-                viewBox="0 0 24 24"
-                xmlns="http://www.w3.org/2000/svg"
-              >
-                <path
-                  stroke-linecap="round"
-                  stroke-linejoin="round"
-                  stroke-width="2"
-                  d="M19 9l-7 7-7-7"
-                ></path>
-              </svg>
-            </button>
-            {showPriceDropdown && (
-              <div>
-                {priceRanges.map((range, index) => (
-                  <div className="mb-1 mt-2 flex items-center" key={range.id}>
-                    <input
-                      id={range.id}
-                      type="radio"
-                      name="price_range"
-                      value={range.value}
-                      onChange={handlePriceRangeChange}
-                      className="filter-radio inline-block"
-                      checked={range.value === selectedPrice}
-                    />
-                    <label htmlFor={range.id} className="filter-text">
-                      {range.label}
-                    </label>
-                  </div>
-                ))}
-              </div>
-            )}
-            <button className="filter-header" onClick={toggleSortDropdown}>
-              Sort By
-              <div className="mr-2"></div>
-              <svg
-                className={`h-5 w-5 ${
-                  showSortDropdown ? "" : "rotate-[-90deg]"
-                }  duration-250 transition-transform`}
-                aria-hidden="true"
-                fill="none"
-                stroke="currentColor"
-                viewBox="0 0 24 24"
-                xmlns="http://www.w3.org/2000/svg"
-              >
-                <path
-                  stroke-linecap="round"
-                  stroke-linejoin="round"
-                  stroke-width="2"
-                  d="M19 9l-7 7-7-7"
-                ></path>
-              </svg>
-            </button>
-            {showSortDropdown && (
-              <div>
-                {sortTypes.map((range, index) => (
-                  <div className="mb-1 mt-2 flex items-center" key={range.id}>
-                    <input
-                      id={range.id}
-                      type="radio"
-                      name="sort"
-                      value={range.value}
-                      onChange={handleSortTypeChange}
-                      checked={range.value === selectedSort}
-                      className="filter-radio inline-block"
-                    />
-                    <label htmlFor={range.id} className="filter-text">
-                      {range.label}
-                    </label>
-                  </div>
-                ))}
-              </div>
-            )}
 
-            {/* Include */}
-            {/* <div className="mb-4">
-              <h2 className="filter-header">Include</h2>
-              <input
-                className="filter-search"
-                placeholder="Type for suggestions..."
-              ></input>
-            </div> */}
-            {/* Button will not show up for guests */}
-            <div className="mt-3">
-              <DownloadPDFButton />
-            </div>
-          </aside>
+        {/* Sidebar */}
+        <div className="flex flex-col sm:flex-row">
+          <div className="mr-20 flex sm:sticky sm:top-16 sm:h-[100vh] sm:w-[210px] sm:min-w-[210px]">
+            {toggleSidebar && (
+              <aside className="overflow-scroll bg-p-lviolet px-5 py-2">
+                {/* Location */}
+                <div className="mb-1">
+                  <h2 className="filter-header">Location</h2>
+                  <Location setUserInputs={setUserInputs} methods={methods} />
+                </div>
+                {/* Accommodation Type */}
+                <button className="filter-header" onClick={toggleTypeDropdown}>
+                  Type
+                  <div className="mr-2"></div>
+                  <svg
+                    className={`h-5 w-5 ${
+                      showTypeDropdown ? "" : "rotate-[-90deg]"
+                    }  duration-250 transition-transform`}
+                    aria-hidden="true"
+                    fill="none"
+                    stroke="currentColor"
+                    viewBox="0 0 24 24"
+                    xmlns="http://www.w3.org/2000/svg"
+                  >
+                    <path
+                      stroke-linecap="round"
+                      stroke-linejoin="round"
+                      stroke-width="2"
+                      d="M19 9l-7 7-7-7"
+                    ></path>
+                  </svg>
+                </button>
+                {showTypeDropdown && (
+                  <div>
+                    {accomTypes.map((range, index) => (
+                      <div
+                        className="mb-1 mt-2 flex items-center"
+                        key={range.id}
+                      >
+                        <input
+                          id={range.id}
+                          type="radio"
+                          name="accom_type"
+                          value={range.value}
+                          onChange={handleAccomTypeChange}
+                          className="filter-radio inline-block"
+                          checked={range.value === selectedAccomType}
+                        />
+                        <label htmlFor={range.id} className="filter-text">
+                          {range.label}
+                        </label>
+                      </div>
+                    ))}
+                  </div>
+                )}
+                {/* Price Range */}
+                <button className="filter-header" onClick={togglePriceDropdown}>
+                  Price Range
+                  <div className="mr-2"></div>
+                  <svg
+                    className={`h-5 w-5 ${
+                      showPriceDropdown ? "" : "rotate-[-90deg]"
+                    }  duration-250 transition-transform`}
+                    aria-hidden="true"
+                    fill="none"
+                    stroke="currentColor"
+                    viewBox="0 0 24 24"
+                    xmlns="http://www.w3.org/2000/svg"
+                  >
+                    <path
+                      stroke-linecap="round"
+                      stroke-linejoin="round"
+                      stroke-width="2"
+                      d="M19 9l-7 7-7-7"
+                    ></path>
+                  </svg>
+                </button>
+                {showPriceDropdown && (
+                  <div>
+                    {priceRanges.map((range, index) => (
+                      <div
+                        className="mb-1 mt-2 flex items-center"
+                        key={range.id}
+                      >
+                        <input
+                          id={range.id}
+                          type="radio"
+                          name="price_range"
+                          value={range.value}
+                          onChange={handlePriceRangeChange}
+                          className="filter-radio inline-block"
+                          checked={range.value === selectedPrice}
+                        />
+                        <label htmlFor={range.id} className="filter-text">
+                          {range.label}
+                        </label>
+                      </div>
+                    ))}
+                  </div>
+                )}
+                <button className="filter-header" onClick={toggleSortDropdown}>
+                  Sort By
+                  <div className="mr-2"></div>
+                  <svg
+                    className={`h-5 w-5 ${
+                      showSortDropdown ? "" : "rotate-[-90deg]"
+                    }  duration-250 transition-transform`}
+                    aria-hidden="true"
+                    fill="none"
+                    stroke="currentColor"
+                    viewBox="0 0 24 24"
+                    xmlns="http://www.w3.org/2000/svg"
+                  >
+                    <path
+                      stroke-linecap="round"
+                      stroke-linejoin="round"
+                      stroke-width="2"
+                      d="M19 9l-7 7-7-7"
+                    ></path>
+                  </svg>
+                </button>
+                {showSortDropdown && (
+                  <div>
+                    {sortTypes.map((range, index) => (
+                      <div
+                        className="mb-1 mt-2 flex items-center"
+                        key={range.id}
+                      >
+                        <input
+                          id={range.id}
+                          type="radio"
+                          name="sort"
+                          value={range.value}
+                          onChange={handleSortTypeChange}
+                          checked={range.value === selectedSort}
+                          className="filter-radio inline-block"
+                        />
+                        <label htmlFor={range.id} className="filter-text">
+                          {range.label}
+                        </label>
+                      </div>
+                    ))}
+                  </div>
+                )}
+
+                {/* Include */}
+                {/* <div className="mb-4">
+                  <h2 className="filter-header">Include</h2>
+                  <input
+                    className="filter-search"
+                    placeholder="Type for suggestions..."
+                  ></input>
+                </div> */}
+                {/* Button will not show up for guests */}
+                <div className="mt-3">
+                  <DownloadPDFButton />
+                </div>
+              </aside>
+            )}
+            <div onClick={handleSidebarChange}>Click Me</div>
+          </div>
+          {/* fixed top-16  w-[210px] min-w-[210px] flex-col overflow-scroll  */}
           <AccommodationsList control={control} />
         </div>
       </form>
