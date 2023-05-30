@@ -1,7 +1,7 @@
 import NavBar from "~/components/navbar";
 import { type UseFormRegister, useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { AccommodationType } from "@prisma/client";
+import { AccommodationType, UserType } from "@prisma/client";
 import { api } from "~/utils/api";
 import { accommodationAddSchema } from "~/utils/apitypes";
 import bgpic from "public/images/addaccom_bg.png";
@@ -11,6 +11,7 @@ import LoadingSpinner from "~/components/loadingSpinner";
 import { notAuthenticated } from "~/utils/helpers";
 import { type z } from "zod";
 import { useState } from "react";
+import Error401 from "~/pages/401";
 
 export default function AddAccommodation() {
   const userSession = useSession({ required: true });
@@ -38,7 +39,9 @@ export default function AddAccommodation() {
   if (notAuthenticated(userSession.status)) {
     return <LoadingSpinner />;
   }
-
+  if (userSession?.data?.profile.type === UserType.USER) {
+    return Error401();
+  }
   return (
     <div className="overflow-visible">
       <img
@@ -107,7 +110,7 @@ export default function AddAccommodation() {
                   Type of Accommodation
                 </h2>
                 <div className="flex flex-row justify-evenly gap-4 px-5 pt-2">
-                  {tagCheckbox(
+                  {typeCheckbox(
                     [
                       "Dormitory",
                       "Apartment",
@@ -175,9 +178,10 @@ export default function AddAccommodation() {
                       <select
                         className="form-dropdown"
                         placeholder="Contract Length"
+                        {...register("contract_length")}
                       >
-                        <option>1 Academic Year</option>
-                        <option>1 Semester</option>
+                        <option value="1 ACADEMIC YEAR">1 Academic Year</option>
+                        <option value="1 SEMESTER">1 Semester</option>
                       </select>
                     </div>
                     <div>
@@ -415,6 +419,23 @@ function tagCheckbox(
         type="checkbox"
         value={value}
         {...register("tagArray")}
+      />
+      <label htmlFor={value}>{value}</label>
+    </div>
+  ));
+}
+
+function typeCheckbox(
+  array: string[],
+  register: UseFormRegister<z.infer<typeof accommodationAddSchema>>,
+) {
+  return array.map((value: string) => (
+    <div key={value} className="flex flex-row gap-2">
+      <input
+        id={value}
+        type="checkbox"
+        value={value}
+        {...register("typeArray")}
       />
       <label htmlFor={value}>{value}</label>
     </div>

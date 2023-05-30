@@ -32,38 +32,40 @@ export const SearchItem: React.FC<{
     //   </div>
     // </Link>
 
-    <Link href={`/accommodation/${id}`}>
-      <div className="... m-5 flex max-w-sm flex-col items-center rounded-xl border-2 border-solid shadow-xl transition delay-150 duration-300 ease-in-out hover:-translate-y-1 hover:scale-110 hover:bg-p-lviolet sm:h-96 sm:w-96">
-        <div className="relative m-3 flex h-64 w-64 items-center justify-center">
-          <Image
-            src={imgSrc}
-            alt={name}
-            fill
-            className="rounded-xl object-contain"
-            unoptimized
-            onError={() => {
-              setImgSrc(placeholder.src);
-            }}
-          />
-        </div>
+    <div className="ml-10 w-1/5 p-1">
+      <Link href={`/accommodation/${id}`}>
+        <div className="... m-5 flex h-[40vh] w-[40vw] max-w-full flex-col items-center rounded-xl border-2 border-solid shadow-xl transition delay-150 duration-300 ease-in-out hover:-translate-y-1 hover:scale-110 hover:bg-p-lviolet">
+          <div className="relative m-3 flex h-[20vh] w-[15vw] items-center justify-center">
+            <Image
+              src={imgSrc}
+              alt={name}
+              fill
+              className="rounded-xl object-contain"
+              unoptimized
+              onError={() => {
+                setImgSrc(placeholder.src);
+              }}
+            />
+          </div>
 
-        <div className="flex w-full flex-col bg-gray-50 p-4">
-          <div className="py-p px-6">
-            <div className="mb-2 text-xl font-bold">{name}</div>
-            <p className="text-xl">Php {price}</p>
-            <p className="mb-4 text-xl">{location}</p>
+          <div className="w-full grow flex-col bg-gray-50 p-4">
+            <div className="py-p px-6">
+              <div className="mb-2 text-xl font-bold">{name}</div>
+              <p className="text-xl">Php {price}</p>
+              <p className="mb-4 text-xl">{location}</p>
 
-            {tags !== "" ? (
-              <span className="mb-2 mr-2 inline-block rounded-full bg-p-lviolet px-3 py-1 text-sm font-semibold text-gray-700">
-                {tags}
-              </span>
-            ) : (
-              <span className="bg-gray inline-block"></span>
-            )}
+              {tags !== "" ? (
+                <span className="mb-2 mr-2 inline-block rounded-full bg-p-lviolet px-3 py-1 text-sm font-semibold text-gray-700">
+                  {tags}
+                </span>
+              ) : (
+                <span className="bg-gray inline-block"></span>
+              )}
+            </div>
           </div>
         </div>
-      </div>
-    </Link>
+      </Link>
+    </div>
   );
 };
 

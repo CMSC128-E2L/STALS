@@ -11,6 +11,7 @@ import { useForm, useWatch, type Control } from "react-hook-form";
 import jsPDF from "jspdf";
 import autoTable from "jspdf-autotable";
 import { useSession } from "next-auth/react";
+import bgpic from "public/images/homepage_bg.png";
 
 export default function HomePage() {
   const priceRanges = [
@@ -453,6 +454,11 @@ export default function HomePage() {
 
   return (
     <div>
+      <img
+        className="fixed -z-10 h-full w-screen bg-cover bg-fixed bg-center"
+        src={bgpic.src}
+        alt="background"
+      />
       <form
         // eslint-disable-next-line @typescript-eslint/no-misused-promises
         onSubmit={handleSubmit(
