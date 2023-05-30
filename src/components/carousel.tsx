@@ -1,9 +1,9 @@
 import React, { useState } from "react";
 
-const Carousel = ({ imageList }) => {
+const Carousel: React.FC<{ imageList: string[] }> = ({ imageList }) => {
   const [activeIndex, setActiveIndex] = useState(0);
 
-  const handleIndicatorClick = (index) => {
+  const handleIndicatorClick = (index: number) => {
     setActiveIndex(index);
   };
 
