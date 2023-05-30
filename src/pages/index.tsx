@@ -66,7 +66,7 @@ const Home: NextPage = () => {
           <div className="absolute inset-x-0 top-0 z-30">
             {/* 1 header nav bar [logo name home about contact]*/}
             <header
-              className="absolute sticky top-0 z-50 justify-between text-white "
+              className="sticky top-0 z-50 justify-between text-white "
               id="up"
             >
               <div className="container mx-auto flex flex-col items-center justify-between py-4 lg:flex-row">
