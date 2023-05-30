@@ -33,15 +33,6 @@ const ReviewItem: React.FC<{
         } ${user.last_name ?? ""}
   ${user.Suffix ?? ""}`}</h1>
         <StarRow rating={rating ?? 0} class={"justify-left !grow-0"} />
-        <p className="text-sm">
-          {date} | {time}
-        </p>
-        <label className="pb-1">
-          <input type="checkbox" value="" className="peer sr-only" />
-          <p className="line-clamp-2 cursor-pointer pt-2 text-sm peer-checked:line-clamp-none">
-            {review}
-          </p>
-        </label>
       </div>
       {/* Report button for review */}
       {userSession !== null && (
