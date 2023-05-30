@@ -216,6 +216,7 @@ export const accommodationRouter = createTRPCRouter({
       const items = await ctx.prisma.accommodation.findMany({
         take: limit + 1,
         cursor: cursor ? { id: cursor } : undefined,
+        include: { landlordUser: true },
         where: {
           ...(input.is_archived !== undefined
             ? { is_archived: input.is_archived }
