@@ -293,6 +293,8 @@ export const accommodationRouter = createTRPCRouter({
         location: z.string().optional(),
         landlord: z.string().optional(),
         contact_number: z.string().optional(),
+        contract_length: z.string().optional(),
+        //price: z.number().nullish(),
         tags: z.string().optional(),
         num_of_rooms: z.number().optional(),
         is_archived: z.boolean().optional(),
@@ -308,9 +310,13 @@ export const accommodationRouter = createTRPCRouter({
           address: input.address,
           location: input.location,
           contact_number: input.contact_number,
+          // ...(input.price !== undefined || input.price !== null
+          //   ? { price: input.price }
+          //   : {}),
           tags: input.tags,
           num_of_rooms: input.num_of_rooms,
           is_archived: input.is_archived,
+          contract_length: input.contract_length,
           fb_page: input.fb_page,
         },
       });
