@@ -65,7 +65,9 @@ const Signup: NextPage = () => {
       <div className="absolute inset-x-0 top-10 flex h-screen items-center justify-center">
         <div className="w-fit rounded-xl bg-white px-10 py-10">
           <div className="item-center flex justify-center px-2 pb-0 pt-0 drop-shadow-md">
-            <h1 className="text-5xl font-extrabold text-[#420EB3]">Welcome!</h1>
+            <h1 className="text-5xl font-extrabold text-p-dbviolet">
+              Welcome!
+            </h1>
           </div>
 
           <div className="flex justify-center pb-6 drop-shadow-md">
@@ -80,7 +82,7 @@ const Signup: NextPage = () => {
                 <TermsCondition />
 
                 <button
-                  className="mt-4 rounded bg-blue-500 px-4 py-2 text-white hover:bg-blue-600"
+                  className="mt-4 rounded bg-p-dbviolet px-4 py-2 text-white hover:bg-blue-600"
                   onClick={() => setShowTerms(false)}
                 >
                   Close
@@ -163,8 +165,8 @@ const Signup: NextPage = () => {
                   <span
                     className={`rounded-l-md px-5 py-1 ${
                       toggleValue === "USER"
-                        ? "bg-gray-200 font-bold text-white dark:bg-[#420EB3]"
-                        : "bg-blue-500 dark:bg-gray-200"
+                        ? "bg-p-dbviolet font-bold text-white dark:bg-gray-200"
+                        : "bg-gray-200 text-black dark:bg-p-dbviolet"
                     }`}
                   >
                     User
@@ -172,8 +174,8 @@ const Signup: NextPage = () => {
                   <span
                     className={`rounded-r-md px-4 py-1 ${
                       toggleValue === "LANDLORD"
-                        ? "bg-gray-200 font-bold text-white dark:bg-[#420EB3]"
-                        : "bg-blue-500 dark:bg-gray-200"
+                        ? "bg-p-dbviolet font-bold text-white dark:bg-gray-200"
+                        : "bg-gray-200 text-black dark:bg-p-dbviolet"
                     }`}
                   >
                     Landlord
@@ -200,7 +202,7 @@ const Signup: NextPage = () => {
             <br />
             <div>
               <div className="py-2">
-                <button className="group flex w-full justify-center rounded-full bg-[#420EB3] px-4 py-2 font-bold text-white shadow shadow-gray-400/100">
+                <button className="group flex w-full justify-center rounded-full bg-p-dbviolet px-4 py-2 font-bold text-white shadow shadow-gray-400/100">
                   Sign up
                 </button>
               </div>

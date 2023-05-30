@@ -20,13 +20,13 @@ export const OwnerAccommodations: React.FC<{ showArchived: boolean }> = ({
       <>
         {firstData ? (
           <>
-            {firstData?.map(({ id, name, price, location, tags }) => (
+            {firstData?.map(({ id, name, price, barangay, tags }) => (
               <SearchItem
                 key={id + name}
                 id={id}
                 name={name}
                 price={price}
-                location={location}
+                location={barangay}
                 tags={tags}
               />
             ))}

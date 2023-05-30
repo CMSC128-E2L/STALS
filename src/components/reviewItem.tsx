@@ -3,6 +3,7 @@ import React from "react";
 import StarRow from "./starRow";
 import { type User } from "@prisma/client";
 import userImage from "public/placeholder_1.png";
+import toast from "react-hot-toast";
 
 const ReviewItem: React.FC<{
   id: string;
@@ -13,7 +14,7 @@ const ReviewItem: React.FC<{
   rating: number;
 }> = ({ id, user, date, time, review, rating }) => {
   return (
-    <div className="flex max-w-full flex-row border-b-2 border-b-neutral-200 py-4 ">
+    <div className="relative flex max-w-full flex-row border-b-2 border-b-neutral-200 py-4">
       <img
         src={user.image ?? userImage.src}
         alt="User Profile"
@@ -34,6 +35,30 @@ const ReviewItem: React.FC<{
             {review}
           </p>
         </label>
+      </div>
+
+      <div className="absolute right-0 m-3 text-xxs">
+        {/*The report button will stick to the bottom left of the screen*/}
+        <button
+          className="flex flex-row space-x-10"
+          onClick={() => {
+            // reportAccomm.mutate({
+            //   reported_id: id,
+            //   reported_name: accomm!.name,
+            //   report: "",
+            //   type_reported: "ACCOMMODATION",
+            // });
+            toast.success(
+              "Thank you for reporting this review.\nAn alert has been sent to the administrators.",
+              {
+                position: "bottom-center",
+                duration: 4000,
+              },
+            );
+          }}
+        >
+          Report this review
+        </button>
       </div>
     </div>
   );

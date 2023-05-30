@@ -107,7 +107,7 @@ export default function AddAccommodation() {
                   Type of Accommodation
                 </h2>
                 <div className="flex flex-row justify-evenly gap-4 px-5 pt-2">
-                  {tagCheckbox(
+                  {typeCheckbox(
                     [
                       "Dormitory",
                       "Apartment",
@@ -142,32 +142,6 @@ export default function AddAccommodation() {
 
                 <div className="grid grid-cols-2 gap-2 object-contain p-3">
                   <div className="form-col-deets">
-                    <div className="hidden">
-                      <label className="form-h2 text-p-dviolet">
-                        Type of Accommodation
-                      </label>
-                      <div className="h-10 w-full items-center justify-items-stretch rounded-md bg-white">
-                        <select
-                          className="form-dropdown peer"
-                          placeholder="Type"
-                          {...register("type")}
-                        >
-                          <option value={AccommodationType.DORMITORY}>
-                            Dormitory
-                          </option>
-                          <option value={AccommodationType.APARTMENT}>
-                            Apartment
-                          </option>
-                          <option value={AccommodationType.BEDSPACER}>
-                            Bedspacer
-                          </option>
-                          <option value={AccommodationType.HOTEL}>Hotel</option>
-                          <option value={AccommodationType.TRANSIENT}>
-                            Transient Space
-                          </option>
-                        </select>
-                      </div>
-                    </div>
                     <div className="">
                       <label className="form-h2 text-p-dviolet">
                         Contract Length
@@ -175,9 +149,10 @@ export default function AddAccommodation() {
                       <select
                         className="form-dropdown"
                         placeholder="Contract Length"
+                        {...register("contract_length")}
                       >
-                        <option>1 Academic Year</option>
-                        <option>1 Semester</option>
+                        <option value="1 ACADEMIC YEAR">1 Academic Year</option>
+                        <option value="1 SEMESTER">1 Semester</option>
                       </select>
                     </div>
                     <div>
@@ -415,6 +390,23 @@ function tagCheckbox(
         type="checkbox"
         value={value}
         {...register("tagArray")}
+      />
+      <label htmlFor={value}>{value}</label>
+    </div>
+  ));
+}
+
+function typeCheckbox(
+  array: string[],
+  register: UseFormRegister<z.infer<typeof accommodationAddSchema>>,
+) {
+  return array.map((value: string) => (
+    <div key={value} className="flex flex-row gap-2">
+      <input
+        id={value}
+        type="checkbox"
+        value={value}
+        {...register("typeArray")}
       />
       <label htmlFor={value}>{value}</label>
     </div>
