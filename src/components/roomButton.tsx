@@ -45,7 +45,7 @@ const RoomButton: React.FC<{
             <label className="bold self-center text-lg text-white">
               Room {String(roomIndex + 1)}
             </label>
-            <p className="text-md self-center px-1 italic text-white ">
+            <p className="text-md self-center whitespace-nowrap px-1 italic text-white">
               {status ? "Occupied" : "Unoccupied"} <br /> ₱ {roomPrice}
             </p>
           </button>
@@ -59,7 +59,7 @@ const RoomButton: React.FC<{
             <label className="bold self-center text-lg">
               Room {String(roomIndex + 1)}
             </label>
-            <p className="text-md self-center px-1 italic ">
+            <p className="text-md self-center whitespace-nowrap px-1 italic">
               {status ? "Occupied" : "Unoccupied"} <br /> ₱ {roomPrice}
             </p>
           </button>
