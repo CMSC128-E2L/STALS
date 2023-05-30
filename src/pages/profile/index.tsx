@@ -5,12 +5,14 @@ import user from "public/images/def_user.png";
 import Link from "next/link";
 import Edit from "./edit";
 import ManageReport from "../managereport";
+import Profile1 from "~/components/profile";
+import FaveAccoms from "~/components/FaveAccoms";
+import bgpic from "public/images/signup_bg.png";
 import { useSession, signOut } from "next-auth/react";
 import { useRouter } from "next/router";
 import { api } from "~/utils/api";
 import { UserType } from "@prisma/client";
 import { useState } from "react";
-import FaveAccoms from "~/components/FaveAccoms";
 
 export default function Profile() {
   const { data: sessionData } = useSession();
@@ -36,41 +38,7 @@ export default function Profile() {
         {showEdit && <Edit onCancel={() => setShowEdit(false)} />}
         {/* Content */}
         <div className="flex-row-2 m-10 flex h-auto w-auto ">
-          <section className="mr-5 flex h-min flex-col items-center space-y-2 whitespace-nowrap rounded-3xl bg-white p-14 font-medium shadow-xl">
-            <div className="relative mb-2 ml-32 mr-32 mt-5 flex h-[10.5rem] w-[10.5rem]">
-              <Image
-                src={sessionData?.user.image ?? user.src}
-                className="flex rounded-full object-contain"
-                alt="User Photo"
-                fill
-              />
-            </div>
-            <div className="m-10 flex">
-              <span className="text-3xl text-black">{fullName ?? "Guest"}</span>
-            </div>
-            <div className="m-10  flex ">
-              <span className="text-xl text-black">
-                {sessionData?.profile.type}
-              </span>
-            </div>
-
-            <div className="flex grid h-48 grid-cols-2 place-content-center gap-3">
-              <span className="text-xl text-black">Contact no:</span>
-              <span className="text-xl text-black">
-                {sessionData?.profile.contact_number}
-              </span>
-              <span className="text-xl text-black">Email Address:</span>
-              <span className="text-xl text-black">
-                {sessionData?.user.email}
-              </span>
-            </div>
-            <div className="flex w-full justify-center rounded-3xl border-2 border-black p-2 shadow-lg">
-              <button className="w-full" onClick={() => setShowEdit(true)}>
-                Edit Account
-              </button>
-            </div>
-          </section>
-
+          <Profile1 />
           <section className="w-full">
             <div className="w-full rounded-3xl p-10 shadow-lg">
               <MyAccom showArchived={false} />
@@ -85,57 +53,27 @@ export default function Profile() {
   } else if (sessionData?.profile.type == UserType.USER) {
     return (
       <div>
+        <img
+          className="fixed -z-10 h-full w-screen bg-cover bg-center"
+          src={bgpic.src}
+          alt="background"
+        />
+
         <NavBar />
         {showEdit && <Edit onCancel={() => setShowEdit(false)} />}
         {/* Content */}
-        <div className="flex-row-2 m-10 flex h-auto w-auto ">
-          <section className="mr-5 flex h-min flex-col items-center space-y-2 whitespace-nowrap rounded-3xl bg-white p-14 font-medium shadow-xl">
-            <div className="relative mb-2 ml-32 mr-32 mt-5 flex h-[10.5rem] w-[10.5rem]">
-              <Image
-                src={sessionData?.user.image ?? user.src}
-                className="flex rounded-full object-contain"
-                alt="User Photo"
-                fill
-              />
-            </div>
-            <div className="m-10 flex">
-              <span className="text-3xl text-black">{fullName ?? "Guest"}</span>
-            </div>
-            <div className="m-10  flex ">
-              <span className="text-xl text-black">
-                {sessionData?.profile.type}
-              </span>
-            </div>
-
-            <div className="flex grid h-48 grid-cols-2 place-content-center gap-3">
-              <span className="text-xl text-black">Contact no:</span>
-              <span className="text-xl text-black">
-                {sessionData?.profile.contact_number}
-              </span>
-              <span className="text-xl text-black">Email Address:</span>
-              <span className="text-xl text-black">
-                {sessionData?.user.email}
-              </span>
-            </div>
-            <div className="flex w-full justify-center rounded-3xl border-2 border-black p-2 shadow-lg">
-              <button className="w-full" onClick={() => setShowEdit(true)}>
-                Edit Account
-              </button>
-            </div>
-          </section>
-
-          <section className="w-full">
-            <div className="w-full rounded-3xl shadow-lg">
-              <div className="flex w-full flex-col">
-                <div className="mb-4 flex flex-row items-center">
-                  <h1 className="ml-4 mr-4 mt-3 text-xl font-bold">
-                    My Favorites
-                  </h1>
-                </div>
-                <div className="flex justify-center pb-6 drop-shadow-md">
-                  <div className="flex flex-wrap">
-                    <FaveAccoms />
-                  </div>
+        <div className="flex-row-2 m-10 flex h-min w-auto ">
+          <Profile1 />
+          <section className="h-min w-full rounded-3xl bg-white shadow-lg">
+            <div className="flex w-full flex-col p-6">
+              <div className="flex flex-row justify-center text-center">
+                <h1 className="text-2xl font-bold text-p-dbviolet">
+                  My Favorites
+                </h1>
+              </div>
+              <div className="tems-center flex text-center drop-shadow-md">
+                <div className="flex flex-wrap">
+                  <FaveAccoms />
                 </div>
               </div>
             </div>
@@ -150,45 +88,13 @@ export default function Profile() {
         {showEdit && <Edit onCancel={() => setShowEdit(false)} />}
         {/* profile */}
         <div className="flex-row-2 m-10 flex h-auto w-auto ">
-          <section className="mr-5 flex h-min flex-col items-center space-y-2 whitespace-nowrap rounded-3xl bg-white p-14 font-medium shadow-xl">
-            <div className="relative mb-2 ml-32 mr-32 mt-5 flex h-[10.5rem] w-[10.5rem]">
-              <Image
-                src={sessionData?.user.image ?? user.src}
-                className="flex rounded-full object-contain"
-                alt="User Photo"
-                fill
-              />
-            </div>
-            <div className="m-10 flex">
-              <span className="text-3xl text-black">{fullName ?? "Guest"}</span>
-            </div>
-            <div className="m-10  flex ">
-              <span className="text-xl text-black">
-                {sessionData?.profile.type}
-              </span>
-            </div>
-
-            <div className="flex grid h-48 grid-cols-2 place-content-center gap-3">
-              <span className="text-xl text-black">Contact no:</span>
-              <span className="text-xl text-black">
-                {sessionData?.profile.contact_number}
-              </span>
-              <span className="text-xl text-black">Email Address:</span>
-              <span className="text-xl text-black">
-                {sessionData?.user.email}
-              </span>
-            </div>
-            <div className="flex w-full justify-center rounded-3xl border-2 border-black p-2 shadow-lg">
-              <button className="w-full" onClick={() => setShowEdit(true)}>
-                Edit Account
-              </button>
-            </div>
-          </section>
-
+          <Profile1 />
           {/* admin settings and notification */}
           <section className="w-full">
             <div className="rounded-3xl p-10 shadow-lg">
-              <h1 className="text-center text-xl font-bold">Admin Settings</h1>
+              <h1 className="text-center text-xl font-bold text-p-dbviolet">
+                Admin Settings
+              </h1>
               <p className="b mb-2 mt-2 w-1/2 text-sm text-gray-400">
                 <Link href="">Manage Reviews</Link>
               </p>
@@ -199,7 +105,7 @@ export default function Profile() {
               </p>
             </div>
             <div className="rounded-3xl p-10 shadow-lg ">
-              <h1 className="mb-10 text-center text-xl font-bold">
+              <h1 className="mb-10 text-center text-xl font-bold text-p-dbviolet  ">
                 Notifications
               </h1>
               {queryLoading ? (
@@ -229,7 +135,7 @@ export default function Profile() {
                             </p>
                           </div>
                         </div>
-                        <div className="mb-4 ml-14 flex">
+                        <div className="mb-2 ml-14 flex">
                           <p className="flex text-base">
                             reported {report.reported_name}
                           </p>
@@ -240,9 +146,11 @@ export default function Profile() {
                 </div>
               )}
 
-              <div className="flex w-full justify-center rounded-3xl border-2 border-black p-2 shadow-lg">
+              <div className="w-full">
                 <Link href="managereport">
-                  <button className="w-full">Manage Report</button>
+                  <button className="formConfirm bg-p-dviolet">
+                    Manage Report
+                  </button>
                 </Link>
               </div>
             </div>

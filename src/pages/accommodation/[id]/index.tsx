@@ -10,10 +10,14 @@ import { dynamicRouteID, stalsDBstringArray } from "~/utils/helpers";
 import Error404 from "~/pages/404";
 import { useSession } from "next-auth/react";
 import Review from "~/components/review";
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import Landlord from "~/components/landlord";
 import { UserType } from "@prisma/client";
 import toast from "react-hot-toast";
+import Carousel from "~/components/carousel";
+import LoadingSpinner from "~/components/loadingSpinner";
+import jsPDF from "jspdf";
+import autoTable from "jspdf-autotable";
 
 export default function Accommodation() {
   const { id } = dynamicRouteID(useRouter());
@@ -31,9 +35,6 @@ export default function Accommodation() {
 
   const { data: ImageList, isLoading: imageLoading } =
     api.file.getAccommImages.useQuery({ id });
-
-  // const { data: userReview, isLoading: reviewLoading } =
-  //   api.review.getTopReview.useQuery(id);
 
   const reportAccomm = api.report.add.useMutation();
 
@@ -99,6 +100,102 @@ export default function Accommodation() {
 
   const isLandlordViewing = accommData?.landlord === userSession?.user?.id;
 
+  const calledOnce = useRef(false);
+  const [pdfdownload, setpdfdownload] = useState(false);
+  const pdf = new jsPDF();
+
+  useEffect(() => {
+    if (calledOnce.current) {
+      calledOnce.current = false;
+      return;
+    }
+
+    if (pdfdownload) {
+      calledOnce.current = true;
+      setpdfdownload(false);
+
+      const roominfo: (string | number)[][] = [];
+
+      accommData?.Room.map((i, n) => {
+        if (i.is_archived == false) {
+          roominfo.push([
+            n + 1,
+            i.price,
+            i.occupied ? "Yes" : "No",
+            i.num_of_beds,
+            i.with_aircon ? "with" : "without",
+            i.with_utilities ? "with" : "without",
+          ]);
+        }
+      });
+
+      autoTable(pdf, {
+        head: [["Accommodation", "Details"]],
+        body: [
+          ["Name", accommData?.name ?? ""],
+          [
+            "Address",
+            `${accommData?.street_number ?? ""}${
+              accommData?.subdivision ?? ""
+            }${accommData?.barangay ? `Brgy. ${accommData?.barangay}` : ""}`,
+          ],
+          // `${accommData?.street_number ? `${accommData?.street_number} St. `:""}${accommData?.subdivision ? `${accommData?.subdivision} Subd. `:""}${accommData?.subdivision ?? ""}${accommData?.barangay ? `Brgy. ${accommData?.barangay}`:""}`],
+          [
+            "Type",
+            (accommData?.type ||
+              stalsDBstringArray(accommData?.typeArray).toString()) ??
+              "",
+          ],
+          ["Price", accommData?.price ?? ""],
+          ["Contract Length", accommData?.contract_length ?? "None specified"],
+          ["Tags", stalsDBstringArray(accommData?.tagArray).toString()],
+        ],
+
+        didDrawPage: function (data) {
+          // Page Header
+          pdf.setFillColor(29, 93, 154);
+          pdf.rect(10, 10, pdf.internal.pageSize.width - 20, 15, "F");
+          pdf.setFont("helvetica", "bold");
+          pdf.setFontSize(18);
+          pdf.setTextColor(255, 255, 255);
+          const textX = 20;
+          const textY = 20;
+          pdf.text("STALS", textX, textY);
+        },
+        margin: { top: 30 },
+        columnStyles: { 0: { cellWidth: 40 } },
+      });
+
+      autoTable(pdf, {
+        head: [
+          ["Room", "Price", "Occupied", "Beds", "Airconditioner", "Utilities"],
+        ],
+        body: roominfo,
+        margin: { top: 30 },
+        columnStyles: { 0: { cellWidth: 30 } },
+      });
+
+      autoTable(pdf, {
+        head: [["Landlord", "Details"]],
+        body: [
+          [
+            "Name",
+            `${accommData?.landlordUser.first_name ?? ""}  ${
+              accommData?.landlordUser.last_name ?? ""
+            }`,
+          ],
+          ["Contact Number", accommData?.landlordUser.contact_number ?? ""],
+          ["Email", accommData?.landlordUser.email_address ?? ""],
+        ],
+        margin: { top: 30 },
+        columnStyles: { 0: { cellWidth: 30 } },
+      });
+    }
+
+    if (calledOnce.current) pdf.save("STALS.pdf");
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [pdfdownload]);
+
   if (accommData === null) {
     return Error404();
   }
@@ -118,51 +215,25 @@ export default function Accommodation() {
             <div className="w-1/4 flex-none p-4">
               <div className="grid grid-cols-2 gap-4">
                 {/* main image */}
-                {!imageLoading && ImageList ? (
-                  ImageList?.length > 0 ? (
-                    ImageList?.map((src, i) => {
-                      if (i == 0) {
-                        return (
-                          <div
-                            key={i}
-                            className="max-w relative col-span-2 aspect-square"
-                          >
-                            <Image
-                              className="rounded-lg object-cover"
-                              src={src}
-                              alt="image"
-                              fill
-                              unoptimized
-                            />
-                          </div>
-                        );
-                      } else {
-                        return (
-                          <div key={i} className="max-w relative aspect-video">
-                            <Image
-                              className="rounded-lg object-cover"
-                              src={src}
-                              alt="image"
-                              fill
-                              unoptimized
-                            />
-                          </div>
-                        );
-                      }
-                    })
+                <div className="max-w relative col-span-2 aspect-square">
+                  {!imageLoading && ImageList ? (
+                    ImageList.length > 0 ? (
+                      <div className="max-w relative col-span-2 aspect-square">
+                        <Carousel imageList={ImageList} />
+                      </div>
+                    ) : (
+                      <div className="max-w relative col-span-2 aspect-square rounded-md bg-gray-400 text-center">
+                        No Image
+                      </div>
+                    )
                   ) : (
-                    <div className="max-w relative col-span-2 aspect-square rounded-md bg-gray-400 text-center">
-                      No Image
+                    <div>
+                      <LoadingSpinner />
                     </div>
-                  )
-                ) : (
-                  <>
-                    <div className="max-w relative col-span-2 aspect-square animate-pulse rounded-md bg-gray-400"></div>
-                    <div className="max-w relative aspect-video animate-pulse rounded-md bg-gray-400"></div>
-                    <div className="max-w relative aspect-video animate-pulse rounded-md bg-gray-400"></div>
-                  </>
-                )}
+                  )}
+                </div>
               </div>
+
               <div className="mt-4 flex flex-row divide-x-2 divide-transparent pt-4">
                 <div className="w-[100%] rounded-[15px] border border-gray-200 bg-gray-200 p-3">
                   <div className="text-center">
@@ -289,7 +360,7 @@ export default function Accommodation() {
                       <button
                         className="accPButton sr-only mx-3 mb-2 self-end px-3 text-lg"
                         onClick={() => {
-                          print();
+                          setpdfdownload(true);
                         }}
                       />
                       <svg
@@ -326,41 +397,44 @@ export default function Accommodation() {
                 />
               </div>
 
-              {/* STATS */}
+              {/* DESCRIPTION */}
+              <div className="flex basis-1/2 flex-col">
+                <div className="group overflow-hidden px-4 py-2">
+                  {/* TODO: since the tags of an accommodation is just a string, just print that string here.*/}
 
-              {/* TODO:
-              Yung idea na meron ako for dito is ipasa na lang ung PATH and ung i-priprint na info tulad ng number and address
-
-              Make the parts that have info appear only. */}
-              <div className="flex flex-row gap-2 px-3 text-sm">
-                {/* pHONE NUMBER */}
-                <div className="flex flex-row items-center gap-x-1 p-1">
-                  <div className="">
-                    <svg
-                      fill="none"
-                      viewBox="0 0 24 24"
-                      strokeWidth="1.5"
-                      stroke="currentColor"
-                      className="h-5 w-5"
+                  {/* {accommData?.tags} */}
+                  {tagArr.map((tags, index) => (
+                    <span
+                      key={index}
+                      className="mb-2 mr-2 inline-block rounded-full bg-p-lviolet px-3 py-1 text-sm font-semibold text-gray-700"
                     >
-                      <path
-                        strokeLinecap="round"
-                        strokeLinejoin="round"
-                        d="M15.75 6a3.75 3.75 0 11-7.5 0 3.75 3.75 0 017.5 0zM4.501 20.118a7.5 7.5 0 0114.998 0A17.933 17.933 0 0112 21.75c-2.676 0-5.216-.584-7.499-1.632z"
-                      />
-                    </svg>
-                  </div>
-                  {!accommLoading ? (
-                    <div className="">{accommData?.contact_number}</div>
-                  ) : (
-                    <div className="w-10 animate-pulse overflow-hidden rounded-full bg-gray-400">
-                      &nbsp;&nbsp;
-                    </div>
-                  )}
+                      {tags}
+                    </span>
+                  ))}
                 </div>
-                {/* LOCATION */}
-                <div className="flex flex-row items-center gap-x-1 p-1">
-                  <div className="">
+
+                {/* Other deets */}
+
+                <div className="flex flex-col gap-2">
+                  {/* Price */}
+                  <div className="flex flex-row gap-10 px-3">
+                    <svg
+                      fill="#000000"
+                      width="16"
+                      height="16"
+                      viewBox="0 0 36 36"
+                      version="1.1"
+                      preserveAspectRatio="xMidYMid meet"
+                      xmlns="http://www.w3.org/2000/svg"
+                      className="aspect-square h-full place-self-center"
+                    >
+                      <path d="M31,13.2H27.89A6.81,6.81,0,0,0,28,12a7.85,7.85,0,0,0-.1-1.19h2.93a.8.8,0,0,0,0-1.6H27.46A8.44,8.44,0,0,0,19.57,4H11a1,1,0,0,0-1,1V9.2H7a.8.8,0,0,0,0,1.6h3v2.4H7a.8.8,0,0,0,0,1.6h3V31a1,1,0,0,0,2,0V20h7.57a8.45,8.45,0,0,0,7.89-5.2H31a.8.8,0,0,0,0-1.6ZM12,6h7.57a6.51,6.51,0,0,1,5.68,3.2H12Zm0,4.8H25.87a5.6,5.6,0,0,1,0,2.4H12ZM19.57,18H12V14.8H25.25A6.51,6.51,0,0,1,19.57,18Z"></path>
+                    </svg>
+                    <p>{accommData?.price}</p>
+                  </div>
+
+                  {/* Location */}
+                  <div className="flex flex-row gap-10 px-2">
                     <svg
                       xmlns="http://www.w3.org/2000/svg"
                       fill="none"
@@ -380,78 +454,65 @@ export default function Accommodation() {
                         d="M19.5 10.5c0 7.142-7.5 11.25-7.5 11.25S4.5 17.642 4.5 10.5a7.5 7.5 0 1115 0z"
                       />
                     </svg>
+                    {!accommLoading ? (
+                      <div className="">
+                        {accommData?.street_number} {accommData?.subdivision}{" "}
+                        {accommData?.barangay}
+                      </div>
+                    ) : (
+                      <div className="w-10 animate-pulse overflow-hidden rounded-full bg-gray-400">
+                        &nbsp;&nbsp;
+                      </div>
+                    )}
                   </div>
-                  {!accommLoading ? (
-                    <div className="">
-                      {accommData?.street_number} {accommData?.subdivision}{" "}
-                      {accommData?.barangay}
+
+                  {/* Address */}
+                  <div className="flex flex-row gap-10 px-2">
+                    {accommData?.contact_number ? (
+                      <>
+                        <svg
+                          fill="none"
+                          viewBox="0 0 24 24"
+                          strokeWidth="1.5"
+                          stroke="currentColor"
+                          className="h-5 w-5"
+                        >
+                          <path
+                            strokeLinecap="round"
+                            strokeLinejoin="round"
+                            d="M15.75 6a3.75 3.75 0 11-7.5 0 3.75 3.75 0 017.5 0zM4.501 20.118a7.5 7.5 0 0114.998 0A17.933 17.933 0 0112 21.75c-2.676 0-5.216-.584-7.499-1.632z"
+                          />
+                        </svg>
+                        <p>{accommData?.contact_number}</p>
+                      </>
+                    ) : (
+                      <></>
+                    )}
+                  </div>
+
+                  {accommData?.fb_page ? (
+                    <div className="flex flex-row gap-10 px-2">
+                      <svg
+                        xmlns="http://www.w3.org/2000/svg"
+                        width="16"
+                        height="16"
+                        fill="p-dblue"
+                        className="h-5 w-5"
+                        viewBox="0 0 16 16"
+                      >
+                        <path d="M16 8.049c0-4.446-3.582-8.05-8-8.05C3.58 0-.002 3.603-.002 8.05c0 4.017 2.926 7.347 6.75 7.951v-5.625h-2.03V8.05H6.75V6.275c0-2.017 1.195-3.131 3.022-3.131.876 0 1.791.157 1.791.157v1.98h-1.009c-.993 0-1.303.621-1.303 1.258v1.51h2.218l-.354 2.326H9.25V16c3.824-.604 6.75-3.934 6.75-7.951z" />
+                      </svg>
+                      <Link
+                        href={`https://${accommData.fb_page}`}
+                        target="_blank"
+                        className="cursor-pointer underline"
+                      >
+                        <p>{accommData.fb_page}</p>
+                      </Link>
                     </div>
                   ) : (
-                    <div className="w-10 animate-pulse overflow-hidden rounded-full bg-gray-400">
-                      &nbsp;&nbsp;
-                    </div>
+                    <></>
                   )}
-                </div>
-
-                {/* SHOULD APPEAR IF SOCIAL MEDIA EXISTS */}
-                {accommData?.fb_page ? (
-                  <Link
-                    href={accommData.fb_page}
-                    className="cursor-pointer underline"
-                  >
-                    <div className="flex flex-row items-center gap-x-1 p-1">
-                      <div className="">
-                        <svg
-                          xmlns="http://www.w3.org/2000/svg"
-                          width="16"
-                          height="16"
-                          fill="p-dblue"
-                          className="h-5 w-5"
-                          viewBox="0 0 16 16"
-                        >
-                          <path d="M16 8.049c0-4.446-3.582-8.05-8-8.05C3.58 0-.002 3.603-.002 8.05c0 4.017 2.926 7.347 6.75 7.951v-5.625h-2.03V8.05H6.75V6.275c0-2.017 1.195-3.131 3.022-3.131.876 0 1.791.157 1.791.157v1.98h-1.009c-.993 0-1.303.621-1.303 1.258v1.51h2.218l-.354 2.326H9.25V16c3.824-.604 6.75-3.934 6.75-7.951z" />
-                        </svg>
-                      </div>
-                      <p>Here</p>
-                    </div>
-                  </Link>
-                ) : (
-                  <div />
-                )}
-              </div>
-
-              {/* DESCRIPTION */}
-              <div className="flex basis-1/2 flex-col">
-                <div className="group overflow-hidden px-4 py-2">
-                  {/* TODO: since the tags of an accommodation is just a string, just print that string here.*/}
-
-                  {/* {accommData?.tags} */}
-                  {tagArr.map((tags, index) => (
-                    <span
-                      key={index}
-                      className="mb-2 mr-2 inline-block rounded-full bg-p-lviolet px-3 py-1 text-sm font-semibold text-gray-700"
-                    >
-                      {tags}
-                    </span>
-                  ))}
-                </div>
-
-                {/* Other deets */}
-
-                <div className="grid w-1/2 grid-cols-2 px-3">
-                  {/* TODO get the corresponding info: */}
-                  <div className="flex flex-col gap-2 p-4">
-                    <h1 className="form-h2">Price</h1>
-                    {/* <h1 className="form-h2">Capacity</h1> */}
-                    {/*TODO: CONTRACT LENGTH IS A CONDITIONAL THAT ONLY APPEARS IF THE ACCOMMODATION IS A DORMITORY */}
-                    {/* <h1 className="form-h2">Contract Length</h1> */}
-                  </div>
-
-                  <div className="flex flex-col gap-2 space-y-1 p-4">
-                    <p>{accommData?.price} Pesos</p>
-                    {/* <p>(min) to (max) people</p> */}
-                    {/* <p>{accommData?.contract_length}</p> */}
-                  </div>
                 </div>
 
                 {/* Rooms 
