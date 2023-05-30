@@ -92,7 +92,7 @@ export default function ManageReport() {
                       </div>
                       <div className="mb-4 ml-14 flex">
                         <p className="flex text-base">
-                          reported a review on {report.reported_name}
+                          reported a review posted on {report.reported_name}
                         </p>
                       </div>
                     </div>
