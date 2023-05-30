@@ -80,7 +80,7 @@ const RoomButton: React.FC<{
                 roomArchive={roomArchive}
               />
               <button
-                className="mt-4 w-[15%] rounded bg-p-dviolet px-4 py-2 text-white hover:bg-p-dbviolet"
+                className="mt-4 w-[15%] rounded bg-p-dviolet p-2 text-white hover:bg-p-dbviolet"
                 onClick={() => setShowRooms(false)}
               >
                 Close
