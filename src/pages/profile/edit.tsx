@@ -60,7 +60,9 @@ const EditProfile: React.FC<{
         <div className="fixed inset-x-0 top-0 flex h-screen items-center justify-center drop-shadow-md  ">
           <div className="w-fit rounded-xl bg-white px-10 py-10">
             <div className="item-center flex justify-center px-2 pb-0 pt-0 drop-shadow-md">
-              <h1 className="text-3xl font-bold text-blue-700">Edit profile</h1>
+              <h1 className="text-3xl font-bold text-p-dbviolet">
+                Edit profile
+              </h1>
             </div>
 
             <div className="flex justify-center pb-6 drop-shadow-md">
@@ -150,13 +152,13 @@ const EditProfile: React.FC<{
               <br />
               <div>
                 <div className="py-2">
-                  <button className="group relative flex w-full justify-center rounded-full bg-p-dblue px-4 py-2 text-white shadow shadow-gray-400/100 hover:bg-blue-700">
+                  <button className="formConfirm bg-p-dviolet">
                     Save changes
                   </button>
                 </div>
                 <div>
                   <button
-                    className="group relative flex w-full justify-center rounded-full bg-slate-500 px-4 py-2 text-white shadow shadow-gray-400/100 hover:bg-slate-600"
+                    className="formReject"
                     onClick={onCancel}
                     type="button"
                   >
@@ -167,12 +169,9 @@ const EditProfile: React.FC<{
               </div>
             </form>
 
-            <div
-              data-modal-target="prompt"
-              className="mt-2 flex w-full justify-center rounded-3xl border-2 border-red-600 p-2 text-red-600 shadow-lg hover:bg-red-800 hover:text-white"
-            >
+            <div className="py-2">
               <button
-                className="w-full "
+                className="formReject bg-p-red"
                 onClick={() => setShowDeacPrompt(true)}
               >
                 Delete Account
