@@ -1,7 +1,7 @@
 import NavBar from "~/components/navbar";
 import { type UseFormRegister, useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { AccommodationType } from "@prisma/client";
+import { AccommodationType, UserType } from "@prisma/client";
 import { api } from "~/utils/api";
 import { accommodationAddSchema } from "~/utils/apitypes";
 import bgpic from "public/images/addaccom_bg.png";
@@ -11,6 +11,7 @@ import LoadingSpinner from "~/components/loadingSpinner";
 import { notAuthenticated } from "~/utils/helpers";
 import { type z } from "zod";
 import { useState } from "react";
+import Error401 from "~/pages/401";
 
 export default function AddAccommodation() {
   const userSession = useSession({ required: true });
@@ -38,7 +39,9 @@ export default function AddAccommodation() {
   if (notAuthenticated(userSession.status)) {
     return <LoadingSpinner />;
   }
-
+  if (userSession?.data?.profile.type === UserType.USER) {
+    return Error401();
+  }
   return (
     <div className="overflow-visible">
       <img
