@@ -6,7 +6,7 @@ import Link from "next/link";
 import Image from "next/image";
 import { api } from "~/utils/api";
 import { useRouter } from "next/router";
-import { dynamicRouteID } from "~/utils/helpers";
+import { dynamicRouteID, stalsDBstringArray } from "~/utils/helpers";
 import Error404 from "~/pages/404";
 import { useSession } from "next-auth/react";
 import Review from "~/components/review";
@@ -14,6 +14,8 @@ import { useEffect, useState } from "react";
 import Landlord from "~/components/landlord";
 import { UserType } from "@prisma/client";
 import toast from "react-hot-toast";
+import Carousel from "~/components/carousel";
+import LoadingSpinner from "~/components/loadingSpinner";
 
 export default function Accommodation() {
   const { id } = dynamicRouteID(useRouter());
@@ -80,6 +82,8 @@ export default function Accommodation() {
     setIsFavorite(!isFavorite);
   };
 
+  const tagArr = stalsDBstringArray(accommData?.tagArray);
+
   useEffect(() => {
     // Check if accommodationId exists in favorites
     if (favorites && !isGuest) {
@@ -116,51 +120,25 @@ export default function Accommodation() {
             <div className="w-1/4 flex-none p-4">
               <div className="grid grid-cols-2 gap-4">
                 {/* main image */}
-                {!imageLoading && ImageList ? (
-                  ImageList?.length > 0 ? (
-                    ImageList?.map((src, i) => {
-                      if (i == 0) {
-                        return (
-                          <div
-                            key={i}
-                            className="max-w relative col-span-2 aspect-square"
-                          >
-                            <Image
-                              className="rounded-lg object-cover"
-                              src={src}
-                              alt="image"
-                              fill
-                              unoptimized
-                            />
-                          </div>
-                        );
-                      } else {
-                        return (
-                          <div key={i} className="max-w relative aspect-video">
-                            <Image
-                              className="rounded-lg object-cover"
-                              src={src}
-                              alt="image"
-                              fill
-                              unoptimized
-                            />
-                          </div>
-                        );
-                      }
-                    })
+                <div className="max-w relative col-span-2 aspect-square">
+                  {!imageLoading && ImageList ? (
+                    ImageList.length > 0 ? (
+                      <div className="max-w relative col-span-2 aspect-square">
+                        <Carousel imageList={ImageList} />
+                      </div>
+                    ) : (
+                      <div className="max-w relative col-span-2 aspect-square rounded-md bg-gray-400 text-center">
+                        No Image
+                      </div>
+                    )
                   ) : (
-                    <div className="max-w relative col-span-2 aspect-square rounded-md bg-gray-400 text-center">
-                      No Image
+                    <div>
+                      <LoadingSpinner />
                     </div>
-                  )
-                ) : (
-                  <>
-                    <div className="max-w relative col-span-2 aspect-square animate-pulse rounded-md bg-gray-400"></div>
-                    <div className="max-w relative aspect-video animate-pulse rounded-md bg-gray-400"></div>
-                    <div className="max-w relative aspect-video animate-pulse rounded-md bg-gray-400"></div>
-                  </>
-                )}
+                  )}
+                </div>
               </div>
+
               <div className="mt-4 flex flex-row divide-x-2 divide-transparent pt-4">
                 <div className="w-[100%] rounded-[15px] border border-gray-200 bg-gray-200 p-3">
                   <div className="text-center">
@@ -313,7 +291,9 @@ export default function Accommodation() {
               <div className="px-4 text-xl italic">{accommData?.type}</div>
 
               {/* LANDLORD */}
+
               <div className="text-xl">
+                <p className="mx-3 -mb-4 mt-2 text-sm italic">Posted by:</p>
                 <Landlord
                   firstname={accommData?.landlordUser.first_name}
                   lastname={accommData?.landlordUser.last_name}
@@ -378,7 +358,10 @@ export default function Accommodation() {
                     </svg>
                   </div>
                   {!accommLoading ? (
-                    <div className="">{accommData?.location}</div>
+                    <div className="">
+                      {accommData?.street_number} {accommData?.subdivision}{" "}
+                      {accommData?.barangay}
+                    </div>
                   ) : (
                     <div className="w-10 animate-pulse overflow-hidden rounded-full bg-gray-400">
                       &nbsp;&nbsp;
@@ -417,7 +400,16 @@ export default function Accommodation() {
               <div className="flex basis-1/2 flex-col">
                 <div className="group overflow-hidden px-4 py-2">
                   {/* TODO: since the tags of an accommodation is just a string, just print that string here.*/}
-                  <p className="py-1 text-sm italic">{accommData?.tags}</p>
+
+                  {/* {accommData?.tags} */}
+                  {tagArr.map((tags, index) => (
+                    <span
+                      key={index}
+                      className="mb-2 mr-2 inline-block rounded-full bg-p-lviolet px-3 py-1 text-sm font-semibold text-gray-700"
+                    >
+                      {tags}
+                    </span>
+                  ))}
                 </div>
 
                 {/* Other deets */}
@@ -426,15 +418,15 @@ export default function Accommodation() {
                   {/* TODO get the corresponding info: */}
                   <div className="flex flex-col gap-2 p-4">
                     <h1 className="form-h2">Price</h1>
-                    <h1 className="form-h2">Capacity</h1>
+                    {/* <h1 className="form-h2">Capacity</h1> */}
                     {/*TODO: CONTRACT LENGTH IS A CONDITIONAL THAT ONLY APPEARS IF THE ACCOMMODATION IS A DORMITORY */}
-                    <h1 className="form-h2">Contract Length</h1>
+                    {/* <h1 className="form-h2">Contract Length</h1> */}
                   </div>
 
                   <div className="flex flex-col gap-2 space-y-1 p-4">
                     <p>{accommData?.price} Pesos</p>
-                    <p>(min) to (max) people</p>
-                    <p>{accommData?.contract_length}</p>
+                    {/* <p>(min) to (max) people</p> */}
+                    {/* <p>{accommData?.contract_length}</p> */}
                   </div>
                 </div>
 

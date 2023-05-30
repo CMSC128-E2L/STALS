@@ -56,7 +56,7 @@ const Accomm_Segment: React.FC<{
       <div className="mx-auto rounded border-2 bg-white p-2 shadow-md">
         <div className="flex flex-row space-x-2">
           <img
-            className="w-1/2 p-2"
+            className="aspect-square p-2"
             src={imgSrc}
             alt="placeholder img"
             style={{ maxWidth: "500px", maxHeight: "250px" }}

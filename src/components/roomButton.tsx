@@ -45,7 +45,7 @@ const RoomButton: React.FC<{
             <label className="bold self-center text-lg text-white">
               Room {String(roomIndex + 1)}
             </label>
-            <p className="text-md self-center px-1 italic text-white ">
+            <p className="text-md self-center whitespace-nowrap px-1 italic text-white">
               {status ? "Occupied" : "Unoccupied"} <br /> ₱ {roomPrice}
             </p>
           </button>
@@ -59,7 +59,7 @@ const RoomButton: React.FC<{
             <label className="bold self-center text-lg">
               Room {String(roomIndex + 1)}
             </label>
-            <p className="text-md self-center px-1 italic ">
+            <p className="text-md self-center whitespace-nowrap px-1 italic">
               {status ? "Occupied" : "Unoccupied"} <br /> ₱ {roomPrice}
             </p>
           </button>
@@ -80,7 +80,7 @@ const RoomButton: React.FC<{
                 roomArchive={roomArchive}
               />
               <button
-                className="mt-4 w-[15%] rounded bg-p-dviolet px-4 py-2 text-white hover:bg-p-dbviolet"
+                className="mt-4 w-[15%] rounded bg-p-dviolet p-2 text-white hover:bg-p-dbviolet"
                 onClick={() => setShowRooms(false)}
               >
                 Close
