@@ -10,7 +10,6 @@ import { type UseInfiniteQueryResult } from "@tanstack/react-query";
 import { useForm, useWatch, type Control } from "react-hook-form";
 import jsPDF from "jspdf";
 import autoTable from "jspdf-autotable";
-import { type Accommodation } from "@prisma/client";
 import { useSession } from "next-auth/react";
 
 export default function HomePage() {
@@ -153,11 +152,13 @@ export default function HomePage() {
       setpdfdownload(false);
 
       accommodationEntries?.pages.map((page, nyom: number) => {
-        page?.items?.map((i: Accommodation) => {
+        page?.items?.map((i) => {
           info.push([
             i.name,
             i.address ?? "",
-            i.landlord,
+            `${i.landlordUser.first_name ?? ""}  ${
+              i.landlordUser.last_name ?? ""
+            }`,
             i.contact_number,
             i.num_of_rooms,
           ]);
@@ -664,7 +665,7 @@ const Location: React.FC<{
               }
             }
           }}
-          className="filter-search"
+          className="filter-search text-p-dviolet"
           placeholder="Type for suggestions..."
         />
         {showSuggestions && (

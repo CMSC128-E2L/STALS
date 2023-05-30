@@ -99,7 +99,11 @@ export const accommodationRouter = createTRPCRouter({
   getOneRelations: publicProcedure.input(z.string()).query(({ ctx, input }) => {
     const id = input;
     return ctx.prisma.accommodation.findUnique({
-      include: { Room: true, Review: true, landlordUser: true },
+      include: {
+        Room: { orderBy: { occupied: "asc" } },
+        Review: true,
+        landlordUser: true,
+      },
       where: { id },
     });
   }),
@@ -216,6 +220,7 @@ export const accommodationRouter = createTRPCRouter({
       const items = await ctx.prisma.accommodation.findMany({
         take: limit + 1,
         cursor: cursor ? { id: cursor } : undefined,
+        include: { landlordUser: true },
         where: {
           ...(input.is_archived !== undefined
             ? { is_archived: input.is_archived }

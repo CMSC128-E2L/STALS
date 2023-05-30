@@ -73,11 +73,11 @@
   }
 
   .dropdown-buttons {
-    @apply flex w-full items-center rounded-lg p-1 py-2 hover:bg-p-gray focus:outline-none;
+    @apply flex w-full items-center rounded-lg px-1 py-2 hover:bg-p-gray focus:outline-none;
   }
 
   .filter-text {
-    @apply ml-2 text-xs text-violet-950;
+    @apply ml-2 text-xs text-black;
   }
 
   .filter-search {
