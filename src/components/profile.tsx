@@ -1,17 +1,16 @@
 import { useSession } from "next-auth/react";
 import Image from "next/image";
 import user from "public/images/def_user.png";
-import { useState } from "react";
 
-export default function Profile() {
+const Profile: React.FC<{
+  onClick: () => void;
+}> = ({ onClick }) => {
   const { data: sessionData } = useSession();
 
   const fullName = `${sessionData?.profile.first_name ?? ""} ${
     sessionData?.profile?.middle_name ?? ""
   } ${sessionData?.profile.last_name ?? ""}
   ${sessionData?.profile.Suffix ?? ""}`;
-
-  const [showEdit, setShowEdit] = useState(false);
 
   return (
     <>
@@ -44,7 +43,7 @@ export default function Profile() {
         <div className="w-full">
           <button
             className="formConfirm bg-p-dviolet"
-            onClick={() => setShowEdit(true)}
+            onClick={() => onClick()}
           >
             Edit Account
           </button>
@@ -52,4 +51,6 @@ export default function Profile() {
       </section>
     </>
   );
-}
+};
+
+export default Profile;

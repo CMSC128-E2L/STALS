@@ -8,20 +8,13 @@ import ManageReport from "../managereport";
 import Profile1 from "~/components/profile";
 import FaveAccoms from "~/components/FaveAccoms";
 import bgpic from "public/images/signup_bg.png";
-import { useSession, signOut } from "next-auth/react";
-import { useRouter } from "next/router";
+import { useSession } from "next-auth/react";
 import { api } from "~/utils/api";
 import { UserType } from "@prisma/client";
 import { useState } from "react";
 
 export default function Profile() {
   const { data: sessionData } = useSession();
-  const router = useRouter();
-
-  const fullName = `${sessionData?.profile.first_name ?? ""} ${
-    sessionData?.profile?.middle_name ?? ""
-  } ${sessionData?.profile.last_name ?? ""}
-  ${sessionData?.profile.Suffix ?? ""}`;
 
   const {
     data: reports,
@@ -148,7 +141,7 @@ export default function Profile() {
       />
       {showEdit && <Edit onCancel={() => setShowEdit(false)} />}
       <div className="flex w-full flex-col space-y-2 p-2 sm:flex-row sm:space-y-0 sm:p-12">
-        <Profile1 />
+        <Profile1 onClick={() => setShowEdit(true)} />
         {sessionData?.profile.type == UserType.USER && <USERBODY />}
         {sessionData?.profile.type == UserType.LANDLORD && <LANDLORDBODY />}
         {sessionData?.profile.type == UserType.ADMIN && <ADMINBODY />}
