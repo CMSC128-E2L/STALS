@@ -1,9 +1,10 @@
 import { useSession } from "next-auth/react";
 import Image from "next/image";
 import user from "public/images/def_user.png";
-import { useState } from "react";
 
-export default function Profile() {
+const Profile: React.FC<{
+  onClick: () => void;
+}> = ({ onClick }) => {
   const { data: sessionData } = useSession();
 
   const fullName = `${sessionData?.profile.first_name ?? ""} ${
@@ -11,11 +12,9 @@ export default function Profile() {
   } ${sessionData?.profile.last_name ?? ""}
   ${sessionData?.profile.Suffix ?? ""}`;
 
-  const [showEdit, setShowEdit] = useState(false);
-
   return (
     <>
-      <section className="sticky top-5 mr-5 flex h-min flex-col items-center space-y-2 whitespace-nowrap rounded-3xl bg-white p-14 font-medium shadow-xl">
+      <section className="flex h-min flex-col items-center space-y-2 whitespace-nowrap rounded-3xl bg-white p-14 font-medium shadow-xl sm:sticky sm:top-5 sm:mr-5">
         <div className="relative mb-2 ml-32 mr-32 mt-5 flex h-[10.5rem] w-[10.5rem]">
           <Image
             src={sessionData?.user.image ?? user.src}
@@ -33,7 +32,7 @@ export default function Profile() {
           </span>
         </div>
 
-        <div className="flex grid h-48 grid-cols-2 place-content-center gap-3">
+        <div className="grid h-48 grid-cols-1 place-content-center gap-3 sm:grid-cols-2">
           <span className="text-xl text-black">Contact no:</span>
           <span className="text-xl text-black">
             {sessionData?.profile.contact_number}
@@ -44,7 +43,7 @@ export default function Profile() {
         <div className="w-full">
           <button
             className="formConfirm bg-p-dviolet"
-            onClick={() => setShowEdit(true)}
+            onClick={() => onClick()}
           >
             Edit Account
           </button>
@@ -52,4 +51,6 @@ export default function Profile() {
       </section>
     </>
   );
-}
+};
+
+export default Profile;
