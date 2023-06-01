@@ -256,7 +256,7 @@ export default function Accommodation() {
             {!accommLoading ? (
               <h1 className="text-3xl font-bold">{accommData?.name}</h1>
             ) : (
-              <h1 className="w-[100px] animate-pulse rounded-full bg-gray-400 text-3xl font-bold">
+              <h1 className="w-[300px] animate-pulse rounded-full bg-gray-400 text-3xl font-bold">
                 &nbsp;&nbsp;
               </h1>
             )}
@@ -427,7 +427,13 @@ export default function Accommodation() {
               >
                 <path d="M31,13.2H27.89A6.81,6.81,0,0,0,28,12a7.85,7.85,0,0,0-.1-1.19h2.93a.8.8,0,0,0,0-1.6H27.46A8.44,8.44,0,0,0,19.57,4H11a1,1,0,0,0-1,1V9.2H7a.8.8,0,0,0,0,1.6h3v2.4H7a.8.8,0,0,0,0,1.6h3V31a1,1,0,0,0,2,0V20h7.57a8.45,8.45,0,0,0,7.89-5.2H31a.8.8,0,0,0,0-1.6ZM12,6h7.57a6.51,6.51,0,0,1,5.68,3.2H12Zm0,4.8H25.87a5.6,5.6,0,0,1,0,2.4H12ZM19.57,18H12V14.8H25.25A6.51,6.51,0,0,1,19.57,18Z"></path>
               </svg>
-              <p>{accommData?.price}</p>
+              {!accommLoading ? (
+                <div className="">{accommData?.price}</div>
+              ) : (
+                <div className="w-[100px] animate-pulse overflow-hidden rounded-full bg-gray-400">
+                  &nbsp;&nbsp;
+                </div>
+              )}
             </div>
 
             {/* Location */}
@@ -457,7 +463,7 @@ export default function Accommodation() {
                   {accommData?.barangay}
                 </div>
               ) : (
-                <div className="w-10 animate-pulse overflow-hidden rounded-full bg-gray-400">
+                <div className="w-[100px] animate-pulse overflow-hidden rounded-full bg-gray-400">
                   &nbsp;&nbsp;
                 </div>
               )}
@@ -514,7 +520,7 @@ export default function Accommodation() {
 
           {/* Rooms 
       TODO: This is gonna get the list of rooms in prisma/schema.prisma and load the component <RoomButton /> (components/RoomButton.tsx) with the room id.*/}
-          <div className="scrollbar flex flex-row items-stretch space-x-3 overflow-x-auto px-3 py-3">
+          <div className="scrollbar flex flex-row items-stretch justify-center space-x-3 overflow-x-auto p-3">
             {accommData?.Room && accommData?.Room.length > 0 ? (
               accommData?.Room.map((room, i: number) => (
                 <RoomButton
@@ -539,7 +545,9 @@ export default function Accommodation() {
                 />
               ))
             ) : (
-              <p>No rooms are available yet.</p>
+              <p className="items-center justify-center">
+                No rooms are available yet.
+              </p>
             )}
 
             {/* TODO: ADD ROOM BUTTON SHOULD ONLY APPEAR IF LANDLORD IS LOOKING AT PAGE */}
@@ -590,10 +598,10 @@ export default function Accommodation() {
           <div className="w-full sm:col-span-2">
             <Description />
           </div>
-          <div className="w-full">
+          <div className="w-full px-4">
             <OverAllRating />
           </div>
-          <div className="w-full sm:col-span-2">
+          <div className="w-full px-4 sm:col-span-2">
             <Review />
           </div>
         </div>
