@@ -32,15 +32,15 @@ export const SearchItem: React.FC<{
     //   </div>
     // </Link>
 
-    <div className="ml-10 w-1/5 p-1">
-      <Link href={`/accommodation/${id}`}>
-        <div className="... m-5 flex h-[40vh] w-[40vw] max-w-full flex-col items-center rounded-xl border-2 border-solid shadow-xl transition delay-150 duration-300 ease-in-out hover:-translate-y-1 hover:scale-110 hover:bg-p-lviolet">
-          <div className="relative m-3 flex h-[20vh] w-[15vw] items-center justify-center">
+    <div className="m-4 self-stretch">
+      <Link href={`/accommodation/${id}`} className="h-full">
+        <div className="h-full flex-col items-center rounded-xl border-2 border-solid bg-gray-50 shadow-xl transition delay-150 duration-300 ease-in-out hover:-translate-y-1 hover:scale-110 hover:bg-p-lviolet sm:w-72">
+          <div className="relative flex aspect-video w-full items-center justify-center ">
             <Image
               src={imgSrc}
               alt={name}
               fill
-              className="rounded-xl object-contain"
+              className="rounded-t-xl object-contain"
               unoptimized
               onError={() => {
                 setImgSrc(placeholder.src);
@@ -48,7 +48,7 @@ export const SearchItem: React.FC<{
             />
           </div>
 
-          <div className="w-full grow flex-col bg-gray-50 p-4">
+          <div className="w-full flex-col bg-gray-50 p-4">
             <div className="py-p px-6">
               <div className="mb-2 text-xl font-bold">{name}</div>
               <p className="text-xl">Php {price}</p>
