@@ -2,6 +2,7 @@ import { type RouterInputs, api } from "~/utils/api";
 import { useSession } from "next-auth/react";
 import SearchItem from "./SearchItem";
 import { useEffect } from "react";
+import { stalsDBstringArray } from "~/utils/helpers";
 
 export const FaveAccoms: React.FC = () => {
   const session = useSession();
@@ -29,8 +30,8 @@ export const FaveAccoms: React.FC = () => {
                 id={favorite.accommodation.id}
                 name={favorite.accommodation.name}
                 price={favorite.accommodation.price}
-                location={favorite.accommodation.location}
-                tags={[favorite.accommodation.tags]}
+                location={favorite.accommodation.barangay}
+                tags={stalsDBstringArray(favorite.accommodation.tagArray)}
               />
             ))}
           </>
