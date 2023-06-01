@@ -98,7 +98,9 @@ export default function Accommodation() {
   //   status: undefined,
   // });
 
-  const isLandlordViewing = accommData?.landlord === userSession?.user?.id;
+  const isLandlordViewing =
+    userSession?.profile.type === UserType.LANDLORD &&
+    accommData?.landlord === userSession?.user?.id;
 
   const calledOnce = useRef(false);
   const [pdfdownload, setpdfdownload] = useState(false);
@@ -250,7 +252,7 @@ export default function Accommodation() {
         {/* ACCOMMODATION NAME + edit + delete thngy idk*/}
         <div className="flex flex-row items-stretch justify-between">
           {/* Left column (accommodation name) */}
-          <div className="flex flex-auto items-center px-3">
+          <div className="flex flex-auto grow items-center px-3">
             {!accommLoading ? (
               <h1 className="text-3xl font-bold">{accommData?.name}</h1>
             ) : (
@@ -260,8 +262,8 @@ export default function Accommodation() {
             )}
           </div>
 
-          {/* Right column: the editing thingy ig */}
-          <div className="w-full grow">
+          {/* Right column: functional buttons (favorite, download, edit, etc) */}
+          <div className="">
             {/* TODO: So if a registered user is viewing it (remove hidden to show teehee)
         WONDERING KUNG UNG IMPLEMENTATION NA LANG NITO VIA COMPONENT OR NAH*/}
             <div className="flex flex-row items-center gap-2">
