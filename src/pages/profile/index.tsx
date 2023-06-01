@@ -62,7 +62,7 @@ export default function Profile() {
         <NavBar />
         {showEdit && <Edit onCancel={() => setShowEdit(false)} />}
         {/* Content */}
-        <div className="flex-row-2 m-10 flex h-min w-auto ">
+        <div className="flex h-min w-full flex-col space-y-2 p-2 sm:flex-row sm:space-y-0 sm:p-12">
           <Profile1 />
           <section className="h-min w-full rounded-3xl bg-white shadow-lg">
             <div className="flex w-full flex-col p-6">
@@ -71,7 +71,7 @@ export default function Profile() {
                   My Favorites
                 </h1>
               </div>
-              <div className="tems-center flex text-center drop-shadow-md">
+              <div className="flex items-center text-center drop-shadow-md">
                 <div className="flex flex-wrap">
                   <FaveAccoms />
                 </div>
