@@ -31,26 +31,7 @@ export default function Profile() {
 
   const [showEdit, setShowEdit] = useState(false);
 
-  if (sessionData?.profile.type == UserType.LANDLORD) {
-    return (
-      <div>
-        <NavBar />
-        {showEdit && <Edit onCancel={() => setShowEdit(false)} />}
-        {/* Content */}
-        <div className="flex-row-2 m-10 flex h-auto w-auto ">
-          <Profile1 />
-          <section className="w-full">
-            <div className="w-full rounded-3xl p-10 shadow-lg">
-              <MyAccom showArchived={false} />
-            </div>
-            <div className="w-full rounded-3xl p-10 shadow-lg">
-              <MyAccom showArchived={true} />
-            </div>
-          </section>
-        </div>
-      </div>
-    );
-  } else if (sessionData?.profile.type == UserType.USER) {
+  const USERBODY = () => {
     return (
       <div>
         <img
@@ -81,7 +62,30 @@ export default function Profile() {
         </div>
       </div>
     );
-  } else if (sessionData?.profile.type == UserType.ADMIN) {
+  };
+
+  const LANDLORDBODY = () => {
+    return (
+      <div>
+        <NavBar />
+        {showEdit && <Edit onCancel={() => setShowEdit(false)} />}
+        {/* Content */}
+        <div className="flex-row-2 m-10 flex h-auto w-auto ">
+          <Profile1 />
+          <section className="w-full">
+            <div className="w-full rounded-3xl p-10 shadow-lg">
+              <MyAccom showArchived={false} />
+            </div>
+            <div className="w-full rounded-3xl p-10 shadow-lg">
+              <MyAccom showArchived={true} />
+            </div>
+          </section>
+        </div>
+      </div>
+    );
+  };
+
+  const ADMINBODY = () => {
     return (
       <div>
         <NavBar />
@@ -158,5 +162,20 @@ export default function Profile() {
         </div>
       </div>
     );
+  };
+
+  if (sessionData?.profile.type == UserType.LANDLORD) {
+    return <LANDLORDBODY />;
+  } else if (sessionData?.profile.type == UserType.USER) {
+    return <USERBODY />;
+  } else if (sessionData?.profile.type == UserType.ADMIN) {
+    return <ADMINBODY />;
   }
+
+  return (
+    <div>
+      <NavBar />
+      {showEdit && <Edit onCancel={() => setShowEdit(false)} />}
+    </div>
+  );
 }
