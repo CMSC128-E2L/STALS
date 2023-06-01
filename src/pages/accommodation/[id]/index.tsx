@@ -252,11 +252,11 @@ export default function Accommodation() {
         {/* ACCOMMODATION NAME + edit + delete thngy idk*/}
         <div className="flex flex-row items-stretch justify-between">
           {/* Left column (accommodation name) */}
-          <div className="flex flex-auto grow items-center px-3">
+          <div className="flex grow items-center px-3">
             {!accommLoading ? (
               <h1 className="text-3xl font-bold">{accommData?.name}</h1>
             ) : (
-              <h1 className="w-[300px] animate-pulse rounded-full bg-gray-400 text-3xl font-bold">
+              <h1 className="grow animate-pulse rounded-full bg-gray-400 text-3xl font-bold">
                 &nbsp;&nbsp;
               </h1>
             )}
@@ -384,14 +384,20 @@ export default function Accommodation() {
 
         {/* LANDLORD */}
 
-        <div className="text-xl">
-          <p className="mx-3 -mb-4 mt-2 text-sm italic">Posted by:</p>
-          <Landlord
-            firstname={accommData?.landlordUser.first_name}
-            lastname={accommData?.landlordUser.last_name}
-            middle={accommData?.landlordUser.middle_name}
-            suffix={accommData?.landlordUser.Suffix}
-          />
+        <div className="ml-3 mt-2 text-xl">
+          <p className="text-sm italic">Posted by:</p>
+          {!accommLoading ? (
+            <Landlord
+              firstname={accommData?.landlordUser.first_name}
+              lastname={accommData?.landlordUser.last_name}
+              middle={accommData?.landlordUser.middle_name}
+              suffix={accommData?.landlordUser.Suffix}
+            />
+          ) : (
+            <div className="flex max-w-[200px] grow animate-pulse flex-row rounded-full bg-gray-400">
+              &nbsp;
+            </div>
+          )}
         </div>
 
         {/* DESCRIPTION */}
