@@ -15,7 +15,7 @@ export default function Profile() {
 
   return (
     <>
-      <section className="sticky top-5 mr-5 flex h-min flex-col items-center space-y-2 whitespace-nowrap rounded-3xl bg-white p-14 font-medium shadow-xl">
+      <section className="flex h-min flex-col items-center space-y-2 whitespace-nowrap rounded-3xl bg-white p-14 font-medium shadow-xl sm:sticky sm:top-5 sm:mr-5">
         <div className="relative mb-2 ml-32 mr-32 mt-5 flex h-[10.5rem] w-[10.5rem]">
           <Image
             src={sessionData?.user.image ?? user.src}
@@ -33,7 +33,7 @@ export default function Profile() {
           </span>
         </div>
 
-        <div className="flex grid h-48 grid-cols-2 place-content-center gap-3">
+        <div className="grid h-48 grid-cols-1 place-content-center gap-3 sm:grid-cols-2">
           <span className="text-xl text-black">Contact no:</span>
           <span className="text-xl text-black">
             {sessionData?.profile.contact_number}
