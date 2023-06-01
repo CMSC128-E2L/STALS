@@ -1,7 +1,32 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 
 const Carousel: React.FC<{ imageList: string[] }> = ({ imageList }) => {
   const [activeIndex, setActiveIndex] = useState(0);
+  const [filteredImages, setFilteredImages] = useState<string[]>([]);
+
+  useEffect(
+    () => {
+      const loadImages = async () => {
+        const filtered = await Promise.all(
+          imageList.map((imageUrl) => {
+            return new Promise<string | undefined>((resolve) => {
+              const img = new Image();
+              img.src = imageUrl;
+              img.onload = () => resolve(imageUrl);
+              img.onerror = () => resolve(undefined);
+            });
+          }),
+        );
+        setFilteredImages(
+          filtered.filter((img) => img !== undefined) as string[],
+        );
+      };
+      // eslint-disable-next-line @typescript-eslint/no-floating-promises
+      loadImages();
+    },
+    // eslint-disable-next-line @typescript-eslint/no-floating-promises
+    [imageList],
+  );
 
   const handleIndicatorClick = (index: number) => {
     setActiveIndex(index);
@@ -9,21 +34,21 @@ const Carousel: React.FC<{ imageList: string[] }> = ({ imageList }) => {
 
   const handlePrevClick = () => {
     setActiveIndex((prevIndex) =>
-      prevIndex === 0 ? imageList.length - 1 : prevIndex - 1,
+      prevIndex === 0 ? filteredImages.length - 1 : prevIndex - 1,
     );
   };
 
   const handleNextClick = () => {
     setActiveIndex((prevIndex) =>
-      prevIndex === imageList.length - 1 ? 0 : prevIndex + 1,
+      prevIndex === filteredImages.length - 1 ? 0 : prevIndex + 1,
     );
   };
 
   return (
     <div id="carouselExampleIndicators" className="relative">
       {/* Carousel indicators */}
-      <div className="absolute bottom-0 left-0 right-0 z-[2] mx-[15%] mb-4 flex list-none justify-center p-0">
-        {imageList.map((_, index) => (
+      <div className="absolute bottom-0 left-0 right-0 z-[2] mx-auto mb-4 flex list-none justify-center p-0">
+        {filteredImages.map((_, index) => (
           <button
             key={index}
             type="button"
@@ -40,18 +65,18 @@ const Carousel: React.FC<{ imageList: string[] }> = ({ imageList }) => {
       </div>
 
       {/* Carousel items */}
-      <div className="relative w-full overflow-hidden after:clear-both after:block after:content-['']">
-        {imageList.map((imageUrl, index) => (
+      <div className="relative w-full overflow-hidden">
+        {filteredImages.map((imageUrl, index) => (
           <div
             key={index}
             className={`relative float-left ${
-              index === activeIndex ? "-mr-[100%]" : "hidden"
+              index === activeIndex ? "-ml-0" : "hidden"
             } w-full transition-transform duration-[600ms] ease-in-out motion-reduce:transition-none`}
             data-te-carousel-item={index === activeIndex ? "" : undefined}
           >
             <img
               src={imageUrl}
-              className="block w-full"
+              className="block h-[350px] w-full object-cover"
               alt={`Slide ${index + 1}`}
             />
           </div>
@@ -82,9 +107,7 @@ const Carousel: React.FC<{ imageList: string[] }> = ({ imageList }) => {
             />
           </svg>
         </span>
-        <span className="!absolute !-m-px !h-px !w-px !overflow-hidden !whitespace-nowrap !border-0 !p-0 ![clip:rect(0,0,0,0)]">
-          Previous
-        </span>
+        <span className="sr-only">Previous</span>
       </button>
 
       {/* Carousel controls - next item */}
@@ -111,9 +134,7 @@ const Carousel: React.FC<{ imageList: string[] }> = ({ imageList }) => {
             />
           </svg>
         </span>
-        <span className="!absolute !-m-px !h-px !w-px !overflow-hidden !whitespace-nowrap !border-0 !p-0 ![clip:rect(0,0,0,0)]">
-          Next
-        </span>
+        <span className="sr-only">Next</span>
       </button>
     </div>
   );
