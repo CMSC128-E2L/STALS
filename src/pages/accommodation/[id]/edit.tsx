@@ -20,6 +20,7 @@ import { z } from "zod";
 export default function EditAccommodation() {
   const userSession = useSession({ required: true });
   const { id } = dynamicRouteID(useRouter());
+  const router = useRouter();
 
   const { data: accommData, isLoading: accommLoading } =
     api.accommodation.getOneRelations.useQuery(id);
@@ -280,11 +281,15 @@ export default function EditAccommodation() {
                   </button>
                 </div>
                 <div>
-                  <Link href={`/accommodation/${id}`}>
-                    <button type="reset" className="formReject">
-                      Cancel
-                    </button>
-                  </Link>
+                  <button
+                    type="reset"
+                    className="formReject"
+                    onClick={() => {
+                      router.back();
+                    }}
+                  >
+                    Cancel
+                  </button>
                 </div>
               </div>
             </form>

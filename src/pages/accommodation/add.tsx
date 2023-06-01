@@ -12,10 +12,11 @@ import { notAuthenticated } from "~/utils/helpers";
 import { type z } from "zod";
 import { useState } from "react";
 import Error401 from "~/pages/401";
+import { useRouter } from "next/router";
 
 export default function AddAccommodation() {
   const userSession = useSession({ required: true });
-
+  const router = useRouter();
   const {
     register,
     handleSubmit,
@@ -395,8 +396,14 @@ export default function AddAccommodation() {
                       Submit
                     </button>
                   </div>
-                  <button type="reset" className="formReject">
-                    Reset
+                  <button
+                    type="reset"
+                    className="formReject"
+                    onClick={() => {
+                      router.back();
+                    }}
+                  >
+                    Cancel
                   </button>
                 </div>
               </div>

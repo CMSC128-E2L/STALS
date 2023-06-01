@@ -18,6 +18,7 @@ import Carousel from "~/components/carousel";
 import LoadingSpinner from "~/components/loadingSpinner";
 import jsPDF from "jspdf";
 import autoTable from "jspdf-autotable";
+import placeholder from "public/images/logo d-violet2.png";
 
 export default function Accommodation() {
   const { id } = dynamicRouteID(useRouter());
@@ -213,8 +214,8 @@ export default function Accommodation() {
                 <Carousel imageList={ImageList} />
               </div>
             ) : (
-              <div className="max-w relative col-span-2 rounded-md bg-gray-400 text-center">
-                No Image
+              <div className="max-w relative col-span-2 rounded-md text-center">
+                <Carousel imageList={[placeholder.src]} />
               </div>
             )
           ) : (

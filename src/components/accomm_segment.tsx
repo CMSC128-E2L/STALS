@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { api } from "~/utils/api";
 import Link from "next/link";
-import placeholder from "public/images/logo d-violet white bg.png";
+import placeholder from "public/images/logo d-violet.png";
 
 {
   /* TODO: Tweak data types to be displayed for each variable in the component */
@@ -56,10 +56,9 @@ const Accomm_Segment: React.FC<{
       <div className="mx-auto rounded border-2 bg-white p-2 shadow-md">
         <div className="flex flex-row space-x-2">
           <img
-            className="aspect-square p-2"
+            className="block h-[200px] w-[200px] object-cover"
             src={imgSrc}
             alt="placeholder img"
-            style={{ maxWidth: "500px", maxHeight: "250px" }}
             onError={() => {
               setImgSrc(placeholder.src);
             }}
