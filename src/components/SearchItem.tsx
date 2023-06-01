@@ -32,9 +32,9 @@ export const SearchItem: React.FC<{
     //   </div>
     // </Link>
 
-    <div className="m-4 grow self-stretch">
-      <Link href={`/accommodation/${id}`} className="h-full">
-        <div className="h-full flex-col items-center rounded-xl border-2 border-solid bg-gray-50 shadow-xl transition delay-150 duration-300 ease-in-out hover:-translate-y-1 hover:scale-110 hover:bg-p-lviolet sm:w-72">
+    <div className="m-4 flex justify-center self-stretch">
+      <Link href={`/accommodation/${id}`} className="h-full grow">
+        <div className="h-full grow flex-col items-center rounded-xl border-2 border-solid bg-gray-50 shadow-xl transition delay-150 duration-300 ease-in-out hover:-translate-y-1 hover:scale-110 hover:bg-p-lviolet sm:w-72">
           <div className="relative flex aspect-video w-full items-center justify-center ">
             <Image
               src={imgSrc}

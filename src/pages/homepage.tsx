@@ -406,13 +406,14 @@ export default function HomePage() {
 
     return (
       <div className="grow">
-        <div className="flex flex-col items-stretch sm:flex-row sm:flex-wrap">
+        <div className="flex flex-col items-stretch justify-center sm:flex-row sm:flex-wrap">
           {accommodationEntries ? (
             accommodationEntries?.pages.map((page, i: number) => (
               <SearchAccoms key={i} items={page?.items} />
             ))
           ) : (
-            <div className="flex h-screen grow items-center justify-center overflow-y-hidden">
+            // <div className="flex h-screen grow items-center justify-center overflow-y-hidden">
+            <div className="flex h-screen w-full grow justify-center self-stretch">
               <LoadingSpinner />
             </div>
           )}
@@ -478,7 +479,7 @@ export default function HomePage() {
           {/* Sidebar */}
           <div className="flex flex-col sm:sticky sm:top-16 sm:h-[100vh] sm:flex-row">
             {toggleSidebar && (
-              <aside className="w-full overflow-scroll bg-p-lviolet px-5 py-3 sm:w-[300px] sm:min-w-[300px]">
+              <aside className="w-full overflow-scroll bg-p-lviolet px-5 py-3 sm:w-[200px] sm:min-w-[200px]">
                 {/* Location */}
                 <div className="mb-1">
                   <h2 className="filter-header">Location</h2>
@@ -634,7 +635,7 @@ export default function HomePage() {
               </aside>
             )}
             <div
-              className="h-fit w-full rounded-b-2xl bg-p-lviolet p-1 sm:mt-16 sm:w-fit sm:rounded-br-2xl sm:rounded-tr-2xl sm:p-5"
+              className="h-fit w-full rounded-b-2xl bg-p-lviolet p-1 sm:mt-16 sm:w-fit sm:rounded-bl-none sm:rounded-br-2xl sm:rounded-tr-2xl sm:p-5"
               onClick={handleSidebarChange}
             >
               <svg
@@ -683,7 +684,7 @@ export default function HomePage() {
               </div>
             </div>
           </div>
-          <div className="flex flex-col items-center">
+          <div className="flex grow flex-col items-center">
             <AccommodationsList control={control} />
           </div>
         </div>
