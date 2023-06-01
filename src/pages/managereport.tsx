@@ -2,8 +2,12 @@ import NavBar from "~/components/navbar";
 import { api } from "~/utils/api";
 import Image from "next/image";
 import user from "public/images/def_user.png";
+import Error401 from "~/pages/401";
+import { useSession } from "next-auth/react";
+import { UserType } from "@prisma/client";
 
 export default function ManageReport() {
+  const userSession = useSession({ required: true });
   const {
     data: accomm_reports,
     isLoading: queryLoading,
@@ -16,6 +20,12 @@ export default function ManageReport() {
     isError: queryError1,
   } = api.report.getAllType.useQuery({ type: "REVIEW" });
 
+  if (userSession?.data?.profile.type === UserType.USER) {
+    return Error401();
+  }
+  if (userSession?.data?.profile.type === UserType.LANDLORD) {
+    return Error401();
+  }
   return (
     <>
       <div>
