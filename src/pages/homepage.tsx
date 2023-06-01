@@ -406,13 +406,14 @@ export default function HomePage() {
 
     return (
       <div className="grow">
-        <div className="flex flex-col items-stretch sm:flex-row sm:flex-wrap">
+        <div className="flex flex-col items-stretch justify-center sm:flex-row sm:flex-wrap">
           {accommodationEntries ? (
             accommodationEntries?.pages.map((page, i: number) => (
               <SearchAccoms key={i} items={page?.items} />
             ))
           ) : (
-            <div className="flex h-screen grow items-center justify-center overflow-y-hidden">
+            // <div className="flex h-screen grow items-center justify-center overflow-y-hidden">
+            <div className="flex h-screen w-full grow justify-center self-stretch">
               <LoadingSpinner />
             </div>
           )}
@@ -683,7 +684,7 @@ export default function HomePage() {
               </div>
             </div>
           </div>
-          <div className="flex flex-col items-center">
+          <div className="flex grow flex-col items-center">
             <AccommodationsList control={control} />
           </div>
         </div>
