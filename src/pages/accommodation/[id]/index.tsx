@@ -83,6 +83,7 @@ export default function Accommodation() {
   };
 
   const tagArr = stalsDBstringArray(accommData?.tagArray);
+  const typeArr = stalsDBstringArray(accommData?.typeArray);
 
   useEffect(() => {
     // Check if accommodationId exists in favorites
@@ -381,7 +382,11 @@ export default function Accommodation() {
         </div>
 
         {/* ACCOMMODATION DESCRIPTION */}
-        <div className="px-4 text-xl italic">{accommData?.type}</div>
+        {typeArr.map((tags, index) => (
+          <span key={index} className="px-4 text-xl italic">
+            {tags}
+          </span>
+        ))}
 
         {/* LANDLORD */}
 
@@ -407,14 +412,17 @@ export default function Accommodation() {
             {/* TODO: since the tags of an accommodation is just a string, just print that string here.*/}
 
             {/* {accommData?.tags} */}
-            {tagArr.map((tags, index) => (
-              <span
-                key={index}
-                className="mb-2 mr-2 inline-block rounded-full bg-p-lviolet px-3 py-1 text-sm font-semibold text-gray-700"
-              >
-                {tags}
-              </span>
-            ))}
+            {tagArr
+              .filter((tag) => tag !== "")
+              .map((tag, index, array) => (
+                <span
+                  key={tag}
+                  className="mb-2 mr-2 inline-block rounded-full bg-p-lviolet px-3 py-1 text-sm font-semibold text-gray-700"
+                >
+                  {tag}
+                  {index !== array.length - 1}
+                </span>
+              ))}
           </div>
 
           {/* Other deets */}
@@ -467,7 +475,8 @@ export default function Accommodation() {
               {!accommLoading ? (
                 <div className="">
                   {accommData?.street_number} {accommData?.subdivision}{" "}
-                  {accommData?.barangay}
+                  {accommData?.barangay} {" - "}
+                  {accommData?.location}
                 </div>
               ) : (
                 <div className="w-[100px] animate-pulse overflow-hidden rounded-full bg-gray-400">

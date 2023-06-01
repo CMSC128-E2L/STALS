@@ -12,6 +12,7 @@ import jsPDF from "jspdf";
 import autoTable from "jspdf-autotable";
 import { useSession } from "next-auth/react";
 import bgpic from "public/images/homepage_bg.png";
+import { stalsDBstringArray } from "~/utils/helpers";
 
 export default function HomePage() {
   const priceRanges = [
@@ -26,7 +27,7 @@ export default function HomePage() {
   const accomTypes = [
     { id: "ALL", value: "ALL", label: "All" },
     { id: "APARTMENT", value: "APARTMENT", label: "Apartment" },
-    { id: "BEDSPACER", value: "BEDSPACER", label: "Bedspacer" },
+    { id: "BEDSPACE", value: "BEDSPACE", label: "Bedspace" },
     { id: "DORMITORY", value: "DORMITORY", label: "Dormitory" },
     { id: "HOTEL", value: "HOTEL", label: "Hotel" },
     { id: "TRANSCIENT", value: "TRANSCIENT", label: "Transcient" },
@@ -294,43 +295,43 @@ export default function HomePage() {
         case "ALL":
           setUserInputs((prevInputs) => ({
             ...prevInputs,
-            type: undefined,
+            // type: undefined,
             typeArray: [],
           }));
           break;
         case "APARTMENT":
           setUserInputs((prevInputs) => ({
             ...prevInputs,
-            type: "APARTMENT",
-            typeArray: ["APARTMENT"],
+            // type: "APARTMENT",
+            typeArray: ["Apartment"],
           }));
           break;
-        case "BEDSPACER":
+        case "BEDSPACE":
           setUserInputs((prevInputs) => ({
             ...prevInputs,
-            type: "BEDSPACER",
-            typeArray: ["BEDSPACER"],
+            // type: "BEDSPACER",
+            typeArray: ["Bedspace"],
           }));
           break;
         case "DORMITORY":
           setUserInputs((prevInputs) => ({
             ...prevInputs,
-            type: "DORMITORY",
-            typeArray: ["DORMITORY"],
+            // type: "DORMITORY",
+            typeArray: ["Dormitory"],
           }));
           break;
         case "HOTEL":
           setUserInputs((prevInputs) => ({
             ...prevInputs,
-            type: "HOTEL",
-            typeArray: ["HOTEL"],
+            // type: "HOTEL",
+            typeArray: ["Hotel"],
           }));
           break;
         case "TRANSCIENT":
           setUserInputs((prevInputs) => ({
             ...prevInputs,
-            type: "TRANSCIENT",
-            typeArray: ["TRANSCIENT"],
+            // type: "TRANSCIENT",
+            typeArray: ["Transient"],
           }));
           break;
         default:
@@ -794,14 +795,14 @@ const SearchAccoms: React.FC<{
   if (items && items.length != 0) {
     return (
       <>
-        {items?.map(({ id, name, price, barangay, tags }) => (
+        {items?.map(({ id, name, price, barangay, tagArray }) => (
           <SearchItem
             key={id + name}
             id={id}
             name={name}
             price={price}
             location={barangay}
-            tags={tags}
+            tags={stalsDBstringArray(tagArray)}
           />
         ))}
       </>

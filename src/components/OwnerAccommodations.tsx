@@ -2,6 +2,7 @@ import { type RouterInputs, api } from "~/utils/api";
 import { type Accommodation } from "@prisma/client";
 import { useSession } from "next-auth/react";
 import SearchItem from "./SearchItem";
+import { stalsDBstringArray } from "~/utils/helpers";
 
 export const OwnerAccommodations: React.FC<{ showArchived: boolean }> = ({
   showArchived,
@@ -20,14 +21,14 @@ export const OwnerAccommodations: React.FC<{ showArchived: boolean }> = ({
       <>
         {firstData ? (
           <>
-            {firstData?.map(({ id, name, price, barangay, tags }) => (
+            {firstData?.map(({ id, name, price, barangay, tagArray }) => (
               <SearchItem
                 key={id + name}
                 id={id}
                 name={name}
                 price={price}
                 location={barangay}
-                tags={tags}
+                tags={stalsDBstringArray(tagArray)}
               />
             ))}
           </>

@@ -30,7 +30,7 @@ export const FaveAccoms: React.FC = () => {
                 name={favorite.accommodation.name}
                 price={favorite.accommodation.price}
                 location={favorite.accommodation.location}
-                tags={favorite.accommodation.tags}
+                tags={[favorite.accommodation.tags]}
               />
             ))}
           </>
