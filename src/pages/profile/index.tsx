@@ -33,8 +33,7 @@ export default function Profile() {
 
   const USERBODY = () => {
     return (
-      <div className="flex h-min w-full flex-col space-y-2 p-2 sm:flex-row sm:space-y-0 sm:p-12">
-        <Profile1 />
+      <>
         <section className="h-min w-full rounded-3xl bg-white shadow-lg">
           <div className="flex w-full flex-col p-6">
             <div className="flex flex-row justify-center text-center">
@@ -49,14 +48,13 @@ export default function Profile() {
             </div>
           </div>
         </section>
-      </div>
+      </>
     );
   };
 
   const LANDLORDBODY = () => {
     return (
-      <div className="flex-row-2 m-10 flex h-auto w-auto ">
-        <Profile1 />
+      <>
         <section className="w-full">
           <div className="w-full rounded-3xl p-10 shadow-lg">
             <MyAccom showArchived={false} />
@@ -65,14 +63,13 @@ export default function Profile() {
             <MyAccom showArchived={true} />
           </div>
         </section>
-      </div>
+      </>
     );
   };
 
   const ADMINBODY = () => {
     return (
-      <div className="flex-row-2 m-10 flex h-auto w-auto ">
-        <Profile1 />
+      <>
         {/* admin settings and notification */}
         <section className="w-full">
           <div className="rounded-3xl p-10 shadow-lg">
@@ -137,7 +134,7 @@ export default function Profile() {
             </div>
           </div>
         </section>
-      </div>
+      </>
     );
   };
 
@@ -150,9 +147,12 @@ export default function Profile() {
         alt="background"
       />
       {showEdit && <Edit onCancel={() => setShowEdit(false)} />}
-      {sessionData?.profile.type == UserType.USER && <USERBODY />}
-      {sessionData?.profile.type == UserType.LANDLORD && <LANDLORDBODY />}
-      {sessionData?.profile.type == UserType.ADMIN && <ADMINBODY />}
+      <div className="flex w-full flex-col space-y-2 p-2 sm:flex-row sm:space-y-0 sm:p-12">
+        <Profile1 />
+        {sessionData?.profile.type == UserType.USER && <USERBODY />}
+        {sessionData?.profile.type == UserType.LANDLORD && <LANDLORDBODY />}
+        {sessionData?.profile.type == UserType.ADMIN && <ADMINBODY />}
+      </div>
     </div>
   );
 }
