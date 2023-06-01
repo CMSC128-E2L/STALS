@@ -21,7 +21,7 @@ export const Landlord: React.FC<LandlordProps> = ({
 
   return (
     <>
-      <div className="flex flex-row rounded-md p-3">
+      <div className="flex flex-row rounded-md">
         {firstname} {middle} {lastname} {suffix}
       </div>
     </>
