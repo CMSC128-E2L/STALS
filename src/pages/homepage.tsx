@@ -476,9 +476,9 @@ export default function HomePage() {
 
         <div className="flex flex-col sm:flex-row">
           {/* Sidebar */}
-          <div className="flex sm:sticky sm:top-16 sm:h-[100vh]">
+          <div className="flex flex-col sm:sticky sm:top-16 sm:h-[100vh] sm:flex-row">
             {toggleSidebar && (
-              <aside className="overflow-scroll bg-p-lviolet px-5 py-3 sm:w-[300px] sm:min-w-[300px]">
+              <aside className="w-full overflow-scroll bg-p-lviolet px-5 py-3 sm:w-[300px] sm:min-w-[300px]">
                 {/* Location */}
                 <div className="mb-1">
                   <h2 className="filter-header">Location</h2>
@@ -634,12 +634,12 @@ export default function HomePage() {
               </aside>
             )}
             <div
-              className="mt-16 h-fit rounded-br-2xl rounded-tr-2xl bg-p-lviolet p-5"
+              className="h-fit w-full rounded-b-2xl bg-p-lviolet p-1 sm:mt-16 sm:w-fit sm:rounded-br-2xl sm:rounded-tr-2xl sm:p-5"
               onClick={handleSidebarChange}
             >
               <svg
                 xmlns="http://www.w3.org/2000/svg"
-                className={` -violet-600 icon icon-tabler icon-tabler-circle-arrow-right-filled text-p-dviolet hover:text-p-dbviolet ${
+                className={`icon hidden text-p-dviolet hover:text-p-dbviolet sm:block ${
                   toggleSidebar ? "rotate-[-180deg]" : ""
                 } transition-transform duration-700`}
                 width="32"
@@ -658,13 +658,32 @@ export default function HomePage() {
                   fill="currentColor"
                 ></path>
               </svg>
+              <div className="flex items-center justify-center sm:hidden">
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  className={`text-p-dviolet hover:text-p-dbviolet ${
+                    toggleSidebar ? "rotate-[-180deg]" : ""
+                  } transition-transform duration-700`}
+                  width="32"
+                  height="32"
+                  viewBox="0 0 24 24"
+                  stroke-width="2"
+                  stroke="currentColor"
+                  fill="none"
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                >
+                  <path stroke="none" d="M0 0h24v24H0z" fill="none"></path>
+                  <path
+                    d="M17 3.34a10 10 0 1 1 -14.995 8.984l-.005 -.324l.005 -.324a10 10 0 0 1 14.995 -8.336zm-5 3.66a1 1 0 0 0 -1 1v5.585l-2.293 -2.292l-.094 -.083a1 1 0 0 0 -1.32 1.497l4 4c.028 .028 .057 .054 .094 .083l.092 .064l.098 .052l.081 .034l.113 .034l.112 .02l.117 .006l.115 -.007l.114 -.02l.142 -.044l.113 -.054l.111 -.071a.939 .939 0 0 0 .112 -.097l4 -4l.083 -.094a1 1 0 0 0 -1.497 -1.32l-2.293 2.291v-5.584l-.007 -.117a1 1 0 0 0 -.993 -.883z"
+                    stroke-width="0"
+                    fill="currentColor"
+                  ></path>
+                </svg>
+              </div>
             </div>
           </div>
-          {/* fixed top-16  w-[210px] min-w-[210px] flex-col overflow-scroll  */}
           <div className="flex flex-col items-center">
-            {/* <div className="">
-              <img className="object-fit h-auto" src="https://cdn3.photoblogstop.com/wp-content/uploads/2012/07/Sierra_HDR_DFX8048_2280x819_Q40_wm_mini-1726x819__-1140x541.jpg" alt="fd" />
-            </div> */}
             <AccommodationsList control={control} />
           </div>
         </div>
