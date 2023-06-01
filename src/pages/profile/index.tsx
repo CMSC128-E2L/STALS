@@ -33,149 +33,126 @@ export default function Profile() {
 
   const USERBODY = () => {
     return (
-      <div>
-        <img
-          className="fixed -z-10 h-full w-screen bg-cover bg-center"
-          src={bgpic.src}
-          alt="background"
-        />
-
-        <NavBar />
-        {showEdit && <Edit onCancel={() => setShowEdit(false)} />}
-        {/* Content */}
-        <div className="flex h-min w-full flex-col space-y-2 p-2 sm:flex-row sm:space-y-0 sm:p-12">
-          <Profile1 />
-          <section className="h-min w-full rounded-3xl bg-white shadow-lg">
-            <div className="flex w-full flex-col p-6">
-              <div className="flex flex-row justify-center text-center">
-                <h1 className="text-2xl font-bold text-p-dbviolet">
-                  My Favorites
-                </h1>
-              </div>
-              <div className="flex items-center text-center drop-shadow-md">
-                <div className="flex flex-wrap">
-                  <FaveAccoms />
-                </div>
+      <div className="flex h-min w-full flex-col space-y-2 p-2 sm:flex-row sm:space-y-0 sm:p-12">
+        <Profile1 />
+        <section className="h-min w-full rounded-3xl bg-white shadow-lg">
+          <div className="flex w-full flex-col p-6">
+            <div className="flex flex-row justify-center text-center">
+              <h1 className="text-2xl font-bold text-p-dbviolet">
+                My Favorites
+              </h1>
+            </div>
+            <div className="flex items-center text-center drop-shadow-md">
+              <div className="flex flex-wrap">
+                <FaveAccoms />
               </div>
             </div>
-          </section>
-        </div>
+          </div>
+        </section>
       </div>
     );
   };
 
   const LANDLORDBODY = () => {
     return (
-      <div>
-        <NavBar />
-        {showEdit && <Edit onCancel={() => setShowEdit(false)} />}
-        {/* Content */}
-        <div className="flex-row-2 m-10 flex h-auto w-auto ">
-          <Profile1 />
-          <section className="w-full">
-            <div className="w-full rounded-3xl p-10 shadow-lg">
-              <MyAccom showArchived={false} />
-            </div>
-            <div className="w-full rounded-3xl p-10 shadow-lg">
-              <MyAccom showArchived={true} />
-            </div>
-          </section>
-        </div>
+      <div className="flex-row-2 m-10 flex h-auto w-auto ">
+        <Profile1 />
+        <section className="w-full">
+          <div className="w-full rounded-3xl p-10 shadow-lg">
+            <MyAccom showArchived={false} />
+          </div>
+          <div className="w-full rounded-3xl p-10 shadow-lg">
+            <MyAccom showArchived={true} />
+          </div>
+        </section>
       </div>
     );
   };
 
   const ADMINBODY = () => {
     return (
-      <div>
-        <NavBar />
-        {showEdit && <Edit onCancel={() => setShowEdit(false)} />}
-        {/* profile */}
-        <div className="flex-row-2 m-10 flex h-auto w-auto ">
-          <Profile1 />
-          {/* admin settings and notification */}
-          <section className="w-full">
-            <div className="rounded-3xl p-10 shadow-lg">
-              <h1 className="text-center text-xl font-bold text-p-dbviolet">
-                Admin Settings
-              </h1>
-              <p className="b mb-2 mt-2 w-1/2 text-sm text-gray-400">
-                <Link href="">Manage Reviews</Link>
-              </p>
-              <p className="mb-2 mt-2 text-sm text-gray-400">
-                <Link href="accommodation/management">
-                  Manage Accommodations
-                </Link>
-              </p>
-            </div>
-            <div className="rounded-3xl p-10 shadow-lg ">
-              <h1 className="mb-10 text-center text-xl font-bold text-p-dbviolet  ">
-                Notifications
-              </h1>
-              {queryLoading ? (
-                <div>Loading...</div>
-              ) : queryError ? (
-                <div>Error occurred while fetching reports.</div>
-              ) : (
-                <div>
-                  {reports.map((report) => {
-                    return (
-                      <div key={report.id} className="mb-6">
-                        <div className="mb-2 flex flex-row">
-                          <div className="relative flex h-[2.5rem] w-[2.5rem] flex-col">
-                            <Image
-                              src={user.src}
-                              className="flex rounded-full object-contain"
-                              alt="User Photo"
-                              fill
-                            />
-                          </div>
-                          <div className="ml-4">
-                            <p className="mb-1 flex text-sm font-semibold">
-                              {report.user.username}
-                            </p>
-                            <p className="flex text-xs text-gray-400">
-                              {report.type_reported}
-                            </p>
-                          </div>
+      <div className="flex-row-2 m-10 flex h-auto w-auto ">
+        <Profile1 />
+        {/* admin settings and notification */}
+        <section className="w-full">
+          <div className="rounded-3xl p-10 shadow-lg">
+            <h1 className="text-center text-xl font-bold text-p-dbviolet">
+              Admin Settings
+            </h1>
+            <p className="b mb-2 mt-2 w-1/2 text-sm text-gray-400">
+              <Link href="">Manage Reviews</Link>
+            </p>
+            <p className="mb-2 mt-2 text-sm text-gray-400">
+              <Link href="accommodation/management">Manage Accommodations</Link>
+            </p>
+          </div>
+          <div className="rounded-3xl p-10 shadow-lg ">
+            <h1 className="mb-10 text-center text-xl font-bold text-p-dbviolet  ">
+              Notifications
+            </h1>
+            {queryLoading ? (
+              <div>Loading...</div>
+            ) : queryError ? (
+              <div>Error occurred while fetching reports.</div>
+            ) : (
+              <div>
+                {reports.map((report) => {
+                  return (
+                    <div key={report.id} className="mb-6">
+                      <div className="mb-2 flex flex-row">
+                        <div className="relative flex h-[2.5rem] w-[2.5rem] flex-col">
+                          <Image
+                            src={user.src}
+                            className="flex rounded-full object-contain"
+                            alt="User Photo"
+                            fill
+                          />
                         </div>
-                        <div className="mb-2 ml-14 flex">
-                          <p className="flex text-base">
-                            reported {report.reported_name}
+                        <div className="ml-4">
+                          <p className="mb-1 flex text-sm font-semibold">
+                            {report.user.username}
+                          </p>
+                          <p className="flex text-xs text-gray-400">
+                            {report.type_reported}
                           </p>
                         </div>
                       </div>
-                    );
-                  })}
-                </div>
-              )}
-
-              <div className="w-full">
-                <Link href="managereport">
-                  <button className="formConfirm bg-p-dviolet">
-                    Manage Report
-                  </button>
-                </Link>
+                      <div className="mb-2 ml-14 flex">
+                        <p className="flex text-base">
+                          reported {report.reported_name}
+                        </p>
+                      </div>
+                    </div>
+                  );
+                })}
               </div>
+            )}
+
+            <div className="w-full">
+              <Link href="managereport">
+                <button className="formConfirm bg-p-dviolet">
+                  Manage Report
+                </button>
+              </Link>
             </div>
-          </section>
-        </div>
+          </div>
+        </section>
       </div>
     );
   };
 
-  if (sessionData?.profile.type == UserType.LANDLORD) {
-    return <LANDLORDBODY />;
-  } else if (sessionData?.profile.type == UserType.USER) {
-    return <USERBODY />;
-  } else if (sessionData?.profile.type == UserType.ADMIN) {
-    return <ADMINBODY />;
-  }
-
   return (
     <div>
       <NavBar />
+      <img
+        className="fixed -z-10 h-full w-screen bg-cover bg-center"
+        src={bgpic.src}
+        alt="background"
+      />
       {showEdit && <Edit onCancel={() => setShowEdit(false)} />}
+      {sessionData?.profile.type == UserType.USER && <USERBODY />}
+      {sessionData?.profile.type == UserType.LANDLORD && <LANDLORDBODY />}
+      {sessionData?.profile.type == UserType.ADMIN && <ADMINBODY />}
     </div>
   );
 }
