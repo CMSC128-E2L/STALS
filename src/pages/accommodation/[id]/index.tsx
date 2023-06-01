@@ -98,7 +98,9 @@ export default function Accommodation() {
   //   status: undefined,
   // });
 
-  const isLandlordViewing = accommData?.landlord === userSession?.user?.id;
+  const isLandlordViewing =
+    userSession?.profile.type === UserType.LANDLORD &&
+    accommData?.landlord === userSession?.user?.id;
 
   const calledOnce = useRef(false);
   const [pdfdownload, setpdfdownload] = useState(false);
@@ -200,384 +202,407 @@ export default function Accommodation() {
     return Error404();
   }
 
-  return (
-    <div className="flex h-full flex-col justify-center bg-p-ngray">
-      {/* HEADER */}
-      <NavBar />
-
-      {/* BODY */}
-      <div className="mt-10 flex flex-auto flex-col px-0 md:px-24 2xl:px-52">
-        {/* cONTAINS THE ACCOMMODATION INFO */}
-        <div className="flex flex-row justify-center object-contain">
-          {/* Box that contains the accommodation thingy */}
-          <div className="flex w-11/12">
-            {/* GALLERY */}
-            <div className="w-1/4 flex-none p-4">
-              <div className="grid grid-cols-2 gap-4">
-                {/* main image */}
-                <div className="max-w relative col-span-2 aspect-square">
-                  {!imageLoading && ImageList ? (
-                    ImageList.length > 0 ? (
-                      <div className="max-w relative col-span-2 aspect-square">
-                        <Carousel imageList={ImageList} />
-                      </div>
-                    ) : (
-                      <div className="max-w relative col-span-2 aspect-square rounded-md bg-gray-400 text-center">
-                        No Image
-                      </div>
-                    )
-                  ) : (
-                    <div>
-                      <LoadingSpinner />
-                    </div>
-                  )}
-                </div>
+  const Gallery = () => {
+    return (
+      <div className="grid w-full grid-cols-2 gap-4">
+        {/* main image */}
+        <div className="max-w relative col-span-2">
+          {!imageLoading && ImageList ? (
+            ImageList.length > 0 ? (
+              <div className="max-w relative col-span-2">
+                <Carousel imageList={ImageList} />
               </div>
-
-              <div className="mt-4 flex flex-row divide-x-2 divide-transparent pt-4">
-                <div className="w-[100%] rounded-[15px] border border-gray-200 bg-gray-200 p-3">
-                  <div className="text-center">
-                    <h1 className="text-2xl font-bold">Overall Rating</h1>
-                    <p className="text-5xl font-bold">
-                      {Number(accommData?.average_rating ?? 0).toFixed(1)}
-                    </p>
-                    <p className="italic">
-                      based on {accommData?.total_reviews ?? 0} reviews
-                    </p>
-                    <StarRow rating={accommData?.average_rating ?? 0} />
-                  </div>
-                </div>
+            ) : (
+              <div className="max-w relative col-span-2 rounded-md bg-gray-400 text-center">
+                No Image
               </div>
+            )
+          ) : (
+            <div>
+              <LoadingSpinner />
             </div>
+          )}
+        </div>
+      </div>
+    );
+  };
 
-            {/* DESCRIPTION */}
-            <div className="w-3/4 flex-none p-4">
-              {/* ACCOMMODATION NAME + edit + delete thngy idk*/}
-              <div className="flex flex-row items-stretch justify-between">
-                {/* Left column (accommodation name) */}
-                <div className="flex flex-auto items-center px-3">
-                  {!accommLoading ? (
-                    <h1 className="text-3xl font-bold">{accommData?.name}</h1>
-                  ) : (
-                    <h1 className="w-[100%] animate-pulse rounded-full bg-gray-400 text-3xl font-bold">
-                      &nbsp;&nbsp;
-                    </h1>
-                  )}
-                </div>
+  const OverAllRating = () => {
+    return (
+      <div className="flex flex-row divide-x-2 divide-transparent pt-4">
+        <div className="w-[100%] rounded-[15px] border border-gray-200 bg-gray-200 p-3">
+          <div className="text-center">
+            <h1 className="text-2xl font-bold">Overall Rating</h1>
+            <p className="text-5xl font-bold">
+              {Number(accommData?.average_rating ?? 0).toFixed(1)}
+            </p>
+            <p className="italic">
+              based on {accommData?.total_reviews ?? 0} reviews
+            </p>
+            <StarRow rating={accommData?.average_rating ?? 0} />
+          </div>
+        </div>
+      </div>
+    );
+  };
 
-                {/* Right column: the editing thingy ig */}
-                <div className="shrink">
-                  {/* TODO: So if a registered user is viewing it (remove hidden to show teehee)
-                  WONDERING KUNG UNG IMPLEMENTATION NA LANG NITO VIA COMPONENT OR NAH*/}
-                  <div className="flex flex-row items-center gap-2">
-                    {isUserViewing && (
-                      <form>
-                        <label className="cursor-pointer">
-                          <input
-                            type="checkbox"
-                            value="favorite"
-                            className="peer sr-only"
-                            checked={isFavorite}
-                            onChange={handleFavorite}
-                          />
-                          <svg
-                            xmlns="http://www.w3.org/2000/svg"
-                            fill="none"
-                            viewBox="0 0 24 24"
-                            strokeWidth={1.5}
-                            stroke="currentColor"
-                            className={`h-8 w-8 transition ${
-                              isFavorite ? "fill-p-red stroke-p-red" : ""
-                            }`}
-                          >
-                            <path
-                              strokeLinecap="round"
-                              strokeLinejoin="round"
-                              d="M21 8.25c0-2.485-2.099-4.5-4.688-4.5-1.935 0-3.597 1.126-4.312 2.733-.715-1.607-2.377-2.733-4.313-2.733C5.1 3.75 3 5.765 3 8.25c0 7.22 9 12 9 12s9-4.78 9-12z"
-                            />
-                          </svg>
-                        </label>
-                      </form>
-                    )}
-                    {/* If a landlord is viewing the page */}
-                    {isLandlordViewing && (
-                      <div className="float-right flex gap-2">
-                        {/* Edit button */}
-                        <Link className="" href={`${id}/edit`}>
-                          <svg
-                            xmlns="http://www.w3.org/2000/svg"
-                            fill="none"
-                            viewBox="0 0 24 24"
-                            strokeWidth="1.5"
-                            stroke="currentColor"
-                            className="h-8 w-8"
-                          >
-                            <path
-                              strokeLinecap="round"
-                              strokeLinejoin="round"
-                              d="M16.862 4.487l1.687-1.688a1.875 1.875 0 112.652 2.652L10.582 16.07a4.5 4.5 0 01-1.897 1.13L6 18l.8-2.685a4.5 4.5 0 011.13-1.897l8.932-8.931zm0 0L19.5 7.125M18 14v4.75A2.25 2.25 0 0115.75 21H5.25A2.25 2.25 0 013 18.75V8.25A2.25 2.25 0 015.25 6H10"
-                            />
-                          </svg>
-                        </Link>
-                        {/* Archive button */}
-                        {/* <button type="button" className="">
-                          <svg
-                            xmlns="http://www.w3.org/2000/svg"
-                            fill="none"
-                            viewBox="0 0 24 24"
-                            strokeWidth="1.5"
-                            stroke="currentColor"
-                            className="h-8 w-8"
-                          >
-                            <path
-                              strokeLinecap="round"
-                              strokeLinejoin="round"
-                              d="M20.25 7.5l-.625 10.632a2.25 2.25 0 01-2.247 2.118H6.622a2.25 2.25 0 01-2.247-2.118L3.75 7.5M10 11.25h4M3.375 7.5h17.25c.621 0 1.125-.504 1.125-1.125v-1.5c0-.621-.504-1.125-1.125-1.125H3.375c-.621 0-1.125.504-1.125 1.125v1.5c0 .621.504 1.125 1.125 1.125z"
-                            />
-                          </svg>
-                        </button> */}
+  const Description = () => {
+    return (
+      <div className="p-4">
+        {/* ACCOMMODATION NAME + edit + delete thngy idk*/}
+        <div className="flex flex-row items-stretch justify-between">
+          {/* Left column (accommodation name) */}
+          <div className="flex flex-auto grow items-center px-3">
+            {!accommLoading ? (
+              <h1 className="text-3xl font-bold">{accommData?.name}</h1>
+            ) : (
+              <h1 className="w-[300px] animate-pulse rounded-full bg-gray-400 text-3xl font-bold">
+                &nbsp;&nbsp;
+              </h1>
+            )}
+          </div>
 
-                        {/* Delete button */}
-                        {/* <button type="button" className="">
-                          <svg
-                            xmlns="http://www.w3.org/2000/svg"
-                            fill="none"
-                            viewBox="0 0 24 24"
-                            strokeWidth="1.5"
-                            stroke="currentColor"
-                            className="h-8 w-8"
-                          >
-                            <path
-                              strokeLinecap="round"
-                              strokeLinejoin="round"
-                              d="M14.74 9l-.346 9m-4.788 0L9.26 9m9.968-3.21c.342.052.682.107 1.022.166m-1.022-.165L18.16 19.673a2.25 2.25 0 01-2.244 2.077H8.084a2.25 2.25 0 01-2.244-2.077L4.772 5.79m14.456 0a48.108 48.108 0 00-3.478-.397m-12 .562c.34-.059.68-.114 1.022-.165m0 0a48.11 48.11 0 013.478-.397m7.5 0v-.916c0-1.18-.91-2.164-2.09-2.201a51.964 51.964 0 00-3.32 0c-1.18.037-2.09 1.022-2.09 2.201v.916m7.5 0a48.667 48.667 0 00-7.5 0"
-                            />
-                          </svg>
-                        </button> */}
-                      </div>
-                    )}
-                    <label className="cursor-pointer">
-                      <button
-                        className="accPButton sr-only mx-3 mb-2 self-end px-3 text-lg"
-                        onClick={() => {
-                          setpdfdownload(true);
-                        }}
-                      />
-                      <svg
-                        xmlns="http://www.w3.org/2000/svg"
-                        fill="none"
-                        viewBox="0 0 24 24"
-                        stroke-width="1.5"
-                        stroke="currentColor"
-                        className="h-8 w-8"
-                      >
-                        <path
-                          stroke-linecap="round"
-                          stroke-linejoin="round"
-                          d="M3 16.5v2.25A2.25 2.25 0 005.25 21h13.5A2.25 2.25 0 0021 18.75V16.5M16.5 12L12 16.5m0 0L7.5 12m4.5 4.5V3"
-                        />
-                      </svg>
-                    </label>
-                  </div>
-                </div>
-              </div>
-
-              {/* ACCOMMODATION DESCRIPTION */}
-              <div className="px-4 text-xl italic">{accommData?.type}</div>
-
-              {/* LANDLORD */}
-
-              <div className="text-xl">
-                <p className="mx-3 -mb-4 mt-2 text-sm italic">Posted by:</p>
-                <Landlord
-                  firstname={accommData?.landlordUser.first_name}
-                  lastname={accommData?.landlordUser.last_name}
-                  middle={accommData?.landlordUser.middle_name}
-                  suffix={accommData?.landlordUser.Suffix}
-                />
-              </div>
-
-              {/* DESCRIPTION */}
-              <div className="flex basis-1/2 flex-col">
-                <div className="group overflow-hidden px-4 py-2">
-                  {/* TODO: since the tags of an accommodation is just a string, just print that string here.*/}
-
-                  {/* {accommData?.tags} */}
-                  {tagArr.map((tags, index) => (
-                    <span
-                      key={index}
-                      className="mb-2 mr-2 inline-block rounded-full bg-p-lviolet px-3 py-1 text-sm font-semibold text-gray-700"
-                    >
-                      {tags}
-                    </span>
-                  ))}
-                </div>
-
-                {/* Other deets */}
-
-                <div className="flex flex-col gap-2">
-                  {/* Price */}
-                  <div className="flex flex-row gap-10 px-3">
+          {/* Right column: functional buttons (favorite, download, edit, etc) */}
+          <div className="">
+            {/* TODO: So if a registered user is viewing it (remove hidden to show teehee)
+        WONDERING KUNG UNG IMPLEMENTATION NA LANG NITO VIA COMPONENT OR NAH*/}
+            <div className="flex flex-row items-center gap-2">
+              {isUserViewing && (
+                <form>
+                  <label className="cursor-pointer">
+                    <input
+                      type="checkbox"
+                      value="favorite"
+                      className="peer sr-only"
+                      checked={isFavorite}
+                      onChange={handleFavorite}
+                    />
                     <svg
-                      fill="#000000"
-                      width="16"
-                      height="16"
-                      viewBox="0 0 36 36"
-                      version="1.1"
-                      preserveAspectRatio="xMidYMid meet"
                       xmlns="http://www.w3.org/2000/svg"
-                      className="aspect-square h-full place-self-center"
+                      fill="none"
+                      viewBox="0 0 24 24"
+                      strokeWidth={1.5}
+                      stroke="currentColor"
+                      className={`h-8 w-8 transition ${
+                        isFavorite ? "fill-p-red stroke-p-red" : ""
+                      }`}
                     >
-                      <path d="M31,13.2H27.89A6.81,6.81,0,0,0,28,12a7.85,7.85,0,0,0-.1-1.19h2.93a.8.8,0,0,0,0-1.6H27.46A8.44,8.44,0,0,0,19.57,4H11a1,1,0,0,0-1,1V9.2H7a.8.8,0,0,0,0,1.6h3v2.4H7a.8.8,0,0,0,0,1.6h3V31a1,1,0,0,0,2,0V20h7.57a8.45,8.45,0,0,0,7.89-5.2H31a.8.8,0,0,0,0-1.6ZM12,6h7.57a6.51,6.51,0,0,1,5.68,3.2H12Zm0,4.8H25.87a5.6,5.6,0,0,1,0,2.4H12ZM19.57,18H12V14.8H25.25A6.51,6.51,0,0,1,19.57,18Z"></path>
+                      <path
+                        strokeLinecap="round"
+                        strokeLinejoin="round"
+                        d="M21 8.25c0-2.485-2.099-4.5-4.688-4.5-1.935 0-3.597 1.126-4.312 2.733-.715-1.607-2.377-2.733-4.313-2.733C5.1 3.75 3 5.765 3 8.25c0 7.22 9 12 9 12s9-4.78 9-12z"
+                      />
                     </svg>
-                    <p>{accommData?.price}</p>
-                  </div>
-
-                  {/* Location */}
-                  <div className="flex flex-row gap-10 px-2">
+                  </label>
+                </form>
+              )}
+              {/* If a landlord is viewing the page */}
+              {isLandlordViewing && (
+                <div className="float-right flex gap-2">
+                  {/* Edit button */}
+                  <Link className="" href={`${id}/edit`}>
                     <svg
                       xmlns="http://www.w3.org/2000/svg"
                       fill="none"
                       viewBox="0 0 24 24"
                       strokeWidth="1.5"
                       stroke="currentColor"
-                      className="h-5 w-5"
+                      className="h-8 w-8"
                     >
                       <path
                         strokeLinecap="round"
                         strokeLinejoin="round"
-                        d="M15 10.5a3 3 0 11-6 0 3 3 0 016 0z"
+                        d="M16.862 4.487l1.687-1.688a1.875 1.875 0 112.652 2.652L10.582 16.07a4.5 4.5 0 01-1.897 1.13L6 18l.8-2.685a4.5 4.5 0 011.13-1.897l8.932-8.931zm0 0L19.5 7.125M18 14v4.75A2.25 2.25 0 0115.75 21H5.25A2.25 2.25 0 013 18.75V8.25A2.25 2.25 0 015.25 6H10"
                       />
+                    </svg>
+                  </Link>
+                  {/* Archive button */}
+                  {/* <button type="button" className="">
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  fill="none"
+                  viewBox="0 0 24 24"
+                  strokeWidth="1.5"
+                  stroke="currentColor"
+                  className="h-8 w-8"
+                >
+                  <path
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                    d="M20.25 7.5l-.625 10.632a2.25 2.25 0 01-2.247 2.118H6.622a2.25 2.25 0 01-2.247-2.118L3.75 7.5M10 11.25h4M3.375 7.5h17.25c.621 0 1.125-.504 1.125-1.125v-1.5c0-.621-.504-1.125-1.125-1.125H3.375c-.621 0-1.125.504-1.125 1.125v1.5c0 .621.504 1.125 1.125 1.125z"
+                  />
+                </svg>
+              </button> */}
+
+                  {/* Delete button */}
+                  {/* <button type="button" className="">
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  fill="none"
+                  viewBox="0 0 24 24"
+                  strokeWidth="1.5"
+                  stroke="currentColor"
+                  className="h-8 w-8"
+                >
+                  <path
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                    d="M14.74 9l-.346 9m-4.788 0L9.26 9m9.968-3.21c.342.052.682.107 1.022.166m-1.022-.165L18.16 19.673a2.25 2.25 0 01-2.244 2.077H8.084a2.25 2.25 0 01-2.244-2.077L4.772 5.79m14.456 0a48.108 48.108 0 00-3.478-.397m-12 .562c.34-.059.68-.114 1.022-.165m0 0a48.11 48.11 0 013.478-.397m7.5 0v-.916c0-1.18-.91-2.164-2.09-2.201a51.964 51.964 0 00-3.32 0c-1.18.037-2.09 1.022-2.09 2.201v.916m7.5 0a48.667 48.667 0 00-7.5 0"
+                  />
+                </svg>
+              </button> */}
+                </div>
+              )}
+              <label className="cursor-pointer">
+                <button
+                  className="accPButton sr-only mx-3 mb-2 self-end px-3 text-lg"
+                  onClick={() => {
+                    setpdfdownload(true);
+                  }}
+                />
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  fill="none"
+                  viewBox="0 0 24 24"
+                  stroke-width="1.5"
+                  stroke="currentColor"
+                  className="h-8 w-8"
+                >
+                  <path
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                    d="M3 16.5v2.25A2.25 2.25 0 005.25 21h13.5A2.25 2.25 0 0021 18.75V16.5M16.5 12L12 16.5m0 0L7.5 12m4.5 4.5V3"
+                  />
+                </svg>
+              </label>
+            </div>
+          </div>
+        </div>
+
+        {/* ACCOMMODATION DESCRIPTION */}
+        <div className="px-4 text-xl italic">{accommData?.type}</div>
+
+        {/* LANDLORD */}
+
+        <div className="text-xl">
+          <p className="mx-3 -mb-4 mt-2 text-sm italic">Posted by:</p>
+          <Landlord
+            firstname={accommData?.landlordUser.first_name}
+            lastname={accommData?.landlordUser.last_name}
+            middle={accommData?.landlordUser.middle_name}
+            suffix={accommData?.landlordUser.Suffix}
+          />
+        </div>
+
+        {/* DESCRIPTION */}
+        <div className="flex basis-1/2 flex-col">
+          <div className="group overflow-hidden px-4 py-2">
+            {/* TODO: since the tags of an accommodation is just a string, just print that string here.*/}
+
+            {/* {accommData?.tags} */}
+            {tagArr.map((tags, index) => (
+              <span
+                key={index}
+                className="mb-2 mr-2 inline-block rounded-full bg-p-lviolet px-3 py-1 text-sm font-semibold text-gray-700"
+              >
+                {tags}
+              </span>
+            ))}
+          </div>
+
+          {/* Other deets */}
+
+          <div className="flex flex-col gap-2">
+            {/* Price */}
+            <div className="flex flex-row gap-10 px-3">
+              <svg
+                fill="#000000"
+                width="16"
+                height="16"
+                viewBox="0 0 36 36"
+                version="1.1"
+                preserveAspectRatio="xMidYMid meet"
+                xmlns="http://www.w3.org/2000/svg"
+                className="aspect-square h-full place-self-center"
+              >
+                <path d="M31,13.2H27.89A6.81,6.81,0,0,0,28,12a7.85,7.85,0,0,0-.1-1.19h2.93a.8.8,0,0,0,0-1.6H27.46A8.44,8.44,0,0,0,19.57,4H11a1,1,0,0,0-1,1V9.2H7a.8.8,0,0,0,0,1.6h3v2.4H7a.8.8,0,0,0,0,1.6h3V31a1,1,0,0,0,2,0V20h7.57a8.45,8.45,0,0,0,7.89-5.2H31a.8.8,0,0,0,0-1.6ZM12,6h7.57a6.51,6.51,0,0,1,5.68,3.2H12Zm0,4.8H25.87a5.6,5.6,0,0,1,0,2.4H12ZM19.57,18H12V14.8H25.25A6.51,6.51,0,0,1,19.57,18Z"></path>
+              </svg>
+              {!accommLoading ? (
+                <div className="">{accommData?.price}</div>
+              ) : (
+                <div className="w-[100px] animate-pulse overflow-hidden rounded-full bg-gray-400">
+                  &nbsp;&nbsp;
+                </div>
+              )}
+            </div>
+
+            {/* Location */}
+            <div className="flex flex-row gap-10 px-2">
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                fill="none"
+                viewBox="0 0 24 24"
+                strokeWidth="1.5"
+                stroke="currentColor"
+                className="h-5 w-5"
+              >
+                <path
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  d="M15 10.5a3 3 0 11-6 0 3 3 0 016 0z"
+                />
+                <path
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  d="M19.5 10.5c0 7.142-7.5 11.25-7.5 11.25S4.5 17.642 4.5 10.5a7.5 7.5 0 1115 0z"
+                />
+              </svg>
+              {!accommLoading ? (
+                <div className="">
+                  {accommData?.street_number} {accommData?.subdivision}{" "}
+                  {accommData?.barangay}
+                </div>
+              ) : (
+                <div className="w-[100px] animate-pulse overflow-hidden rounded-full bg-gray-400">
+                  &nbsp;&nbsp;
+                </div>
+              )}
+            </div>
+
+            {/* Address */}
+            <div className="flex flex-row gap-10 px-2">
+              {accommData?.contact_number ? (
+                <>
+                  <svg
+                    fill="none"
+                    viewBox="0 0 24 24"
+                    strokeWidth="1.5"
+                    stroke="currentColor"
+                    className="h-5 w-5"
+                  >
+                    <path
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
+                      d="M15.75 6a3.75 3.75 0 11-7.5 0 3.75 3.75 0 017.5 0zM4.501 20.118a7.5 7.5 0 0114.998 0A17.933 17.933 0 0112 21.75c-2.676 0-5.216-.584-7.499-1.632z"
+                    />
+                  </svg>
+                  <p>{accommData?.contact_number}</p>
+                </>
+              ) : (
+                <></>
+              )}
+            </div>
+
+            {accommData?.fb_page ? (
+              <div className="flex flex-row gap-10 px-2">
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  width="16"
+                  height="16"
+                  fill="p-dblue"
+                  className="h-5 w-5"
+                  viewBox="0 0 16 16"
+                >
+                  <path d="M16 8.049c0-4.446-3.582-8.05-8-8.05C3.58 0-.002 3.603-.002 8.05c0 4.017 2.926 7.347 6.75 7.951v-5.625h-2.03V8.05H6.75V6.275c0-2.017 1.195-3.131 3.022-3.131.876 0 1.791.157 1.791.157v1.98h-1.009c-.993 0-1.303.621-1.303 1.258v1.51h2.218l-.354 2.326H9.25V16c3.824-.604 6.75-3.934 6.75-7.951z" />
+                </svg>
+                <Link
+                  href={`https://${accommData.fb_page}`}
+                  target="_blank"
+                  className="cursor-pointer underline"
+                >
+                  <p>{accommData.fb_page}</p>
+                </Link>
+              </div>
+            ) : (
+              <></>
+            )}
+          </div>
+
+          {/* Rooms 
+      TODO: This is gonna get the list of rooms in prisma/schema.prisma and load the component <RoomButton /> (components/RoomButton.tsx) with the room id.*/}
+          <div className="scrollbar flex flex-row items-stretch justify-center space-x-3 overflow-x-auto p-3">
+            {accommData?.Room && accommData?.Room.length > 0 ? (
+              accommData?.Room.map((room, i: number) => (
+                <RoomButton
+                  key={room.id}
+                  id={room.id}
+                  roomIndex={i}
+                  status={room.occupied}
+                  hidden={
+                    userSession?.profile.type === "LANDLORD" &&
+                    accommData?.landlord === userSession?.user?.id &&
+                    accommData?.id === room.accommodationId
+                      ? false
+                      : room.is_archived
+                  }
+                  roomAccID={room.accommodationId}
+                  roomAvail={room.occupied}
+                  roomPrice={room.price}
+                  roomBeds={room.num_of_beds}
+                  roomAircon={room.with_aircon}
+                  roomUtils={room.with_utilities}
+                  roomArchive={room.is_archived}
+                />
+              ))
+            ) : (
+              <p className="items-center justify-center">
+                No rooms are available yet.
+              </p>
+            )}
+
+            {/* TODO: ADD ROOM BUTTON SHOULD ONLY APPEAR IF LANDLORD IS LOOKING AT PAGE */}
+            {userSession?.profile.type === "LANDLORD" &&
+              accommData?.landlord === userSession?.user?.id && (
+                <Link
+                  href={`/accommodation/${id}/room/add`}
+                  className="flex items-stretch"
+                >
+                  <button className="flex flex-col items-center justify-center rounded-lg border-2 border-dashed border-p-black/50 px-8">
+                    <svg
+                      xmlns="http://www.w3.org/2000/svg"
+                      fill="none"
+                      viewBox="0 0 24 24"
+                      strokeWidth="1.5"
+                      stroke="currentColor"
+                      className="h-6 w-6"
+                    >
                       <path
                         strokeLinecap="round"
                         strokeLinejoin="round"
-                        d="M19.5 10.5c0 7.142-7.5 11.25-7.5 11.25S4.5 17.642 4.5 10.5a7.5 7.5 0 1115 0z"
+                        d="M12 4.5v15m7.5-7.5h-15"
                       />
                     </svg>
-                    {!accommLoading ? (
-                      <div className="">
-                        {accommData?.street_number} {accommData?.subdivision}{" "}
-                        {accommData?.barangay}
-                      </div>
-                    ) : (
-                      <div className="w-10 animate-pulse overflow-hidden rounded-full bg-gray-400">
-                        &nbsp;&nbsp;
-                      </div>
-                    )}
-                  </div>
+                    <label className="text-xs">Add Room</label>
+                  </button>
+                </Link>
+              )}
+          </div>
+        </div>
+        <br />
+        <div className="border-t border-black"></div>
+      </div>
+    );
+  };
 
-                  {/* Address */}
-                  <div className="flex flex-row gap-10 px-2">
-                    {accommData?.contact_number ? (
-                      <>
-                        <svg
-                          fill="none"
-                          viewBox="0 0 24 24"
-                          strokeWidth="1.5"
-                          stroke="currentColor"
-                          className="h-5 w-5"
-                        >
-                          <path
-                            strokeLinecap="round"
-                            strokeLinejoin="round"
-                            d="M15.75 6a3.75 3.75 0 11-7.5 0 3.75 3.75 0 017.5 0zM4.501 20.118a7.5 7.5 0 0114.998 0A17.933 17.933 0 0112 21.75c-2.676 0-5.216-.584-7.499-1.632z"
-                          />
-                        </svg>
-                        <p>{accommData?.contact_number}</p>
-                      </>
-                    ) : (
-                      <></>
-                    )}
-                  </div>
+  return (
+    <div className="flex h-full flex-col justify-center bg-p-ngray">
+      {/* HEADER */}
+      <NavBar />
 
-                  {accommData?.fb_page ? (
-                    <div className="flex flex-row gap-10 px-2">
-                      <svg
-                        xmlns="http://www.w3.org/2000/svg"
-                        width="16"
-                        height="16"
-                        fill="p-dblue"
-                        className="h-5 w-5"
-                        viewBox="0 0 16 16"
-                      >
-                        <path d="M16 8.049c0-4.446-3.582-8.05-8-8.05C3.58 0-.002 3.603-.002 8.05c0 4.017 2.926 7.347 6.75 7.951v-5.625h-2.03V8.05H6.75V6.275c0-2.017 1.195-3.131 3.022-3.131.876 0 1.791.157 1.791.157v1.98h-1.009c-.993 0-1.303.621-1.303 1.258v1.51h2.218l-.354 2.326H9.25V16c3.824-.604 6.75-3.934 6.75-7.951z" />
-                      </svg>
-                      <Link
-                        href={`https://${accommData.fb_page}`}
-                        target="_blank"
-                        className="cursor-pointer underline"
-                      >
-                        <p>{accommData.fb_page}</p>
-                      </Link>
-                    </div>
-                  ) : (
-                    <></>
-                  )}
-                </div>
-
-                {/* Rooms 
-                TODO: This is gonna get the list of rooms in prisma/schema.prisma and load the component <RoomButton /> (components/RoomButton.tsx) with the room id.*/}
-                <div className="scrollbar flex flex-row items-stretch space-x-3 overflow-x-auto px-3 py-3">
-                  {accommData?.Room && accommData?.Room.length > 0 ? (
-                    accommData?.Room.map((room, i: number) => (
-                      <RoomButton
-                        key={room.id}
-                        id={room.id}
-                        roomIndex={i}
-                        status={room.occupied}
-                        hidden={
-                          userSession?.profile.type === "LANDLORD" &&
-                          accommData?.landlord === userSession?.user?.id &&
-                          accommData?.id === room.accommodationId
-                            ? false
-                            : room.is_archived
-                        }
-                        roomAccID={room.accommodationId}
-                        roomAvail={room.occupied}
-                        roomPrice={room.price}
-                        roomBeds={room.num_of_beds}
-                        roomAircon={room.with_aircon}
-                        roomUtils={room.with_utilities}
-                        roomArchive={room.is_archived}
-                      />
-                    ))
-                  ) : (
-                    <p>No rooms are available yet.</p>
-                  )}
-
-                  {/* TODO: ADD ROOM BUTTON SHOULD ONLY APPEAR IF LANDLORD IS LOOKING AT PAGE */}
-                  {userSession?.profile.type === "LANDLORD" &&
-                    accommData?.landlord === userSession?.user?.id && (
-                      <Link
-                        href={`/accommodation/${id}/room/add`}
-                        className="flex items-stretch"
-                      >
-                        <button className="flex flex-col items-center justify-center rounded-lg border-2 border-dashed border-p-black/50 px-8">
-                          <svg
-                            xmlns="http://www.w3.org/2000/svg"
-                            fill="none"
-                            viewBox="0 0 24 24"
-                            strokeWidth="1.5"
-                            stroke="currentColor"
-                            className="h-6 w-6"
-                          >
-                            <path
-                              strokeLinecap="round"
-                              strokeLinejoin="round"
-                              d="M12 4.5v15m7.5-7.5h-15"
-                            />
-                          </svg>
-                          <label className="text-xs">Add Room</label>
-                        </button>
-                      </Link>
-                    )}
-                </div>
-              </div>
-              <br />
-              <div className="border-t border-black"></div>
-
-              <Review />
-            </div>
+      {/* BODY */}
+      <div className="mt-10 flex px-0 md:px-24 2xl:px-52">
+        <div className="grid w-full min-w-full grid-cols-1 gap-x-4 sm:grid-cols-3">
+          <div className="w-full">
+            <Gallery />
+          </div>
+          <div className="w-full sm:col-span-2">
+            <Description />
+          </div>
+          <div className="w-full px-4">
+            <OverAllRating />
+          </div>
+          <div className="w-full px-4 sm:col-span-2">
+            <Review />
           </div>
         </div>
         {/*Report button*/}

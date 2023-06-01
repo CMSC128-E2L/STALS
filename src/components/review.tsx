@@ -103,8 +103,8 @@ export default function Review() {
               )}
             >
               <div className="mb-4 w-full rounded-[15px] border border-gray-200 bg-gray-50">
-                <div className="grid h-10 grid-cols-2 justify-items-stretch gap-4 pl-4">
-                  <div className="flex items-center">
+                <div className="grid grid-cols-2 justify-items-stretch">
+                  <div className="flex items-center py-2 pl-4">
                     <h1 className="text-start text-2xl font-bold">
                       Write a Review
                     </h1>
@@ -138,11 +138,11 @@ export default function Review() {
                   />
                 </div>
 
-                <div className="grid h-10 grid-cols-1 justify-items-stretch px-2 pt-2">
+                <div className="grid py-2">
                   <div className="justify-self-end pr-2">
                     <button
                       type="submit"
-                      className="inline-flex items-center justify-self-end rounded-lg bg-p-dviolet px-10 py-1 text-center text-sm font-medium text-white hover:bg-p-dbviolet focus:ring-4 focus:ring-blue-200 dark:focus:ring-blue-900"
+                      className="inline-flex items-center justify-self-end rounded-lg bg-p-dviolet px-10 py-2 text-center text-sm font-medium text-white hover:bg-p-dbviolet focus:ring-4 focus:ring-blue-200 dark:focus:ring-blue-900"
                     >
                       Publish Post
                     </button>
