@@ -30,16 +30,6 @@ export const reportRouter = createTRPCRouter({
       });
     }),
 
-  /*    
-      reportUser: publicProcedure
-          .input(z.object({ text: z.string() }))
-          .query(({ input }) => {}),
-  
-      reportReview: publicProcedure
-          .input(z.object({ text: z.string() }))
-          .query(({ input }) => {}),
-  */
-
   getMany: publicProcedure
     .input(
       z.object({
@@ -90,9 +80,15 @@ export const reportRouter = createTRPCRouter({
           report: true,
           user: {
             select: {
-              username: true,
+              first_name: true,
+              middle_name: true,
+              last_name: true,
+              Suffix: true,
             },
           },
+        },
+        orderBy: {
+          id: "desc",
         },
       });
     }),
@@ -115,23 +111,29 @@ export const reportRouter = createTRPCRouter({
           report: true,
           user: {
             select: {
-              image: true,
-              username: true,
+              first_name: true,
+              middle_name: true,
+              last_name: true,
+              Suffix: true,
             },
           },
+        },
+        orderBy: {
+          id: "desc",
         },
         skip: input.page,
         take: input.multiplier,
       });
     }),
 
-  /* 
-    getManyUsers: publicProcedure.query(({ ctx }) => {
-      return ctx.prisma.example.findMany();
+  deleteReport: protectedProcedure
+    .input(z.string())
+    .mutation(({ ctx, input }) => {
+      const id = input;
+      return ctx.prisma.report.delete({
+        where: {
+          id,
+        },
+      });
     }),
-    getManyReviews: publicProcedure.query(({ ctx }) => {
-      return ctx.prisma.example.findMany();
-    }),
-  
-  */
 });
