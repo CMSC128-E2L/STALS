@@ -8,7 +8,7 @@ export const SearchItem: React.FC<{
   name: string;
   price: number | null;
   location: string | null;
-  tags: string;
+  tags: Array<string>;
 }> = ({ id, name, price, location, tags }) => {
   const [imgSrc, setImgSrc] = useState(
     // `https://stals-worker.p0lbang.workers.dev/${id}.jpg`,
@@ -53,14 +53,21 @@ export const SearchItem: React.FC<{
               <div className="mb-2 text-xl font-bold">{name}</div>
               <p className="text-xl">Php {price}</p>
               <p className="mb-4 text-xl">{location}</p>
-
-              {tags !== "" ? (
-                <span className="mb-2 mr-2 inline-block rounded-full bg-p-lviolet px-3 py-1 text-sm font-semibold text-gray-700">
-                  {tags}
-                </span>
+              <span className="mb-2 mr-2 inline-block rounded-full bg-p-lviolet px-3 py-1 text-sm font-semibold text-gray-700">
+                {tags
+                  .filter((tag) => tag !== "")
+                  .map((tag, index, array) => (
+                    <span key={tag}>
+                      {tag}
+                      {index !== array.length - 1 && ", "}
+                    </span>
+                  ))}
+              </span>
+              {/* {tags !== "" ? (
+                
               ) : (
                 <span className="bg-gray inline-block"></span>
-              )}
+              )} */}
             </div>
           </div>
         </div>

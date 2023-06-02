@@ -162,8 +162,8 @@ export default function AddAccommodation() {
                           <option value={AccommodationType.APARTMENT}>
                             Apartment
                           </option>
-                          <option value={AccommodationType.BEDSPACER}>
-                            Bedspacer
+                          <option value={AccommodationType.BEDSPACE}>
+                            Bedspace
                           </option>
                           <option value={AccommodationType.HOTEL}>Hotel</option>
                           <option value={AccommodationType.TRANSIENT}>
@@ -392,7 +392,20 @@ export default function AddAccommodation() {
                 </div>
                 <div className="flex flex-col gap-2">
                   <div>
-                    <button type="submit" className="formConfirm bg-p-dviolet">
+                    <button
+                      type="submit"
+                      className="formConfirm bg-p-dviolet"
+                      //eslint-disable-next-line @typescript-eslint/no-misused-promises
+                      onClick={async () => {
+                        try {
+                          router.back();
+                          await router.replace(router.asPath);
+                        } catch (error) {
+                          // Handle the error here
+                          console.error(error);
+                        }
+                      }}
+                    >
                       Submit
                     </button>
                   </div>

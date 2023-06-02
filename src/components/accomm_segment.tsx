@@ -64,8 +64,8 @@ const Accomm_Segment: React.FC<{
             }}
           />
 
-          <div className="w-full bg-white p-2">
-            <div className="mb-2 rounded-lg bg-p-dviolet p-2 shadow-md">
+          <div className="w-[350px] bg-white p-2">
+            <div className="mb-2 w-[320px] rounded-lg bg-p-dviolet p-2 shadow-md">
               {/* ARCHIVED */}
               {is_archived && (
                 <p className="mb-0.5 text-xl font-bold text-white">
@@ -83,7 +83,7 @@ const Accomm_Segment: React.FC<{
             </div>
 
             <div className="flex flex-row space-x-2">
-              <div className="w-full rounded-lg bg-p-dviolet shadow-md">
+              <div className="w-[100px] w-full rounded-lg bg-p-dviolet shadow-md">
                 {/* CATEGORY */}
                 <p className="mb-0.5 p-2 text-center text-xl font-bold text-white">
                   Category:
@@ -93,7 +93,7 @@ const Accomm_Segment: React.FC<{
                 </p>
               </div>
 
-              <div className="w-full rounded-lg bg-p-dviolet shadow-md">
+              <div className="w-[100px] w-full rounded-lg bg-p-dviolet shadow-md">
                 {/* LOCATION */}
                 <p className="mb-0.5 p-2 text-center text-xl font-bold text-white">
                   Location:
@@ -101,7 +101,7 @@ const Accomm_Segment: React.FC<{
                 <p className="p-2 text-center text-white">{location}</p>
               </div>
 
-              <div className="w-full rounded-lg bg-p-dviolet shadow-md">
+              <div className="w-[100px] w-full rounded-lg bg-p-dviolet shadow-md">
                 {/* NUM OF ROOMS */}
                 <p className="mb-0.5 p-2 text-center text-xl font-bold text-white">
                   Rooms:
@@ -112,15 +112,24 @@ const Accomm_Segment: React.FC<{
           </div>
 
           <div className="w-full bg-white p-2">
-            <div className="mb-2 rounded-lg bg-p-dviolet p-2">
+            <div className="mb-2 w-[300px] rounded-lg bg-p-dviolet p-2">
               {/* TAGS */}
               <p className="mb-0.5 text-xl font-bold text-white">Tags:</p>
-              <p className="italic text-white">{tags}</p>
+              <span className="text-sm italic text-white">
+                {tagArray
+                  .filter((tag) => tag !== "")
+                  .map((tag, index, array) => (
+                    <span key={tag}>
+                      {tag}
+                      {index !== array.length - 1 && ", "}
+                    </span>
+                  ))}
+              </span>
             </div>
-            <div className="h-20 w-full bg-white"></div>
+            <br />
 
             {/* ARCHIVE, EDIT, & DELETE  BUTTONS */}
-            <div className="flex w-full flex-row space-x-2">
+            <div className="flex w-[300px] space-x-2">
               <div className="w-full bg-white"></div>
 
               {/* EDIT */}

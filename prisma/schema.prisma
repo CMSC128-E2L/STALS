@@ -93,7 +93,7 @@ enum AccommodationType {
   HOTEL
   DORMITORY
   APARTMENT
-  BEDSPACER
+  BEDSPACE
   TRANSIENT
 }
 
