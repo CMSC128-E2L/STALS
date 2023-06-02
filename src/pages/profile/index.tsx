@@ -4,7 +4,6 @@ import Image from "next/image";
 import user from "public/images/def_user.png";
 import Link from "next/link";
 import Edit from "./edit";
-import ManageReport from "../managereport";
 import Profile1 from "~/components/profile";
 import FaveAccoms from "~/components/FaveAccoms";
 import bgpic from "public/images/signup_bg.png";
@@ -100,7 +99,8 @@ export default function Profile() {
                         </div>
                         <div className="ml-4">
                           <p className="mb-1 flex text-sm font-semibold">
-                            {report.user.username}
+                            {report.user.first_name} {report.user.middle_name}{" "}
+                            {report.user.last_name} {report.user.Suffix}
                           </p>
                           <p className="flex text-xs text-gray-400">
                             {report.type_reported}
