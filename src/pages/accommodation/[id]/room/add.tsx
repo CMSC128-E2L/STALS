@@ -153,17 +153,26 @@ export default function AddRoom() {
             <br />
             <div>
               <div className="py-2">
-                <button className="flex w-full justify-center rounded-full bg-p-dviolet px-4 py-2 font-bold text-white shadow shadow-gray-400/100">
+                <button
+                  className="flex w-full justify-center rounded-full bg-p-dviolet px-4 py-2 font-bold text-white shadow shadow-gray-400/100"
+                  onClick={() => {
+                    router.back();
+                    setTimeout(() => router.reload(), 50);
+                  }}
+                >
                   Confirm
                 </button>
               </div>
 
               <div>
-                <Link href={`/accommodation/${id}`}>
-                  <button className="flex w-full justify-center rounded-full bg-gray-500 px-4 py-2 font-bold text-white opacity-75 shadow shadow-gray-400">
-                    Cancel
-                  </button>
-                </Link>
+                <button
+                  className="flex w-full justify-center rounded-full bg-gray-500 px-4 py-2 font-bold text-white opacity-75 shadow shadow-gray-400"
+                  onClick={() => {
+                    router.back();
+                  }}
+                >
+                  Cancel
+                </button>
               </div>
             </div>
           </form>
