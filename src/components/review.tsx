@@ -81,11 +81,7 @@ export default function Review() {
                   addReview.mutate(data);
                 },
                 (error) => {
-                  console.log(error);
-                  toast.error("Incomplete Review!", {
-                    position: "bottom-right",
-                    duration: 1000,
-                  });
+                  // console.log(error);
                 },
               )}
             >
