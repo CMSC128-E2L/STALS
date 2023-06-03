@@ -480,7 +480,7 @@ export default function HomePage() {
           {/* Sidebar */}
           <div className="flex flex-col sm:sticky sm:top-16 sm:h-[100vh] sm:flex-row">
             {toggleSidebar && (
-              <aside className="w-full overflow-scroll bg-p-lviolet px-5 py-3 sm:w-[200px] sm:min-w-[200px]">
+              <aside className="scrollbar w-full overflow-scroll bg-p-lviolet px-5 py-3 sm:w-[200px] sm:min-w-[200px]">
                 {/* Location */}
                 <div className="mb-1">
                   <h2 className="filter-header">Location</h2>
