@@ -7,7 +7,6 @@ import logo from "public/images/logo.png";
 import about_us from "public/images/about_us.png";
 import contact_us from "public/images/contact.png";
 import React, { useState, useEffect } from "react";
-import FooterComponent from "~/components/footer";
 
 const Home: NextPage = () => {
   const [isLargeText, setIsLargeText] = useState(false);
@@ -217,8 +216,6 @@ const Home: NextPage = () => {
             </div>
           </section>
         </div>
-
-        <FooterComponent />
       </main>
     </>
   );
