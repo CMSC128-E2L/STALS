@@ -16,6 +16,7 @@ import { UserType } from "@prisma/client";
 
 export default function ReviewGroup() {
   const { id } = dynamicRouteID(useRouter());
+  const router = useRouter();
   const {
     register,
     handleSubmit,
@@ -80,6 +81,7 @@ export default function ReviewGroup() {
                 date?: string | undefined;
               }) => {
                 addReview.mutate(data);
+                setTimeout(() => router.reload(), 50);
               },
               (error) => {
                 // console.log(error);

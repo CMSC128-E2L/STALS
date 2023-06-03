@@ -28,6 +28,12 @@ const ReviewItem: React.FC<{
     },
   });
 
+  const archiveRev = api.review.archive.useMutation({
+    onSuccess: () => {
+      router.reload();
+    },
+  });
+
   return (
     <div className="relative flex max-w-full flex-row border-b-2 border-b-neutral-200 py-4">
       <img
@@ -53,68 +59,88 @@ const ReviewItem: React.FC<{
         </label>
       </div>
 
-      {(userSession?.profile.id === user.id ||
-        userSession?.profile.type === UserType.ADMIN) && (
+      {userSession?.profile.type === UserType.ADMIN && (
         <div className="absolute right-0 m-3 text-xs">
           <div className="flex">
             <div className="mx-2"></div>
-            {/* <button
-        className="flex flex-row space-x-2"
-        onClick={() => {
-          // Add your logic or function call here for editing the review
-        }}
-      >
-        Edit
-      </button>
-      <div className="mx-4"></div> Add space between the buttons */}
             <button
               className="flex flex-row space-x-2"
               onClick={() => setShowDelPrompt(true)}
             >
-              Delete
+              Archive
             </button>
             {showDelPrompt && (
               <ConfirmationPrompt
                 onConfirm={() => {
-                  deleteRev.mutate({
+                  archiveRev.mutate({
                     id: id,
                   });
                 }}
                 onCancel={() => setShowDelPrompt(false)}
-                message="Are you sure you want to delete this review? "
-                submessage="This action cannot be undone."
+                message="Are you sure you want to archive this review? "
+                submessage=""
+                // submessage="This action cannot be undone."
               />
             )}
           </div>
         </div>
       )}
 
+      {userSession?.profile.id === user.id &&
+        userSession?.profile.type === UserType.USER && (
+          <div className="absolute right-0 m-3 text-xs">
+            <div className="flex">
+              <div className="mx-2"></div>
+              <button
+                className="flex flex-row space-x-2"
+                onClick={() => setShowDelPrompt(true)}
+              >
+                Delete
+              </button>
+              {showDelPrompt && (
+                <ConfirmationPrompt
+                  onConfirm={() => {
+                    deleteRev.mutate({
+                      id: id,
+                    });
+                  }}
+                  onCancel={() => setShowDelPrompt(false)}
+                  message="Are you sure you want to delete this review? "
+                  submessage="This action cannot be undone."
+                />
+              )}
+            </div>
+          </div>
+        )}
+
       {/* Report button for review */}
-      {userSession !== null && userSession?.profile.id !== user.id && (
-        <div className="absolute right-0 m-3 text-xxs">
-          {/*The report button will stick to the bottom left of the screen*/}
-          <button
-            className="flex flex-row space-x-10"
-            onClick={() => {
-              reportAccomm.mutate({
-                reported_id: id,
-                reported_name: date?.concat(" at ", time ?? "") ?? "",
-                report: "",
-                type_reported: "REVIEW",
-              });
-              toast.success(
-                "Thank you for reporting this review.\nAn alert has been sent to the administrators.",
-                {
-                  position: "bottom-center",
-                  duration: 4000,
-                },
-              );
-            }}
-          >
-            Report this review
-          </button>
-        </div>
-      )}
+      {userSession !== null &&
+        userSession?.profile.id !== user.id &&
+        userSession.profile.type !== UserType.ADMIN && (
+          <div className="absolute right-0 m-3 text-xxs">
+            {/*The report button will stick to the bottom left of the screen*/}
+            <button
+              className="flex flex-row space-x-10"
+              onClick={() => {
+                reportAccomm.mutate({
+                  reported_id: id,
+                  reported_name: date?.concat(" at ", time ?? "") ?? "",
+                  report: "",
+                  type_reported: "REVIEW",
+                });
+                toast.success(
+                  "Thank you for reporting this review.\nAn alert has been sent to the administrators.",
+                  {
+                    position: "bottom-center",
+                    duration: 4000,
+                  },
+                );
+              }}
+            >
+              Report this review
+            </button>
+          </div>
+        )}
     </div>
   );
 };
