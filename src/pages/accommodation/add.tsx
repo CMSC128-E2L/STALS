@@ -38,8 +38,18 @@ export default function AddAccommodation() {
   const [tagCustom, settagCustom] = useState("");
 
   if (notAuthenticated(userSession.status)) {
-    return <LoadingSpinner />;
+    return (
+      <div className="min-h-[80vh]">
+        <img
+          className="fixed -z-50 w-screen bg-cover bg-fixed bg-center"
+          src={bgpic.src}
+          alt="background"
+        />
+        <LoadingSpinner />
+      </div>
+    );
   }
+
   if (userSession?.data?.profile.type === UserType.USER) {
     return Error401();
   }
