@@ -12,7 +12,8 @@ import jsPDF from "jspdf";
 import autoTable from "jspdf-autotable";
 import { useSession } from "next-auth/react";
 import bgpic from "public/images/homepage_bg.png";
-import { stalsDBstringArray } from "~/utils/helpers";
+import { stalsDBstringArray, titleCase } from "~/utils/helpers";
+import { AccommodationType } from "@prisma/client";
 
 export default function HomePage() {
   const priceRanges = [
@@ -32,23 +33,16 @@ export default function HomePage() {
     { id: "above-four", value: "above-four", label: "Above ₱ 4001.00" },
   ];
 
-  const accomTypes = [
-    { id: "ALL", value: "ALL", label: "All" },
-    { id: "APARTMENT", value: "APARTMENT", label: "Apartment" },
-    { id: "BEDSPACE", value: "BEDSPACE", label: "Bedspace" },
-    { id: "DORMITORY", value: "DORMITORY", label: "Dormitory" },
-    { id: "HOTEL", value: "HOTEL", label: "Hotel" },
-    { id: "TRANSCIENT", value: "TRANSCIENT", label: "Transcient" },
-  ];
-
   const sortTypes = [
     { id: "NONE", value: "NONE", label: "None" },
-    { id: "NAME", value: "NAME", label: "Name" },
-    { id: "PRICE", value: "PRICE", label: "Price" },
-    { id: "RATING", value: "RATING", label: "Rating" },
+    { id: "NAME-ASC", value: "NAME-ASC", label: "Name (ascending)" },
+    { id: "NAME-DESC", value: "NAME-DESC", label: "Name (descending)" },
+    { id: "PRICE-ASC", value: "PRICE-ASC", label: "Price (ascending)" },
+    { id: "PRICE-DESC", value: "PRICE-DESC", label: "Price (descending)" },
+    { id: "RATING-ASC", value: "RATING-ASC", label: "Rating (ascending)" },
+    { id: "RATING-DESC", value: "RATING-DESC", label: "Rating (descending)" },
   ];
 
-  const [selectedAccomType, setSelectedAccomType] = useState("");
   const [selectedPrice, setSelectedPrice] = useState("");
   const [selectedSort, setSelectedSort] = useState("");
 
@@ -82,14 +76,16 @@ export default function HomePage() {
     price_min: undefined,
     price_max: undefined,
     is_archived: false,
-    sortByName: false,
-    sortByRating: false,
+    sortByName: null,
+    sortByRating: null,
+    sortByPrice: null,
   });
   const {
     register,
     handleSubmit,
     control,
     formState: { errors },
+    getValues,
   } = useForm({
     resolver: zodResolver(accommodationGetManyExperiementSchema),
   });
@@ -257,33 +253,57 @@ export default function HomePage() {
         case "NONE":
           setUserInputs((prevInputs) => ({
             ...prevInputs,
-            sortByName: false,
-            sortByRating: false,
-            sortByPrice: false,
+            sortByName: null,
+            sortByRating: null,
+            sortByPrice: null,
           }));
           break;
-        case "NAME":
+        case "NAME-ASC":
           setUserInputs((prevInputs) => ({
             ...prevInputs,
             sortByName: true,
-            sortByRating: false,
-            sortByPrice: false,
+            sortByRating: null,
+            sortByPrice: null,
           }));
           break;
-        case "RATING":
+        case "NAME-DESC":
           setUserInputs((prevInputs) => ({
             ...prevInputs,
             sortByName: false,
+            sortByRating: null,
+            sortByPrice: null,
+          }));
+          break;
+        case "RATING-ASC":
+          setUserInputs((prevInputs) => ({
+            ...prevInputs,
+            sortByName: null,
             sortByRating: true,
-            sortByPrice: false,
+            sortByPrice: null,
           }));
           break;
-        case "PRICE":
+        case "RATING-DESC":
           setUserInputs((prevInputs) => ({
             ...prevInputs,
-            sortByName: false,
+            sortByName: null,
             sortByRating: false,
+            sortByPrice: null,
+          }));
+          break;
+        case "PRICE-ASC":
+          setUserInputs((prevInputs) => ({
+            ...prevInputs,
+            sortByName: null,
+            sortByRating: null,
             sortByPrice: true,
+          }));
+          break;
+        case "PRICE-DESC":
+          setUserInputs((prevInputs) => ({
+            ...prevInputs,
+            sortByName: null,
+            sortByRating: null,
+            sortByPrice: false,
           }));
           break;
         default:
@@ -294,61 +314,6 @@ export default function HomePage() {
     setSelectedSort(event.target.value);
   };
 
-  const handleAccomTypeChange = (event: {
-    target: { value: string; checked: boolean };
-  }) => {
-    const { value, checked } = event.target;
-    if (checked) {
-      switch (value) {
-        case "ALL":
-          setUserInputs((prevInputs) => ({
-            ...prevInputs,
-            // type: undefined,
-            typeArray: [],
-          }));
-          break;
-        case "APARTMENT":
-          setUserInputs((prevInputs) => ({
-            ...prevInputs,
-            // type: "APARTMENT",
-            typeArray: ["Apartment"],
-          }));
-          break;
-        case "BEDSPACE":
-          setUserInputs((prevInputs) => ({
-            ...prevInputs,
-            // type: "BEDSPACER",
-            typeArray: ["Bedspace"],
-          }));
-          break;
-        case "DORMITORY":
-          setUserInputs((prevInputs) => ({
-            ...prevInputs,
-            // type: "DORMITORY",
-            typeArray: ["Dormitory"],
-          }));
-          break;
-        case "HOTEL":
-          setUserInputs((prevInputs) => ({
-            ...prevInputs,
-            // type: "HOTEL",
-            typeArray: ["Hotel"],
-          }));
-          break;
-        case "TRANSCIENT":
-          setUserInputs((prevInputs) => ({
-            ...prevInputs,
-            // type: "TRANSCIENT",
-            typeArray: ["Transient"],
-          }));
-          break;
-        default:
-          break;
-      }
-    }
-
-    setSelectedAccomType(event.target.value);
-  };
   const handlePriceRangeChange = (event: {
     target: { value: string; checked: boolean };
   }) => {
@@ -518,26 +483,28 @@ export default function HomePage() {
                 </button>
                 {showTypeDropdown && (
                   <div>
-                    {accomTypes.map((range, index) => (
-                      <div
-                        className="mb-1 mt-2 flex items-center"
-                        key={range.id}
-                      >
+                    {Object.values(AccommodationType).map((value: string) => (
+                      <div key={value} className="flex flex-row gap-2">
                         <input
-                          id={range.id}
-                          type="radio"
-                          name="accom_type"
-                          value={range.value}
-                          onChange={handleAccomTypeChange}
-                          className="filter-radio inline-block"
-                          checked={
-                            range.value === selectedAccomType ||
-                            (index === 0 && selectedPrice === "")
-                          }
+                          id={value}
+                          type="checkbox"
+                          value={titleCase(value)}
+                          {...register("typeArray", {
+                            onChange: () => {
+                              setUserInputs(
+                                (
+                                  prevInputs: z.infer<
+                                    typeof accommodationGetManyExperiementSchema
+                                  >,
+                                ) => ({
+                                  ...prevInputs,
+                                  typeArray: getValues("typeArray") as string[],
+                                }),
+                              );
+                            },
+                          })}
                         />
-                        <label htmlFor={range.id} className="filter-text">
-                          {range.label}
-                        </label>
+                        <label htmlFor={value}>{value}</label>
                       </div>
                     ))}
                   </div>
