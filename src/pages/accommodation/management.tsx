@@ -51,12 +51,8 @@ export default function Delete_Archive_Accomm() {
                   price={accomm.price}
                   num_of_rooms={accomm.num_of_rooms}
                   barangay={accomm.barangay}
-                  typeArray={stalsDBstringArray(
-                    stalsDBstringArray(accomm.typeArray),
-                  )}
-                  tagArray={stalsDBstringArray(
-                    stalsDBstringArray(accomm.tagArray),
-                  )}
+                  typeArray={stalsDBstringArray(accomm.typeArray)}
+                  tagArray={stalsDBstringArray(accomm.tagArray)}
                   is_archived={accomm.is_archived}
                   location={accomm.location}
                   refetch={refetch}
