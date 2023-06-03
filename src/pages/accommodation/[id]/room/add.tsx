@@ -67,11 +67,12 @@ export default function AddRoom() {
             onSubmit={handleSubmit(
               (d) => {
                 addRoom.mutate(d);
-                window.location.replace(`/accommodation/${id}`);
                 toast.success("Successfully Added Room!", {
                   position: "bottom-right",
                   duration: 1000,
                 });
+                router.back();
+                setTimeout(() => router.reload(), 50);
               },
               (error) => {
                 console.log(error);
@@ -87,9 +88,13 @@ export default function AddRoom() {
                 <input
                   className="add-acc-input-text-field"
                   placeholder="Price"
-                  pattern="[0-9]+"
-                  type="number"
-                  {...register("price", { valueAsNumber: true })}
+                  pattern="^\d+(\.\d+)?$"
+                  type="text"
+                  {...register("price", {
+                    valueAsNumber: true,
+                    // eslint-disable-next-line @typescript-eslint/no-unsafe-argument
+                    setValueAs: (value: string) => parseFloat(value),
+                  })}
                   required
                 ></input>
               </div>
@@ -153,13 +158,7 @@ export default function AddRoom() {
             <br />
             <div>
               <div className="py-2">
-                <button
-                  className="flex w-full justify-center rounded-full bg-p-dviolet px-4 py-2 font-bold text-white shadow shadow-gray-400/100"
-                  onClick={() => {
-                    router.back();
-                    setTimeout(() => router.reload(), 50);
-                  }}
-                >
+                <button className="flex w-full justify-center rounded-full bg-p-dviolet px-4 py-2 font-bold text-white shadow shadow-gray-400/100">
                   Confirm
                 </button>
               </div>

@@ -98,12 +98,20 @@ export default function EditRoom() {
                 <input
                   className="w-full rounded-xl px-2 py-2 shadow shadow-gray-400/100"
                   placeholder="Price"
-                  pattern="[0-9]+"
-                  type="number"
+                  pattern="^\d+(\.\d+)?$"
+                  type="text"
+                  title="Must be a positive float value."
                   defaultValue={firstData?.price}
-                  {...register("price", { valueAsNumber: true })}
+                  // eslint-disable-next-line @typescript-eslint/no-unsafe-argument
+                  {...register("price", {
+                    valueAsNumber: true,
+                    // eslint-disable-next-line @typescript-eslint/no-unsafe-argument
+                    setValueAs: (value: string) => parseFloat(value),
+                  })}
+                  // eslint-disable-next-line @typescript-eslint/no-unsafe-argument
                 ></input>
               </div>
+
               <div>
                 <input
                   className="w-full rounded-xl px-2 py-2 shadow shadow-gray-400/100"

@@ -79,6 +79,8 @@ export default function AddAccommodation() {
                     duration: 1000,
                   });
                   resetFrom();
+                  router.back();
+                  setTimeout(() => router.reload(), 50);
                 },
                 (error) => {
                   console.log(error);
@@ -105,6 +107,7 @@ export default function AddAccommodation() {
                     placeholder="Name of Accommodation"
                     pattern="[\w\s]+"
                     {...register("name", { required: true })}
+                    required
                   ></input>
                 </div>
                 <h2 className="form-h2 px-3 pt-3 text-p-dviolet">
@@ -122,6 +125,9 @@ export default function AddAccommodation() {
                     register,
                   )}
                 </div>
+                {errors.typeArray?.message && (
+                  <p className="text-red-500">{errors.typeArray.message}</p>
+                )}
                 <div className="px-3">
                   <label className="form-h2 text-p-dviolet">Address</label>
 
@@ -130,16 +136,19 @@ export default function AddAccommodation() {
                       className="add-acc-input-text-field w-1/3"
                       placeholder="St."
                       {...register("street_number")}
+                      required
                     ></input>
                     <input
                       className="add-acc-input-text-field w-2/3"
                       placeholder="Subdivision"
                       {...register("subdivision")}
+                      required
                     ></input>
                     <input
                       className="add-acc-input-text-field"
                       placeholder="Barangay"
                       {...register("barangay")}
+                      required
                     ></input>
                   </div>
                 </div>
@@ -194,6 +203,7 @@ export default function AddAccommodation() {
                         pattern="(?:https?:\/\/)?(?:www\.)?(mbasic.facebook|m\.facebook|facebook|fb)\.(com|me)\/(?:(?:\w\.)*#!\/)?(?:pages\/)?(?:[\w\-\.]*\/)*([\w\-\.]*)"
                         type="text"
                         {...register("fb_page")}
+                        title="Please enter a valid Facebook Page Link."
                       ></input>
                     </div>
                     {/* Accommodation price input field */}
@@ -205,8 +215,15 @@ export default function AddAccommodation() {
                       <input
                         className="add-acc-input-text-field"
                         placeholder="Price"
-                        pattern="[0-9]+"
-                        {...register("price", { valueAsNumber: true })}
+                        pattern="^\d+(\.\d+)?$"
+                        type="text"
+                        {...register("price", {
+                          valueAsNumber: true,
+                          // eslint-disable-next-line @typescript-eslint/no-unsafe-argument
+                          setValueAs: (value: string) => parseFloat(value),
+                        })}
+                        title="Must be a positive float value."
+                        // eslint-disable-next-line @typescript-eslint/no-unsafe-argument
                         required
                       ></input>
                     </div>
@@ -237,6 +254,11 @@ export default function AddAccommodation() {
                         pattern="(09|\+639)[0-9]{9}"
                         {...register("contact_number")}
                       ></input>
+                      {errors.contact_number?.message && (
+                        <p className="text-red-500">
+                          {errors.contact_number.message}
+                        </p>
+                      )}
                     </div>
                   </div>
                 </div>
@@ -392,15 +414,7 @@ export default function AddAccommodation() {
                 </div>
                 <div className="flex flex-col gap-2">
                   <div>
-                    <button
-                      type="submit"
-                      className="formConfirm bg-p-dviolet"
-                      //eslint-disable-next-line @typescript-eslint/no-misused-promises
-                      onClick={() => {
-                        router.back();
-                        setTimeout(() => router.reload(), 50);
-                      }}
-                    >
+                    <button type="submit" className="formConfirm bg-p-dviolet">
                       Submit
                     </button>
                   </div>
@@ -450,7 +464,7 @@ function typeCheckbox(
         id={value}
         type="checkbox"
         value={value}
-        {...register("typeArray")}
+        {...register("typeArray", { required: true })}
       />
       <label htmlFor={value}>{value}</label>
     </div>
