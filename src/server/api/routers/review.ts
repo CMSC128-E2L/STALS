@@ -19,11 +19,14 @@ export const reviewRouter = createTRPCRouter({
     .mutation(async ({ ctx, input }) => {
       // Date
       const now = new Date();
-      const timeString = now.toLocaleString("en-US", {
+      const timeOnly = now.toLocaleString("en-US", {
         timeZone: "Asia/Hong_Kong",
+        minute: "numeric",
+        hour: "numeric",
+        hour12: true,
       });
-      const timeOnly = timeString.slice(11, 19);
       const dateOnly = now.toLocaleDateString("en-US", {
+        timeZone: "Asia/Hong_Kong",
         month: "long",
         day: "numeric",
         year: "numeric",
@@ -91,12 +94,14 @@ export const reviewRouter = createTRPCRouter({
       });
     }),
 
-  delete: protectedProcedure.input(z.string()).mutation(({ ctx, input }) => {
-    const id = input;
-    return ctx.prisma.review.delete({
-      where: { id },
-    });
-  }),
+  delete: protectedProcedure
+    .input(z.object({ id: z.string() }))
+    .mutation(({ ctx, input }) => {
+      const { id } = input;
+      return ctx.prisma.review.delete({
+        where: { id },
+      });
+    }),
 
   deleteMany: protectedProcedure
     .input(z.string())
