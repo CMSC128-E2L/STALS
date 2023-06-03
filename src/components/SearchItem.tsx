@@ -35,12 +35,12 @@ export const SearchItem: React.FC<{
     <div className="m-4 flex justify-center self-stretch">
       <Link href={`/accommodation/${id}`} className="h-full grow">
         <div className="h-full grow flex-col items-center rounded-xl border-2 border-solid bg-gray-50 shadow-xl transition delay-150 duration-300 ease-in-out hover:-translate-y-1 hover:scale-110 hover:bg-p-lviolet sm:w-72">
-          <div className="relative flex aspect-video w-full items-center justify-center ">
+          <div className="relative flex aspect-video w-full items-center justify-center">
             <Image
               src={imgSrc}
               alt={name}
               fill
-              className="rounded-t-xl object-contain"
+              className="rounded-t-xl object-contain pt-3"
               unoptimized
               onError={() => {
                 setImgSrc(placeholder.src);
@@ -48,26 +48,30 @@ export const SearchItem: React.FC<{
             />
           </div>
 
-          <div className="w-full flex-col bg-gray-50 p-4">
-            <div className="py-p px-6">
+          <div className="w-full flex-col p-4">
+            <div className="py-p px-6 ">
               <div className="mb-2 text-xl font-bold">{name}</div>
               <p className="text-xl">Php {price}</p>
               <p className="mb-4 text-xl">{location}</p>
-              <span className="mb-2 mr-2 inline-block rounded-full bg-p-lviolet px-3 py-1 text-sm font-semibold text-gray-700">
-                {tags
-                  .filter((tag) => tag !== "")
-                  .map((tag, index, array) => (
-                    <span key={tag}>
-                      {tag}
-                      {index !== array.length - 1 && ", "}
-                    </span>
-                  ))}
-              </span>
               {/* {tags !== "" ? (
                 
               ) : (
                 <span className="bg-gray inline-block"></span>
               )} */}
+            </div>
+            <div className="w-full">
+              <span className="object-contain">
+                {tags
+                  .filter((tag) => tag !== "")
+                  .map((tag, index, array) => (
+                    <span
+                      key={tag}
+                      className="mb-2 mr-2 inline-block rounded-full bg-p-lviolet px-3 py-1 text-center text-sm font-semibold text-gray-700 shadow shadow-p-vdviolet/30"
+                    >
+                      {tag}
+                    </span>
+                  ))}
+              </span>
             </div>
           </div>
         </div>

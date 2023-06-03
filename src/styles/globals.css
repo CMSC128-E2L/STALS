@@ -109,16 +109,16 @@
 
   .scrollbar::-webkit-scrollbar-track {
     border-radius: 100vh;
+    padding: 1;
   }
 
   .scrollbar::-webkit-scrollbar-thumb {
-    background: #eaeaea;
+    background: #debeff;
     border-radius: 100vh;
-    border: 1px solid white;
   }
 
   .scrollbar::-webkit-scrollbar-thumb:hover {
-    background: #bfbfbf;
+    background: #420eb3;
   }
 }
 
