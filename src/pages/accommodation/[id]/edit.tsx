@@ -16,6 +16,7 @@ import UploadImageHeader, {
   UploadImageMultiple,
 } from "~/components/uploadInput";
 import { z } from "zod";
+import { stalsDBstringArray } from "~/utils/helpers";
 
 export default function EditAccommodation() {
   const userSession = useSession({ required: true });
@@ -90,6 +91,8 @@ export default function EditAccommodation() {
                     position: "bottom-right",
                     duration: 1000,
                   });
+                  router.back();
+                  setTimeout(() => router.reload(), 50);
                 },
                 (errors) => {
                   console.log(errors);
@@ -106,7 +109,7 @@ export default function EditAccommodation() {
                   <label className="form-h2">Accommodation Name</label>
                   <input
                     className="add-acc-input-text-field text-xl"
-                    placeholder={oldData?.name}
+                    defaultValue={oldData?.name ?? ""}
                     type="text"
                     {...register("name")}
                   ></input>
@@ -114,13 +117,13 @@ export default function EditAccommodation() {
               </div>
               <h2 className="form-h2 px-3 pt-3">Type of Accommodation</h2>
               <div className="flex flex-row justify-evenly gap-4 px-5 pt-2">
-                {tagCheckbox([
-                  "Dormitory",
-                  "Apartment",
-                  "Hotel",
-                  "Transient",
-                  "Bedspace",
-                ])}
+                {tagCheckbox(
+                  ["Dormitory", "Apartment", "Hotel", "Transient", "Bedspace"],
+
+                  stalsDBstringArray(oldData?.typeArray),
+                  register,
+                )}
+                ;
               </div>
               <div className="grid grid-cols-2 gap-2 object-contain">
                 <div className="form-col-deets">
@@ -143,7 +146,7 @@ export default function EditAccommodation() {
                     <select
                       className="form-dropdown"
                       {...register("contract_length")}
-                      // placeholder={oldData?.contract_length!}
+                      defaultValue={oldData?.contract_length ?? ""}
                     >
                       <option selected disabled hidden>
                         {oldData?.contract_length}
@@ -159,7 +162,7 @@ export default function EditAccommodation() {
                       type="text"
                       pattern="(?:https?:\/\/)?(?:www\.)?(mbasic.facebook|m\.facebook|facebook|fb)\.(com|me)\/(?:(?:\w\.)*#!\/)?(?:pages\/)?(?:[\w\-\.]*\/)*([\w\-\.]*)"
                       {...register("fb_page")}
-                      // placeholder={oldData?.fb_page!}
+                      defaultValue={oldData?.fb_page ?? ""}
                     ></input>
                   </div>
                 </div>
@@ -169,10 +172,10 @@ export default function EditAccommodation() {
                     <select
                       className="form-dropdown shadow shadow-p-black/50"
                       {...register("location")}
-                      placeholder={oldData?.location}
+                      value={oldData?.location ?? ""}
                     >
                       <option selected disabled hidden>
-                        {oldData?.location}
+                        {oldData?.location ?? ""}
                       </option>
                       <option>Within UPLB</option>
                       <option>Outside UPLB</option>
@@ -182,7 +185,7 @@ export default function EditAccommodation() {
                     <label className="form-h2">Contact No.</label>
                     <input
                       className="add-acc-input-text-field"
-                      placeholder={oldData?.contact_number}
+                      defaultValue={oldData?.contact_number}
                       pattern="^(09|\+639)[0-9]{9}"
                       type="text"
                       {...register("contact_number")}
@@ -192,22 +195,28 @@ export default function EditAccommodation() {
                     <label className="form-h2"> Price of Accommodation</label>
                     <input
                       className="add-acc-input-text-field"
-                      // placeholder={oldData?.price!}
-                      pattern="[0-9]+"
-                      type="number"
-                      //{...register("price", { valueAsNumber: true })}
+                      defaultValue={oldData?.price ?? ""}
+                      pattern="^\d+(\.\d+)?$+"
+                      type="text"
+                      title="Must be a positive float value."
+                      {...register("price", {
+                        valueAsNumber: true,
+                        // eslint-disable-next-line @typescript-eslint/no-unsafe-argument
+                        setValueAs: (value: string) => parseFloat(value),
+                      })}
                     ></input>
                   </div>
                 </div>
               </div>
               <div className="py-2">
-                <label className="form-h2 ">Edit Tags</label>
+                {/* <label className="form-h2 ">Edit Tags</label>
                 <input
                   className="add-acc-input-text-field"
                   placeholder="Current tags"
                   type="text"
-                ></input>
+                ></input> */}
               </div>
+
               {/* Manage gallery */}
               <div>
                 <div className="pb-3 text-center">
@@ -276,14 +285,7 @@ export default function EditAccommodation() {
               </div>
               <div className="flex flex-col gap-2">
                 <div>
-                  <button
-                    type="submit"
-                    className="formConfirm"
-                    onClick={() => {
-                      router.back();
-                      setTimeout(() => router.reload(), 50);
-                    }}
-                  >
+                  <button type="submit" className="formConfirm">
                     Save Changes
                   </button>
                 </div>
@@ -307,11 +309,23 @@ export default function EditAccommodation() {
   );
 }
 
-function tagCheckbox(array: string[]) {
+function tagCheckbox(
+  array: string[],
+  oldData: any,
+  register: UseFormRegister<z.infer<typeof accommodationEditSchema>>,
+) {
   //for backend
+  const isArray = Array.isArray(oldData);
+
   return array.map((value: string) => (
     <div key={value} className="flex flex-row gap-2">
-      <input id={value} type="checkbox" value={value} />
+      <input
+        id={value}
+        type="checkbox"
+        value={value}
+        defaultChecked={isArray && oldData.includes(value)}
+        {...register("typeArray")}
+      />
       <label htmlFor={value}>{value}</label>
     </div>
   ));

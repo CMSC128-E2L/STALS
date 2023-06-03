@@ -34,11 +34,14 @@ export const accommodationAddSchema = z.object({
   }),
   tags: z.string(),
   price: z.number(),
-  // num_of_rooms: z.number().optional(),
+  num_of_rooms: z.number().optional(),
   is_archived: z.boolean(),
   fb_page: z.string().optional(),
   type: z.nativeEnum(AccommodationType),
-  typeArray: z.array(z.string()).optional(),
+  typeArray: z
+    .array(z.string())
+    .nonempty({ message: "Must select at least one type" })
+    .min(1, { message: "Must select at least one type" }),
   tagArray: z.array(z.string()).optional(),
 });
 
@@ -57,7 +60,7 @@ export const accommodationEditSchema = z.object({
       }),
     ),
   fb_page: z.string().optional(),
-  //price: z.number().nullish()
+  price: z.number().nullish(),
   //   TODO: bring this back
   //   name: z.string().min(1, { message: "Must not be empty" }),
   //   street_number: z.string().min(1),
@@ -74,8 +77,8 @@ export const accommodationEditSchema = z.object({
   //   is_archived: z.boolean(),
   //   fb_page: z.string().optional(),
   //   type: z.nativeEnum(AccommodationType),
-  //   typeArray: z.array(z.string()).optional(),
-  //   tagArray: z.array(z.string()).optional(),
+  typeArray: z.array(z.string()).optional(),
+  tagArray: z.array(z.string()).optional(),
 });
 
 /* USER */
