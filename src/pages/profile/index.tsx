@@ -33,7 +33,7 @@ export default function Profile() {
                 My Favorites
               </h1>
             </div>
-            <div className="flex items-center text-center drop-shadow-md">
+            <div className="flex items-center drop-shadow-md">
               <div className="flex flex-wrap">
                 <FaveAccoms />
               </div>
