@@ -348,7 +348,7 @@ export default function AddAccommodation() {
                     <input
                       type="text"
                       placeholder="Custom tags"
-                      {...register("tags")}
+                      // {...register("tags")}
                       pattern="(^([\w ]{1,30})$|^(([\w ]{1,30}, ?){0,4}[\w ]{0,30}?)$)?"
                       className="add-acc-input-text-field"
                       onChange={(e) => settagCustom(e.target.value)}

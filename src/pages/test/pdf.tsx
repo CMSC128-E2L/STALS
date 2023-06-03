@@ -3,9 +3,7 @@ import jsPDF from "jspdf";
 import autoTable from "jspdf-autotable";
 
 export default function Backend() {
-  const { data: accomms } = api.accommodation.getMany.useQuery({
-    tags: "this is a tag",
-  });
+  const { data: accomms } = api.accommodation.getMany.useQuery({});
 
   const info: (string | number)[][] = [];
 
