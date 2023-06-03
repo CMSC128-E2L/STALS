@@ -13,7 +13,7 @@ import toast from "react-hot-toast";
 import FormError from "./formError";
 import { type z } from "zod";
 
-export default function Review() {
+export default function ReviewGroup() {
   const { id } = dynamicRouteID(useRouter());
   const {
     register,
