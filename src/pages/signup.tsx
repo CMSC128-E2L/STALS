@@ -165,8 +165,8 @@ const Signup: NextPage = () => {
                   <span
                     className={`rounded-l-md px-5 py-1 ${
                       toggleValue === "USER"
-                        ? "bg-p-dbviolet font-bold text-white dark:bg-gray-200"
-                        : "bg-gray-200 text-black dark:bg-p-dbviolet"
+                        ? "bg-p-dbviolet font-bold text-white"
+                        : "bg-gray-200 text-black"
                     }`}
                   >
                     User
@@ -174,8 +174,8 @@ const Signup: NextPage = () => {
                   <span
                     className={`rounded-r-md px-4 py-1 ${
                       toggleValue === "LANDLORD"
-                        ? "bg-p-dbviolet font-bold text-white dark:bg-gray-200"
-                        : "bg-gray-200 text-black dark:bg-p-dbviolet"
+                        ? "bg-p-dbviolet font-bold text-white"
+                        : "bg-gray-200 text-black"
                     }`}
                   >
                     Landlord

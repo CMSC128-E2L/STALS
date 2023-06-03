@@ -5,7 +5,10 @@ import { type reviewGetInfSchema } from "~/utils/apitypes";
 import ReviewItem from "./reviewItem";
 import LoadingSpinner from "./loadingSpinner";
 
-export const TryReview: React.FC<{ accomId: string }> = ({ accomId }) => {
+export const ReviewList: React.FC<{
+  accomId: string;
+  refreshComponent: number;
+}> = ({ accomId, refreshComponent }) => {
   const [userInputs, setUserInputs] = useState<
     z.infer<typeof reviewGetInfSchema>
   >({
@@ -31,7 +34,7 @@ export const TryReview: React.FC<{ accomId: string }> = ({ accomId }) => {
       limit: 5,
     });
     void refetch();
-  }, [accomId, refetch]);
+  }, [accomId, refetch, refreshComponent]);
 
   return (
     <div className="h-full">
@@ -68,7 +71,7 @@ export const TryReview: React.FC<{ accomId: string }> = ({ accomId }) => {
   );
 };
 
-export default TryReview;
+export default ReviewList;
 
 const GetReviews: React.FC<{
   items: RouterOutputs["review"]["getMany"];
