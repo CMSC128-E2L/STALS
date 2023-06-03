@@ -95,7 +95,7 @@ const Accomm_Segment: React.FC<{
                   Category:
                 </p>
                 <p className="p-2 text-center text-white">
-                  {typeArray.join(", ")}
+                  {typeArray && typeArray.join(", ")}
                 </p>
               </div>
 
@@ -122,14 +122,15 @@ const Accomm_Segment: React.FC<{
               {/* TAGS */}
               <p className="mb-0.5 text-xl font-bold text-white">Tags:</p>
               <span className="text-sm italic text-white">
-                {tagArray
-                  .filter((tag) => tag !== "")
-                  .map((tag, index, array) => (
-                    <span key={tag}>
-                      {tag}
-                      {index !== array.length - 1 && ", "}
-                    </span>
-                  ))}
+                {tagArray &&
+                  tagArray
+                    .filter((tag) => tag !== "")
+                    .map((tag, index, array) => (
+                      <span key={tag}>
+                        {tag}
+                        {index !== array.length - 1 && ", "}
+                      </span>
+                    ))}
               </span>
             </div>
             <br />
