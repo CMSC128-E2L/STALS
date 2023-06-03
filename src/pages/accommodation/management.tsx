@@ -23,7 +23,7 @@ export default function Delete_Archive_Accomm() {
     return Error401();
   }
   return (
-    <div className="">
+    <div className="min-h-[80vh]">
       <NavBar />
       <br />
       <p className="mb-6 text-center text-3xl font-bold text-p-dviolet drop-shadow-sm">

@@ -379,17 +379,18 @@ export default function Accommodation() {
             {/* TODO: since the tags of an accommodation is just a string, just print that string here.*/}
 
             {/* {accommData?.tags} */}
-            {tagArr
-              .filter((tag) => tag !== "")
-              .map((tag, index, array) => (
-                <span
-                  key={tag}
-                  className="mb-2 mr-2 inline-block rounded-full bg-p-lviolet px-3 py-1 text-sm font-semibold text-gray-700"
-                >
-                  {tag}
-                  {index !== array.length - 1}
-                </span>
-              ))}
+            {tagArr &&
+              tagArr
+                .filter((tag) => tag !== "")
+                .map((tag, index, array) => (
+                  <span
+                    key={tag}
+                    className="mb-2 mr-2 inline-block rounded-full bg-p-lviolet px-3 py-1 text-sm font-semibold text-gray-700"
+                  >
+                    {tag}
+                    {index !== array.length - 1}
+                  </span>
+                ))}
           </div>
 
           {/* Other deets */}
@@ -578,12 +579,12 @@ export default function Accommodation() {
   };
 
   return (
-    <div className="flex h-full flex-col justify-center bg-p-ngray">
+    <div className="flex flex-col justify-center bg-p-ngray">
       {/* HEADER */}
       <NavBar />
 
       {/* BODY */}
-      <div className="mt-10 flex px-0 md:px-24 2xl:px-52">
+      <div className="mt-10 flex min-h-[80vh] px-0 md:px-24 2xl:px-52">
         <div className="grid w-full min-w-full grid-cols-1 gap-x-4 sm:grid-cols-3">
           <div className="w-full">
             <Gallery />

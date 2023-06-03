@@ -333,7 +333,7 @@ export default function HomePage() {
     useWatch({ control });
 
     return (
-      <div className="grow">
+      <div className="min-h-[80vh] grow">
         <div className="flex flex-col items-stretch justify-center sm:flex-row sm:flex-wrap">
           {accommodationEntries ? (
             accommodationEntries?.pages.map((page, i: number) => (

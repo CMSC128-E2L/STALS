@@ -46,7 +46,17 @@ export default function EditAccommodation() {
   const editAccommodation = api.accommodation.edit.useMutation();
 
   if (notAuthenticated(userSession.status) || accommLoading) {
-    return <LoadingSpinner />;
+    return (
+      <div className="min-h-[80vh]">
+        <img
+          className="fixed -z-50 w-screen bg-cover bg-fixed bg-center"
+          src={bgpic.src}
+          alt="background"
+        />
+        <NavBar />
+        <LoadingSpinner />
+      </div>
+    );
   }
 
   if (accommData === null) {
