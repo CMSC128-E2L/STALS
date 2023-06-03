@@ -98,31 +98,37 @@ enum AccommodationType {
 }
 
 model Accommodation {
-  id              String  @id @default(cuid())
-  name            String
-  address         String? // TODO: remove
-  street_number   String?
-  subdivision     String?
-  barangay        String? // TODO: required
-  location        String
-  landlordUser    User    @relation(fields: [landlord], references: [id], onDelete: Cascade)
-  landlord        String
+  id           String @id @default(cuid())
+  name         String
+  landlordUser User   @relation(fields: [landlord], references: [id], onDelete: Cascade)
+  landlord     String
+
+  street_number String?
+  subdivision   String?
+  barangay      String? // TODO: required
+  location      String
+
   contract_length String?
   contact_number  String
-  tags            String
   num_of_rooms    Int
   is_archived     Boolean
   fb_page         String?
   price           Float?
-  average_rating  Float?
-  total_reviews   Int?
-  tagArray        Json? // TODO: required
-  typeArray       Json? // TODO: required
 
-  Review Review[]
-  Room   Room[]
-  Favorite Favorite[]
-  type   AccommodationType
+  average_rating Float?
+  total_reviews  Int?
+
+  tagArray  Json? // TODO: required
+  typeArray Json? // TODO: required
+  
+  Review    Review[]
+  Room      Room[]
+  Favorite  Favorite[]
+
+  //  remove this
+  tags    String
+  address String?
+  type    AccommodationType
 
   @@index([landlord])
 }
