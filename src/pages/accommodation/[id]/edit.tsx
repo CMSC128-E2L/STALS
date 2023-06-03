@@ -58,16 +58,16 @@ export default function EditAccommodation() {
   }
 
   return (
-    <div className="overflow-visible">
+    <div className="">
       <img
-        className="absolute bg-cover object-fill"
+        className="fixed -z-50 w-screen bg-cover bg-fixed bg-center"
         src={bgpic.src}
         alt="background"
       />
       <NavBar />
-      <div className="overflow-scroll py-10">
-        <div className="absolute inset-x-0 flex items-center justify-center ">
-          <div className="shadow-md/50 my-10 flex w-[55%] flex-col items-center justify-center  gap-1 rounded-md bg-white/70 p-3 shadow ">
+      <div className="block overflow-scroll px-2 py-2 sm:px-0">
+        <div className="inset-x-0 flex items-center justify-center">
+          <div className="shadow-md/50 my-14 flex w-full flex-col items-center justify-center gap-1 rounded-md bg-white p-10 sm:w-[60%]">
             <div>
               <h1 className="form-h1">Edit Accommodation</h1>
             </div>
@@ -116,16 +116,15 @@ export default function EditAccommodation() {
                 </div>
               </div>
               <h2 className="form-h2 px-3 pt-3">Type of Accommodation</h2>
-              <div className="flex flex-row justify-evenly gap-4 px-5 pt-2">
+              <div className="ml-5 flex flex-col justify-evenly gap-4 px-5 pt-2 sm:ml-0 sm:flex-row">
                 {tagCheckbox(
                   ["Dormitory", "Apartment", "Hotel", "Transient", "Bedspace"],
 
                   stalsDBstringArray(oldData?.typeArray),
                   register,
                 )}
-                ;
               </div>
-              <div className="grid grid-cols-2 gap-2 object-contain">
+              <div className="grid grid-cols-1 gap-2 object-contain sm:grid-cols-2">
                 <div className="form-col-deets">
                   <div className="hidden">
                     <label className="form-h2">Type of Accommodation</label>
