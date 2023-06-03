@@ -1,9 +1,8 @@
 import React, { useState } from "react";
 import { useForm } from "react-hook-form";
-import { type RouterInputs, api } from "~/utils/api";
+import { api } from "~/utils/api";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { reviewAddSchema } from "~/utils/apitypes";
-import Link from "next/link";
 import { dynamicRouteID } from "~/utils/helpers";
 import { useRouter } from "next/router";
 import { useEffect } from "react";
@@ -11,20 +10,22 @@ import StarRating from "./StarRating";
 import TryReview from "~/components/tryreview";
 import { useSession } from "next-auth/react";
 import toast from "react-hot-toast";
+import FormError from "./formError";
+import { type z } from "zod";
 
 export default function Review() {
   const { id } = dynamicRouteID(useRouter());
-  const router = useRouter();
   const {
     register,
     handleSubmit,
     setValue,
     formState: { errors },
     reset,
-  } = useForm<RouterInputs["review"]["add"]>({
+  } = useForm<z.infer<typeof reviewAddSchema>>({
     resolver: zodResolver(reviewAddSchema),
     defaultValues: {
-      accommodationId: "",
+      accommodationId: id,
+      rating: 0,
     },
   });
 
@@ -32,16 +33,18 @@ export default function Review() {
     setValue("accommodationId", id);
   }, [id, setValue]);
 
+  const [refreshReviewComponent, setrefreshReviewComponent] = useState(0);
+
   const addReview = api.review.add.useMutation({
     onSuccess: () => {
-      toast.success("Review submitted successfully!", {
-        position: "bottom-center",
-        duration: 3000,
+      toast.success("Successfully Added Review!", {
+        position: "bottom-right",
+        duration: 2000,
       });
-      router.reload();
       void reset();
       setRating(0);
       setValue("rating", 0);
+      setrefreshReviewComponent((prev) => prev + 1);
     },
     onError: () => {
       toast.error("Review failed to submit!", {
@@ -50,17 +53,6 @@ export default function Review() {
       });
     },
   });
-
-  // const handleFormSubmit = (data: {
-  //   accommodationId: string;
-  //   rating: number;
-  //   review?: string | undefined;
-  //   time?: string | undefined;
-  //   date?: string | undefined;
-  // }) => {
-  //   addReview.mutate(data);
-  //   router.reload();
-  // };
 
   const [rating, setRating] = useState(0); // State for storing the selected rating
 
@@ -87,11 +79,6 @@ export default function Review() {
                   date?: string | undefined;
                 }) => {
                   addReview.mutate(data);
-                  router.reload();
-                  toast.success("Successfully Added Review!", {
-                    position: "bottom-right",
-                    duration: 1000,
-                  });
                 },
                 (error) => {
                   console.log(error);
@@ -135,7 +122,9 @@ export default function Review() {
                     totalStars={5}
                     initialRating={rating}
                     onChange={handleRatingChange}
+                    refreshComponent={refreshReviewComponent}
                   />
+                  <FormError error={errors.rating?.message} />
                 </div>
 
                 <div className="grid py-2">
@@ -152,7 +141,7 @@ export default function Review() {
             </form>
           </div>
         )}
-        <TryReview accomId={id} />
+        <TryReview accomId={id} refreshComponent={refreshReviewComponent} />
       </div>
     </div>
   );
