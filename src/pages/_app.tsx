@@ -5,6 +5,7 @@ import { api } from "~/utils/api";
 import "~/styles/globals.css";
 import Validate from "../components/globalValidate";
 import GlobalToaster from "~/components/globalToster";
+import FooterComponent from "~/components/footer";
 
 const MyApp: AppType<{ session: Session | null }> = ({
   Component,
@@ -12,9 +13,11 @@ const MyApp: AppType<{ session: Session | null }> = ({
 }) => {
   return (
     <SessionProvider session={session}>
+      <div id="top"></div>
       <Validate />
       <GlobalToaster />
       <Component {...pageProps} />
+      <FooterComponent />
     </SessionProvider>
   );
 };
