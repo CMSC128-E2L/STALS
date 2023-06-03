@@ -21,7 +21,6 @@ const Accomm_Segment: React.FC<{
   tagArray: Array<string>;
   is_archived: boolean;
   location: string;
-  tags: string;
   refetch?: any;
 }> = ({
   id,
@@ -33,7 +32,6 @@ const Accomm_Segment: React.FC<{
   tagArray,
   is_archived,
   location,
-  tags,
   refetch,
 }) => {
   const [imgSrc, setImgSrc] = useState(

@@ -59,7 +59,6 @@ export default function Delete_Archive_Accomm() {
                   )}
                   is_archived={accomm.is_archived}
                   location={accomm.location}
-                  tags={accomm.tags}
                   refetch={refetch}
                 />
               </div>
