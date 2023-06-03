@@ -106,7 +106,7 @@ export const userEditSchema = z.object({
 export const reviewAddSchema = z.object({
   accommodationId: z.string(),
   review: z.string().optional(),
-  rating: z.number(),
+  rating: z.number().gte(1, { message: "Rating must be atleast 1!" }).lte(5),
   time: z.string().optional(),
   date: z.string().optional(),
 });

@@ -1,15 +1,17 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 
 interface StarRatingProps {
   totalStars: number;
   initialRating: number;
   onChange: (rating: number) => void;
+  refreshComponent?: number;
 }
 
 const StarRating: React.FC<StarRatingProps> = ({
   totalStars,
   initialRating,
   onChange,
+  refreshComponent,
 }) => {
   const [rating, setRating] = useState(initialRating);
 
@@ -17,6 +19,11 @@ const StarRating: React.FC<StarRatingProps> = ({
     setRating(selectedRating);
     onChange(selectedRating);
   };
+
+  useEffect(() => {
+    if (refreshComponent) void handleClick(0);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [refreshComponent]);
 
   return (
     <div>
