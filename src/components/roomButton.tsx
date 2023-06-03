@@ -33,11 +33,11 @@ const RoomButton: React.FC<{
   const { data: sessionData } = useSession();
 
   // Must accept variables: int n and get whether the room is occupied or not
-  if (hidden == false) {
+  if (!hidden) {
     return (
-      <div>
+      <>
         {/* if unoccupied */}
-        {status == false && (
+        {!status && (
           <button
             className="flex flex-none flex-col rounded-md bg-p-dviolet px-5 px-8 py-1 text-sm shadow shadow-p-dblue/50 hover:bg-p-dbviolet"
             onClick={() => setShowRooms(true)}
@@ -51,7 +51,7 @@ const RoomButton: React.FC<{
           </button>
         )}
         {/* if occupied */}
-        {status == true && (
+        {status && (
           <button
             className="flex flex-none flex-col rounded-md bg-gray-300 px-5 px-8 py-1 text-sm shadow shadow-p-black/50 hover:bg-gray-400"
             onClick={() => setShowRooms(true)}
@@ -88,7 +88,7 @@ const RoomButton: React.FC<{
             </div>
           </div>
         )}
-      </div>
+      </>
     );
   } else {
     return null;
