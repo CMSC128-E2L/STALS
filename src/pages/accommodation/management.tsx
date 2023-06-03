@@ -48,7 +48,11 @@ export default function Delete_Archive_Accomm() {
                 <Accomm_Segment
                   id={accomm.id}
                   name={accomm.name}
-                  price={accomm.price}
+                  price={
+                    accomm.price !== undefined && accomm.price !== null
+                      ? accomm.price.toFixed(2)
+                      : ""
+                  }
                   num_of_rooms={accomm.num_of_rooms}
                   barangay={accomm.barangay}
                   typeArray={stalsDBstringArray(accomm.typeArray)}

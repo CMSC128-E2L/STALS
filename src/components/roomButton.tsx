@@ -10,7 +10,7 @@ const RoomButton: React.FC<{
   hidden: boolean;
   roomAccID: string;
   roomAvail: boolean;
-  roomPrice: number;
+  roomPrice: string;
   roomBeds: number;
   roomAircon: boolean;
   roomUtils: boolean;

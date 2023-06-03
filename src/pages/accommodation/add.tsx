@@ -220,7 +220,8 @@ export default function AddAccommodation() {
                         {...register("price", {
                           valueAsNumber: true,
                           // eslint-disable-next-line @typescript-eslint/no-unsafe-argument
-                          setValueAs: (value: string) => parseFloat(value),
+                          setValueAs: (value: string) =>
+                            parseFloat(value).toFixed(2),
                         })}
                         title="Must be a positive float value."
                         // eslint-disable-next-line @typescript-eslint/no-unsafe-argument

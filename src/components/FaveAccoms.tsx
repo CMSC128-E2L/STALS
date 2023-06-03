@@ -29,7 +29,12 @@ export const FaveAccoms: React.FC = () => {
                 key={favorite.accommodation.id + favorite.accommodation.name}
                 id={favorite.accommodation.id}
                 name={favorite.accommodation.name}
-                price={favorite.accommodation.price}
+                price={
+                  favorite.accommodation.price !== undefined &&
+                  favorite.accommodation.price !== null
+                    ? favorite.accommodation.price.toFixed(2)
+                    : ""
+                }
                 location={favorite.accommodation.barangay}
                 tags={stalsDBstringArray(favorite.accommodation.tagArray)}
               />

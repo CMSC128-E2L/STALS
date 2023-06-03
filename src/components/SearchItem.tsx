@@ -6,7 +6,7 @@ import placeholder from "public/images/logo d-violet.png";
 export const SearchItem: React.FC<{
   id: string;
   name: string;
-  price: number | null;
+  price: string;
   location: string | null;
   tags: Array<string>;
 }> = ({ id, name, price, location, tags }) => {

@@ -106,7 +106,7 @@ export default function EditRoom() {
                   {...register("price", {
                     valueAsNumber: true,
                     // eslint-disable-next-line @typescript-eslint/no-unsafe-argument
-                    setValueAs: (value: string) => parseFloat(value),
+                    setValueAs: (value: string) => parseFloat(value).toFixed(2),
                   })}
                   // eslint-disable-next-line @typescript-eslint/no-unsafe-argument
                 ></input>
