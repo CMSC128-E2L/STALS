@@ -50,9 +50,9 @@ export default function Backend() {
         className="input-bordered input input-sm w-full"
         onKeyDown={(e) => {
           if (e.key === "Enter") {
-            deleteReview.mutate(
-              e.currentTarget.value, //"clheizwbx0000x9cu44qq7skk",
-            );
+            deleteReview.mutate({
+              id: e.currentTarget.value, //"clheizwbx0000x9cu44qq7skk",
+            });
             e.currentTarget.value = "";
           }
         }}

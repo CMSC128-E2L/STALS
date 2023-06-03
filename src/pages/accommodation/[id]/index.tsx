@@ -537,7 +537,7 @@ export default function Accommodation() {
           {/* Rooms 
       TODO: This is gonna get the list of rooms in prisma/schema.prisma and load the component <RoomButton /> (components/RoomButton.tsx) with the room id.*/}
           <div className="flex flex-shrink-0 justify-center">
-            <div className="scrollbar flex flex-row items-stretch space-x-3 overflow-x-scroll p-3">
+            <div className="scrollbar z-10 flex flex-row items-stretch space-x-3 overflow-x-scroll p-3">
               {accommData?.Room && accommData?.Room.length > 0 ? (
                 accommData?.Room.map((room, i: number) => (
                   <RoomButton
