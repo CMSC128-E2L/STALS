@@ -396,14 +396,9 @@ export default function AddAccommodation() {
                       type="submit"
                       className="formConfirm bg-p-dviolet"
                       //eslint-disable-next-line @typescript-eslint/no-misused-promises
-                      onClick={async () => {
-                        try {
-                          router.back();
-                          await router.replace(router.asPath);
-                        } catch (error) {
-                          // Handle the error here
-                          console.error(error);
-                        }
+                      onClick={() => {
+                        router.back();
+                        setTimeout(() => router.reload(), 50);
                       }}
                     >
                       Submit
