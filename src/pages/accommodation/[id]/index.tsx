@@ -501,62 +501,64 @@ export default function Accommodation() {
 
           {/* Rooms 
       TODO: This is gonna get the list of rooms in prisma/schema.prisma and load the component <RoomButton /> (components/RoomButton.tsx) with the room id.*/}
-          <div className="scrollbar flex flex-row items-stretch justify-center space-x-3 overflow-x-auto p-3">
-            {accommData?.Room && accommData?.Room.length > 0 ? (
-              accommData?.Room.map((room, i: number) => (
-                <RoomButton
-                  key={room.id}
-                  id={room.id}
-                  roomIndex={i}
-                  status={room.occupied}
-                  hidden={
-                    userSession?.profile.type === "LANDLORD" &&
-                    accommData?.landlord === userSession?.user?.id &&
-                    accommData?.id === room.accommodationId
-                      ? false
-                      : room.is_archived
-                  }
-                  roomAccID={room.accommodationId}
-                  roomAvail={room.occupied}
-                  roomPrice={room.price}
-                  roomBeds={room.num_of_beds}
-                  roomAircon={room.with_aircon}
-                  roomUtils={room.with_utilities}
-                  roomArchive={room.is_archived}
-                />
-              ))
-            ) : (
-              <p className="items-center justify-center">
-                No rooms are available yet.
-              </p>
-            )}
-
-            {/* TODO: ADD ROOM BUTTON SHOULD ONLY APPEAR IF LANDLORD IS LOOKING AT PAGE */}
-            {userSession?.profile.type === "LANDLORD" &&
-              accommData?.landlord === userSession?.user?.id && (
-                <Link
-                  href={`/accommodation/${id}/room/add`}
-                  className="flex items-stretch"
-                >
-                  <button className="flex flex-col items-center justify-center rounded-lg border-2 border-dashed border-p-black/50 px-8">
-                    <svg
-                      xmlns="http://www.w3.org/2000/svg"
-                      fill="none"
-                      viewBox="0 0 24 24"
-                      strokeWidth="1.5"
-                      stroke="currentColor"
-                      className="h-6 w-6"
-                    >
-                      <path
-                        strokeLinecap="round"
-                        strokeLinejoin="round"
-                        d="M12 4.5v15m7.5-7.5h-15"
-                      />
-                    </svg>
-                    <label className="text-xs">Add Room</label>
-                  </button>
-                </Link>
+          <div className="flex flex-shrink-0 justify-center">
+            <div className="scrollbar z-10 flex flex-row items-stretch space-x-3 overflow-x-scroll p-3">
+              {accommData?.Room && accommData?.Room.length > 0 ? (
+                accommData?.Room.map((room, i: number) => (
+                  <RoomButton
+                    key={room.id}
+                    id={room.id}
+                    roomIndex={i}
+                    status={room.occupied}
+                    hidden={
+                      userSession?.profile.type === "LANDLORD" &&
+                      accommData?.landlord === userSession?.user?.id &&
+                      accommData?.id === room.accommodationId
+                        ? false
+                        : room.is_archived
+                    }
+                    roomAccID={room.accommodationId}
+                    roomAvail={room.occupied}
+                    roomPrice={room.price}
+                    roomBeds={room.num_of_beds}
+                    roomAircon={room.with_aircon}
+                    roomUtils={room.with_utilities}
+                    roomArchive={room.is_archived}
+                  />
+                ))
+              ) : (
+                <p className="items-center justify-center">
+                  No rooms are available yet.
+                </p>
               )}
+
+              {/* TODO: ADD ROOM BUTTON SHOULD ONLY APPEAR IF LANDLORD IS LOOKING AT PAGE */}
+              {userSession?.profile.type === "LANDLORD" &&
+                accommData?.landlord === userSession?.user?.id && (
+                  <Link
+                    href={`/accommodation/${id}/room/add`}
+                    className="flex items-stretch"
+                  >
+                    <button className="flex flex-col items-center justify-center rounded-lg border-2 border-dashed border-p-black/50 px-8">
+                      <svg
+                        xmlns="http://www.w3.org/2000/svg"
+                        fill="none"
+                        viewBox="0 0 24 24"
+                        strokeWidth="1.5"
+                        stroke="currentColor"
+                        className="h-6 w-6"
+                      >
+                        <path
+                          strokeLinecap="round"
+                          strokeLinejoin="round"
+                          d="M12 4.5v15m7.5-7.5h-15"
+                        />
+                      </svg>
+                      <label className="text-xs">Add Room</label>
+                    </button>
+                  </Link>
+                )}
+            </div>
           </div>
         </div>
         <br />
