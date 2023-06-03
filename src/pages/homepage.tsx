@@ -15,24 +15,35 @@ import bgpic from "public/images/homepage_bg.png";
 import { stalsDBstringArray, titleCase } from "~/utils/helpers";
 import { AccommodationType } from "@prisma/client";
 
-export default function HomePage() {
-  const priceRanges = [
-    { id: "all", value: "all", label: "All" },
-    { id: "below-1000", value: "below-1000", label: "Under ₱ 1001.00" },
-    { id: "one-to-two", value: "one-to-two", label: "₱ 1001.00 – ₱ 2000.00" },
-    {
-      id: "two-to-three",
-      value: "two-to-three",
-      label: "₱ 2001.00 – ₱ 3000.00",
-    },
-    {
-      id: "three-to-four",
-      value: "three-to-four",
-      label: "₱ 3001.00 – ₱ 4000.00",
-    },
-    { id: "above-four", value: "above-four", label: "Above ₱ 4001.00" },
-  ];
+const priceRangeKeys = {
+  all: "all",
+  below1000: "below-1000",
+  onetotwo: "one-to-two",
+  twotothree: "two-to-three",
+  threetofour: "three-to-four",
+  abovefour: "above-four",
+};
 
+type priceRangeKeys = (typeof priceRangeKeys)[keyof typeof priceRangeKeys];
+
+type priceRangeType = {
+  [key in priceRangeKeys]: {
+    min: number | undefined;
+    max: number | undefined;
+    label: string;
+  };
+};
+
+const priceRangesNew: priceRangeType = {
+  all: { min: undefined, max: undefined, label: "All" },
+  "below-1000": { min: undefined, max: 1000, label: "Under ₱ 1001.00" },
+  "one-to-two": { min: 1001, max: 2000, label: "₱ 1001.00 – ₱ 2000.00" },
+  "two-to-three": { min: 2001, max: 3000, label: "₱ 2001.00 – ₱ 3000.00" },
+  "three-to-four": { min: 3001, max: 4000, label: "₱ 3001.00 – ₱ 4000.00" },
+  "above-four": { min: 4001, max: undefined, label: "Above ₱ 4001.00" },
+};
+
+export default function HomePage() {
   const sortTypes = [
     { id: "NONE", value: "NONE", label: "None" },
     { id: "NAME-ASC", value: "NAME-ASC", label: "Name (ascending)" },
@@ -314,63 +325,6 @@ export default function HomePage() {
     setSelectedSort(event.target.value);
   };
 
-  const handlePriceRangeChange = (event: {
-    target: { value: string; checked: boolean };
-  }) => {
-    const { value, checked } = event.target;
-
-    if (checked) {
-      switch (value) {
-        case "all":
-          setUserInputs((prevInputs) => ({
-            ...prevInputs,
-            price_min: undefined,
-            price_max: undefined,
-          }));
-          break;
-        case "below-1000":
-          setUserInputs((prevInputs) => ({
-            ...prevInputs,
-            price_min: undefined,
-            price_max: 1000,
-          }));
-          break;
-        case "one-to-two":
-          setUserInputs((prevInputs) => ({
-            ...prevInputs,
-            price_min: 1001,
-            price_max: 2000,
-          }));
-          break;
-        case "two-to-three":
-          setUserInputs((prevInputs) => ({
-            ...prevInputs,
-            price_min: 2001,
-            price_max: 3000,
-          }));
-          break;
-        case "three-to-four":
-          setUserInputs((prevInputs) => ({
-            ...prevInputs,
-            price_min: 3001,
-            price_max: 4000,
-          }));
-          break;
-        case "above-four":
-          setUserInputs((prevInputs) => ({
-            ...prevInputs,
-            price_min: 4001,
-            price_max: undefined,
-          }));
-          break;
-        default:
-          break;
-      }
-    }
-
-    setSelectedPrice(event.target.value);
-  };
-
   function AccommodationsList({
     control,
   }: {
@@ -533,25 +487,34 @@ export default function HomePage() {
                 </button>
                 {showPriceDropdown && (
                   <div>
-                    {priceRanges.map((range, index) => (
-                      <div
-                        className="mb-1 mt-2 flex items-center"
-                        key={range.id}
-                      >
+                    {Object.keys(priceRangesNew).map((key, index) => (
+                      <div className="mb-1 mt-2 flex items-center" key={index}>
                         <input
-                          id={range.id}
+                          id={key}
                           type="radio"
                           name="price_range"
-                          value={range.value}
-                          onChange={handlePriceRangeChange}
+                          value={key}
+                          onChange={(event) => {
+                            const { value, checked } = event.target;
+
+                            if (checked) {
+                              setUserInputs((prevInputs) => ({
+                                ...prevInputs,
+                                price_min: priceRangesNew[value]?.min,
+                                price_max: priceRangesNew[value]?.max,
+                              }));
+                            }
+
+                            setSelectedPrice(event.target.value);
+                          }}
                           className="filter-radio inline-block"
                           checked={
-                            range.value === selectedPrice ||
+                            key === selectedPrice ||
                             (index === 0 && selectedPrice === "")
                           }
                         />
-                        <label htmlFor={range.id} className="filter-text">
-                          {range.label}
+                        <label htmlFor={key} className="filter-text">
+                          {priceRangesNew[key]?.label}
                         </label>
                       </div>
                     ))}
