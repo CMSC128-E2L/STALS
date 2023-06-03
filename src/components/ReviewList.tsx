@@ -5,7 +5,7 @@ import { type reviewGetInfSchema } from "~/utils/apitypes";
 import ReviewItem from "./reviewItem";
 import LoadingSpinner from "./loadingSpinner";
 
-export const TryReview: React.FC<{
+export const ReviewList: React.FC<{
   accomId: string;
   refreshComponent: number;
 }> = ({ accomId, refreshComponent }) => {
@@ -71,7 +71,7 @@ export const TryReview: React.FC<{
   );
 };
 
-export default TryReview;
+export default ReviewList;
 
 const GetReviews: React.FC<{
   items: RouterOutputs["review"]["getMany"];

@@ -7,7 +7,7 @@ import { dynamicRouteID } from "~/utils/helpers";
 import { useRouter } from "next/router";
 import { useEffect } from "react";
 import StarRating from "./StarRating";
-import TryReview from "~/components/tryreview";
+import ReviewList from "~/components/ReviewList";
 import { useSession } from "next-auth/react";
 import toast from "react-hot-toast";
 import FormError from "./formError";
@@ -137,7 +137,7 @@ export default function ReviewGroup() {
             </form>
           </div>
         )}
-        <TryReview accomId={id} refreshComponent={refreshReviewComponent} />
+        <ReviewList accomId={id} refreshComponent={refreshReviewComponent} />
       </div>
     </div>
   );
