@@ -116,7 +116,7 @@ const ReviewItem: React.FC<{
       {/* Report button for review */}
       {userSession !== null &&
         userSession?.profile.id !== user.id &&
-        userSession.profile.type !== UserType.ADMIN && (
+        userSession?.profile.type !== UserType.ADMIN && (
           <div className="absolute right-0 m-3 text-xxs">
             {/*The report button will stick to the bottom left of the screen*/}
             <button
