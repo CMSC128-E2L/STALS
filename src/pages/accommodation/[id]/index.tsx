@@ -9,7 +9,7 @@ import { useRouter } from "next/router";
 import { dynamicRouteID, stalsDBstringArray } from "~/utils/helpers";
 import Error404 from "~/pages/404";
 import { useSession } from "next-auth/react";
-import Review from "~/components/review";
+import ReviewGroup from "~/components/ReviewGroup";
 import { useEffect, useRef, useState } from "react";
 import Landlord from "~/components/landlord";
 import { UserType } from "@prisma/client";
@@ -585,7 +585,7 @@ export default function Accommodation() {
             <OverAllRating />
           </div>
           <div className="w-full px-4 sm:col-span-2">
-            <Review />
+            <ReviewGroup />
           </div>
         </div>
         {/*Report button*/}
