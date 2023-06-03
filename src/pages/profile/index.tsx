@@ -64,7 +64,7 @@ export default function Profile() {
       <>
         {/* admin settings and notification */}
         <section className="w-full">
-          <div className="rounded-3xl p-10 shadow-lg">
+          <div className="mb-4 rounded-3xl bg-white p-10 shadow-lg">
             <h1 className="text-center text-xl font-bold text-p-dbviolet">
               Admin Settings
             </h1>
@@ -75,7 +75,7 @@ export default function Profile() {
               <Link href="accommodation/management">Manage Accommodations</Link>
             </p>
           </div>
-          <div className="rounded-3xl p-10 shadow-lg ">
+          <div className="rounded-3xl bg-white p-10 shadow-lg">
             <h1 className="mb-10 text-center text-xl font-bold text-p-dbviolet  ">
               Notifications
             </h1>
