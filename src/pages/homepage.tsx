@@ -522,7 +522,10 @@ export default function HomePage() {
                           value={range.value}
                           onChange={handleAccomTypeChange}
                           className="filter-radio inline-block"
-                          checked={range.value === selectedAccomType}
+                          checked={
+                            range.value === selectedAccomType ||
+                            (index === 0 && selectedPrice === "")
+                          }
                         />
                         <label htmlFor={range.id} className="filter-text">
                           {range.label}
@@ -567,7 +570,10 @@ export default function HomePage() {
                           value={range.value}
                           onChange={handlePriceRangeChange}
                           className="filter-radio inline-block"
-                          checked={range.value === selectedPrice}
+                          checked={
+                            range.value === selectedPrice ||
+                            (index === 0 && selectedPrice === "")
+                          }
                         />
                         <label htmlFor={range.id} className="filter-text">
                           {range.label}
@@ -610,7 +616,10 @@ export default function HomePage() {
                           name="sort"
                           value={range.value}
                           onChange={handleSortTypeChange}
-                          checked={range.value === selectedSort}
+                          checked={
+                            range.value === selectedSort ||
+                            (index === 0 && selectedPrice === "")
+                          }
                           className="filter-radio inline-block"
                         />
                         <label htmlFor={range.id} className="filter-text">

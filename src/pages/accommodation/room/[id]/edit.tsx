@@ -17,7 +17,7 @@ import Error from "~/pages/_error";
 export default function EditRoom() {
   const userSession = useSession({ required: true });
   const { id } = dynamicRouteID(useRouter());
-
+  const router = useRouter();
   const {
     register,
     handleSubmit,
@@ -77,15 +77,12 @@ export default function EditRoom() {
             onSubmit={handleSubmit(
               (d) => {
                 editRoom.mutate(d);
-                window.location.replace(
-                  `/accommodation/${
-                    firstData ? firstData.accommodationId : ""
-                  }`,
-                );
                 toast.success("Successfully Edited Room!", {
                   position: "bottom-right",
                   duration: 1000,
                 });
+                router.back();
+                setTimeout(() => router.reload(), 50);
               },
               (error) => {
                 console.log(error);
@@ -197,15 +194,14 @@ export default function EditRoom() {
               </div>
 
               <div>
-                <Link
-                  href={`/accommodation/${
-                    firstData ? firstData.accommodationId : ""
-                  }`}
+                <button
+                  className="group relative flex w-full justify-center rounded-full bg-gray-500 px-4 py-2 font-bold text-white opacity-75 shadow shadow-gray-400/100"
+                  onClick={() => {
+                    router.back();
+                  }}
                 >
-                  <button className="group relative flex w-full justify-center rounded-full bg-gray-500 px-4 py-2 font-bold text-white opacity-75 shadow shadow-gray-400/100">
-                    Cancel
-                  </button>
-                </Link>
+                  Cancel
+                </button>
               </div>
             </div>
           </form>

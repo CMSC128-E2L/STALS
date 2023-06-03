@@ -276,7 +276,14 @@ export default function EditAccommodation() {
               </div>
               <div className="flex flex-col gap-2">
                 <div>
-                  <button type="submit" className="formConfirm">
+                  <button
+                    type="submit"
+                    className="formConfirm"
+                    onClick={() => {
+                      router.back();
+                      setTimeout(() => router.reload(), 50);
+                    }}
+                  >
                     Save Changes
                   </button>
                 </div>
