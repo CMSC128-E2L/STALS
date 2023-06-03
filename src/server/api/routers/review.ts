@@ -49,6 +49,7 @@ export const reviewRouter = createTRPCRouter({
           rating,
           time,
           date,
+          is_archived: false,
         },
       });
 
@@ -112,18 +113,18 @@ export const reviewRouter = createTRPCRouter({
       });
     }),
 
-  // archive: protectedProcedure
-  //   .input(z.object({ id: z.string(), is_archived: z.boolean() }))
-  //   .mutation(({ ctx, input }) => {
-  //     const id = input.id;
-  //     const archived = input.is_archived;
-  //     return ctx.prisma.review.update({
-  //       where: { id },
-  //       data: {
-  //         is_archived: true,
-  //       },
-  //     });
-  //   }),
+  archive: protectedProcedure
+    .input(z.object({ id: z.string() }))
+    .mutation(({ ctx, input }) => {
+      const id = input.id;
+      // const archived = input.is_archived;
+      return ctx.prisma.review.update({
+        where: { id },
+        data: {
+          is_archived: true,
+        },
+      });
+    }),
 
   // getArchives: publicProcedure.query(async ({ ctx }) => {
   //   try {
@@ -190,6 +191,7 @@ export const reviewRouter = createTRPCRouter({
       },
       where: {
         accommodationId: input.accommodationId,
+        is_archived: false,
       },
       orderBy: {
         rating: "desc",
