@@ -17,7 +17,7 @@ const RoomShow: React.FC<{
   roomID: string;
   roomAccID: string;
   roomOccupied: boolean;
-  roomPrice: number;
+  roomPrice: string;
   roomBeds: number;
   roomAircon: boolean;
   roomUtils: boolean;

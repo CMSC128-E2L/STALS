@@ -17,11 +17,19 @@ import { stalsDBstringArray } from "~/utils/helpers";
 export default function HomePage() {
   const priceRanges = [
     { id: "all", value: "all", label: "All" },
-    { id: "below-1000", value: "below-1000", label: "Under ₱ 1001" },
-    { id: "one-to-two", value: "one-to-two", label: "₱ 1001 – ₱ 2000" },
-    { id: "two-to-three", value: "two-to-three", label: "₱ 2001 – ₱ 3000" },
-    { id: "three-to-four", value: "three-to-four", label: "₱ 3001 – ₱ 4000" },
-    { id: "above-four", value: "above-four", label: "Above ₱ 4001" },
+    { id: "below-1000", value: "below-1000", label: "Under ₱ 1001.00" },
+    { id: "one-to-two", value: "one-to-two", label: "₱ 1001.00 – ₱ 2000.00" },
+    {
+      id: "two-to-three",
+      value: "two-to-three",
+      label: "₱ 2001.00 – ₱ 3000.00",
+    },
+    {
+      id: "three-to-four",
+      value: "three-to-four",
+      label: "₱ 3001.00 – ₱ 4000.00",
+    },
+    { id: "above-four", value: "above-four", label: "Above ₱ 4001.00" },
   ];
 
   const accomTypes = [
@@ -809,7 +817,9 @@ const SearchAccoms: React.FC<{
             key={id + name}
             id={id}
             name={name}
-            price={price}
+            price={
+              price !== undefined && price !== null ? price.toFixed(2) : ""
+            }
             location={barangay}
             tags={stalsDBstringArray(tagArray)}
           />

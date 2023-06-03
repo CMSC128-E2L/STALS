@@ -14,7 +14,7 @@ import ConfirmationPrompt from "./prompt";
 const Accomm_Segment: React.FC<{
   id: string;
   name: string;
-  price: number | null /* SHOULD BE FLOAT */;
+  price: string /* SHOULD BE FLOAT */;
   num_of_rooms: number;
   barangay: string | null;
   typeArray: Array<string>;
@@ -221,7 +221,11 @@ const Accomm_Segment: React.FC<{
                   }
                   roomAccID={room.accommodationId}
                   roomAvail={room.occupied}
-                  roomPrice={room.price}
+                  roomPrice={
+                    room.price !== undefined && room.price !== null
+                      ? room.price.toFixed(2)
+                      : ""
+                  }
                   roomBeds={room.num_of_beds}
                   roomAircon={room.with_aircon}
                   roomUtils={room.with_utilities}

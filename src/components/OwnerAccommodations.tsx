@@ -26,7 +26,9 @@ export const OwnerAccommodations: React.FC<{ showArchived: boolean }> = ({
                 key={id + name}
                 id={id}
                 name={name}
-                price={price}
+                price={
+                  price !== undefined && price !== null ? price.toFixed(2) : ""
+                }
                 location={barangay}
                 tags={stalsDBstringArray(tagArray)}
               />
