@@ -44,16 +44,16 @@ export default function AddAccommodation() {
     return Error401();
   }
   return (
-    <div className="overflow-visible">
+    <div className="">
       <img
-        className="absolute bg-cover object-fill"
+        className="fixed -z-50 w-screen bg-cover bg-fixed bg-center"
         src={bgpic.src}
         alt="background"
       />
       <NavBar />
-      <div className="overflow-scroll py-14">
-        <div className="absolute inset-x-0 flex items-center justify-center ">
-          <div className="shadow-md/50 my-14 flex w-[43%] flex-col items-center justify-center gap-1 rounded-md">
+      <div className="block overflow-scroll px-2 py-2 sm:px-0">
+        <div className="inset-x-0 flex items-center justify-center">
+          <div className="shadow-md/50 my-14 flex w-full flex-col items-center justify-center gap-1 rounded-md bg-white p-10 sm:w-[60%]">
             <div>
               <h1 className="form-h1 pb-2 font-extrabold text-p-dbviolet">
                 {" "}
@@ -113,7 +113,7 @@ export default function AddAccommodation() {
                 <h2 className="form-h2 px-3 pt-3 text-p-dviolet">
                   Type of Accommodation
                 </h2>
-                <div className="flex flex-row justify-evenly gap-4 px-5 pt-2">
+                <div className="ml-5 flex flex-col justify-evenly gap-4 px-5 pt-2 sm:ml-0 sm:flex-row">
                   {typeCheckbox(
                     [
                       "Dormitory",
@@ -131,15 +131,15 @@ export default function AddAccommodation() {
                 <div className="px-3">
                   <label className="form-h2 text-p-dviolet">Address</label>
 
-                  <div className="flex flex-row gap-2">
+                  <div className="flex flex-col gap-2 sm:flex-row">
                     <input
-                      className="add-acc-input-text-field w-1/3"
+                      className="add-acc-input-text-field sm:w-1/3"
                       placeholder="St."
                       {...register("street_number")}
                       required
                     ></input>
                     <input
-                      className="add-acc-input-text-field w-2/3"
+                      className="add-acc-input-text-field sm:w-2/3"
                       placeholder="Subdivision"
                       {...register("subdivision")}
                       required
@@ -153,7 +153,7 @@ export default function AddAccommodation() {
                   </div>
                 </div>
 
-                <div className="grid grid-cols-2 gap-2 object-contain p-3">
+                <div className="grid grid-cols-1 gap-2 object-contain p-3 sm:grid-cols-2">
                   <div className="form-col-deets">
                     <div className="hidden">
                       <label className="form-h2 text-p-dviolet">
@@ -268,7 +268,7 @@ export default function AddAccommodation() {
                     Tags
                   </h2>
 
-                  <div className="margin-40 grid grid-cols-3 gap-4 px-3">
+                  <div className="margin-40 grid grid-cols-1 gap-4 px-3 sm:grid-cols-3">
                     <div className="form-col-deets">
                       <div className="flex flex-col gap-1">
                         <label className="form-h2 text-p-dviolet">
@@ -313,7 +313,7 @@ export default function AddAccommodation() {
                         </div>
                       </div>
                     </div>
-                    <div className="form-col-deets">
+                    <div className="form-col-deets ml-5 sm:ml-0">
                       {tagCheckbox(
                         [
                           "Communal bathroom",
@@ -325,7 +325,7 @@ export default function AddAccommodation() {
                         register,
                       )}
                     </div>
-                    <div className="form-col-deets">
+                    <div className="form-col-deets ml-5 sm:ml-0">
                       {tagCheckbox(
                         [
                           "CCTV",
