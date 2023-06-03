@@ -43,9 +43,12 @@ export default function HomePage() {
 
   const sortTypes = [
     { id: "NONE", value: "NONE", label: "None" },
-    { id: "NAME", value: "NAME", label: "Name" },
-    { id: "PRICE", value: "PRICE", label: "Price" },
-    { id: "RATING", value: "RATING", label: "Rating" },
+    { id: "NAME-ASC", value: "NAME-ASC", label: "Name (ascending)" },
+    { id: "NAME-DESC", value: "NAME-DESC", label: "Name (descending)" },
+    { id: "PRICE-ASC", value: "PRICE-ASC", label: "Price (ascending)" },
+    { id: "PRICE-DESC", value: "PRICE-DESC", label: "Price (descending)" },
+    { id: "RATING-ASC", value: "RATING-ASC", label: "Rating (ascending)" },
+    { id: "RATING-DESC", value: "RATING-DESC", label: "Rating (descending)" },
   ];
 
   const [selectedAccomType, setSelectedAccomType] = useState("");
@@ -82,8 +85,9 @@ export default function HomePage() {
     price_min: undefined,
     price_max: undefined,
     is_archived: false,
-    sortByName: false,
-    sortByRating: false,
+    sortByName: null,
+    sortByRating: null,
+    sortByPrice: null,
   });
   const {
     register,
@@ -257,33 +261,57 @@ export default function HomePage() {
         case "NONE":
           setUserInputs((prevInputs) => ({
             ...prevInputs,
-            sortByName: false,
-            sortByRating: false,
-            sortByPrice: false,
+            sortByName: null,
+            sortByRating: null,
+            sortByPrice: null,
           }));
           break;
-        case "NAME":
+        case "NAME-ASC":
           setUserInputs((prevInputs) => ({
             ...prevInputs,
             sortByName: true,
-            sortByRating: false,
-            sortByPrice: false,
+            sortByRating: null,
+            sortByPrice: null,
           }));
           break;
-        case "RATING":
+        case "NAME-DESC":
           setUserInputs((prevInputs) => ({
             ...prevInputs,
             sortByName: false,
+            sortByRating: null,
+            sortByPrice: null,
+          }));
+          break;
+        case "RATING-ASC":
+          setUserInputs((prevInputs) => ({
+            ...prevInputs,
+            sortByName: null,
             sortByRating: true,
-            sortByPrice: false,
+            sortByPrice: null,
           }));
           break;
-        case "PRICE":
+        case "RATING-DESC":
           setUserInputs((prevInputs) => ({
             ...prevInputs,
-            sortByName: false,
+            sortByName: null,
             sortByRating: false,
+            sortByPrice: null,
+          }));
+          break;
+        case "PRICE-ASC":
+          setUserInputs((prevInputs) => ({
+            ...prevInputs,
+            sortByName: null,
+            sortByRating: null,
             sortByPrice: true,
+          }));
+          break;
+        case "PRICE-DESC":
+          setUserInputs((prevInputs) => ({
+            ...prevInputs,
+            sortByName: null,
+            sortByRating: null,
+            sortByPrice: false,
           }));
           break;
         default:
