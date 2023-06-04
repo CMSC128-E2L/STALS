@@ -199,9 +199,9 @@ export default function AddAccommodation() {
                           <option value={AccommodationType.APARTMENT}>
                             Apartment
                           </option>
-                          {/* <option value={AccommodationType.BEDSPACE}>
+                          <option value={AccommodationType.BEDSPACE}>
                             Bedspace
-                          </option> */}
+                          </option>
                           <option value={AccommodationType.HOTEL}>Hotel</option>
                           <option value={AccommodationType.TRANSIENT}>
                             Transient Space
