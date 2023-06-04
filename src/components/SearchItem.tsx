@@ -1,7 +1,7 @@
 import Link from "next/link";
 import { useState } from "react";
 import Image from "next/image";
-import placeholder from "public/images/logo d-violet.png";
+import placeholder from "public/images/logo-light.png";
 
 export const SearchItem: React.FC<{
   id: string;
