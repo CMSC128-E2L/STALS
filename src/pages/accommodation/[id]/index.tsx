@@ -538,8 +538,8 @@ export default function Accommodation() {
 
           {/* Rooms 
       TODO: This is gonna get the list of rooms in prisma/schema.prisma and load the component <RoomButton /> (components/RoomButton.tsx) with the room id.*/}
-          <div className="flex flex-shrink-0 justify-center">
-            <div className="scrollbar flex flex-row items-stretch space-x-3 overflow-x-scroll p-3">
+          <div className="flex flex-shrink-0 flex-col">
+            <div className="scrollbar flex flex-row items-stretch justify-center space-x-3 overflow-x-scroll p-3">
               {accommData?.Room && accommData?.Room.length > 0 ? (
                 accommData?.Room.map((room, i: number) => (
                   <RoomButton
@@ -600,9 +600,49 @@ export default function Accommodation() {
                   </Link>
                 )}
             </div>
+            {/*Report button*/}
+            {userSession !== null && (
+              <div className="m-3 mb-1 flex justify-end pb-1">
+                {" "}
+                {/*The report button will stick to the bottom left of the screen*/}
+                <button
+                  className="flex flex-row items-center gap-1 text-xs text-p-red"
+                  onClick={() => {
+                    reportAccomm.mutate({
+                      reported_id: id,
+                      reported_name: accomm!.name,
+                      report: "",
+                      type_reported: "ACCOMMODATION",
+                    });
+                    toast.success(
+                      "Thank you for reporting this accommodation.\nAn alert has been sent to the administrators.",
+                      {
+                        position: "bottom-center",
+                        duration: 4000,
+                      },
+                    );
+                  }}
+                >
+                  <p>Report</p>
+                  <svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    fill="none"
+                    viewBox="0 0 24 24"
+                    strokeWidth="1.5"
+                    stroke="#D22B2B"
+                    className="h-4 w-4"
+                  >
+                    <path
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
+                      d="M12 9v3.75m-9.303 3.376c-.866 1.5.217 3.374 1.948 3.374h14.71c1.73 0 2.813-1.874 1.948-3.374L13.949 3.378c-.866-1.5-3.032-1.5-3.898 0L2.697 16.126zM12 15.75h.007v.008H12v-.008z"
+                    />
+                  </svg>
+                </button>
+              </div>
+            )}
           </div>
         </div>
-        <br />
         <div className="border-t border-black"></div>
       </div>
     );
@@ -634,47 +674,6 @@ export default function Accommodation() {
             <ReviewGroup />
           </div>
         </div>
-        {/*Report button*/}
-        {userSession !== null && (
-          <div className="fixed bottom-1 left-0 m-3 mb-1">
-            {" "}
-            {/*The report button will stick to the bottom left of the screen*/}
-            <button
-              className="flex flex-row items-center gap-1 text-xs text-p-lviolet"
-              onClick={() => {
-                reportAccomm.mutate({
-                  reported_id: id,
-                  reported_name: accomm!.name,
-                  report: "",
-                  type_reported: "ACCOMMODATION",
-                });
-                toast.success(
-                  "Thank you for reporting this accommodation.\nAn alert has been sent to the administrators.",
-                  {
-                    position: "bottom-center",
-                    duration: 4000,
-                  },
-                );
-              }}
-            >
-              <p>Report Accommodation</p>
-              <svg
-                xmlns="http://www.w3.org/2000/svg"
-                fill="none"
-                viewBox="0 0 24 24"
-                strokeWidth="1.5"
-                stroke="#d6d1ff"
-                className="h-4 w-4"
-              >
-                <path
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                  d="M12 9v3.75m-9.303 3.376c-.866 1.5.217 3.374 1.948 3.374h14.71c1.73 0 2.813-1.874 1.948-3.374L13.949 3.378c-.866-1.5-3.032-1.5-3.898 0L2.697 16.126zM12 15.75h.007v.008H12v-.008z"
-                />
-              </svg>
-            </button>
-          </div>
-        )}
       </div>
     </div>
   );
