@@ -183,6 +183,10 @@ export default function HomePage() {
       });
     }
 
+    const headcolor = {
+      fillColor: "#420eb3",
+    };
+
     autoTable(pdf, {
       head: [["Filter", "Value"]],
       body: [
@@ -190,9 +194,10 @@ export default function HomePage() {
         ["Type", filters.accomType],
         ["Price Range", filters.priceRange],
       ],
+      headStyles: headcolor,
       didDrawPage: function (data) {
         // Page Header
-        pdf.setFillColor(29, 93, 154);
+        pdf.setFillColor(41, 32, 118);
         pdf.rect(10, 10, pdf.internal.pageSize.width - 20, 15, "F");
         pdf.setFont("helvetica", "bold");
         pdf.setFontSize(18);
@@ -208,7 +213,7 @@ export default function HomePage() {
     autoTable(pdf, {
       head: [["Name", "Address", "Landlord", "Contact", "Rooms"]],
       body: info,
-
+      headStyles: headcolor,
       didDrawPage: function (data) {
         const pageCount = pdf.getNumberOfPages();
         const footerStr = `Page ${data.pageNumber} of ${pageCount}`;
