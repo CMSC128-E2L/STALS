@@ -76,7 +76,7 @@ export default function AddAccommodation() {
       <NavBar />
       <div className="block px-2 py-2 sm:px-0">
         <div className="inset-x-0 flex items-center justify-center">
-          <div className="my-14 flex w-full flex-col items-center justify-center gap-1 rounded-md p-10 shadow-md sm:w-[60%]">
+          <div className="my-14 flex w-full flex-col items-center justify-center gap-1 rounded-md p-10 sm:w-[55%]">
             <div>
               <h1 className="form-h1 pb-2"> Add Accommodation</h1>
             </div>
