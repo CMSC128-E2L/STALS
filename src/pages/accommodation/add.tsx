@@ -171,15 +171,16 @@ export default function AddAccommodation() {
                       {...register("subdivision")}
                       required
                     ></input>
-                    <select placeholder="barangay" className="form-dropdown">
-                      {barangayDropdown(barangays)}
-                    </select>
-                    <input
-                      className=" add-acc-input-text-field hidden"
-                      placeholder="Barangay"
+                    <select
+                      className="form-dropdown"
                       {...register("barangay")}
                       required
-                    ></input>
+                    >
+                      <option value="" disabled selected>
+                        Select Barangay
+                      </option>
+                      {barangayDropdown(barangays)}
+                    </select>
                   </div>
                 </div>
 
