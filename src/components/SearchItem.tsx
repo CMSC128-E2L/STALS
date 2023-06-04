@@ -35,7 +35,7 @@ export const SearchItem: React.FC<{
           <div className="w-full flex-col p-4">
             <div className="py-p px-6 ">
               <div className="mb-2 text-xl font-bold">{name}</div>
-              <p className="text-xl">Php {price}</p>
+              <p className="text-xl">₱ {priceCommas(price)}</p>
               <p className="mb-4 text-xl">{location}</p>
             </div>
             <div className="w-full">
@@ -59,5 +59,11 @@ export const SearchItem: React.FC<{
     </div>
   );
 };
+
+function priceCommas(x: string) {
+  const pattern = /(-?\d+)(\d{3})/;
+  while (pattern.test(x)) x = x.replace(pattern, "$1,$2");
+  return x;
+}
 
 export default SearchItem;
