@@ -414,7 +414,10 @@ export default function HomePage() {
                   <Location setUserInputs={setUserInputs} methods={methods} />
                 </div>
                 {/* Accommodation Type */}
-                <button className="filter-header" onClick={toggleTypeDropdown}>
+                <button
+                  className="filter-header mb-2"
+                  onClick={toggleTypeDropdown}
+                >
                   Type
                   <div className="mr-2"></div>
                   <svg
@@ -438,7 +441,7 @@ export default function HomePage() {
                 {showTypeDropdown && (
                   <div>
                     {Object.values(AccommodationType).map((value: string) => (
-                      <div key={value} className="flex flex-row gap-2">
+                      <div key={value} className="flex flex-row">
                         <input
                           id={value}
                           type="checkbox"
@@ -458,7 +461,10 @@ export default function HomePage() {
                             },
                           })}
                         />
-                        <label htmlFor={value}>{value}</label>
+                        <label htmlFor={value} className="filter-text my-1">
+                          {value[0]}
+                          {value.substring(1).toLowerCase()}
+                        </label>
                       </div>
                     ))}
                   </div>
