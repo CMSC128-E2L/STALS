@@ -44,15 +44,15 @@
   }
 
   .form-h1 {
-    @apply text-3xl font-bold text-p-rblue;
+    @apply text-3xl font-extrabold text-p-dbviolet;
   }
 
   .form-h2 {
-    @apply text-xl font-bold;
+    @apply text-xl font-bold text-p-dviolet;
   }
 
   .form-h3 {
-    @apply text-2xl font-bold text-p-rblue;
+    @apply text-center text-2xl font-bold text-p-dbviolet;
   }
 
   .form-field-required {
