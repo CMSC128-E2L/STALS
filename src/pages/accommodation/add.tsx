@@ -38,7 +38,7 @@ export default function AddAccommodation() {
     "Anos",
     "Bagong Silang",
     "Bambang",
-    " Malake",
+    "Batong Malake",
     "Baybayin",
     "Bayog",
     "Lalakay",
