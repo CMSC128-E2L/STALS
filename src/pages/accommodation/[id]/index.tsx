@@ -95,11 +95,6 @@ export default function Accommodation() {
     }
   }, [favorites, accommData?.id, isGuest]);
 
-  // const { data: RoomList, isLoading: roomLoading } = api.room.getMany.useQuery({
-  //   id: id,
-  //   status: undefined,
-  // });
-
   const isLandlordViewing =
     userSession?.profile.type === UserType.LANDLORD &&
     accommData?.landlord === userSession?.user?.id;
@@ -117,6 +112,10 @@ export default function Accommodation() {
     if (pdfdownload) {
       calledOnce.current = true;
       setpdfdownload(false);
+
+      const headcolor = {
+        fillColor: "#420eb3",
+      };
 
       const roominfo: (string | number)[][] = [];
 
@@ -154,10 +153,10 @@ export default function Accommodation() {
           ["Contract Length", accommData?.contract_length ?? "None specified"],
           ["Tags", stalsDBstringArray(accommData?.tagArray).toString()],
         ],
-
+        headStyles: headcolor,
         didDrawPage: function (data) {
           // Page Header
-          pdf.setFillColor(29, 93, 154);
+          pdf.setFillColor(41, 32, 118);
           pdf.rect(10, 10, pdf.internal.pageSize.width - 20, 15, "F");
           pdf.setFont("helvetica", "bold");
           pdf.setFontSize(18);
@@ -175,6 +174,7 @@ export default function Accommodation() {
           ["Room", "Price", "Occupied", "Beds", "Airconditioner", "Utilities"],
         ],
         body: roominfo,
+        headStyles: headcolor,
         margin: { top: 30 },
         columnStyles: { 0: { cellWidth: 30 } },
       });
@@ -191,6 +191,7 @@ export default function Accommodation() {
           ["Contact Number", accommData?.landlordUser.contact_number ?? ""],
           ["Email", accommData?.landlordUser.email_address ?? ""],
         ],
+        headStyles: headcolor,
         margin: { top: 30 },
         columnStyles: { 0: { cellWidth: 30 } },
       });
