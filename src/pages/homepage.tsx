@@ -415,7 +415,7 @@ export default function HomePage() {
               <aside className="bg-p-lviolet px-5 py-3 sm:h-full sm:min-h-full sm:w-[200px] sm:min-w-[200px]">
                 {/* Location */}
                 <div className="mb-1">
-                  <h2 className="filter-header">Location</h2>
+                  <h2 className="filter-header">Barangay</h2>
                   <Location setUserInputs={setUserInputs} methods={methods} />
                 </div>
                 {/* Accommodation Type */}
@@ -682,7 +682,7 @@ const Tags: React.FC<{
             }
           }}
           className="filter-search text-p-dviolet"
-          placeholder="Enter tag (e.g. cooking)"
+          placeholder="e.g. cooking"
         />
       </div>
     </div>
@@ -740,7 +740,7 @@ const Location: React.FC<{
             }
           }}
           className="filter-search text-p-dviolet"
-          placeholder="Type for suggestions..."
+          placeholder="e.g. Batong Malake"
         />
         {showSuggestions && (
           <ul className="absolute mt-1 flex w-full flex-col space-y-1 rounded-xl bg-white p-3 text-black shadow-lg dark:bg-white dark:text-black">
