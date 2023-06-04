@@ -47,6 +47,10 @@
     @apply text-2xl font-bold text-p-rblue;
   }
 
+  .form-field-required {
+    @apply after:ml-0.5 after:text-red-500 after:content-['*'];
+  }
+
   .accomP-button {
     @apply rounded-full bg-p-dblue p-2 shadow shadow-p-black/50 transition hover:bg-p-hdblue;
   }
