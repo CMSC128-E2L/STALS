@@ -635,7 +635,7 @@ export default function Accommodation() {
                 )}
             </div>
             {/*Report button*/}
-            {userSession !== null && (
+            {isUserViewing && (
               <div className="m-3 mb-1 flex justify-end pb-1">
                 {" "}
                 {/*The report button will stick to the bottom left of the screen*/}
