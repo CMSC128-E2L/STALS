@@ -85,8 +85,8 @@ export default function AddAccommodation() {
                     duration: 1000,
                   });
                   resetFrom();
-                  router.back();
-                  setTimeout(() => router.reload(), 50);
+                  // router.back();
+                  // setTimeout(() => router.reload(), 50);
                 },
                 (error) => {
                   console.log(error);
@@ -105,7 +105,7 @@ export default function AddAccommodation() {
 
                 <div className="px-3">
                   {/* Lodging name */}
-                  <label className="form-h2 text-p-dviolet">
+                  <label className="form-h2 form-field-required text-p-dviolet">
                     Accommodation Name
                   </label>
                   <input
@@ -116,7 +116,7 @@ export default function AddAccommodation() {
                     required
                   ></input>
                 </div>
-                <h2 className="form-h2 px-3 pt-3 text-p-dviolet">
+                <h2 className="form-h2 form-field-required px-3 pt-3 text-p-dviolet">
                   Type of Accommodation
                 </h2>
                 <div className="ml-5 flex flex-col justify-evenly gap-4 px-5 pt-2 sm:ml-0 sm:flex-row">
@@ -135,7 +135,9 @@ export default function AddAccommodation() {
                   <p className="text-red-500">{errors.typeArray.message}</p>
                 )}
                 <div className="px-3">
-                  <label className="form-h2 text-p-dviolet">Address</label>
+                  <label className="form-h2 form-field-required text-p-dviolet">
+                    Address
+                  </label>
 
                   <div className="flex flex-col gap-2 sm:flex-row">
                     <input
@@ -200,21 +202,10 @@ export default function AddAccommodation() {
                         <option value="1 SEMESTER">1 Semester</option>
                       </select>
                     </div>
-                    <div>
-                      {/* FB page link*/}
-                      <label className="form-h2 text-p-dviolet">FB Page</label>
-                      <input
-                        className="add-acc-input-text-field"
-                        placeholder="Facebook Page Link"
-                        pattern="(?:https?:\/\/)?(?:www\.)?(mbasic.facebook|m\.facebook|facebook|fb)\.(com|me)\/(?:(?:\w\.)*#!\/)?(?:pages\/)?(?:[\w\-\.]*\/)*([\w\-\.]*)"
-                        type="text"
-                        {...register("fb_page")}
-                        title="Please enter a valid Facebook Page Link."
-                      ></input>
-                    </div>
+
                     {/* Accommodation price input field */}
                     <div className="">
-                      <label className="form-h2 text-p-dviolet">
+                      <label className="form-h2 form-field-required text-p-dviolet">
                         {" "}
                         Price of Accommodation
                       </label>
@@ -234,6 +225,19 @@ export default function AddAccommodation() {
                         required
                       ></input>
                     </div>
+
+                    {/* FB page link*/}
+                    <div>
+                      <label className="form-h2 text-p-dviolet">FB Page</label>
+                      <input
+                        className="add-acc-input-text-field"
+                        placeholder="Facebook Page Link"
+                        pattern="(?:https?:\/\/)?(?:www\.)?(mbasic.facebook|m\.facebook|facebook|fb)\.(com|me)\/(?:(?:\w\.)*#!\/)?(?:pages\/)?(?:[\w\-\.]*\/)*([\w\-\.]*)"
+                        type="text"
+                        {...register("fb_page")}
+                        title="Please enter a valid Facebook Page Link."
+                      ></input>
+                    </div>
                   </div>
                   <div className="form-col-deets">
                     <div className="flex flex-col">
@@ -251,7 +255,7 @@ export default function AddAccommodation() {
                     </div>
                     {/* Contact No input field */}
                     <div className="">
-                      <label className="form-h2 text-p-dviolet">
+                      <label className="form-h2 form-field-required text-p-dviolet">
                         {" "}
                         Contact No.
                       </label>
