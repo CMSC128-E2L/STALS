@@ -5,11 +5,11 @@ import React from "react";
 
 export default function FooterComponent() {
   return (
-    <footer className="bg-p-vdviolet">
+    <footer className="mt-8 bg-p-vdviolet">
       <div className="mx-auto w-full max-w-screen-xl p-4 py-6 lg:py-8">
         <div className="md:flex md:justify-between">
           <div className="mb-6 md:mb-0">
-            <Link href="homepage" className="flex items-center">
+            <Link href="../homepage" className="flex items-center">
               <Image src={logo} className="mr-2 h-10 w-10" alt="Stals Logo" />
               <span className="self-center whitespace-nowrap text-2xl font-semibold text-white">
                 STALS
@@ -21,7 +21,7 @@ export default function FooterComponent() {
         <div className="sm:flex sm:items-center sm:justify-between">
           <span className="text-sm text-gray-500 dark:text-gray-400 sm:text-center">
             © 2023{" "}
-            <Link href="homepage" className="hover:underline">
+            <Link href="../homepage" className="hover:underline">
               STALS
             </Link>
             . All Rights Reserved.
@@ -34,7 +34,7 @@ export default function FooterComponent() {
               Back to Top
             </a>
             <Link
-              href="homepage"
+              href="../homepage"
               className="mx-2 font-bold text-white no-underline hover:text-gray-300 hover:underline"
             >
               Home

@@ -56,12 +56,12 @@ export default function AddAccommodation() {
   return (
     <div className="">
       <img
-        className="fixed -z-50 w-screen bg-cover bg-fixed bg-center"
+        className="fixed -z-10 h-full w-screen bg-cover bg-fixed bg-center"
         src={bgpic.src}
         alt="background"
       />
       <NavBar />
-      <div className="block overflow-scroll px-2 py-2 sm:px-0">
+      <div className="block px-2 py-2 sm:px-0">
         <div className="inset-x-0 flex items-center justify-center">
           <div className="shadow-md/50 my-14 flex w-full flex-col items-center justify-center gap-1 rounded-md bg-white p-10 sm:w-[60%]">
             <div>
@@ -425,7 +425,7 @@ export default function AddAccommodation() {
                 </div>
                 <div className="flex flex-col gap-2">
                   <div>
-                    <button type="submit" className="formConfirm bg-p-dviolet">
+                    <button type="submit" className="formConfirm">
                       Submit
                     </button>
                   </div>

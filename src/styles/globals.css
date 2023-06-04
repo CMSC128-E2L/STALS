@@ -12,7 +12,7 @@
   }
 
   .formConfirm {
-    @apply flex w-full justify-center rounded-full bg-p-dblue px-4 py-2 font-bold text-white shadow shadow-gray-400/100;
+    @apply flex w-full justify-center rounded-full bg-p-dviolet px-4 py-2 font-bold text-white shadow shadow-gray-400/100;
   }
 
   .formReject {
