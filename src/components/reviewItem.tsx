@@ -23,6 +23,7 @@ const ReviewItem: React.FC<{
   const [editMode, setEditMode] = useState(false);
   const [editedReview, setEditedReview] = useState(review || "");
   const [editedRating, setEditedRating] = useState(rating || 0);
+  const isUserViewing = userSession?.profile.type === UserType.USER;
 
   const reportAccomm = api.report.add.useMutation();
   const router = useRouter();
@@ -182,7 +183,7 @@ const ReviewItem: React.FC<{
         )}
 
       {/* Report button for review */}
-      {userSession !== null &&
+      {isUserViewing &&
         userSession?.profile.id !== user.id &&
         userSession?.profile.type !== UserType.ADMIN && (
           <div className="absolute right-0 m-3 text-xxs">
