@@ -5,7 +5,7 @@ import RoomButton from "~/components/roomButton";
 import Link from "next/link";
 import Image from "next/image";
 import { api } from "~/utils/api";
-import { useRouter } from "next/router";
+import router, { useRouter } from "next/router";
 import { dynamicRouteID, stalsDBstringArray } from "~/utils/helpers";
 import Error404 from "~/pages/404";
 import { useSession } from "next-auth/react";
@@ -19,6 +19,7 @@ import LoadingSpinner from "~/components/loadingSpinner";
 import jsPDF from "jspdf";
 import autoTable from "jspdf-autotable";
 import placeholder from "public/images/logo d-violet2.png";
+import ConfirmationPrompt from "~/components/prompt";
 
 export default function Accommodation() {
   const { id } = dynamicRouteID(useRouter());
@@ -41,6 +42,14 @@ export default function Accommodation() {
 
   const { data: favorites, isLoading: favoritesLoading } =
     api.user.getFavorites.useQuery();
+
+  const archiveAccom = api.accommodation.archive.useMutation({
+    onSuccess: () => {
+      router.reload();
+    },
+  });
+
+  const [showDelPrompt, setShowDelPrompt] = useState(false);
 
   const addFavorite = api.user.addFavorite.useMutation({
     onSuccess: () => {
@@ -326,6 +335,7 @@ export default function Accommodation() {
                   </Link>
                 </div>
               )}
+
               {!isGuest && (
                 <>
                   <label className="cursor-pointer">
@@ -350,29 +360,55 @@ export default function Accommodation() {
                       />
                     </svg>
                   </label>
-                  <label className="cursor-pointer">
-                    <button
+                </>
+              )}
+
+              {!accommData?.is_archived && isLandlordViewing && (
+                <label className="cursor-pointer">
+                  {/* <button
                       data-modal-target="popup-modal"
                       data-modal-toggle="popup-modal"
                       className="accPButton sr-only mx-3 mb-2 self-end px-3 text-lg"
+                      onClick={() => {
+                        archiveAccom.mutate({
+                          id: id,
+                          is_archived: accommData!.is_archived,
+                        });
+                      }} 
+                    /> */}
+                  <button
+                    className="flex flex-row space-x-2"
+                    onClick={() => setShowDelPrompt(true)}
+                  ></button>
+                  {showDelPrompt && (
+                    <ConfirmationPrompt
+                      onConfirm={() => {
+                        archiveAccom.mutate({
+                          id: id,
+                          is_archived: accommData.is_archived,
+                        });
+                      }}
+                      onCancel={() => setShowDelPrompt(false)}
+                      message="Are you sure you want to archive this accommodation? "
+                      submessage=""
+                      // submessage="This action cannot be undone."
                     />
-
-                    <svg
-                      xmlns="http://www.w3.org/2000/svg"
-                      fill="none"
-                      viewBox="0 0 24 24"
-                      stroke-width="1.5"
-                      stroke="currentColor"
-                      className="h-8 w-8"
-                    >
-                      <path
-                        stroke-linecap="round"
-                        stroke-linejoin="round"
-                        d="M20.25 7.5l-.625 10.632a2.25 2.25 0 01-2.247 2.118H6.622a2.25 2.25 0 01-2.247-2.118L3.75 7.5m6 4.125l2.25 2.25m0 0l2.25 2.25M12 13.875l2.25-2.25M12 13.875l-2.25 2.25M3.375 7.5h17.25c.621 0 1.125-.504 1.125-1.125v-1.5c0-.621-.504-1.125-1.125-1.125H3.375c-.621 0-1.125.504-1.125 1.125v1.5c0 .621.504 1.125 1.125 1.125z"
-                      />
-                    </svg>
-                  </label>
-                </>
+                  )}
+                  <svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    fill="none"
+                    viewBox="0 0 24 24"
+                    stroke-width="1.5"
+                    stroke="currentColor"
+                    className="h-8 w-8"
+                  >
+                    <path
+                      stroke-linecap="round"
+                      stroke-linejoin="round"
+                      d="M20.25 7.5l-.625 10.632a2.25 2.25 0 01-2.247 2.118H6.622a2.25 2.25 0 01-2.247-2.118L3.75 7.5m6 4.125l2.25 2.25m0 0l2.25 2.25M12 13.875l2.25-2.25M12 13.875l-2.25 2.25M3.375 7.5h17.25c.621 0 1.125-.504 1.125-1.125v-1.5c0-.621-.504-1.125-1.125-1.125H3.375c-.621 0-1.125.504-1.125 1.125v1.5c0 .621.504 1.125 1.125 1.125z"
+                    />
+                  </svg>
+                </label>
               )}
             </div>
           </div>
@@ -443,7 +479,7 @@ export default function Accommodation() {
               {!accommLoading ? (
                 <div className="">
                   {accommData?.price !== undefined && accommData?.price !== null
-                    ? accommData?.price.toFixed(2)
+                    ? priceCommas(accommData?.price.toFixed(2))
                     : ""}
                 </div>
               ) : (
@@ -608,6 +644,11 @@ export default function Accommodation() {
     );
   };
 
+  function priceCommas(x: string) {
+    const pattern = /(-?\d+)(\d{3})/;
+    while (pattern.test(x)) x = x.replace(pattern, "$1,$2");
+    return x;
+  }
   return (
     <div className="flex flex-col justify-center bg-p-ngray">
       {/* HEADER */}
@@ -615,7 +656,7 @@ export default function Accommodation() {
 
       {/* BODY */}
       <div className="mt-10 flex min-h-[80vh] px-0 md:px-24 2xl:px-52">
-        <div className="grid w-full min-w-full grid-cols-1 gap-x-4 sm:grid-cols-3">
+        <div className="grid h-fit w-full min-w-full grid-cols-1 gap-x-4 sm:grid-cols-3">
           <div className="w-full">
             <Gallery />
           </div>

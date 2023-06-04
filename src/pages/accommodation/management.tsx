@@ -23,6 +23,12 @@ export default function Delete_Archive_Accomm() {
   if (userSession?.data?.profile.type === UserType.USER) {
     return Error401();
   }
+
+  function priceCommas(x: string) {
+    const pattern = /(-?\d+)(\d{3})/;
+    while (pattern.test(x)) x = x.replace(pattern, "$1,$2");
+    return x;
+  }
   return (
     <div className="min-h-[80vh]">
       <img
@@ -50,15 +56,15 @@ export default function Delete_Archive_Accomm() {
         {userSession.data?.user &&
           data?.map((accomm: Accommodation) => (
             <>
-              <div className="flex items-center justify-center">
-                <div className="flex flex-row space-x-2">
+              <div className="flex">
+                <div className="flex w-full flex-row justify-center space-x-2">
                   {/* TODO: Display each accommodation with the component "accomm_segment.tsx" */}
                   <Accomm_Segment
                     id={accomm.id}
                     name={accomm.name}
                     price={
                       accomm.price !== undefined && accomm.price !== null
-                        ? accomm.price.toFixed(2)
+                        ? priceCommas(accomm.price.toFixed(2))
                         : ""
                     }
                     num_of_rooms={accomm.num_of_rooms}

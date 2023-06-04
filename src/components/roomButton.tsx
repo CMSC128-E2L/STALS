@@ -35,7 +35,7 @@ const RoomButton: React.FC<{
   // Must accept variables: int n and get whether the room is occupied or not
   if (!hidden) {
     return (
-      <>
+      <div>
         {/* if unoccupied */}
         {!status && (
           <button
@@ -46,7 +46,8 @@ const RoomButton: React.FC<{
               Room {String(roomIndex + 1)}
             </label>
             <p className="text-md self-center whitespace-nowrap px-1 italic text-white">
-              {status ? "Occupied" : "Unoccupied"} <br /> ₱ {roomPrice}
+              {status ? "Occupied" : "Unoccupied"} <br /> ₱{" "}
+              {priceCommas(roomPrice)}
             </p>
           </button>
         )}
@@ -60,20 +61,21 @@ const RoomButton: React.FC<{
               Room {String(roomIndex + 1)}
             </label>
             <p className="text-md self-center whitespace-nowrap px-1 italic">
-              {status ? "Occupied" : "Unoccupied"} <br /> ₱ {roomPrice}
+              {status ? "Occupied" : "Unoccupied"} <br /> ₱{" "}
+              {priceCommas(roomPrice)}
             </p>
           </button>
         )}
 
         {/* POPUP HELPER */}
         {showRooms && (
-          <div className="fixed inset-0 mt-10 flex items-center justify-center bg-black bg-opacity-50">
+          <div className="fixed inset-0 z-[2] mt-10 flex items-center justify-center bg-black bg-opacity-50">
             <div className="flex w-1/3 flex-col rounded-xl bg-white p-8">
               <RoomShow
                 roomID={id}
                 roomAccID={roomAccID}
                 roomOccupied={roomAvail}
-                roomPrice={roomPrice}
+                roomPrice={"₱" + priceCommas(roomPrice)}
                 roomBeds={roomBeds}
                 roomAircon={roomAircon}
                 roomUtils={roomUtils}
@@ -88,11 +90,16 @@ const RoomButton: React.FC<{
             </div>
           </div>
         )}
-      </>
+      </div>
     );
   } else {
     return null;
   }
 };
+function priceCommas(x: string) {
+  const pattern = /(-?\d+)(\d{3})/;
+  while (pattern.test(x)) x = x.replace(pattern, "$1,$2");
+  return x;
+}
 
 export default RoomButton;

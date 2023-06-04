@@ -2,20 +2,17 @@ import NavBar from "~/components/navbar";
 import { useRouter } from "next/router";
 import { dynamicRouteID, notAuthenticated } from "~/utils/helpers";
 import { accommodationEditSchema } from "~/utils/apitypes";
-import { UseFormRegister, useForm } from "react-hook-form";
+import { type UseFormRegister, useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { type RouterInputs, api } from "~/utils/api";
-import bgpic from "public/images/background_addaccom.png";
+import bgpic from "public/images/background_addedit_accom.png";
 import toast from "react-hot-toast";
 import Link from "next/link";
 import { useSession } from "next-auth/react";
 import LoadingSpinner from "~/components/loadingSpinner";
 import Error404 from "~/pages/404";
 import Error from "~/pages/_error";
-import UploadImageHeader, {
-  UploadImageMultiple,
-} from "~/components/uploadInput";
-import { z } from "zod";
+import { type z } from "zod";
 import { stalsDBstringArray } from "~/utils/helpers";
 
 export default function EditAccommodation() {
@@ -23,13 +20,9 @@ export default function EditAccommodation() {
   const { id } = dynamicRouteID(useRouter());
   const router = useRouter();
 
-  const { data: accommData, isLoading: accommLoading } =
-    api.accommodation.getOneRelations.useQuery(id);
-
   const { data: oldData, isLoading: oldDataLoading } =
     api.accommodation.getOne.useQuery(id);
 
-  //console.log(oldData)
   const {
     register,
     handleSubmit,
@@ -45,7 +38,7 @@ export default function EditAccommodation() {
 
   const editAccommodation = api.accommodation.edit.useMutation();
 
-  if (notAuthenticated(userSession.status) || accommLoading) {
+  if (notAuthenticated(userSession.status) || oldDataLoading) {
     return (
       <div className="min-h-[80vh]">
         <img className="site-background" src={bgpic.src} alt="background" />
@@ -55,11 +48,11 @@ export default function EditAccommodation() {
     );
   }
 
-  if (accommData === null) {
+  if (oldData === null) {
     return Error404();
   }
 
-  if (accommData?.landlord !== userSession.data?.user.id) {
+  if (oldData?.landlord !== userSession.data?.user.id) {
     return <Error statusCode={401} />;
   }
 
@@ -89,16 +82,19 @@ export default function EditAccommodation() {
                       delete d[key];
                     }
                   }
-                  // console.log(d`
-                  editAccommodation.mutate(
-                    d as RouterInputs["accommodation"]["edit"],
+                  void toast.promise(
+                    editAccommodation.mutateAsync(
+                      d as RouterInputs["accommodation"]["edit"],
+                    ),
+                    {
+                      loading: "Editing Accommodation...",
+                      success: "Successfully Edited Accommodation!",
+                      error: "Editing Accommodation Failed!",
+                    },
+                    {
+                      position: "bottom-right",
+                    },
                   );
-                  toast.success("Successfully Edited Accommodation!", {
-                    position: "bottom-right",
-                    duration: 1000,
-                  });
-                  router.back();
-                  setTimeout(() => router.reload(), 50);
                 },
                 (errors) => {
                   console.log(errors);
@@ -213,81 +209,7 @@ export default function EditAccommodation() {
                   </div>
                 </div>
               </div>
-              <div className="py-2">
-                {/* <label className="form-h2 ">Edit Tags</label>
-                <input
-                  className="add-acc-input-text-field"
-                  placeholder="Current tags"
-                  type="text"
-                ></input> */}
-              </div>
-
-              {/* Manage gallery */}
-              <div>
-                <div className="pb-3 text-center">
-                  <label className="form-h3">Manage Gallery</label>
-                  <main className="container">
-                    <article
-                      aria-label="file Upload Modal"
-                      className="relative flex h-full flex-col rounded-md shadow-xl"
-                    >
-                      <section className="flex w-full flex-col gap-3 overflow-auto p-3">
-                        <header className="flex flex-col items-center justify-center rounded-md border border-dashed border-p-gray p-12">
-                          {/* <p className="mb-3 flex flex-wrap justify-center font-semibold">
-                            <span>Drag and drop your</span>&nbsp;
-                            <span>files anywhere or</span>
-                          </p> */}
-                          {/* <input
-                            id="hidden-input"
-                            type="file"
-                            multiple
-                            className="hidden"
-                          />
-                          <button
-                            id="button"
-                            className="focus:shadow-outline mt-2 rounded-sm bg-gray-200 px-3 py-1 hover:bg-gray-300 focus:outline-none"
-                          >
-                            Upload a file
-                          </button> */}
-                          <p className="mb-3 flex flex-wrap justify-center font-semibold">
-                            <span>Accommodation Header</span>
-                          </p>
-                          <UploadImageHeader
-                            // className="focus:shadow-outline mt-2 rounded-sm bg-gray-200 px-3 py-1 hover:bg-gray-300 focus:outline-none"
-                            accomId={id}
-                          />
-                          <p className="mb-3 mt-3 flex flex-wrap justify-center font-semibold">
-                            <span>Accommodation Images</span>
-                          </p>
-                          <UploadImageMultiple accomId={id} />
-                        </header>
-                        {/* <div>
-                          <h1 className="form-h2 text-center">To Upload</h1>
-
-                          <ul
-                            id="gallery"
-                            className="-m-1 flex flex-1 flex-wrap"
-                          >
-                            <li
-                              id="empty"
-                              className="flex h-full w-full flex-col items-center justify-center text-center"
-                            >
-                              <img
-                                className="mx-auto w-32"
-                                src="https://user-images.githubusercontent.com/507615/54591670-ac0a0180-4a65-11e9-846c-e55ffce0fe7b.png"
-                                alt="no data"
-                              />
-                              <span className="text-small hidden text-gray-500">
-                                No files selected
-                              </span>
-                            </li>
-                          </ul>
-                        </div> */}
-                      </section>
-                    </article>
-                  </main>
-                </div>
-              </div>
+              <div className="py-2"></div>
               <div className="flex flex-col gap-2">
                 <div>
                   <button type="submit" className="formConfirm">
@@ -302,7 +224,7 @@ export default function EditAccommodation() {
                       router.back();
                     }}
                   >
-                    Cancel
+                    Back
                   </button>
                 </div>
               </div>
