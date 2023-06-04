@@ -168,21 +168,19 @@ const Carousel: React.FC<{ imageList: string[] }> = ({ imageList }) => {
             {/* Carousel items */}
             <div className="relative w-full overflow-hidden">
               {filteredImages.map((imageUrl, index) => (
-                <button
+                <div
                   key={index}
-                  onClick={() => setPreviewImage(true)}
                   className={`relative float-left ${
                     index === activeIndex ? "-ml-0" : "hidden"
                   } w-full transition-transform duration-[600ms] ease-in-out motion-reduce:transition-none`}
                   data-te-carousel-item={index === activeIndex ? "" : undefined}
-                  type="button"
                 >
                   <img
                     src={imageUrl}
                     className="block h-[350px] w-full object-cover"
                     alt={`Slide ${index + 1}`}
                   />
-                </button>
+                </div>
               ))}
             </div>
             {/* Carousel controls - prev item */}
