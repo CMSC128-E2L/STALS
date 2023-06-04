@@ -6,7 +6,7 @@ import Link from "next/link";
 import Edit from "./edit";
 import Profile1 from "~/components/profile";
 import FaveAccoms from "~/components/FaveAccoms";
-import bgpic from "public/images/signup_bg.png";
+import bgpic from "public/images/background_user.png";
 import { useSession } from "next-auth/react";
 import { api } from "~/utils/api";
 import { UserType } from "@prisma/client";

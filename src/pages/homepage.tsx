@@ -11,7 +11,7 @@ import { useForm, useWatch, type Control } from "react-hook-form";
 import jsPDF from "jspdf";
 import autoTable from "jspdf-autotable";
 import { useSession } from "next-auth/react";
-import bgpic from "public/images/homepage_bg.png";
+import bgpic from "public/images/background_home.png";
 import { stalsDBstringArray, titleCase } from "~/utils/helpers";
 import { AccommodationType } from "@prisma/client";
 
@@ -389,7 +389,11 @@ export default function HomePage() {
 
   return (
     <div>
-      <img className="site-background" src={bgpic.src} alt="background" />
+      <img
+        className="site-background opacity-30"
+        src={bgpic.src}
+        alt="background"
+      />
       <form
         // eslint-disable-next-line @typescript-eslint/no-misused-promises
         onSubmit={handleSubmit(
