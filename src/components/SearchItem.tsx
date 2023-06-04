@@ -18,18 +18,20 @@ export const SearchItem: React.FC<{
   return (
     <div className="m-4 flex justify-center self-stretch">
       <Link href={`/accommodation/${id}`} className="h-full grow">
-        <div className="h-full min-w-[310px] grow flex-col items-center rounded-xl border-2 border-solid bg-gray-50 shadow-xl transition delay-150 duration-300 ease-in-out hover:-translate-y-1 hover:scale-110 hover:bg-p-lviolet sm:w-72">
-          <div className="relative flex aspect-video w-full items-center justify-center">
-            <Image
-              src={imgSrc}
-              alt={name}
-              fill
-              className="rounded-t-xl object-contain pt-3"
-              unoptimized
-              onError={() => {
-                setImgSrc(placeholder.src);
-              }}
-            />
+        <div className="h-full min-w-[500px] grow flex-col items-center rounded-xl border-2 border-solid bg-gray-50 shadow-xl transition delay-150 duration-300 ease-in-out hover:-translate-y-1 hover:scale-110 hover:bg-p-lviolet sm:w-72">
+          <div className="relative flex aspect-video w-full items-center justify-center overflow-hidden">
+            <div className="flex-grow-1 h-full w-full">
+              <Image
+                src={imgSrc}
+                alt={name}
+                fill
+                className="rounded-t-xl object-cover"
+                unoptimized
+                onError={() => {
+                  setImgSrc(placeholder.src);
+                }}
+              />
+            </div>
           </div>
 
           <div className="w-full flex-col p-4">
@@ -38,7 +40,7 @@ export const SearchItem: React.FC<{
               <p className="text-xl">₱ {priceCommas(price)}</p>
               <p className="mb-4 text-xl">{location}</p>
             </div>
-            <div className="w-full">
+            <div className="w-full pl-5">
               <span className="object-contain">
                 {tags &&
                   tags
