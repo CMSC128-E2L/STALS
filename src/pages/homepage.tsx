@@ -36,11 +36,11 @@ type priceRangeType = {
 
 const priceRangesNew: priceRangeType = {
   all: { min: undefined, max: undefined, label: "All" },
-  "below-1000": { min: undefined, max: 1000, label: "Under ₱ 1001.00" },
-  "one-to-two": { min: 1001, max: 2000, label: "₱ 1001.00 – ₱ 2000.00" },
-  "two-to-three": { min: 2001, max: 3000, label: "₱ 2001.00 – ₱ 3000.00" },
-  "three-to-four": { min: 3001, max: 4000, label: "₱ 3001.00 – ₱ 4000.00" },
-  "above-four": { min: 4001, max: undefined, label: "Above ₱ 4001.00" },
+  "below-1000": { min: undefined, max: 1000, label: "Under ₱ 1,001.00" },
+  "one-to-two": { min: 1001, max: 2000, label: "₱ 1,001.00 – ₱ 2,000.00" },
+  "two-to-three": { min: 2001, max: 3000, label: "₱ 2,001.00 – ₱ 3,000.00" },
+  "three-to-four": { min: 3001, max: 4000, label: "₱ 3,001.00 – ₱ 4,000.00" },
+  "above-four": { min: 4001, max: undefined, label: "Above ₱ 4,001.00" },
 };
 
 export default function HomePage() {

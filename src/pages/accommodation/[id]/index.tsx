@@ -443,7 +443,7 @@ export default function Accommodation() {
               {!accommLoading ? (
                 <div className="">
                   {accommData?.price !== undefined && accommData?.price !== null
-                    ? accommData?.price.toFixed(2)
+                    ? priceCommas(accommData?.price.toFixed(2))
                     : ""}
                 </div>
               ) : (
@@ -608,6 +608,11 @@ export default function Accommodation() {
     );
   };
 
+  function priceCommas(x: string) {
+    const pattern = /(-?\d+)(\d{3})/;
+    while (pattern.test(x)) x = x.replace(pattern, "$1,$2");
+    return x;
+  }
   return (
     <div className="flex flex-col justify-center bg-p-ngray">
       {/* HEADER */}
