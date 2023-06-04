@@ -55,11 +55,7 @@ export default function AddAccommodation() {
   }
   return (
     <div className="">
-      <img
-        className="fixed -z-10 h-full w-screen bg-cover bg-fixed bg-center"
-        src={bgpic.src}
-        alt="background"
-      />
+      <img className="site-background" src={bgpic.src} alt="background" />
       <NavBar />
       <div className="block px-2 py-2 sm:px-0">
         <div className="inset-x-0 flex items-center justify-center">
