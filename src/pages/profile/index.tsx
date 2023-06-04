@@ -48,10 +48,10 @@ export default function Profile() {
     return (
       <>
         <section className="w-full">
-          <div className="w-full rounded-3xl p-10 shadow-lg">
+          <div className="mb-4 w-full rounded-3xl bg-white p-10 shadow-lg">
             <MyAccom showArchived={false} />
           </div>
-          <div className="w-full rounded-3xl p-10 shadow-lg">
+          <div className="w-full rounded-3xl bg-white p-10 shadow-lg">
             <MyAccom showArchived={true} />
           </div>
         </section>
