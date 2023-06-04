@@ -46,14 +46,10 @@ export default function AddRoom() {
 
   return (
     <div className="">
-      <img
-        className="fixed -z-50 w-screen bg-cover bg-fixed bg-center"
-        src={bgpic.src}
-        alt="background"
-      />
+      <img className="site-background" src={bgpic.src} alt="background" />
       <NavBar />
-      <div className="inset-x-0 flex h-screen items-center justify-center">
-        <div className="shadow-md/50 w-1/3 rounded-xl bg-white/70 px-10 py-10 shadow">
+      <div className="flex min-h-[90vh] items-center justify-center">
+        <div className="shadow-md/50 w-full rounded-xl bg-white/70 px-10 py-10 shadow md:w-1/3">
           <div className="item-center flex justify-center px-2 pb-0 pt-0 drop-shadow-md">
             <h1 className="text-3xl font-bold text-p-dviolet">Add Room</h1>
           </div>
