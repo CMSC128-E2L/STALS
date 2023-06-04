@@ -61,14 +61,16 @@ const Accomm_Segment: React.FC<{
     <div className="w-[1000px] flex-shrink-0 p-4">
       <div className="mx-auto rounded-xl border-2 bg-white p-2 shadow-md">
         <div className="mx-2 mt-2 flex flex-row space-x-2">
-          <img
-            className="block h-[200px] w-[200px] object-cover"
-            src={imgSrc}
-            alt="placeholder img"
-            onError={() => {
-              setImgSrc(placeholder.src);
-            }}
-          />
+          <Link href={`/accommodation/${id}`}>
+            <img
+              className="block h-[200px] w-[200px] object-cover"
+              src={imgSrc}
+              alt="placeholder img"
+              onError={() => {
+                setImgSrc(placeholder.src);
+              }}
+            />
+          </Link>
 
           <div className="-mt-2 w-[350px] bg-white p-2">
             <div className="mb-2 w-[320px] rounded-lg bg-p-dviolet p-2 shadow-md">
