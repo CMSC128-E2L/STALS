@@ -264,23 +264,17 @@ export const accommodationRouter = createTRPCRouter({
             },
           ],
         },
-        ...(input.sortByName !== null ||
-        input.sortByRating !== null ||
-        input.sortByPrice !== null
-          ? {
-              orderBy: {
-                ...(input.sortByName !== null
-                  ? { name: input.sortByName ? "asc" : "desc" }
-                  : {}),
-                ...(input.sortByRating !== null
-                  ? { average_rating: input.sortByRating ? "asc" : "desc" }
-                  : {}),
-                ...(input.sortByPrice !== null
-                  ? { price: input.sortByPrice ? "asc" : "desc" }
-                  : {}),
-              },
-            }
-          : {}),
+        orderBy: [
+          input.sortByName !== null
+            ? { price: input.sortByName ? "asc" : "desc" }
+            : {},
+          input.sortByRating !== null
+            ? { average_rating: input.sortByRating ? "asc" : "desc" }
+            : {},
+          input.sortByPrice !== null
+            ? { price: input.sortByPrice ? "asc" : "desc" }
+            : {},
+        ],
       });
 
       let nextCursor: typeof cursor | undefined = undefined;

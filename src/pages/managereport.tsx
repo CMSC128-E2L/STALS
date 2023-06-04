@@ -54,7 +54,7 @@ export default function ManageReport() {
   }
   return (
     <>
-      <div>
+      <div className="min-h-[80vh]">
         <NavBar />
         <section className="flex-row-2 flex w-full">
           <div className="flex w-full flex-col rounded-3xl p-10 shadow-lg">
