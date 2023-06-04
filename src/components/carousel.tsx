@@ -1,14 +1,16 @@
 import React, { useState, useEffect } from "react";
+import LoadingSpinner from "./loadingSpinner";
 
 const Carousel: React.FC<{ imageList: string[] }> = ({ imageList }) => {
   const [activeIndex, setActiveIndex] = useState(0);
   const [filteredImages, setFilteredImages] = useState<string[]>([]);
-
+  const [isLoading, setIsLoading] = useState(true);
   const [previewImages, setPreviewImage] = useState(false);
 
   useEffect(
     () => {
       const loadImages = async () => {
+        setIsLoading(true);
         const filtered = await Promise.all(
           imageList.map((imageUrl) => {
             return new Promise<string | undefined>((resolve) => {
@@ -22,6 +24,7 @@ const Carousel: React.FC<{ imageList: string[] }> = ({ imageList }) => {
         setFilteredImages(
           filtered.filter((img) => img !== undefined) as string[],
         );
+        setIsLoading(false);
       };
       // eslint-disable-next-line @typescript-eslint/no-floating-promises
       loadImages();
@@ -50,6 +53,7 @@ const Carousel: React.FC<{ imageList: string[] }> = ({ imageList }) => {
     <>
       <div id="carouselExampleIndicators" className="relative">
         {/* Carousel indicators */}
+        {isLoading && <LoadingSpinner />}
         <div className="absolute bottom-0 left-0 right-0 z-[2] mx-auto mb-4 flex list-none justify-center p-0">
           {filteredImages.map((_, index) => (
             <>
