@@ -363,7 +363,7 @@ export default function Accommodation() {
                 </>
               )}
 
-              {!accommData?.is_archived && (
+              {!accommData?.is_archived && isLandlordViewing && (
                 <label className="cursor-pointer">
                   {/* <button
                       data-modal-target="popup-modal"
@@ -385,7 +385,7 @@ export default function Accommodation() {
                       onConfirm={() => {
                         archiveAccom.mutate({
                           id: id,
-                          is_archived: accommData!.is_archived,
+                          is_archived: accommData.is_archived,
                         });
                       }}
                       onCancel={() => setShowDelPrompt(false)}
