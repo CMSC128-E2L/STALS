@@ -28,6 +28,9 @@ export default function AddAccommodation() {
       tagArray: [],
       typeArray: [],
       is_archived: false,
+      barangay: "Anos",
+      street_number: "",
+      subdivision: "",
     },
   });
 
