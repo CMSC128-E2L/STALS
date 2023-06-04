@@ -11,44 +11,49 @@ import { useForm, useWatch, type Control } from "react-hook-form";
 import jsPDF from "jspdf";
 import autoTable from "jspdf-autotable";
 import { useSession } from "next-auth/react";
-import bgpic from "public/images/homepage_bg.png";
-import { stalsDBstringArray } from "~/utils/helpers";
+import bgpic from "public/images/background_home.png";
+import { stalsDBstringArray, titleCase } from "~/utils/helpers";
+import { AccommodationType } from "@prisma/client";
+
+const priceRangeKeys = {
+  all: "all",
+  below1000: "below-1000",
+  onetotwo: "one-to-two",
+  twotothree: "two-to-three",
+  threetofour: "three-to-four",
+  abovefour: "above-four",
+};
+
+type priceRangeKeys = (typeof priceRangeKeys)[keyof typeof priceRangeKeys];
+
+type priceRangeType = {
+  [key in priceRangeKeys]: {
+    min: number | undefined;
+    max: number | undefined;
+    label: string;
+  };
+};
+
+const priceRangesNew: priceRangeType = {
+  all: { min: undefined, max: undefined, label: "All" },
+  "below-1000": { min: undefined, max: 1000, label: "Under ₱ 1001.00" },
+  "one-to-two": { min: 1001, max: 2000, label: "₱ 1001.00 – ₱ 2000.00" },
+  "two-to-three": { min: 2001, max: 3000, label: "₱ 2001.00 – ₱ 3000.00" },
+  "three-to-four": { min: 3001, max: 4000, label: "₱ 3001.00 – ₱ 4000.00" },
+  "above-four": { min: 4001, max: undefined, label: "Above ₱ 4001.00" },
+};
 
 export default function HomePage() {
-  const priceRanges = [
-    { id: "all", value: "all", label: "All" },
-    { id: "below-1000", value: "below-1000", label: "Under ₱ 1001.00" },
-    { id: "one-to-two", value: "one-to-two", label: "₱ 1001.00 – ₱ 2000.00" },
-    {
-      id: "two-to-three",
-      value: "two-to-three",
-      label: "₱ 2001.00 – ₱ 3000.00",
-    },
-    {
-      id: "three-to-four",
-      value: "three-to-four",
-      label: "₱ 3001.00 – ₱ 4000.00",
-    },
-    { id: "above-four", value: "above-four", label: "Above ₱ 4001.00" },
-  ];
-
-  const accomTypes = [
-    { id: "ALL", value: "ALL", label: "All" },
-    { id: "APARTMENT", value: "APARTMENT", label: "Apartment" },
-    { id: "BEDSPACE", value: "BEDSPACE", label: "Bedspace" },
-    { id: "DORMITORY", value: "DORMITORY", label: "Dormitory" },
-    { id: "HOTEL", value: "HOTEL", label: "Hotel" },
-    { id: "TRANSCIENT", value: "TRANSCIENT", label: "Transcient" },
-  ];
-
   const sortTypes = [
     { id: "NONE", value: "NONE", label: "None" },
-    { id: "NAME", value: "NAME", label: "Name" },
-    { id: "PRICE", value: "PRICE", label: "Price" },
-    { id: "RATING", value: "RATING", label: "Rating" },
+    { id: "NAME-ASC", value: "NAME-ASC", label: "Name (ascending)" },
+    { id: "NAME-DESC", value: "NAME-DESC", label: "Name (descending)" },
+    { id: "PRICE-ASC", value: "PRICE-ASC", label: "Price (ascending)" },
+    { id: "PRICE-DESC", value: "PRICE-DESC", label: "Price (descending)" },
+    { id: "RATING-ASC", value: "RATING-ASC", label: "Rating (ascending)" },
+    { id: "RATING-DESC", value: "RATING-DESC", label: "Rating (descending)" },
   ];
 
-  const [selectedAccomType, setSelectedAccomType] = useState("");
   const [selectedPrice, setSelectedPrice] = useState("");
   const [selectedSort, setSelectedSort] = useState("");
 
@@ -82,14 +87,16 @@ export default function HomePage() {
     price_min: undefined,
     price_max: undefined,
     is_archived: false,
-    sortByName: false,
-    sortByRating: false,
+    sortByName: null,
+    sortByRating: null,
+    sortByPrice: null,
   });
   const {
     register,
     handleSubmit,
     control,
     formState: { errors },
+    getValues,
   } = useForm({
     resolver: zodResolver(accommodationGetManyExperiementSchema),
   });
@@ -176,6 +183,10 @@ export default function HomePage() {
       });
     }
 
+    const headcolor = {
+      fillColor: "#420eb3",
+    };
+
     autoTable(pdf, {
       head: [["Filter", "Value"]],
       body: [
@@ -183,9 +194,10 @@ export default function HomePage() {
         ["Type", filters.accomType],
         ["Price Range", filters.priceRange],
       ],
+      headStyles: headcolor,
       didDrawPage: function (data) {
         // Page Header
-        pdf.setFillColor(29, 93, 154);
+        pdf.setFillColor(41, 32, 118);
         pdf.rect(10, 10, pdf.internal.pageSize.width - 20, 15, "F");
         pdf.setFont("helvetica", "bold");
         pdf.setFontSize(18);
@@ -201,7 +213,7 @@ export default function HomePage() {
     autoTable(pdf, {
       head: [["Name", "Address", "Landlord", "Contact", "Rooms"]],
       body: info,
-
+      headStyles: headcolor,
       didDrawPage: function (data) {
         const pageCount = pdf.getNumberOfPages();
         const footerStr = `Page ${data.pageNumber} of ${pageCount}`;
@@ -257,33 +269,57 @@ export default function HomePage() {
         case "NONE":
           setUserInputs((prevInputs) => ({
             ...prevInputs,
-            sortByName: false,
-            sortByRating: false,
-            sortByPrice: false,
+            sortByName: null,
+            sortByRating: null,
+            sortByPrice: null,
           }));
           break;
-        case "NAME":
+        case "NAME-ASC":
           setUserInputs((prevInputs) => ({
             ...prevInputs,
             sortByName: true,
-            sortByRating: false,
-            sortByPrice: false,
+            sortByRating: null,
+            sortByPrice: null,
           }));
           break;
-        case "RATING":
+        case "NAME-DESC":
           setUserInputs((prevInputs) => ({
             ...prevInputs,
             sortByName: false,
+            sortByRating: null,
+            sortByPrice: null,
+          }));
+          break;
+        case "RATING-ASC":
+          setUserInputs((prevInputs) => ({
+            ...prevInputs,
+            sortByName: null,
             sortByRating: true,
-            sortByPrice: false,
+            sortByPrice: null,
           }));
           break;
-        case "PRICE":
+        case "RATING-DESC":
           setUserInputs((prevInputs) => ({
             ...prevInputs,
-            sortByName: false,
+            sortByName: null,
             sortByRating: false,
+            sortByPrice: null,
+          }));
+          break;
+        case "PRICE-ASC":
+          setUserInputs((prevInputs) => ({
+            ...prevInputs,
+            sortByName: null,
+            sortByRating: null,
             sortByPrice: true,
+          }));
+          break;
+        case "PRICE-DESC":
+          setUserInputs((prevInputs) => ({
+            ...prevInputs,
+            sortByName: null,
+            sortByRating: null,
+            sortByPrice: false,
           }));
           break;
         default:
@@ -294,118 +330,6 @@ export default function HomePage() {
     setSelectedSort(event.target.value);
   };
 
-  const handleAccomTypeChange = (event: {
-    target: { value: string; checked: boolean };
-  }) => {
-    const { value, checked } = event.target;
-    if (checked) {
-      switch (value) {
-        case "ALL":
-          setUserInputs((prevInputs) => ({
-            ...prevInputs,
-            // type: undefined,
-            typeArray: [],
-          }));
-          break;
-        case "APARTMENT":
-          setUserInputs((prevInputs) => ({
-            ...prevInputs,
-            // type: "APARTMENT",
-            typeArray: ["Apartment"],
-          }));
-          break;
-        case "BEDSPACE":
-          setUserInputs((prevInputs) => ({
-            ...prevInputs,
-            // type: "BEDSPACER",
-            typeArray: ["Bedspace"],
-          }));
-          break;
-        case "DORMITORY":
-          setUserInputs((prevInputs) => ({
-            ...prevInputs,
-            // type: "DORMITORY",
-            typeArray: ["Dormitory"],
-          }));
-          break;
-        case "HOTEL":
-          setUserInputs((prevInputs) => ({
-            ...prevInputs,
-            // type: "HOTEL",
-            typeArray: ["Hotel"],
-          }));
-          break;
-        case "TRANSCIENT":
-          setUserInputs((prevInputs) => ({
-            ...prevInputs,
-            // type: "TRANSCIENT",
-            typeArray: ["Transient"],
-          }));
-          break;
-        default:
-          break;
-      }
-    }
-
-    setSelectedAccomType(event.target.value);
-  };
-  const handlePriceRangeChange = (event: {
-    target: { value: string; checked: boolean };
-  }) => {
-    const { value, checked } = event.target;
-
-    if (checked) {
-      switch (value) {
-        case "all":
-          setUserInputs((prevInputs) => ({
-            ...prevInputs,
-            price_min: undefined,
-            price_max: undefined,
-          }));
-          break;
-        case "below-1000":
-          setUserInputs((prevInputs) => ({
-            ...prevInputs,
-            price_min: undefined,
-            price_max: 1000,
-          }));
-          break;
-        case "one-to-two":
-          setUserInputs((prevInputs) => ({
-            ...prevInputs,
-            price_min: 1001,
-            price_max: 2000,
-          }));
-          break;
-        case "two-to-three":
-          setUserInputs((prevInputs) => ({
-            ...prevInputs,
-            price_min: 2001,
-            price_max: 3000,
-          }));
-          break;
-        case "three-to-four":
-          setUserInputs((prevInputs) => ({
-            ...prevInputs,
-            price_min: 3001,
-            price_max: 4000,
-          }));
-          break;
-        case "above-four":
-          setUserInputs((prevInputs) => ({
-            ...prevInputs,
-            price_min: 4001,
-            price_max: undefined,
-          }));
-          break;
-        default:
-          break;
-      }
-    }
-
-    setSelectedPrice(event.target.value);
-  };
-
   function AccommodationsList({
     control,
   }: {
@@ -414,7 +338,7 @@ export default function HomePage() {
     useWatch({ control });
 
     return (
-      <div className="grow">
+      <div className="min-h-[80vh] grow">
         <div className="flex flex-col items-stretch justify-center sm:flex-row sm:flex-wrap">
           {accommodationEntries ? (
             accommodationEntries?.pages.map((page, i: number) => (
@@ -466,7 +390,7 @@ export default function HomePage() {
   return (
     <div>
       <img
-        className="fixed -z-10 h-full w-screen bg-cover bg-fixed bg-center"
+        className="site-background opacity-30"
         src={bgpic.src}
         alt="background"
       />
@@ -488,14 +412,17 @@ export default function HomePage() {
           {/* Sidebar */}
           <div className="flex flex-col sm:sticky sm:top-16 sm:h-[100vh] sm:flex-row">
             {toggleSidebar && (
-              <aside className="scrollbar w-full overflow-scroll bg-p-lviolet px-5 py-3 sm:w-[200px] sm:min-w-[200px]">
+              <aside className="bg-p-lviolet px-5 py-3 sm:h-full sm:min-h-full sm:w-[200px] sm:min-w-[200px]">
                 {/* Location */}
                 <div className="mb-1">
                   <h2 className="filter-header">Location</h2>
                   <Location setUserInputs={setUserInputs} methods={methods} />
                 </div>
                 {/* Accommodation Type */}
-                <button className="filter-header" onClick={toggleTypeDropdown}>
+                <button
+                  className="filter-header mb-2"
+                  onClick={toggleTypeDropdown}
+                >
                   Type
                   <div className="mr-2"></div>
                   <svg
@@ -518,25 +445,30 @@ export default function HomePage() {
                 </button>
                 {showTypeDropdown && (
                   <div>
-                    {accomTypes.map((range, index) => (
-                      <div
-                        className="mb-1 mt-2 flex items-center"
-                        key={range.id}
-                      >
+                    {Object.values(AccommodationType).map((value: string) => (
+                      <div key={value} className="flex flex-row">
                         <input
-                          id={range.id}
-                          type="radio"
-                          name="accom_type"
-                          value={range.value}
-                          onChange={handleAccomTypeChange}
-                          className="filter-radio inline-block"
-                          checked={
-                            range.value === selectedAccomType ||
-                            (index === 0 && selectedPrice === "")
-                          }
+                          id={value}
+                          type="checkbox"
+                          value={titleCase(value)}
+                          {...register("typeArray", {
+                            onChange: () => {
+                              setUserInputs(
+                                (
+                                  prevInputs: z.infer<
+                                    typeof accommodationGetManyExperiementSchema
+                                  >,
+                                ) => ({
+                                  ...prevInputs,
+                                  typeArray: getValues("typeArray") as string[],
+                                }),
+                              );
+                            },
+                          })}
                         />
-                        <label htmlFor={range.id} className="filter-text">
-                          {range.label}
+                        <label htmlFor={value} className="filter-text my-1">
+                          {value[0]}
+                          {value.substring(1).toLowerCase()}
                         </label>
                       </div>
                     ))}
@@ -566,25 +498,34 @@ export default function HomePage() {
                 </button>
                 {showPriceDropdown && (
                   <div>
-                    {priceRanges.map((range, index) => (
-                      <div
-                        className="mb-1 mt-2 flex items-center"
-                        key={range.id}
-                      >
+                    {Object.keys(priceRangesNew).map((key, index) => (
+                      <div className="mb-1 mt-2 flex items-center" key={index}>
                         <input
-                          id={range.id}
+                          id={key}
                           type="radio"
                           name="price_range"
-                          value={range.value}
-                          onChange={handlePriceRangeChange}
+                          value={key}
+                          onChange={(event) => {
+                            const { value, checked } = event.target;
+
+                            if (checked) {
+                              setUserInputs((prevInputs) => ({
+                                ...prevInputs,
+                                price_min: priceRangesNew[value]?.min,
+                                price_max: priceRangesNew[value]?.max,
+                              }));
+                            }
+
+                            setSelectedPrice(event.target.value);
+                          }}
                           className="filter-radio inline-block"
                           checked={
-                            range.value === selectedPrice ||
+                            key === selectedPrice ||
                             (index === 0 && selectedPrice === "")
                           }
                         />
-                        <label htmlFor={range.id} className="filter-text">
-                          {range.label}
+                        <label htmlFor={key} className="filter-text">
+                          {priceRangesNew[key]?.label}
                         </label>
                       </div>
                     ))}
@@ -639,13 +580,14 @@ export default function HomePage() {
                 )}
 
                 {/* Include */}
-                {/* <div className="mb-4">
+                <div className="mb-4">
                   <h2 className="filter-header">Include</h2>
-                  <input
+                  {/* <input
                     className="filter-search"
                     placeholder="Type for suggestions..."
-                  ></input>
-                </div> */}
+                  ></input> */}
+                  <Tags setUserInputs={setUserInputs} methods={methods} />
+                </div>
                 {/* Button will not show up for guests */}
                 <div className="mt-3">
                   <DownloadPDFButton />
@@ -713,6 +655,41 @@ export default function HomePage() {
 
 // Sidebar Functions
 // eslint-disable-next-line
+
+const Tags: React.FC<{
+  setUserInputs: any;
+  methods: UseInfiniteQueryResult<any, any>;
+}> = ({ setUserInputs, methods }) => {
+  const [value, setValue] = useState("");
+
+  function handleChange(event: React.ChangeEvent<HTMLInputElement>) {
+    setValue(event.target.value);
+  }
+
+  return (
+    <div className="relative">
+      <div>
+        <input
+          type="text"
+          value={value}
+          onChange={handleChange}
+          onKeyDown={(evt) => {
+            if (evt.key == "Enter") {
+              // eslint-disable-next-line
+              setUserInputs((prevInputs: any) => ({
+                ...prevInputs,
+                tagArray: [value],
+              }));
+            }
+          }}
+          className="filter-search text-p-dviolet"
+          placeholder="Enter tag (e.g. cooking)"
+        />
+      </div>
+    </div>
+  );
+};
+
 const Location: React.FC<{
   setUserInputs: any;
   methods: UseInfiniteQueryResult<any, any>;

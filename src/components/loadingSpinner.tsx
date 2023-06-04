@@ -1,6 +1,6 @@
 export default function LoadingSpinner() {
   return (
-    <div className="flex grow items-center justify-center overflow-hidden">
+    <div className="flex grow items-center justify-center overflow-hidden p-5">
       <div role="status">
         <svg
           aria-hidden="true"

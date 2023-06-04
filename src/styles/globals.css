@@ -7,12 +7,16 @@
     @apply rounded-xl px-3 py-3 shadow shadow-p-black/50;
   }
 
+  .site-background {
+    @apply fixed -z-10 h-full w-screen bg-cover bg-fixed bg-center;
+  }
+
   .add-acc-input-text-field {
     @apply w-full rounded-xl px-2 py-2 shadow shadow-gray-400/100;
   }
 
   .formConfirm {
-    @apply flex w-full justify-center rounded-full bg-p-dblue px-4 py-2 font-bold text-white shadow shadow-gray-400/100;
+    @apply flex w-full justify-center rounded-full bg-p-dviolet px-4 py-2 font-bold text-white shadow shadow-gray-400/100;
   }
 
   .formReject {
@@ -31,20 +35,28 @@
     @apply grid grid-flow-row auto-rows-max gap-2;
   }
 
+  .select selected {
+    @apply bg-pink-100;
+  }
+
   .form-dropdown {
     @apply w-full justify-self-end rounded-md bg-white p-2 shadow shadow-gray-400;
   }
 
   .form-h1 {
-    @apply text-3xl font-bold text-p-rblue;
+    @apply text-3xl font-extrabold text-p-dbviolet;
   }
 
   .form-h2 {
-    @apply text-xl font-bold;
+    @apply text-xl font-bold text-p-dviolet;
   }
 
   .form-h3 {
-    @apply text-2xl font-bold text-p-rblue;
+    @apply text-center text-2xl font-bold text-p-dbviolet;
+  }
+
+  .form-field-required {
+    @apply after:ml-0.5 after:text-red-500 after:content-['*'];
   }
 
   .accomP-button {

@@ -14,7 +14,7 @@ const Profile: React.FC<{
 
   return (
     <>
-      <section className="flex h-min flex-col items-center space-y-2 whitespace-nowrap rounded-3xl bg-white p-14 font-medium shadow-xl sm:sticky sm:top-5 sm:mr-5">
+      <section className="flex h-min flex-col items-center space-y-2 whitespace-nowrap rounded-3xl bg-white p-14 font-medium shadow-xl sm:sticky sm:top-20 sm:mr-5">
         <div className="relative mb-2 ml-32 mr-32 mt-5 flex h-[10.5rem] w-[10.5rem]">
           <Image
             src={sessionData?.user.image ?? user.src}

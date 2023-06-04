@@ -31,6 +31,23 @@ export default function AddAccommodation() {
     },
   });
 
+  const barangays = [
+    "Anos",
+    "Bagong Silang",
+    "Bambang",
+    " Malake",
+    "Baybayin",
+    "Bayog",
+    "Lalakay",
+    "Maahas",
+    "Malinta",
+    "Mayondon",
+    "Putho-Tuntungin",
+    "San Antonio",
+    "Tadlac",
+    "Timugan",
+  ];
+
   const createAccommodation = api.accommodation.add.useMutation();
 
   const [tagGenders, settagGenders] = useState("Coed");
@@ -38,27 +55,30 @@ export default function AddAccommodation() {
   const [tagCustom, settagCustom] = useState("");
 
   if (notAuthenticated(userSession.status)) {
-    return <LoadingSpinner />;
+    return (
+      <div className="min-h-[80vh]">
+        <img
+          className="fixed -z-50 w-screen bg-cover bg-fixed bg-center"
+          src={bgpic.src}
+          alt="background"
+        />
+        <LoadingSpinner />
+      </div>
+    );
   }
+
   if (userSession?.data?.profile.type === UserType.USER) {
     return Error401();
   }
   return (
     <div className="">
-      <img
-        className="fixed -z-50 w-screen bg-cover bg-fixed bg-center"
-        src={bgpic.src}
-        alt="background"
-      />
+      <img className="site-background" src={bgpic.src} alt="background" />
       <NavBar />
-      <div className="block overflow-scroll px-2 py-2 sm:px-0">
+      <div className="block px-2 py-2 sm:px-0">
         <div className="inset-x-0 flex items-center justify-center">
-          <div className="shadow-md/50 my-14 flex w-full flex-col items-center justify-center gap-1 rounded-md bg-white p-10 sm:w-[60%]">
+          <div className="my-14 flex w-full flex-col items-center justify-center gap-1 rounded-md p-10 sm:w-[55%]">
             <div>
-              <h1 className="form-h1 pb-2 font-extrabold text-p-dbviolet">
-                {" "}
-                Add Accommodation
-              </h1>
+              <h1 className="form-h1 pb-2"> Add Accommodation</h1>
             </div>
             <form
               // eslint-disable-next-line
@@ -79,8 +99,8 @@ export default function AddAccommodation() {
                     duration: 1000,
                   });
                   resetFrom();
-                  router.back();
-                  setTimeout(() => router.reload(), 50);
+                  // router.back();
+                  // setTimeout(() => router.reload(), 50);
                 },
                 (error) => {
                   console.log(error);
@@ -90,16 +110,14 @@ export default function AddAccommodation() {
                   });
                 },
               )}
-              className="w-full   justify-items-stretch"
+              className="w-full justify-items-stretch"
             >
               <div>
-                <h2 className="form-h3 pb-2 text-center text-p-dbviolet">
-                  Background
-                </h2>
+                <h2 className="form-h3 pb-2">Background</h2>
 
                 <div className="px-3">
                   {/* Lodging name */}
-                  <label className="form-h2 text-p-dviolet">
+                  <label className="form-h2 form-field-required ">
                     Accommodation Name
                   </label>
                   <input
@@ -110,7 +128,7 @@ export default function AddAccommodation() {
                     required
                   ></input>
                 </div>
-                <h2 className="form-h2 px-3 pt-3 text-p-dviolet">
+                <h2 className="form-h2 form-field-required px-3 pt-3 ">
                   Type of Accommodation
                 </h2>
                 <div className="ml-5 flex flex-col justify-evenly gap-4 px-5 pt-2 sm:ml-0 sm:flex-row">
@@ -129,7 +147,9 @@ export default function AddAccommodation() {
                   <p className="text-red-500">{errors.typeArray.message}</p>
                 )}
                 <div className="px-3">
-                  <label className="form-h2 text-p-dviolet">Address</label>
+                  <label className="form-h2 form-field-required ">
+                    Address
+                  </label>
 
                   <div className="flex flex-col gap-2 sm:flex-row">
                     <input
@@ -144,8 +164,11 @@ export default function AddAccommodation() {
                       {...register("subdivision")}
                       required
                     ></input>
+                    <select placeholder="barangay" className="form-dropdown">
+                      {barangayDropdown(barangays)}
+                    </select>
                     <input
-                      className="add-acc-input-text-field"
+                      className=" add-acc-input-text-field hidden"
                       placeholder="Barangay"
                       {...register("barangay")}
                       required
@@ -156,9 +179,7 @@ export default function AddAccommodation() {
                 <div className="grid grid-cols-1 gap-2 object-contain p-3 sm:grid-cols-2">
                   <div className="form-col-deets">
                     <div className="hidden">
-                      <label className="form-h2 text-p-dviolet">
-                        Type of Accommodation
-                      </label>
+                      <label className="form-h2 ">Type of Accommodation</label>
                       <div className="h-10 w-full items-center justify-items-stretch rounded-md bg-white">
                         <select
                           className="form-dropdown peer"
@@ -182,9 +203,7 @@ export default function AddAccommodation() {
                       </div>
                     </div>
                     <div className="">
-                      <label className="form-h2 text-p-dviolet">
-                        Contract Length
-                      </label>
+                      <label className="form-h2 ">Contract Length</label>
                       <select
                         className="form-dropdown"
                         placeholder="Contract Length"
@@ -194,21 +213,10 @@ export default function AddAccommodation() {
                         <option value="1 SEMESTER">1 Semester</option>
                       </select>
                     </div>
-                    <div>
-                      {/* FB page link*/}
-                      <label className="form-h2 text-p-dviolet">FB Page</label>
-                      <input
-                        className="add-acc-input-text-field"
-                        placeholder="Facebook Page Link"
-                        pattern="(?:https?:\/\/)?(?:www\.)?(mbasic.facebook|m\.facebook|facebook|fb)\.(com|me)\/(?:(?:\w\.)*#!\/)?(?:pages\/)?(?:[\w\-\.]*\/)*([\w\-\.]*)"
-                        type="text"
-                        {...register("fb_page")}
-                        title="Please enter a valid Facebook Page Link."
-                      ></input>
-                    </div>
+
                     {/* Accommodation price input field */}
                     <div className="">
-                      <label className="form-h2 text-p-dviolet">
+                      <label className="form-h2 form-field-required ">
                         {" "}
                         Price of Accommodation
                       </label>
@@ -228,10 +236,23 @@ export default function AddAccommodation() {
                         required
                       ></input>
                     </div>
+
+                    {/* FB page link*/}
+                    <div>
+                      <label className="form-h2 ">FB Page</label>
+                      <input
+                        className="add-acc-input-text-field"
+                        placeholder="Facebook Page Link"
+                        pattern="(?:https?:\/\/)?(?:www\.)?(mbasic.facebook|m\.facebook|facebook|fb)\.(com|me)\/(?:(?:\w\.)*#!\/)?(?:pages\/)?(?:[\w\-\.]*\/)*([\w\-\.]*)"
+                        type="text"
+                        {...register("fb_page")}
+                        title="Please enter a valid Facebook Page Link."
+                      ></input>
+                    </div>
                   </div>
                   <div className="form-col-deets">
                     <div className="flex flex-col">
-                      <label className="form-h2 text-p-dviolet">Location</label>
+                      <label className="form-h2 ">Location</label>
                       <div className="h-10 w-full items-center justify-items-stretch rounded-md bg-white">
                         <select
                           className="form-dropdown"
@@ -245,7 +266,7 @@ export default function AddAccommodation() {
                     </div>
                     {/* Contact No input field */}
                     <div className="">
-                      <label className="form-h2 text-p-dviolet">
+                      <label className="form-h2 form-field-required ">
                         {" "}
                         Contact No.
                       </label>
@@ -264,16 +285,12 @@ export default function AddAccommodation() {
                   </div>
                 </div>
                 <div>
-                  <h2 className="form-h3 py-2 text-center text-p-dbviolet">
-                    Tags
-                  </h2>
+                  <h2 className="form-h3 py-2 ">Tags</h2>
 
                   <div className="margin-40 grid grid-cols-1 gap-4 px-3 sm:grid-cols-3">
                     <div className="form-col-deets">
                       <div className="flex flex-col gap-1">
-                        <label className="form-h2 text-p-dviolet">
-                          Dorm Type
-                        </label>
+                        <label className="form-h2">Dorm Type</label>
                         <div className="h-10 w-full items-center justify-items-stretch rounded-md bg-white">
                           <select
                             className="form-dropdown"
@@ -291,9 +308,7 @@ export default function AddAccommodation() {
                       </div>
                       <div className="flex flex-col gap-1">
                         <div>
-                          <label className="form-h2 text-p-dviolet">
-                            Kitchen
-                          </label>
+                          <label className="form-h2 ">Kitchen</label>
                           <select
                             className="form-dropdown"
                             onChange={(e) => {
@@ -340,7 +355,7 @@ export default function AddAccommodation() {
                   </div>
                 </div>
                 <div className="px-3 py-5">
-                  <h2 className="form-h2 text-p-dviolet">Custom Tags</h2>
+                  <h2 className="form-h2 ">Custom Tags</h2>
                   <div className="flex flex-col gap-1">
                     <label>
                       Separate custom tags with commas (,). I.e: laundry,
@@ -415,7 +430,7 @@ export default function AddAccommodation() {
                 </div>
                 <div className="flex flex-col gap-2">
                   <div>
-                    <button type="submit" className="formConfirm bg-p-dviolet">
+                    <button type="submit" className="formConfirm">
                       Submit
                     </button>
                   </div>
@@ -469,5 +484,13 @@ function typeCheckbox(
       />
       <label htmlFor={value}>{value}</label>
     </div>
+  ));
+}
+
+function barangayDropdown(barangays: string[]) {
+  return barangays.map((value: string, index) => (
+    <option value={value} key={index}>
+      {value}
+    </option>
   ));
 }

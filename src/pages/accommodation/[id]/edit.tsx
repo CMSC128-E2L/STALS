@@ -46,7 +46,13 @@ export default function EditAccommodation() {
   const editAccommodation = api.accommodation.edit.useMutation();
 
   if (notAuthenticated(userSession.status) || accommLoading) {
-    return <LoadingSpinner />;
+    return (
+      <div className="min-h-[80vh]">
+        <img className="site-background" src={bgpic.src} alt="background" />
+        <NavBar />
+        <LoadingSpinner />
+      </div>
+    );
   }
 
   if (accommData === null) {
@@ -65,9 +71,9 @@ export default function EditAccommodation() {
         alt="background"
       />
       <NavBar />
-      <div className="block overflow-scroll px-2 py-2 sm:px-0">
+      <div className="block px-2 py-2 sm:px-0">
         <div className="inset-x-0 flex items-center justify-center">
-          <div className="shadow-md/50 my-14 flex w-full flex-col items-center justify-center gap-1 rounded-md bg-white p-10 sm:w-[60%]">
+          <div className="my-14 flex flex-col items-center justify-center gap-1 rounded-md p-10 sm:w-[50%]">
             <div>
               <h1 className="form-h1">Edit Accommodation</h1>
             </div>

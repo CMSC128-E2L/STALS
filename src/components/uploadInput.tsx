@@ -9,7 +9,19 @@ const UploadImageHeader: React.FC<{ accomId: string; className?: string }> = ({
       type="file"
       accept="image/png, image/jpeg"
       className={className}
-      onChange={(e) => void uploadImageHeader(e, accomId)}
+      onChange={(e) => {
+        void toast.promise(
+          uploadImageHeader(e, accomId),
+          {
+            loading: "Uploading...",
+            success: "Image uploaded!",
+            error: "Error Encountered",
+          },
+          {
+            position: "bottom-right",
+          },
+        );
+      }}
     />
   );
 };
@@ -20,12 +32,41 @@ export const UploadImageMultiple: React.FC<{ accomId: string }> = ({
   accomId,
 }) => {
   return (
-    <input
-      type="file"
-      accept="image/png, image/jpeg"
-      onChange={(e) => void uploadMultiplePhotos(e, accomId)}
-      multiple
-    />
+    <>
+      <label
+        className="mb-2 block text-sm font-medium text-gray-900 dark:text-white"
+        htmlFor="file_single"
+      >
+        Upload file
+      </label>
+      <input
+        // className="block w-full cursor-pointer rounded-lg border border-gray-300 bg-gray-50 text-sm text-gray-900 focus:outline-none dark:border-gray-600 dark:bg-gray-700 dark:text-gray-400 dark:placeholder-gray-400"
+        aria-describedby="file_single_help"
+        id="file_single"
+        type="file"
+        accept="image/png, image/jpeg"
+        onChange={(e) => {
+          void toast.promise(
+            uploadMultiplePhotos(e, accomId),
+            {
+              loading: "Uploading...",
+              success: "Image uploaded!",
+              error: "Error Encountered",
+            },
+            {
+              position: "bottom-right",
+            },
+          );
+        }}
+        multiple
+      />
+      <p
+        className="mt-1 text-sm text-gray-500 dark:text-gray-300"
+        id="file_single_help"
+      >
+        PNG, JPG.
+      </p>
+    </>
   );
 };
 
@@ -61,11 +102,6 @@ const uploadImageHeader = async (
   const fileType = file.type;
   const filename = accomId + "/" + accomId;
   await uploadSinglePhoto(file, filename, fileType);
-
-  toast.success("Images uploaded!", {
-    position: "bottom-right",
-    duration: 1000,
-  });
 };
 
 const uploadMultiplePhotos = async (
@@ -85,9 +121,4 @@ const uploadMultiplePhotos = async (
     const filename = accomId + "/" + file.name;
     await uploadSinglePhoto(file, filename, fileType);
   }
-
-  toast.success("Images uploaded!", {
-    position: "bottom-right",
-    duration: 1000,
-  });
 };

@@ -6,7 +6,7 @@ import Link from "next/link";
 import Edit from "./edit";
 import Profile1 from "~/components/profile";
 import FaveAccoms from "~/components/FaveAccoms";
-import bgpic from "public/images/signup_bg.png";
+import bgpic from "public/images/background_user.png";
 import { useSession } from "next-auth/react";
 import { api } from "~/utils/api";
 import { UserType } from "@prisma/client";
@@ -33,7 +33,7 @@ export default function Profile() {
                 My Favorites
               </h1>
             </div>
-            <div className="flex items-center text-center drop-shadow-md">
+            <div className="flex items-center drop-shadow-md">
               <div className="flex flex-wrap">
                 <FaveAccoms />
               </div>
@@ -48,10 +48,10 @@ export default function Profile() {
     return (
       <>
         <section className="w-full">
-          <div className="w-full rounded-3xl p-10 shadow-lg">
+          <div className="mb-4 w-full rounded-3xl bg-white p-10 shadow-lg">
             <MyAccom showArchived={false} />
           </div>
-          <div className="w-full rounded-3xl p-10 shadow-lg">
+          <div className="w-full rounded-3xl bg-white p-10 shadow-lg">
             <MyAccom showArchived={true} />
           </div>
         </section>
@@ -64,7 +64,7 @@ export default function Profile() {
       <>
         {/* admin settings and notification */}
         <section className="w-full">
-          <div className="rounded-3xl p-10 shadow-lg">
+          <div className="mb-4 rounded-3xl bg-white p-10 shadow-lg">
             <h1 className="text-center text-xl font-bold text-p-dbviolet">
               Admin Settings
             </h1>
@@ -75,7 +75,7 @@ export default function Profile() {
               <Link href="accommodation/management">Manage Accommodations</Link>
             </p>
           </div>
-          <div className="rounded-3xl p-10 shadow-lg ">
+          <div className="rounded-3xl bg-white p-10 shadow-lg">
             <h1 className="mb-10 text-center text-xl font-bold text-p-dbviolet  ">
               Notifications
             </h1>
