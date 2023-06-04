@@ -1,9 +1,10 @@
 import toast from "react-hot-toast";
 
-const UploadImageHeader: React.FC<{ accomId: string; className?: string }> = ({
-  accomId,
-  className,
-}) => {
+const UploadImageHeader: React.FC<{
+  accomId: string;
+  className?: string;
+  postUploadFunction?: (num: number) => void;
+}> = ({ accomId, className, postUploadFunction }) => {
   return (
     <input
       type="file"
@@ -11,7 +12,7 @@ const UploadImageHeader: React.FC<{ accomId: string; className?: string }> = ({
       className={className}
       onChange={(e) => {
         void toast.promise(
-          uploadImageHeader(e, accomId),
+          uploadImageHeader(e, accomId, postUploadFunction),
           {
             loading: "Uploading...",
             success: "Image uploaded!",
@@ -28,9 +29,10 @@ const UploadImageHeader: React.FC<{ accomId: string; className?: string }> = ({
 
 export default UploadImageHeader;
 
-export const UploadImageMultiple: React.FC<{ accomId: string }> = ({
-  accomId,
-}) => {
+export const UploadImageMultiple: React.FC<{
+  accomId: string;
+  postUploadFunction?: (num: number) => void;
+}> = ({ accomId, postUploadFunction }) => {
   return (
     <>
       <label
@@ -47,7 +49,7 @@ export const UploadImageMultiple: React.FC<{ accomId: string }> = ({
         accept="image/png, image/jpeg"
         onChange={(e) => {
           void toast.promise(
-            uploadMultiplePhotos(e, accomId),
+            uploadMultiplePhotos(e, accomId, postUploadFunction),
             {
               loading: "Uploading...",
               success: "Image uploaded!",
@@ -92,6 +94,7 @@ const uploadSinglePhoto = async (
 const uploadImageHeader = async (
   e: React.ChangeEvent<HTMLInputElement>,
   accomId: string,
+  postUploadFunction?: (num: number) => void,
 ) => {
   if (e.target.files === null) {
     return;
@@ -102,11 +105,15 @@ const uploadImageHeader = async (
   const fileType = file.type;
   const filename = accomId + "/" + accomId;
   await uploadSinglePhoto(file, filename, fileType);
+  if (postUploadFunction) {
+    postUploadFunction(1);
+  }
 };
 
 const uploadMultiplePhotos = async (
   e: React.ChangeEvent<HTMLInputElement>,
   accomId: string,
+  postUploadFunction?: (num: number) => void,
 ) => {
   if (e.target.files === null) {
     return;
@@ -120,5 +127,9 @@ const uploadMultiplePhotos = async (
     const fileType = file.type;
     const filename = accomId + "/" + file.name;
     await uploadSinglePhoto(file, filename, fileType);
+  }
+
+  if (postUploadFunction) {
+    postUploadFunction(1);
   }
 };
