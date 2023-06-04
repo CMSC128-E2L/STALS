@@ -9,7 +9,19 @@ const UploadImageHeader: React.FC<{ accomId: string; className?: string }> = ({
       type="file"
       accept="image/png, image/jpeg"
       className={className}
-      onChange={(e) => void uploadImageHeader(e, accomId)}
+      onChange={(e) => {
+        void toast.promise(
+          uploadImageHeader(e, accomId),
+          {
+            loading: "Uploading...",
+            success: "Image uploaded!",
+            error: "Error Encountered",
+          },
+          {
+            position: "bottom-right",
+          },
+        );
+      }}
     />
   );
 };
@@ -23,7 +35,19 @@ export const UploadImageMultiple: React.FC<{ accomId: string }> = ({
     <input
       type="file"
       accept="image/png, image/jpeg"
-      onChange={(e) => void uploadMultiplePhotos(e, accomId)}
+      onChange={(e) => {
+        void toast.promise(
+          uploadMultiplePhotos(e, accomId),
+          {
+            loading: "Uploading...",
+            success: "Image uploaded!",
+            error: "Error Encountered",
+          },
+          {
+            position: "bottom-right",
+          },
+        );
+      }}
       multiple
     />
   );
@@ -61,11 +85,6 @@ const uploadImageHeader = async (
   const fileType = file.type;
   const filename = accomId + "/" + accomId;
   await uploadSinglePhoto(file, filename, fileType);
-
-  toast.success("Images uploaded!", {
-    position: "bottom-right",
-    duration: 1000,
-  });
 };
 
 const uploadMultiplePhotos = async (
@@ -85,9 +104,4 @@ const uploadMultiplePhotos = async (
     const filename = accomId + "/" + file.name;
     await uploadSinglePhoto(file, filename, fileType);
   }
-
-  toast.success("Images uploaded!", {
-    position: "bottom-right",
-    duration: 1000,
-  });
 };
