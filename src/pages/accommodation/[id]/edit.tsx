@@ -5,7 +5,7 @@ import { accommodationEditSchema } from "~/utils/apitypes";
 import { UseFormRegister, useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { type RouterInputs, api } from "~/utils/api";
-import bgpic from "public/images/background_addaccom.png";
+import bgpic from "public/images/background_addedit_accom.png";
 import toast from "react-hot-toast";
 import Link from "next/link";
 import { useSession } from "next-auth/react";
