@@ -656,7 +656,7 @@ export default function Accommodation() {
 
       {/* BODY */}
       <div className="mt-10 flex min-h-[80vh] px-0 md:px-24 2xl:px-52">
-        <div className="grid w-full min-w-full grid-cols-1 gap-x-4 sm:grid-cols-3">
+        <div className="grid h-fit w-full min-w-full grid-cols-1 gap-x-4 sm:grid-cols-3">
           <div className="w-full">
             <Gallery />
           </div>
