@@ -321,28 +321,52 @@ export default function Accommodation() {
                 </div>
               )}
               {!isGuest && (
-                <label className="cursor-pointer">
-                  <button
-                    className="accPButton sr-only mx-3 mb-2 self-end px-3 text-lg"
-                    onClick={() => {
-                      setpdfdownload(true);
-                    }}
-                  />
-                  <svg
-                    xmlns="http://www.w3.org/2000/svg"
-                    fill="none"
-                    viewBox="0 0 24 24"
-                    strokeWidth="1.5"
-                    stroke="currentColor"
-                    className="h-8 w-8"
-                  >
-                    <path
-                      strokeLinecap="round"
-                      strokeLinejoin="round"
-                      d="M3 16.5v2.25A2.25 2.25 0 005.25 21h13.5A2.25 2.25 0 0021 18.75V16.5M16.5 12L12 16.5m0 0L7.5 12m4.5 4.5V3"
+                <>
+                  <label className="cursor-pointer">
+                    <button
+                      className="accPButton sr-only mx-3 mb-2 self-end px-3 text-lg"
+                      onClick={() => {
+                        setpdfdownload(true);
+                      }}
                     />
-                  </svg>
-                </label>
+                    <svg
+                      xmlns="http://www.w3.org/2000/svg"
+                      fill="none"
+                      viewBox="0 0 24 24"
+                      strokeWidth="1.5"
+                      stroke="currentColor"
+                      className="h-8 w-8"
+                    >
+                      <path
+                        strokeLinecap="round"
+                        strokeLinejoin="round"
+                        d="M3 16.5v2.25A2.25 2.25 0 005.25 21h13.5A2.25 2.25 0 0021 18.75V16.5M16.5 12L12 16.5m0 0L7.5 12m4.5 4.5V3"
+                      />
+                    </svg>
+                  </label>
+                  <label className="cursor-pointer">
+                    <button
+                      data-modal-target="popup-modal"
+                      data-modal-toggle="popup-modal"
+                      className="accPButton sr-only mx-3 mb-2 self-end px-3 text-lg"
+                    />
+
+                    <svg
+                      xmlns="http://www.w3.org/2000/svg"
+                      fill="none"
+                      viewBox="0 0 24 24"
+                      stroke-width="1.5"
+                      stroke="currentColor"
+                      className="h-8 w-8"
+                    >
+                      <path
+                        stroke-linecap="round"
+                        stroke-linejoin="round"
+                        d="M20.25 7.5l-.625 10.632a2.25 2.25 0 01-2.247 2.118H6.622a2.25 2.25 0 01-2.247-2.118L3.75 7.5m6 4.125l2.25 2.25m0 0l2.25 2.25M12 13.875l2.25-2.25M12 13.875l-2.25 2.25M3.375 7.5h17.25c.621 0 1.125-.504 1.125-1.125v-1.5c0-.621-.504-1.125-1.125-1.125H3.375c-.621 0-1.125.504-1.125 1.125v1.5c0 .621.504 1.125 1.125 1.125z"
+                      />
+                    </svg>
+                  </label>
+                </>
               )}
             </div>
           </div>
@@ -601,11 +625,11 @@ export default function Accommodation() {
         </div>
         {/*Report button*/}
         {userSession !== null && (
-          <div className="fixed bottom-2 left-0 m-3">
+          <div className="fixed bottom-1 left-0 m-3 mb-1">
             {" "}
             {/*The report button will stick to the bottom left of the screen*/}
             <button
-              className="flex flex-row space-x-10"
+              className="flex flex-row items-center gap-1 text-xs text-p-lviolet"
               onClick={() => {
                 reportAccomm.mutate({
                   reported_id: id,
@@ -622,14 +646,14 @@ export default function Accommodation() {
                 );
               }}
             >
-              Report Accommodation
+              <p>Report Accommodation</p>
               <svg
                 xmlns="http://www.w3.org/2000/svg"
                 fill="none"
                 viewBox="0 0 24 24"
                 strokeWidth="1.5"
-                stroke="currentColor"
-                className="h-6 w-6"
+                stroke="#d6d1ff"
+                className="h-4 w-4"
               >
                 <path
                   strokeLinecap="round"
