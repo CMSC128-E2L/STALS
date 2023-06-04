@@ -5,7 +5,7 @@ import React from "react";
 
 export default function FooterComponent() {
   return (
-    <footer className="mt-8 bg-p-vdviolet">
+    <footer className="bg-p-vdviolet">
       <div className="mx-auto w-full max-w-screen-xl p-4 py-6 lg:py-8">
         <div className="md:flex md:justify-between">
           <div className="mb-6 md:mb-0">
