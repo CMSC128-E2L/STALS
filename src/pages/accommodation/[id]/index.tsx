@@ -123,7 +123,7 @@ export default function Accommodation() {
       setpdfdownload(false);
 
       const headcolor = {
-        fillColor: "#420eb3",
+        fillColor: "#292076",
       };
 
       const roominfo: (string | number)[][] = [];
@@ -147,25 +147,24 @@ export default function Accommodation() {
           ["Name", accommData?.name ?? ""],
           [
             "Address",
-            `${accommData?.street_number ?? ""}${
+            `${accommData?.street_number ?? ""} ${
               accommData?.subdivision ?? ""
-            }${accommData?.barangay ? `Brgy. ${accommData?.barangay}` : ""}`,
+            } ${accommData?.barangay ? ` Brgy. ${accommData?.barangay}` : ""}`,
           ],
-          // `${accommData?.street_number ? `${accommData?.street_number} St. `:""}${accommData?.subdivision ? `${accommData?.subdivision} Subd. `:""}${accommData?.subdivision ?? ""}${accommData?.barangay ? `Brgy. ${accommData?.barangay}`:""}`],
           [
             "Type",
             (accommData?.type ||
-              stalsDBstringArray(accommData?.typeArray).toString()) ??
+              stalsDBstringArray(accommData?.typeArray).join(", ")) ??
               "",
           ],
           ["Price", accommData?.price ?? ""],
           ["Contract Length", accommData?.contract_length ?? "None specified"],
-          ["Tags", stalsDBstringArray(accommData?.tagArray).toString()],
+          ["Tags", stalsDBstringArray(accommData?.tagArray).join(", ")],
         ],
         headStyles: headcolor,
         didDrawPage: function (data) {
           // Page Header
-          pdf.setFillColor(41, 32, 118);
+          pdf.setFillColor(32, 4, 68);
           pdf.rect(10, 10, pdf.internal.pageSize.width - 20, 15, "F");
           pdf.setFont("helvetica", "bold");
           pdf.setFontSize(18);
@@ -198,7 +197,6 @@ export default function Accommodation() {
             }`,
           ],
           ["Contact Number", accommData?.landlordUser.contact_number ?? ""],
-          ["Email", accommData?.landlordUser.email_address ?? ""],
         ],
         headStyles: headcolor,
         margin: { top: 30 },
