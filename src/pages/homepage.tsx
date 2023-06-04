@@ -582,10 +582,6 @@ export default function HomePage() {
                 {/* Include */}
                 <div className="mb-4">
                   <h2 className="filter-header">Include</h2>
-                  {/* <input
-                    className="filter-search"
-                    placeholder="Type for suggestions..."
-                  ></input> */}
                   <Tags setUserInputs={setUserInputs} methods={methods} />
                 </div>
                 {/* Button will not show up for guests */}
@@ -675,10 +671,13 @@ const Tags: React.FC<{
           onChange={handleChange}
           onKeyDown={(evt) => {
             if (evt.key == "Enter") {
+              const searchString = `${value
+                .substring(0, 1)
+                .toUpperCase()}${value.substring(1).toLowerCase()}`;
               // eslint-disable-next-line
-              setUserInputs((prevInputs: any) => ({
+              setUserInputs((prevInputs: Object) => ({
                 ...prevInputs,
-                tagArray: [value],
+                tagArray: [searchString],
               }));
             }
           }}
