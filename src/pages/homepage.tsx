@@ -184,7 +184,7 @@ export default function HomePage() {
     }
 
     const headcolor = {
-      fillColor: "#420eb3",
+      fillColor: "#292076",
     };
 
     autoTable(pdf, {
@@ -197,7 +197,7 @@ export default function HomePage() {
       headStyles: headcolor,
       didDrawPage: function (data) {
         // Page Header
-        pdf.setFillColor(41, 32, 118);
+        pdf.setFillColor(32, 4, 68);
         pdf.rect(10, 10, pdf.internal.pageSize.width - 20, 15, "F");
         pdf.setFont("helvetica", "bold");
         pdf.setFontSize(18);

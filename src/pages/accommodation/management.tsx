@@ -31,15 +31,10 @@ export default function Delete_Archive_Accomm() {
   }
   return (
     <div className="min-h-[80vh]">
-      <img
-        className="-z-10 h-full w-screen bg-cover bg-fixed bg-center"
-        src={bg.src}
-        alt="background"
-      />
+      <img className="site-background" src={bg.src} alt="background" />
+      <NavBar />
 
-      <main className="absolute inset-x-0 top-0 z-30">
-        <NavBar />
-        <br />
+      <main className="z-30 py-5">
         <p className="mb-6 text-center text-3xl font-extrabold text-white drop-shadow-sm">
           My Accommodations
         </p>

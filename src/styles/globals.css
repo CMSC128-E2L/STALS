@@ -8,7 +8,7 @@
   }
 
   .site-background {
-    @apply fixed -z-10 h-full w-screen bg-cover bg-fixed bg-center;
+    @apply fixed -z-50 h-screen w-screen object-cover;
   }
 
   .add-acc-input-text-field {
