@@ -43,6 +43,7 @@ export const SearchItem: React.FC<{
                 {tags &&
                   tags
                     .filter((tag) => tag !== "")
+                    .splice(0, 5)
                     .map((tag, index) => (
                       <span
                         key={index}
@@ -51,6 +52,11 @@ export const SearchItem: React.FC<{
                         {tag}
                       </span>
                     ))}
+                {tags && tags.length > 5 && (
+                  <span className="mb-2 mr-2 inline-block rounded-full bg-p-lviolet px-3 py-1 text-center text-sm font-semibold text-gray-700 shadow shadow-p-vdviolet/30">
+                    {tags.length - 5} more..
+                  </span>
+                )}
               </span>
             </div>
           </div>
