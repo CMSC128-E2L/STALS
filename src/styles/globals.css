@@ -35,6 +35,10 @@
     @apply grid grid-flow-row auto-rows-max gap-2;
   }
 
+  .select selected {
+    @apply bg-pink-100;
+  }
+
   .form-dropdown {
     @apply w-full justify-self-end rounded-md bg-white p-2 shadow shadow-gray-400;
   }
