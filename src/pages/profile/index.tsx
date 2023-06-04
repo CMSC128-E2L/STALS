@@ -100,7 +100,8 @@ export default function Profile() {
                         <div className="ml-4">
                           <p className="mb-1 flex text-sm font-semibold">
                             {report.user.first_name} {report.user.middle_name}{" "}
-                            {report.user.last_name} {report.user.Suffix}
+                            {report.user.last_name} {report.user.Suffix}{" "}
+                            reported {report.reported_name}
                           </p>
                           <p className="flex text-xs text-gray-400">
                             {report.type_reported}
@@ -108,9 +109,9 @@ export default function Profile() {
                         </div>
                       </div>
                       <div className="mb-2 ml-14 flex">
-                        <p className="flex text-base">
+                        {/* <p className="flex text-base">
                           reported {report.reported_name}
-                        </p>
+                        </p> */}
                       </div>
                     </div>
                   );

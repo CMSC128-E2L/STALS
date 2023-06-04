@@ -124,7 +124,16 @@ const ReviewItem: React.FC<{
               onClick={() => {
                 reportAccomm.mutate({
                   reported_id: id,
-                  reported_name: date?.concat(" at ", time ?? "") ?? "",
+                  reported_name:
+                    review !== ""
+                      ? '"'.concat(
+                          "",
+                          review!.concat('" on ', date!.concat(" at ", time!)),
+                        )
+                      : "a review on ".concat(
+                          "",
+                          date!.concat(" at ", time ?? ""),
+                        ),
                   report: "",
                   type_reported: "REVIEW",
                 });
