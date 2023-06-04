@@ -179,6 +179,14 @@ const Accomm_Segment: React.FC<{
           </div>
           {/* ARCHIVE, EDIT, & DELETE  BUTTONS */}
           <div className="flex justify-end space-x-2">
+            {/* Images */}
+            <Link
+                className="rounded-md bg-p-dbviolet p-2 text-xl font-bold text-white shadow hover:bg-p-bviolet"
+                href={`${id}/images`}
+              >
+                Images
+              </Link>
+
             {/* EDIT */}
             <Link
               className="rounded-md bg-p-dbviolet p-2 text-xl font-bold text-white shadow hover:bg-p-bviolet"
