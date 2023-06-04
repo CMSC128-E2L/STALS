@@ -31,6 +31,23 @@ export default function AddAccommodation() {
     },
   });
 
+  const barangays = [
+    "Anos",
+    "Bagong Silang",
+    "Bambang",
+    " Malake",
+    "Baybayin",
+    "Bayog",
+    "Lalakay",
+    "Maahas",
+    "Malinta",
+    "Mayondon",
+    "Putho-Tuntungin",
+    "San Antonio",
+    "Tadlac",
+    "Timugan",
+  ];
+
   const createAccommodation = api.accommodation.add.useMutation();
 
   const [tagGenders, settagGenders] = useState("Coed");
@@ -152,8 +169,11 @@ export default function AddAccommodation() {
                       {...register("subdivision")}
                       required
                     ></input>
+                    <select placeholder="barangay" className="form-dropdown">
+                      {barangayDropdown(barangays)}
+                    </select>
                     <input
-                      className="add-acc-input-text-field"
+                      className=" add-acc-input-text-field hidden"
                       placeholder="Barangay"
                       {...register("barangay")}
                       required
@@ -479,5 +499,13 @@ function typeCheckbox(
       />
       <label htmlFor={value}>{value}</label>
     </div>
+  ));
+}
+
+function barangayDropdown(barangays: string[]) {
+  return barangays.map((value: string, index) => (
+    <option value={value} key={index}>
+      {value}
+    </option>
   ));
 }

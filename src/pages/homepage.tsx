@@ -384,11 +384,7 @@ export default function HomePage() {
 
   return (
     <div>
-      <img
-        className="fixed -z-10 h-full w-screen bg-cover bg-fixed bg-center"
-        src={bgpic.src}
-        alt="background"
-      />
+      <img className="site-background" src={bgpic.src} alt="background" />
       <form
         // eslint-disable-next-line @typescript-eslint/no-misused-promises
         onSubmit={handleSubmit(

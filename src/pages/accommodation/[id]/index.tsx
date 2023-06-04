@@ -216,7 +216,12 @@ export default function Accommodation() {
               </div>
             ) : (
               <div className="max-w relative col-span-2 rounded-md text-center">
-                <Carousel imageList={[placeholder.src]} />
+                <div className="relative w-full overflow-hidden">
+                  <img
+                    src={placeholder.src}
+                    className="block h-[350px] w-full object-cover"
+                  />
+                </div>
               </div>
             )
           ) : (
