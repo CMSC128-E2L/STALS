@@ -569,13 +569,14 @@ export default function HomePage() {
                 )}
 
                 {/* Include */}
-                {/* <div className="mb-4">
+                <div className="mb-4">
                   <h2 className="filter-header">Include</h2>
-                  <input
+                  {/* <input
                     className="filter-search"
                     placeholder="Type for suggestions..."
-                  ></input>
-                </div> */}
+                  ></input> */}
+                  <Tags setUserInputs={setUserInputs} methods={methods} />
+                </div>
                 {/* Button will not show up for guests */}
                 <div className="mt-3">
                   <DownloadPDFButton />
@@ -643,6 +644,41 @@ export default function HomePage() {
 
 // Sidebar Functions
 // eslint-disable-next-line
+
+const Tags: React.FC<{
+  setUserInputs: any;
+  methods: UseInfiniteQueryResult<any, any>;
+}> = ({ setUserInputs, methods }) => {
+  const [value, setValue] = useState("");
+
+  function handleChange(event: React.ChangeEvent<HTMLInputElement>) {
+    setValue(event.target.value);
+  }
+
+  return (
+    <div className="relative">
+      <div>
+        <input
+          type="text"
+          value={value}
+          onChange={handleChange}
+          onKeyDown={(evt) => {
+            if (evt.key == "Enter") {
+              // eslint-disable-next-line
+              setUserInputs((prevInputs: any) => ({
+                ...prevInputs,
+                tagArray: [value],
+              }));
+            }
+          }}
+          className="filter-search text-p-dviolet"
+          placeholder="Enter tag (e.g. cooking)"
+        />
+      </div>
+    </div>
+  );
+};
+
 const Location: React.FC<{
   setUserInputs: any;
   methods: UseInfiniteQueryResult<any, any>;
