@@ -109,7 +109,7 @@
   }
 
   .button-style {
-    @apply cursor-pointer rounded-full bg-p-dbviolet py-1 text-center text-xl font-bold text-white;
+    @apply cursor-pointer rounded-full bg-p-dbviolet py-1 text-center text-xl font-bold text-white hover:bg-p-bviolet/80;
   }
 }
 

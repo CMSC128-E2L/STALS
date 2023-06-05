@@ -120,7 +120,7 @@ export default function HomePage() {
         >
           <svg
             xmlns="http://www.w3.org/2000/svg"
-            className="icon icon-tabler icon-tabler-download ml-3 mr-1"
+            className="icon icon-tabler icon-tabler-download ml-4 mr-1"
             width="20"
             height="18"
             viewBox="0 0 24 24"
