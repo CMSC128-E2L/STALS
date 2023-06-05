@@ -7,7 +7,7 @@ export const MyAccom: React.FC<{ showArchived: boolean }> = ({
     <div className="flex w-full flex-col">
       <div className="mb-4 flex flex-row items-center">
         <h1 className="mr-4 text-xl font-bold">
-          My {showArchived ? "Archived" : "Accomodations"}
+          My {showArchived ? "Archives" : "Accomodations"}
         </h1>
       </div>
       <div className="flex flex-wrap">
