@@ -60,7 +60,7 @@ const Accomm_Segment: React.FC<{
     <>
       <div className="w-[1000px] justify-self-center p-4">
         <div className="mx-auto rounded-xl border-2 bg-white p-2 shadow-md">
-          <Link href={`/accommodation/${id}`} className="">
+          <Link href={`/accommodation/${id}`}>
             <div className="mx-2 mt-2 flex flex-row space-x-2 ">
               <div className="aspect-square w-[30%]">
                 <img
@@ -98,7 +98,7 @@ const Accomm_Segment: React.FC<{
                   </div>
                 </div>
 
-                <div className="flex flex-col gap-1 text-xl">
+                <div className="flex flex-col gap-1 text-xl ">
                   <div className="flex flex-row">
                     <label className="w-[30%] font-bold">Price</label>
                     <p className="">₱{price}</p>
@@ -154,7 +154,7 @@ const Accomm_Segment: React.FC<{
                 accommData?.landlord === userSession?.user?.id && (
                   <Link
                     href={`/accommodation/${id}/room/add`}
-                    className="flex items-stretch"
+                    className="flex items-stretch "
                   >
                     <button className="flex flex-col items-center justify-center rounded-lg border-2 border-dashed border-p-black/50 px-8">
                       <svg
@@ -180,25 +180,19 @@ const Accomm_Segment: React.FC<{
           {/* ARCHIVE, EDIT, & DELETE  BUTTONS */}
           <div className="flex justify-end space-x-2">
             {/* Images */}
-            <Link
-              className="rounded-md bg-p-dbviolet p-2 text-xl font-bold text-white shadow hover:bg-p-bviolet"
-              href={`${id}/images`}
-            >
+            <Link className="management-buttons" href={`${id}/images`}>
               Images
             </Link>
 
             {/* EDIT */}
-            <Link
-              className="rounded-md bg-p-dbviolet p-2 text-xl font-bold text-white shadow hover:bg-p-bviolet"
-              href={`${id}/edit`}
-            >
+            <Link className="management-buttons" href={`${id}/edit`}>
               Edit
             </Link>
 
             {/* RESTORE */}
             {is_archived ? (
               <button
-                className="rounded-md bg-p-dbviolet p-2 text-xl font-bold text-white shadow hover:bg-p-bviolet"
+                className="management-buttons"
                 onClick={() => {
                   archiveAccomm.mutate({
                     id: id,
@@ -210,7 +204,7 @@ const Accomm_Segment: React.FC<{
               </button>
             ) : (
               <button
-                className="rounded-md bg-p-dbviolet p-2 text-xl font-bold text-white shadow hover:bg-p-bviolet"
+                className="management-buttons"
                 onClick={() => {
                   archiveAccomm.mutate({
                     id: id,
@@ -224,7 +218,7 @@ const Accomm_Segment: React.FC<{
 
             {/* DELETE */}
             <button
-              className="rounded-md bg-p-dbviolet p-2 text-xl font-bold text-white shadow"
+              className="management-buttons"
               // onClick={() => {
               //   deleteAccomm.mutate({
               //     id: id,

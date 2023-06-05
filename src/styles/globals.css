@@ -109,7 +109,7 @@
   }
 
   .button-style {
-    @apply cursor-pointer rounded-full bg-p-dbviolet py-1 text-center text-xl font-bold text-white;
+    @apply cursor-pointer rounded-full bg-p-dbviolet py-1 text-center text-xl font-bold text-white hover:bg-p-bviolet/80;
   }
 }
 
@@ -131,6 +131,10 @@
 
   .scrollbar::-webkit-scrollbar-thumb:hover {
     background: #420eb3;
+  }
+
+  .management-buttons {
+    @apply rounded-full bg-p-dbviolet px-5 py-2 text-lg font-bold text-white shadow hover:bg-p-bviolet/80;
   }
 }
 
