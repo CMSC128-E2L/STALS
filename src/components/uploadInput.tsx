@@ -16,7 +16,7 @@ const UploadImageHeader: React.FC<{
           {
             loading: "Uploading...",
             success: "Image uploaded!",
-            error: "Could not upload Image. Internet is slow",
+            error: "Please check your connection and try again",
           },
           {
             position: "bottom-right",
@@ -53,7 +53,7 @@ export const UploadImageMultiple: React.FC<{
             {
               loading: "Uploading...",
               success: "Image uploaded!",
-              error: "Could not upload Image(s). Internet is slow",
+              error: "Please check your connection and try again",
             },
             {
               position: "bottom-right",
