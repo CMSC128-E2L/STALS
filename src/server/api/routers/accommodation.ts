@@ -266,7 +266,7 @@ export const accommodationRouter = createTRPCRouter({
         },
         orderBy: [
           input.sortByName !== null
-            ? { price: input.sortByName ? "asc" : "desc" }
+            ? { name: input.sortByName ? "asc" : "desc" }
             : {},
           input.sortByRating !== null
             ? { average_rating: input.sortByRating ? "asc" : "desc" }

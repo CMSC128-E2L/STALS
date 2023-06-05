@@ -54,8 +54,8 @@ export default function HomePage() {
     { id: "RATING-DESC", value: "RATING-DESC", label: "Rating (descending)" },
   ];
 
-  const [selectedPrice, setSelectedPrice] = useState("");
-  const [selectedSort, setSelectedSort] = useState("");
+  const [selectedPrice, setSelectedPrice] = useState("all");
+  const [selectedSort, setSelectedSort] = useState("NONE");
 
   const [showTypeDropdown, setTypeDropdown] = useState(true);
   const [showPriceDropdown, setPriceDropdown] = useState(true);
@@ -519,10 +519,7 @@ export default function HomePage() {
                             setSelectedPrice(event.target.value);
                           }}
                           className="filter-radio inline-block"
-                          checked={
-                            key === selectedPrice ||
-                            (index === 0 && selectedPrice === "")
-                          }
+                          checked={key === selectedPrice}
                         />
                         <label htmlFor={key} className="filter-text">
                           {priceRangesNew[key]?.label}
@@ -565,10 +562,7 @@ export default function HomePage() {
                           name="sort"
                           value={range.value}
                           onChange={handleSortTypeChange}
-                          checked={
-                            range.value === selectedSort ||
-                            (index === 0 && selectedPrice === "")
-                          }
+                          checked={range.value === selectedSort}
                           className="filter-radio inline-block"
                         />
                         <label htmlFor={range.id} className="filter-text">
