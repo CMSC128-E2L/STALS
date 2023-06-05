@@ -81,7 +81,7 @@ const Accomm_Segment: React.FC<{
                   </h1>
                   <p className="italic">{typeArray && typeArray.join(", ")}</p>
                   {/* Tags */}
-                  <div className="">
+                  <div className="flex flex-row">
                     <span className="mx-3 text-sm italic">
                       {tagArray &&
                         tagArray
