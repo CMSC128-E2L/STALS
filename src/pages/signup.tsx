@@ -8,6 +8,8 @@ import { userEditSchema } from "~/utils/apitypes";
 import { useEffect, useState } from "react";
 import LoadingSpinner from "~/components/loadingSpinner";
 import TermsCondition from "~/components/termsAgreement";
+import { z } from "zod";
+import NavBar from "~/components/navbar";
 
 const Signup: NextPage = () => {
   const userSession = useSession({ required: true });
@@ -35,8 +37,11 @@ const Signup: NextPage = () => {
     handleSubmit,
     setValue,
     formState: { errors },
-  } = useForm({
+  } = useForm<z.infer<typeof userEditSchema>>({
     resolver: zodResolver(userEditSchema),
+    defaultValues: {
+      type: "USER",
+    },
   });
 
   const editUser = api.user.edit.useMutation({
@@ -57,12 +62,8 @@ const Signup: NextPage = () => {
 
   return (
     <div className="">
-      <img
-        className="relative h-full w-screen bg-cover bg-fixed bg-center"
-        src={bgpic.src}
-        alt="background"
-      />
-      <div className="absolute inset-x-0 top-10 flex h-screen items-center justify-center">
+      <img className="site-background" src={bgpic.src} alt="background" />
+      <div className="top-10 flex min-h-[80vh] items-center justify-center pb-5">
         <div className="w-fit rounded-xl bg-white px-10 py-10">
           <div className="item-center flex justify-center px-2 pb-0 pt-0 drop-shadow-md">
             <h1 className="text-5xl font-extrabold text-p-dbviolet">
@@ -136,9 +137,7 @@ const Signup: NextPage = () => {
                 className="rounded-xl px-2 py-2 shadow shadow-gray-400/100"
                 required
               />
-              {errors.username?.message && (
-                <p>{errors.username?.message as string}</p>
-              )}
+              {errors.username?.message && <p>{errors.username?.message}</p>}
               <input
                 {...register("contact_number")}
                 type="tel"
@@ -149,7 +148,7 @@ const Signup: NextPage = () => {
                 required
               />
               {errors.contact_number?.message && (
-                <p>{errors.contact_number?.message as string}</p>
+                <p>{errors.contact_number?.message}</p>
               )}
 
               <div className="flex justify-center rounded-xl px-2 py-2 text-base">
