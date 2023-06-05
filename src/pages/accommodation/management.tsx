@@ -41,7 +41,7 @@ export default function Delete_Archive_Accomm() {
 
         <div className="mb-4 flex justify-center">
           <Link
-            className="rounded-md bg-p-dviolet p-4 text-xl font-bold text-white shadow hover:bg-white/20"
+            className="rounded-full bg-p-dviolet px-7 py-4 text-xl font-bold text-white shadow hover:bg-white/20"
             href={`/accommodation/add`}
           >
             Add New Accommodation
