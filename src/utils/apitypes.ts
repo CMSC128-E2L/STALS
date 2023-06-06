@@ -48,14 +48,18 @@ export const accommodationAddSchema = z.object({
   type: z.nativeEnum(AccommodationType),
   typeArray: z
     .array(z.string())
-    .nonempty({ message: "Must select at least one type" })
-    .min(1, { message: "Must select at least one type" }),
+    .nonempty({ message: "Must select at least one type" }),
   tagArray: z.array(z.string()).optional(),
 });
 
 export const accommodationEditSchema = z.object({
   id: z.string().optional(),
-  name: z.string().optional(),
+  name: z
+    .string()
+    .min(1, { message: "Must not be empty" })
+    .regex(/^\w[\w\s]*$/, {
+      message: "Accommodation Name must only contain letters and spaces",
+    }),
   address: z.string().optional(),
   location: z.string().optional(),
   contract_length: z.string().optional(),
@@ -85,7 +89,10 @@ export const accommodationEditSchema = z.object({
   //   is_archived: z.boolean(),
   //   fb_page: z.string().optional(),
   //   type: z.nativeEnum(AccommodationType),
-  typeArray: z.array(z.string()).optional(),
+  typeArray: z
+    .array(z.string())
+    .nonempty({ message: "Must select at least one type" })
+    .min(1, { message: "Must select at least one type" }),
   tagArray: z.array(z.string()).optional(),
 });
 
