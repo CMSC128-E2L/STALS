@@ -23,6 +23,7 @@ export default function AddRoom() {
     handleSubmit,
     setValue,
     formState: { errors },
+    reset: resetForm,
   } = useForm<RouterInputs["room"]["add"]>({
     resolver: zodResolver(roomAddSchema),
     defaultValues: {
@@ -34,7 +35,15 @@ export default function AddRoom() {
     setValue("accommodationId", id);
   }, [id, setValue]);
 
-  const addRoom = api.room.add.useMutation();
+  const addRoom = api.room.add.useMutation({
+    onSuccess: () => {
+      toast.success("Successfully Added Room!", {
+        position: "bottom-right",
+        duration: 3000,
+      });
+      resetForm();
+    },
+  });
 
   if (notAuthenticated(userSession.status)) {
     return <LoadingSpinner />;
@@ -63,12 +72,6 @@ export default function AddRoom() {
             onSubmit={handleSubmit(
               (d) => {
                 addRoom.mutate(d);
-                toast.success("Successfully Added Room!", {
-                  position: "bottom-right",
-                  duration: 1000,
-                });
-                router.back();
-                setTimeout(() => router.reload(), 50);
               },
               (error) => {
                 console.log(error);
@@ -84,8 +87,6 @@ export default function AddRoom() {
                 <input
                   className="add-acc-input-text-field"
                   placeholder="Price"
-                  pattern="^\d+(\.\d+)?$"
-                  type="text"
                   {...register("price", {
                     valueAsNumber: true,
                     // eslint-disable-next-line @typescript-eslint/no-unsafe-argument
@@ -98,8 +99,6 @@ export default function AddRoom() {
                 <input
                   className="add-acc-input-text-field"
                   placeholder="Number of Beds"
-                  pattern="[0-9]+"
-                  type="number"
                   {...register("num_of_beds", { valueAsNumber: true })}
                   required
                 ></input>

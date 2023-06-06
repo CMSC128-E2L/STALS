@@ -1,18 +1,18 @@
 import NavBar from "~/components/navbar";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { type RouterInputs, api } from "~/utils/api";
+import { api } from "~/utils/api";
 import { roomEditSchema } from "~/utils/apitypes";
 import { useRouter } from "next/router";
 import { dynamicRouteID, notAuthenticated } from "~/utils/helpers";
 import { useEffect } from "react";
-import Link from "next/link";
 import bgpic from "public/images/addaccom_bg.png";
 import toast from "react-hot-toast";
 import { useSession } from "next-auth/react";
 import LoadingSpinner from "~/components/loadingSpinner";
 import Error404 from "~/pages/404";
 import Error from "~/pages/_error";
+import { type z } from "zod";
 
 export default function EditRoom() {
   const userSession = useSession({ required: true });
@@ -23,10 +23,10 @@ export default function EditRoom() {
     handleSubmit,
     setValue,
     formState: { errors },
-  } = useForm<RouterInputs["room"]["edit"]>({
+  } = useForm<z.infer<typeof roomEditSchema>>({
     resolver: zodResolver(roomEditSchema),
     defaultValues: {
-      id: "",
+      id: id,
     },
   });
 
@@ -34,7 +34,14 @@ export default function EditRoom() {
     setValue("id", id);
   }, [id, setValue]);
 
-  const editRoom = api.room.edit.useMutation();
+  const editRoom = api.room.edit.useMutation({
+    onSuccess: () => {
+      toast.success("Successfully Edited Room!", {
+        position: "bottom-right",
+        duration: 1000,
+      });
+    },
+  });
 
   const { data: firstData, isLoading: queryLoading } =
     api.room.getOne.useQuery(id);
@@ -73,12 +80,6 @@ export default function EditRoom() {
             onSubmit={handleSubmit(
               (d) => {
                 editRoom.mutate(d);
-                toast.success("Successfully Edited Room!", {
-                  position: "bottom-right",
-                  duration: 1000,
-                });
-                router.back();
-                setTimeout(() => router.reload(), 50);
               },
               (error) => {
                 console.log(error);
@@ -94,17 +95,12 @@ export default function EditRoom() {
                 <input
                   className="w-full rounded-xl px-2 py-2 shadow shadow-gray-400/100"
                   placeholder="Price"
-                  pattern="^\d+(\.\d+)?$"
-                  type="text"
                   title="Must be a positive float value."
                   defaultValue={firstData?.price}
-                  // eslint-disable-next-line @typescript-eslint/no-unsafe-argument
                   {...register("price", {
                     valueAsNumber: true,
-                    // eslint-disable-next-line @typescript-eslint/no-unsafe-argument
                     setValueAs: (value: string) => parseFloat(value).toFixed(2),
                   })}
-                  // eslint-disable-next-line @typescript-eslint/no-unsafe-argument
                 ></input>
               </div>
 
@@ -112,8 +108,6 @@ export default function EditRoom() {
                 <input
                   className="w-full rounded-xl px-2 py-2 shadow shadow-gray-400/100"
                   placeholder="Number of Beds"
-                  pattern="[0-9]+"
-                  type="number"
                   defaultValue={firstData?.num_of_beds}
                   {...register("num_of_beds", { valueAsNumber: true })}
                 ></input>

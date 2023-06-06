@@ -17,7 +17,8 @@ const ReviewItem: React.FC<{
   time: string | null;
   review: string | null;
   rating: number;
-}> = ({ id, user, date, time, review, rating }) => {
+  refetch: () => void;
+}> = ({ id, user, date, time, review, rating, refetch }) => {
   const { data: userSession } = useSession();
   const [showDelPrompt, setShowDelPrompt] = useState(false);
   const [editMode, setEditMode] = useState(false);
@@ -26,22 +27,21 @@ const ReviewItem: React.FC<{
   const isUserViewing = userSession?.profile.type === UserType.USER;
 
   const reportAccomm = api.report.add.useMutation();
-  const router = useRouter();
   const deleteRev = api.review.delete.useMutation({
     onSuccess: () => {
-      router.reload();
+      void refetch();
     },
   });
 
   const archiveRev = api.review.archive.useMutation({
     onSuccess: () => {
-      router.reload();
+      void refetch();
     },
   });
 
   const editRev = api.review.edit.useMutation({
     onSuccess: () => {
-      router.reload();
+      void refetch();
     },
   });
 
@@ -145,8 +145,7 @@ const ReviewItem: React.FC<{
               {editMode ? (
                 <button
                   className="flex flex-row space-x-2"
-                  // eslint-disable-next-line @typescript-eslint/no-misused-promises
-                  onClick={handleSaveClick}
+                  onClick={void handleSaveClick}
                 >
                   Save
                 </button>

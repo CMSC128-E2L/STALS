@@ -28,7 +28,6 @@ export default function AddAccommodation() {
     defaultValues: {
       tagArray: [],
       typeArray: [],
-      is_archived: false,
       barangay: "Anos",
       street_number: "",
       subdivision: "",
@@ -52,7 +51,15 @@ export default function AddAccommodation() {
     "Timugan",
   ];
 
-  const createAccommodation = api.accommodation.add.useMutation();
+  const createAccommodation = api.accommodation.add.useMutation({
+    onSuccess: () => {
+      toast.success("Successfully Added Accommodation!", {
+        position: "bottom-right",
+        duration: 3000,
+      });
+      resetFrom();
+    },
+  });
 
   const [tagGenders, settagGenders] = useState("Coed");
   const [tagKitchen, settagKitchen] = useState("Cooking Not Allowed");
@@ -102,19 +109,12 @@ export default function AddAccommodation() {
                   );
                   console.log(newAddAccomInputs);
                   createAccommodation.mutate(newAddAccomInputs);
-                  toast.success("Successfully Added Accommodation!", {
-                    position: "bottom-right",
-                    duration: 1000,
-                  });
-                  resetFrom();
-                  // router.back();
-                  // setTimeout(() => router.reload(), 50);
                 },
                 (error) => {
                   console.log(error);
                   toast.error("Cannot Add Accommodation!", {
                     position: "bottom-right",
-                    duration: 1000,
+                    duration: 2000,
                   });
                 },
               )}
@@ -137,7 +137,6 @@ export default function AddAccommodation() {
                     type="text"
                     id="name"
                     {...register("name")}
-                    required
                   />
                   {errors.name?.message && (
                     <p className="text-red-500">{errors.name.message}</p>
@@ -246,8 +245,6 @@ export default function AddAccommodation() {
                           errors.price ? "input-text-field-error" : ""
                         } `}
                         placeholder="Price"
-                        pattern="^\d+(\.\d+)?$"
-                        type="text"
                         {...register("price", {
                           valueAsNumber: true,
                           // eslint-disable-next-line @typescript-eslint/no-unsafe-argument
@@ -255,7 +252,6 @@ export default function AddAccommodation() {
                             parseFloat(value).toFixed(2),
                         })}
                         title="Must be a positive float value."
-                        // eslint-disable-next-line @typescript-eslint/no-unsafe-argument
                         required
                       ></input>
                     </div>
@@ -268,7 +264,6 @@ export default function AddAccommodation() {
                           errors.contact_number ? "input-text-field-error" : ""
                         }`}
                         placeholder="Facebook Page Link"
-                        pattern="(?:https?:\/\/)?(?:www\.)?(mbasic.facebook|m\.facebook|facebook|fb)\.(com|me)\/(?:(?:\w\.)*#!\/)?(?:pages\/)?(?:[\w\-\.]*\/)*([\w\-\.]*)"
                         type="text"
                         {...register("fb_page")}
                         title="Please enter a valid Facebook Page Link."
