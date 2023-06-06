@@ -41,7 +41,7 @@ export default function Delete_Archive_Accomm() {
 
         <div className="mb-4 flex justify-center">
           <Link
-            className="flex rounded-full bg-p-pviolet px-7 py-4 text-xl font-bold text-white shadow hover:bg-white/20"
+            className="hover:bg-p-pvioletviolet/80 flex rounded-full bg-p-bviolet px-7 py-4 text-xl font-bold text-white shadow"
             href={`/accommodation/add`}
           >
             <svg
