@@ -134,7 +134,7 @@
   }
 
   .management-buttons {
-    @apply rounded-full bg-p-dbviolet px-5 py-2 text-lg font-bold text-white shadow hover:bg-p-bviolet/80;
+    @apply flex rounded-full bg-p-dbviolet px-5 py-2 text-lg font-bold text-white shadow hover:bg-p-bviolet/80;
   }
 }
 
