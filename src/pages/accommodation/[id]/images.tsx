@@ -158,8 +158,14 @@ export default function EditAccommodation() {
                           className="absolute right-2 top-2 flex rounded-full bg-p-red px-3 py-2 text-white"
                           onClick={() => {
                             void toast.promise(
-                              deleteImage.mutateAsync({
-                                key: src.split("/").splice(-2).join("/"),
+                              new Promise((resolve, reject) => {
+                                setTimeout(() => {
+                                  resolve(
+                                    deleteImage.mutate({
+                                      key: src.split("/").splice(-2).join("/"),
+                                    }),
+                                  );
+                                }, 1);
                               }),
                               {
                                 loading: "Deleting Image...",
