@@ -147,26 +147,47 @@ export default function EditAccommodation() {
                 </article>
               </main>
             </div>
-            <div className="flex items-stretch justify-center space-x-2 space-y-2 bg-white sm:flex-wrap">
+            <div className="flex items-stretch justify-center space-x-2 space-y-2 rounded-xl bg-white sm:flex-wrap">
               {!imageLoading && filteredImages ? (
                 filteredImages.length > 0 ? (
                   filteredImages.map((src, index) => (
                     <div key={index} className="flex items-stretch">
                       <div className="relative max-w-[350px] bg-white">
                         <button
-                          className="absolute right-2 top-2 bg-red-700 text-white"
+                          className="absolute right-2 top-2 flex rounded-full bg-p-red px-3 py-2 text-white"
                           onClick={() => {
                             void deleteImage.mutate({
                               key: src.split("/").splice(-2).join("/"),
                             });
                           }}
                         >
-                          Delete
+                          <svg
+                            xmlns="http://www.w3.org/2000/svg"
+                            className="icon icon-tabler icon-tabler-trash-x mt-0.5"
+                            width="20"
+                            height="20"
+                            viewBox="0 0 24 24"
+                            stroke-width="2"
+                            stroke="currentColor"
+                            fill="none"
+                            stroke-linecap="round"
+                            stroke-linejoin="round"
+                          >
+                            <path
+                              stroke="none"
+                              d="M0 0h24v24H0z"
+                              fill="none"
+                            ></path>
+                            <path d="M4 7h16"></path>
+                            <path d="M5 7l1 12a2 2 0 0 0 2 2h8a2 2 0 0 0 2 -2l1 -12"></path>
+                            <path d="M9 7v-3a1 1 0 0 1 1 -1h4a1 1 0 0 1 1 1v3"></path>
+                            <path d="M10 12l4 4m0 -4l-4 4"></path>
+                          </svg>
                         </button>
                         <img
                           src={src}
                           alt={src}
-                          className="h-full w-full object-cover"
+                          className="h-full w-full rounded-xl object-cover"
                         />
                       </div>
                     </div>

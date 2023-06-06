@@ -81,13 +81,12 @@ const Signup: NextPage = () => {
             <div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50">
               <div className="rounded-xl bg-white p-8">
                 <TermsCondition />
-
-                <button
-                  className="mt-4 rounded bg-p-dbviolet px-4 py-2 text-white hover:bg-blue-600"
+                <div
+                  className="mt-4 rounded bg-p-dbviolet px-4 py-2 text-center font-semibold text-white hover:bg-p-pviolet/80"
                   onClick={() => setShowTerms(false)}
                 >
                   Close
-                </button>
+                </div>
               </div>
             </div>
           )}
@@ -130,14 +129,6 @@ const Signup: NextPage = () => {
                   className="w-[28%] rounded-xl px-2 py-2 shadow shadow-gray-400/100"
                 />
               </div>
-              {/* <input
-                {...register("username")}
-                type="text"
-                placeholder="Username"
-                className="rounded-xl px-2 py-2 shadow shadow-gray-400/100"
-                required
-              />
-              {errors.username?.message && <p>{errors.username?.message}</p>} */}
               <input
                 {...register("contact_number")}
                 type="tel"
@@ -190,12 +181,12 @@ const Signup: NextPage = () => {
                 <label className="pl-3 text-sm text-gray-500 ">
                   I have reviewed and agreed to the
                 </label>
-                <button
-                  className=" pl-1 text-sm text-gray-500 underline"
+                <div
+                  className=" cursor-pointer pl-1 text-sm text-gray-500 underline"
                   onClick={() => setShowTerms(true)}
                 >
                   Terms and Conditions
-                </button>
+                </div>
               </div>
             </div>
             <br />
