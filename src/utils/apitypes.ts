@@ -34,16 +34,24 @@ export const accommodationAddSchema = z.object({
     .string()
     .min(1)
     .regex(/\w[\w\s]*/),
-  contract_length: z.string(),
   barangay: z.string().min(1),
   location: z.string(),
-  contact_number: z.string().regex(/\+?[\d]{9}/, {
+  contract_length: z.string(),
+  contact_number: z.string().regex(/^09\d{9}$/, {
     message: "Must be a valid phone number. e.g. (09123456789)",
   }),
   price: z.number().positive({ message: "Must be a positive integer" }),
-  num_of_rooms: z.number().optional(),
-  is_archived: z.boolean(),
-  fb_page: z.string().optional(),
+  fb_page: z
+    .string()
+    .optional()
+    .or(
+      z
+        .string()
+        .regex(
+          /(?:https?:\/\/)?(?:www\.)?(mbasic.facebook|m\.facebook|facebook|fb)\.(com|me)\/(?:(?:\w\.)*#!\/)?(?:pages\/)?(?:[\w\-\.]*\/)*([\w\-\.]*)/,
+          { message: "Must be a valid facebook link." },
+        ),
+    ),
   type: z.nativeEnum(AccommodationType),
   typeArray: z
     .array(z.string())
@@ -61,31 +69,28 @@ export const accommodationEditSchema = z.object({
     }),
   location: z.string().optional(),
   contract_length: z.string().optional(),
-  contact_number: z
+  contact_number: z.string().regex(/^09\d{9}$/, {
+    message: "Must be a valid phone number. e.g. (09123456789)",
+  }),
+  fb_page: z
     .string()
     .optional()
     .or(
-      z.string().regex(/^09\d{9}$/, {
-        message: "Must be a valid phone number. e.g. (09123456789)",
-      }),
+      z
+        .string()
+        .regex(
+          /(?:https?:\/\/)?(?:www\.)?(mbasic.facebook|m\.facebook|facebook|fb)\.(com|me)\/(?:(?:\w\.)*#!\/)?(?:pages\/)?(?:[\w\-\.]*\/)*([\w\-\.]*)/,
+          { message: "Must be a valid facebook link." },
+        ),
     ),
-  fb_page: z.string().optional(),
   price: z.number().nullish(),
   //   TODO: bring this back
-  //   name: z.string().min(1, { message: "Must not be empty" }),
   //   street_number: z.string().min(1),
   //   subdivision: z.string().min(1),
-  //   contract_length: z.string(),
   //   barangay: z.string().min(1),
-  //   location: z.string(),
-  //   contact_number: z.string().regex(/^09\d{9}$/, {
-  //     message: "Must be a valid phone number. e.g. (09123456789)",
-  //   }),
   //   price: z.number(),
   //   // num_of_rooms: z.number().optional(),
   //   is_archived: z.boolean(),
-  //   fb_page: z.string().optional(),
-  //   type: z.nativeEnum(AccommodationType),
   typeArray: z
     .array(z.string())
     .nonempty({ message: "Must select at least one type" })
@@ -143,8 +148,8 @@ export const reviewGetInfSchema = z.object({
 /* ROOM */
 export const roomAddSchema = z.object({
   accommodationId: z.string().min(3),
-  price: z.number(),
-  num_of_beds: z.number(),
+  price: z.number().positive({ message: "Must be a positive number" }),
+  num_of_beds: z.number().positive({ message: "Must be a positive number" }),
   occupied: z.boolean(),
   with_aircon: z.boolean(),
   with_utilities: z.boolean(),
@@ -152,8 +157,8 @@ export const roomAddSchema = z.object({
 
 export const roomEditSchema = z.object({
   id: z.string(),
-  price: z.number(),
-  num_of_beds: z.number(),
+  price: z.number().positive({ message: "Must be a positive number" }),
+  num_of_beds: z.number().positive({ message: "Must be a positive number" }),
   occupied: z.boolean(),
   with_aircon: z.boolean(),
   with_utilities: z.boolean(),
