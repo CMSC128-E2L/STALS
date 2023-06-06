@@ -28,20 +28,46 @@ export const ReviewList: React.FC<{
     getNextPageParam: (lastPage) => lastPage.nextCursor,
   });
 
-  useEffect(() => {
+  const RefetchUserInputs = () => {
     setUserInputs({
       accommodationId: accomId,
       limit: 5,
     });
     void refetch();
+  };
+
+  useEffect(() => {
+    void RefetchUserInputs();
   }, [accomId, refetch, refreshComponent]);
 
   return (
     <div className="h-full">
       {reviews ? (
-        reviews?.pages.map((page, i: number) => (
-          <GetReviews key={i} items={page?.items} />
-        ))
+        reviews?.pages.map((page, i: number) =>
+          page && page?.items.length != 0 ? (
+            <>
+              {page?.items?.map(({ id, user, date, time, review, rating }) => (
+                <ReviewItem
+                  key={id}
+                  id={id}
+                  user={user}
+                  date={date}
+                  time={time}
+                  review={review}
+                  rating={rating}
+                  refetch={RefetchUserInputs}
+                />
+              ))}
+            </>
+          ) : (
+            <div
+              key={i}
+              className="flex h-40 items-center justify-center text-center"
+            >
+              <p className="w-[60%]">This accommodation has no reviews yet.</p>
+            </div>
+          ),
+        )
       ) : (
         <LoadingSpinner />
       )}
@@ -72,31 +98,3 @@ export const ReviewList: React.FC<{
 };
 
 export default ReviewList;
-
-const GetReviews: React.FC<{
-  items: RouterOutputs["review"]["getMany"];
-}> = ({ items }) => {
-  if (items && items.length != 0) {
-    return (
-      <>
-        {items?.map(({ id, user, date, time, review, rating }) => (
-          <ReviewItem
-            key={id}
-            id={id}
-            user={user}
-            date={date}
-            time={time}
-            review={review}
-            rating={rating}
-          />
-        ))}
-      </>
-    );
-  }
-
-  return (
-    <div className="flex h-40 items-center justify-center text-center">
-      <p className="w-[60%]">This accommodation has no reviews yet.</p>
-    </div>
-  );
-};
