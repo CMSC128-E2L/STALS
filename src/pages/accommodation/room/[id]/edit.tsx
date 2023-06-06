@@ -13,6 +13,7 @@ import LoadingSpinner from "~/components/loadingSpinner";
 import Error404 from "~/pages/404";
 import Error from "~/pages/_error";
 import { type z } from "zod";
+import FormError from "~/components/formError";
 
 export default function EditRoom() {
   const userSession = useSession({ required: true });
@@ -38,7 +39,7 @@ export default function EditRoom() {
     onSuccess: () => {
       toast.success("Successfully Edited Room!", {
         position: "bottom-right",
-        duration: 1000,
+        duration: 3000,
       });
     },
   });
@@ -61,12 +62,9 @@ export default function EditRoom() {
   return (
     <div className="">
       <img className="site-background" src={bgpic.src} alt="background" />
-
-      {/* className="absolute bottom-1 right-1/2 h-[100%] translate-x-1/2 opacity-70" */}
-
       <NavBar />
-      <div className="inset-x-0 flex h-screen items-center justify-center">
-        <div className="shadow-md/50 w-1/3 rounded-xl bg-white px-10 py-10">
+      <div className="flex min-h-[90vh] items-center justify-center">
+        <div className="shadow-md/50 w-full rounded-xl bg-white/70 px-10 py-10 shadow sm:w-2/3 md:w-2/4">
           <div className="item-center flex justify-center px-2 pb-0 pt-0 drop-shadow-md">
             <h1 className="text-3xl font-bold text-p-dviolet">Edit Room</h1>
           </div>
@@ -92,6 +90,7 @@ export default function EditRoom() {
           >
             <div className="flex flex-col space-y-2.5">
               <div>
+                <h2 className="form-h2 form-field-required">Price</h2>
                 <input
                   className="w-full rounded-xl px-2 py-2 shadow shadow-gray-400/100"
                   placeholder="Price"
@@ -101,16 +100,19 @@ export default function EditRoom() {
                     valueAsNumber: true,
                     setValueAs: (value: string) => parseFloat(value).toFixed(2),
                   })}
-                ></input>
+                />
+                <FormError error={errors.price?.message} />
               </div>
 
               <div>
+                <h2 className="form-h2 form-field-required">Number of Beds</h2>
                 <input
                   className="w-full rounded-xl px-2 py-2 shadow shadow-gray-400/100"
                   placeholder="Number of Beds"
                   defaultValue={firstData?.num_of_beds}
                   {...register("num_of_beds", { valueAsNumber: true })}
-                ></input>
+                />
+                <FormError error={errors.num_of_beds?.message} />
               </div>
               {/* yung tatlong dropdown */}
               <div>
@@ -192,14 +194,14 @@ export default function EditRoom() {
               </div>
 
               <div>
-                <button
-                  className="group relative flex w-full justify-center rounded-full bg-gray-500 px-4 py-2 font-bold text-white opacity-75 shadow shadow-gray-400/100"
+                <input
+                  className="group relative flex w-full cursor-pointer justify-center rounded-full bg-gray-500 px-4 py-2 font-bold text-white opacity-75 shadow shadow-gray-400/100"
+                  type="button"
+                  value="Cancel"
                   onClick={() => {
                     router.back();
                   }}
-                >
-                  Cancel
-                </button>
+                />
               </div>
             </div>
           </form>
