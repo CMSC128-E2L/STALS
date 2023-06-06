@@ -147,7 +147,7 @@ export default function EditAccommodation() {
                 </article>
               </main>
             </div>
-            <div className="flex items-stretch justify-center space-x-2 space-y-2 bg-white sm:flex-wrap">
+            <div className="flex items-stretch justify-center space-x-2 space-y-2 rounded-xl bg-white sm:flex-wrap">
               {!imageLoading && filteredImages ? (
                 filteredImages.length > 0 ? (
                   filteredImages.map((src, index) => (
@@ -187,7 +187,7 @@ export default function EditAccommodation() {
                         <img
                           src={src}
                           alt={src}
-                          className="h-full w-full object-cover"
+                          className="h-full w-full rounded-xl object-cover"
                         />
                       </div>
                     </div>
