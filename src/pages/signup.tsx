@@ -130,14 +130,6 @@ const Signup: NextPage = () => {
                   className="w-[28%] rounded-xl px-2 py-2 shadow shadow-gray-400/100"
                 />
               </div>
-              {/* <input
-                {...register("username")}
-                type="text"
-                placeholder="Username"
-                className="rounded-xl px-2 py-2 shadow shadow-gray-400/100"
-                required
-              />
-              {errors.username?.message && <p>{errors.username?.message}</p>} */}
               <input
                 {...register("contact_number")}
                 type="tel"

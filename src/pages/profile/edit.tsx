@@ -1,4 +1,4 @@
-import { RouterInputs, api } from "~/utils/api";
+import { type RouterInputs, api } from "~/utils/api";
 import { signOut, useSession } from "next-auth/react";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
@@ -119,17 +119,6 @@ const EditProfile: React.FC<{
                     defaultValue={userSession.data?.profile.Suffix || ""}
                   />
                 </div>
-                <input
-                  {...register("username")}
-                  type="hidden"
-                  placeholder="Username"
-                  className="rounded-xl px-2 py-2 shadow shadow-gray-400/100"
-                  defaultValue={userSession.data?.profile.username || ""}
-                  required
-                />
-                {errors.username?.message && (
-                  <p>{errors.username?.message as string}</p>
-                )}
                 <input
                   {...register("contact_number")}
                   type="tel"
