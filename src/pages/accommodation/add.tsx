@@ -28,7 +28,6 @@ export default function AddAccommodation() {
     defaultValues: {
       tagArray: [],
       typeArray: [],
-      is_archived: false,
       barangay: "Anos",
       street_number: "",
       subdivision: "",
@@ -138,7 +137,6 @@ export default function AddAccommodation() {
                     type="text"
                     id="name"
                     {...register("name")}
-                    required
                   />
                   {errors.name?.message && (
                     <p className="text-red-500">{errors.name.message}</p>
@@ -247,8 +245,6 @@ export default function AddAccommodation() {
                           errors.price ? "input-text-field-error" : ""
                         } `}
                         placeholder="Price"
-                        pattern="^\d+(\.\d+)?$"
-                        type="text"
                         {...register("price", {
                           valueAsNumber: true,
                           // eslint-disable-next-line @typescript-eslint/no-unsafe-argument
@@ -256,7 +252,6 @@ export default function AddAccommodation() {
                             parseFloat(value).toFixed(2),
                         })}
                         title="Must be a positive float value."
-                        // eslint-disable-next-line @typescript-eslint/no-unsafe-argument
                         required
                       ></input>
                     </div>
@@ -269,7 +264,6 @@ export default function AddAccommodation() {
                           errors.contact_number ? "input-text-field-error" : ""
                         }`}
                         placeholder="Facebook Page Link"
-                        pattern="(?:https?:\/\/)?(?:www\.)?(mbasic.facebook|m\.facebook|facebook|fb)\.(com|me)\/(?:(?:\w\.)*#!\/)?(?:pages\/)?(?:[\w\-\.]*\/)*([\w\-\.]*)"
                         type="text"
                         {...register("fb_page")}
                         title="Please enter a valid Facebook Page Link."
