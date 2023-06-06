@@ -30,10 +30,9 @@ export default function EditAccommodation() {
     formState: { errors },
   } = useForm<z.infer<typeof accommodationEditSchema>>({
     resolver: zodResolver(accommodationEditSchema),
-    // defaultValues:{
-    //   id: id,
-    //   //price: undefined
-    // }
+    defaultValues: {
+      id: id,
+    },
   });
 
   const editAccommodation = api.accommodation.edit.useMutation();
@@ -74,14 +73,6 @@ export default function EditAccommodation() {
               // eslint-disable-next-line @typescript-eslint/no-misused-promises
               onSubmit={handleSubmit(
                 (d) => {
-                  // console.log(d);
-                  const obj = { id };
-                  d.id = obj.id;
-                  for (const key in d) {
-                    if (d[key] === "") {
-                      delete d[key];
-                    }
-                  }
                   void toast.promise(
                     editAccommodation.mutateAsync(
                       d as RouterInputs["accommodation"]["edit"],
