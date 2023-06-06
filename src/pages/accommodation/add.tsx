@@ -13,6 +13,7 @@ import { type z } from "zod";
 import { useState } from "react";
 import Error401 from "~/pages/401";
 import { useRouter } from "next/router";
+import FormError from "~/components/formError";
 
 export default function AddAccommodation() {
   const userSession = useSession({ required: true });
@@ -128,12 +129,19 @@ export default function AddAccommodation() {
                     Accommodation Name
                   </label>
                   <input
-                    className="add-acc-input-text-field w-full"
+                    className={`add-acc-input-text-field w-full ${
+                      errors.name ? "input-text-field-error" : ""
+                    }`}
                     placeholder="Name of Accommodation"
-                    pattern="[\w\s]+"
-                    {...register("name", { required: true })}
+                    maxLength={30}
+                    type="text"
+                    id="name"
+                    {...register("name")}
                     required
-                  ></input>
+                  />
+                  {errors.name?.message && (
+                    <p className="text-red-500">{errors.name.message}</p>
+                  )}
                 </div>
                 <h2 className="form-h2 form-field-required px-3 pt-3 ">
                   Type of Accommodation
@@ -160,15 +168,20 @@ export default function AddAccommodation() {
 
                   <div className="flex flex-col gap-2 sm:flex-row">
                     <input
-                      className="add-acc-input-text-field sm:w-1/3"
+                      className={`add-acc-input-text-field ${
+                        errors.street_number ? "input-text-field-error" : ""
+                      } sm:w-1/3 `}
                       placeholder="St."
+                      maxLength={4}
                       {...register("street_number")}
-                      required
                     ></input>
                     <input
-                      className="add-acc-input-text-field sm:w-2/3"
+                      className={`add-acc-input-text-field ${
+                        errors.subdivision ? "input-text-field-error" : ""
+                      } sm:w-2/3`}
                       placeholder="Subdivision"
                       {...register("subdivision")}
+                      maxLength={20}
                       required
                     ></input>
                     <select
@@ -210,6 +223,7 @@ export default function AddAccommodation() {
                         </select>
                       </div>
                     </div>
+
                     <div className="">
                       <label className="form-h2 ">Contract Length</label>
                       <select
@@ -225,11 +239,12 @@ export default function AddAccommodation() {
                     {/* Accommodation price input field */}
                     <div className="">
                       <label className="form-h2 form-field-required ">
-                        {" "}
                         Price of Accommodation
                       </label>
                       <input
-                        className="add-acc-input-text-field"
+                        className={`add-acc-input-text-field ${
+                          errors.price ? "input-text-field-error" : ""
+                        } `}
                         placeholder="Price"
                         pattern="^\d+(\.\d+)?$"
                         type="text"
@@ -249,7 +264,9 @@ export default function AddAccommodation() {
                     <div>
                       <label className="form-h2 ">FB Page</label>
                       <input
-                        className="add-acc-input-text-field"
+                        className={`add-acc-input-text-field  ${
+                          errors.contact_number ? "input-text-field-error" : ""
+                        }`}
                         placeholder="Facebook Page Link"
                         pattern="(?:https?:\/\/)?(?:www\.)?(mbasic.facebook|m\.facebook|facebook|fb)\.(com|me)\/(?:(?:\w\.)*#!\/)?(?:pages\/)?(?:[\w\-\.]*\/)*([\w\-\.]*)"
                         type="text"
@@ -279,9 +296,11 @@ export default function AddAccommodation() {
                         Contact No.
                       </label>
                       <input
-                        className="add-acc-input-text-field"
+                        className={`add-acc-input-text-field ${
+                          errors.contact_number ? "input-text-field-error" : ""
+                        } `}
+                        maxLength={13}
                         placeholder="Contact No."
-                        pattern="(09|\+639)[0-9]{9}"
                         {...register("contact_number")}
                       ></input>
                       {errors.contact_number?.message && (
@@ -379,63 +398,7 @@ export default function AddAccommodation() {
                     ></input>
                   </div>
                 </div>
-                {/* Manage gallery */}
-                <div className="hidden">
-                  <div className="pb-3 text-center">
-                    <label className="form-h3">
-                      Upload Accommodation Photos
-                    </label>
-                    <main className="container">
-                      <article
-                        aria-label="file Upload Modal"
-                        className="relative flex h-full flex-col rounded-md shadow-xl"
-                      >
-                        <section className="flex w-full flex-col gap-3 overflow-auto p-3">
-                          <header className="flex flex-col items-center justify-center rounded-md border border-dashed border-p-gray p-12">
-                            <p className="mb-3 flex flex-wrap justify-center font-semibold">
-                              <span>Drag and drop your</span>&nbsp;
-                              <span>files anywhere or</span>
-                            </p>
-                            <input
-                              id="hidden-input"
-                              type="file"
-                              multiple
-                              className="hidden"
-                            />
-                            <button
-                              id="button"
-                              className="focus:shadow-outline mt-2 rounded-sm bg-gray-200 px-3 py-1 hover:bg-gray-300 focus:outline-none"
-                            >
-                              Upload a file
-                            </button>
-                          </header>
-                          <div>
-                            <h1 className="form-h2 text-center">To Upload</h1>
 
-                            <ul
-                              id="gallery"
-                              className="-m-1 flex flex-1 flex-wrap"
-                            >
-                              <li
-                                id="empty"
-                                className="flex h-full w-full flex-col items-center justify-center text-center"
-                              >
-                                <img
-                                  className="mx-auto w-32"
-                                  src="https://user-images.githubusercontent.com/507615/54591670-ac0a0180-4a65-11e9-846c-e55ffce0fe7b.png"
-                                  alt="no data"
-                                />
-                                <span className="text-small text-gray-500">
-                                  No files selected
-                                </span>
-                              </li>
-                            </ul>
-                          </div>
-                        </section>
-                      </article>
-                    </main>
-                  </div>
-                </div>
                 <div className="flex flex-col gap-2">
                   <div>
                     <button type="submit" className="formConfirm">

@@ -6,6 +6,9 @@
   .input-text-field {
     @apply rounded-xl px-3 py-3 shadow shadow-p-black/50;
   }
+  .input-text-field-error {
+    @apply border border-2 border-red-500;
+  }
 
   .site-background {
     @apply fixed -z-50 h-screen w-screen object-cover;
