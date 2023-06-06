@@ -35,11 +35,7 @@ export default function EditAccommodation() {
 
   const deleteImage = api.file.deleteOne.useMutation({
     onSuccess: () => {
-      toast.success("Image deleted!", {
-        position: "bottom-right",
-        duration: 3000,
-      });
-      void ImagesRefetch();
+      setReloadInt((prev) => [...prev, 1]);
     },
   });
 
@@ -153,12 +149,28 @@ export default function EditAccommodation() {
                   filteredImages.map((src, index) => (
                     <div key={index} className="flex items-stretch">
                       <div className="relative max-w-[350px] bg-white">
+                        {src.split("/").pop() === id && (
+                          <div className="absolute left-2 top-2 flex rounded-full bg-p-dviolet px-3 py-2 text-white">
+                            Header
+                          </div>
+                        )}
                         <button
                           className="absolute right-2 top-2 flex rounded-full bg-p-red px-3 py-2 text-white"
                           onClick={() => {
-                            void deleteImage.mutate({
-                              key: src.split("/").splice(-2).join("/"),
-                            });
+                            void toast.promise(
+                              deleteImage.mutateAsync({
+                                key: src.split("/").splice(-2).join("/"),
+                              }),
+                              {
+                                loading: "Deleting Image...",
+                                success: "Image Deleted!",
+                                error:
+                                  "Please check your connection and try again",
+                              },
+                              {
+                                position: "bottom-right",
+                              },
+                            );
                           }}
                         >
                           <svg
