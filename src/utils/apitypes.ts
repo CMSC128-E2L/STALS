@@ -27,7 +27,7 @@ export const accommodationAddSchema = z.object({
     .string()
     .min(1, { message: "Must not be empty" })
     .regex(/^\w[\w\s]*$/, {
-      message: "Accommodation Name must only contain letters and spaces",
+      message: "Accommodation Name must only contain alphanumerics and spaces",
     }),
   street_number: z.string().min(1).regex(/\d+/),
   subdivision: z
@@ -40,8 +40,7 @@ export const accommodationAddSchema = z.object({
   contact_number: z.string().regex(/\+?[\d]{9}/, {
     message: "Must be a valid phone number. e.g. (09123456789)",
   }),
-  // tags: z.string(),
-  price: z.number(),
+  price: z.number().positive({ message: "Must be a positive integer" }),
   num_of_rooms: z.number().optional(),
   is_archived: z.boolean(),
   fb_page: z.string().optional(),
@@ -58,9 +57,8 @@ export const accommodationEditSchema = z.object({
     .string()
     .min(1, { message: "Must not be empty" })
     .regex(/^\w[\w\s]*$/, {
-      message: "Accommodation Name must only contain letters and spaces",
+      message: "Accommodation Name must only contain alphanumerics and spaces",
     }),
-  address: z.string().optional(),
   location: z.string().optional(),
   contract_length: z.string().optional(),
   contact_number: z
@@ -83,7 +81,6 @@ export const accommodationEditSchema = z.object({
   //   contact_number: z.string().regex(/^09\d{9}$/, {
   //     message: "Must be a valid phone number. e.g. (09123456789)",
   //   }),
-  //   tags: z.string(),
   //   price: z.number(),
   //   // num_of_rooms: z.number().optional(),
   //   is_archived: z.boolean(),
