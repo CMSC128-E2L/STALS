@@ -35,7 +35,11 @@ export default function EditAccommodation() {
     },
   });
 
-  const editAccommodation = api.accommodation.edit.useMutation();
+  const editAccommodation = api.accommodation.edit.useMutation({
+    onSuccess: () => {
+      router.back();
+    },
+  });
 
   if (notAuthenticated(userSession.status) || oldDataLoading) {
     return (
