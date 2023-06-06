@@ -78,9 +78,15 @@ export default function EditAccommodation() {
               onSubmit={handleSubmit(
                 (d) => {
                   void toast.promise(
-                    editAccommodation.mutateAsync(
-                      d as RouterInputs["accommodation"]["edit"],
-                    ),
+                    new Promise((resolve) => {
+                      setTimeout(() => {
+                        resolve(
+                          editAccommodation.mutate(
+                            d as RouterInputs["accommodation"]["edit"],
+                          ),
+                        );
+                      }, 1);
+                    }),
                     {
                       loading: "Editing Accommodation...",
                       success: "Successfully Edited Accommodation!",
