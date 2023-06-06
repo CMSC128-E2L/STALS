@@ -14,6 +14,7 @@ import Error404 from "~/pages/404";
 import Error from "~/pages/_error";
 import { type z } from "zod";
 import { stalsDBstringArray } from "~/utils/helpers";
+import FormError from "~/components/formError";
 
 export default function EditAccommodation() {
   const userSession = useSession({ required: true });
@@ -61,15 +62,11 @@ export default function EditAccommodation() {
 
   return (
     <div className="">
-      <img
-        className="fixed -z-50 w-screen bg-cover bg-fixed bg-center"
-        src={bgpic.src}
-        alt="background"
-      />
+      <img className="site-background" src={bgpic.src} alt="background" />
       <NavBar />
-      <div className="block px-2 py-2 sm:px-0">
-        <div className="inset-x-0 flex items-center justify-center">
-          <div className="my-14 flex flex-col items-center justify-center gap-1 rounded-md p-10 sm:w-[50%]">
+      <div className="px-2 py-2 sm:px-0">
+        <div className="flex items-center justify-center">
+          <div className="my-14 flex w-full flex-col items-center justify-center gap-1 rounded-md sm:p-10 md:w-1/2">
             <div>
               <h1 className="form-h1">Edit Accommodation</h1>
             </div>
@@ -120,9 +117,7 @@ export default function EditAccommodation() {
                     {...register("name")}
                   />
                 </div>
-                {errors.name?.message && (
-                  <p className="text-red-500">{errors.name.message}</p>
-                )}
+                <FormError error={errors.name?.message} />
               </div>
               <h2 className="form-h2 px-3 pt-3">Type of Accommodation</h2>
               <div className="ml-5 flex flex-col justify-evenly gap-4 px-5 pt-2 sm:ml-0 sm:flex-row">
@@ -132,9 +127,7 @@ export default function EditAccommodation() {
                   register,
                 )}
               </div>
-              {errors.typeArray?.message && (
-                <p className="text-red-500">{errors.typeArray.message}</p>
-              )}
+              <FormError error={errors.typeArray?.message} />
               <div className="grid grid-cols-1 gap-2 object-contain sm:grid-cols-2">
                 <div className="form-col-deets">
                   <div className="hidden">
@@ -190,28 +183,30 @@ export default function EditAccommodation() {
                       <option>Outside UPLB</option>
                     </select>
                   </div>
-                  <div className="">
+                  <div>
                     <label className="form-h2">Contact No.</label>
                     <input
                       className="add-acc-input-text-field"
                       defaultValue={oldData?.contact_number}
                       type="text"
                       {...register("contact_number")}
-                    ></input>
+                    />
+                    <FormError error={errors.contact_number?.message} />
                   </div>
-                  <div className="">
+                  <div>
                     <label className="form-h2"> Price of Accommodation</label>
                     <input
                       className="add-acc-input-text-field"
                       defaultValue={oldData?.price ?? ""}
-                      type="text"
+                      type="number"
                       title="Must be a positive float value."
                       {...register("price", {
                         valueAsNumber: true,
                         // eslint-disable-next-line @typescript-eslint/no-unsafe-argument
                         setValueAs: (value: string) => parseFloat(value),
                       })}
-                    ></input>
+                    />
+                    <FormError error={errors.price?.message} />
                   </div>
                 </div>
               </div>
@@ -223,15 +218,14 @@ export default function EditAccommodation() {
                   </button>
                 </div>
                 <div>
-                  <button
-                    type="reset"
+                  <input
                     className="formReject"
+                    type="button"
+                    value="Cancel"
                     onClick={() => {
                       router.back();
                     }}
-                  >
-                    Back
-                  </button>
+                  />
                 </div>
               </div>
             </form>

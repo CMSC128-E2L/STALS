@@ -83,15 +83,11 @@ export default function AddAccommodation() {
   }
   return (
     <div className="">
-      <img
-        className="fixed -z-50 w-screen bg-cover bg-fixed bg-center"
-        src={bgpic.src}
-        alt="background"
-      />
+      <img className="site-background" src={bgpic.src} alt="background" />
       <NavBar />
-      <div className="block px-2 py-2 sm:px-0">
+      <div className="px-2 py-2 sm:px-0">
         <div className="inset-x-0 flex items-center justify-center">
-          <div className="my-14 flex w-full flex-col items-center justify-center gap-1 rounded-md p-10 sm:w-[55%]">
+          <div className="my-14 flex w-full flex-col items-center justify-center gap-1 rounded-md sm:p-10 md:w-1/2">
             <div>
               <h1 className="form-h1 pb-2"> Add Accommodation</h1>
             </div>
@@ -138,9 +134,7 @@ export default function AddAccommodation() {
                     id="name"
                     {...register("name")}
                   />
-                  {errors.name?.message && (
-                    <p className="text-red-500">{errors.name.message}</p>
-                  )}
+                  <FormError error={errors.name?.message} />
                 </div>
                 <h2 className="form-h2 form-field-required px-3 pt-3 ">
                   Type of Accommodation
@@ -157,42 +151,48 @@ export default function AddAccommodation() {
                     register,
                   )}
                 </div>
-                {errors.typeArray?.message && (
-                  <p className="text-red-500">{errors.typeArray.message}</p>
-                )}
+                <FormError error={errors.typeArray?.message} />
                 <div className="px-3">
                   <label className="form-h2 form-field-required ">
                     Address
                   </label>
 
                   <div className="flex flex-col gap-2 sm:flex-row">
-                    <input
-                      className={`add-acc-input-text-field ${
-                        errors.street_number ? "input-text-field-error" : ""
-                      } sm:w-1/3 `}
-                      placeholder="St."
-                      maxLength={4}
-                      {...register("street_number")}
-                    ></input>
-                    <input
-                      className={`add-acc-input-text-field ${
-                        errors.subdivision ? "input-text-field-error" : ""
-                      } sm:w-2/3`}
-                      placeholder="Subdivision"
-                      {...register("subdivision")}
-                      maxLength={20}
-                      required
-                    ></input>
-                    <select
-                      className="form-dropdown"
-                      {...register("barangay")}
-                      required
-                    >
-                      <option value="" disabled selected>
-                        Select Barangay
-                      </option>
-                      {barangayDropdown(barangays)}
-                    </select>
+                    <div className="flex flex-col sm:w-1/3">
+                      <input
+                        className={`add-acc-input-text-field grow ${
+                          errors.street_number ? "input-text-field-error" : ""
+                        }  `}
+                        placeholder="St."
+                        maxLength={4}
+                        {...register("street_number")}
+                      />
+                      <FormError error={errors.street_number?.message} />
+                    </div>
+                    <div className="flex flex-col sm:w-2/3">
+                      <input
+                        className={`add-acc-input-text-field ${
+                          errors.subdivision ? "input-text-field-error" : ""
+                        } `}
+                        placeholder="Subdivision"
+                        {...register("subdivision")}
+                        maxLength={20}
+                      />
+                      <FormError error={errors.subdivision?.message} />
+                    </div>
+
+                    <div>
+                      <select
+                        className="form-dropdown"
+                        {...register("barangay")}
+                        required
+                      >
+                        <option value="" disabled selected>
+                          Select Barangay
+                        </option>
+                        {barangayDropdown(barangays)}
+                      </select>
+                    </div>
                   </div>
                 </div>
 
@@ -245,6 +245,7 @@ export default function AddAccommodation() {
                           errors.price ? "input-text-field-error" : ""
                         } `}
                         placeholder="Price"
+                        type="number"
                         {...register("price", {
                           valueAsNumber: true,
                           // eslint-disable-next-line @typescript-eslint/no-unsafe-argument
@@ -252,8 +253,8 @@ export default function AddAccommodation() {
                             parseFloat(value).toFixed(2),
                         })}
                         title="Must be a positive float value."
-                        required
-                      ></input>
+                      />
+                      <FormError error={errors.subdivision?.message} />
                     </div>
 
                     {/* FB page link*/}
@@ -261,7 +262,7 @@ export default function AddAccommodation() {
                       <label className="form-h2 ">FB Page</label>
                       <input
                         className={`add-acc-input-text-field  ${
-                          errors.contact_number ? "input-text-field-error" : ""
+                          errors.fb_page ? "input-text-field-error" : ""
                         }`}
                         placeholder="Facebook Page Link"
                         type="text"
@@ -298,11 +299,7 @@ export default function AddAccommodation() {
                         placeholder="Contact No."
                         {...register("contact_number")}
                       ></input>
-                      {errors.contact_number?.message && (
-                        <p className="text-red-500">
-                          {errors.contact_number.message}
-                        </p>
-                      )}
+                      <FormError error={errors.contact_number?.message} />
                     </div>
                   </div>
                 </div>
@@ -400,15 +397,14 @@ export default function AddAccommodation() {
                       Submit
                     </button>
                   </div>
-                  <button
-                    type="reset"
+                  <input
                     className="formReject"
+                    type="button"
+                    value="Cancel"
                     onClick={() => {
                       router.back();
                     }}
-                  >
-                    Cancel
-                  </button>
+                  />
                 </div>
               </div>
             </form>
