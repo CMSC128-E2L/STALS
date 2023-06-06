@@ -88,10 +88,6 @@ export const userEditSchema = z.object({
   middle_name: z.string().optional(),
   last_name: z.string().min(1).optional(),
   Suffix: z.string().optional(),
-  username: z
-    .string()
-    .min(8, { message: "Must be at least 8 characters" })
-    .optional(),
   contact_number: z
     .string()
     .regex(/^09\d{9}$/, {
