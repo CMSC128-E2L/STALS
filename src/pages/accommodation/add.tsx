@@ -397,15 +397,14 @@ export default function AddAccommodation() {
                       Submit
                     </button>
                   </div>
-                  <button
-                    type="reset"
+                  <input
                     className="formReject"
+                    type="button"
+                    value="Cancel"
                     onClick={() => {
                       router.back();
                     }}
-                  >
-                    Cancel
-                  </button>
+                  />
                 </div>
               </div>
             </form>
