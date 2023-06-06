@@ -28,12 +28,11 @@ export default function EditAccommodation() {
     handleSubmit,
 
     formState: { errors },
-  } = useForm({
+  } = useForm<z.infer<typeof accommodationEditSchema>>({
     resolver: zodResolver(accommodationEditSchema),
-    // defaultValues:{
-    //   id: id,
-    //   //price: undefined
-    // }
+    defaultValues: {
+      id: id,
+    },
   });
 
   const editAccommodation = api.accommodation.edit.useMutation();
@@ -74,14 +73,6 @@ export default function EditAccommodation() {
               // eslint-disable-next-line @typescript-eslint/no-misused-promises
               onSubmit={handleSubmit(
                 (d) => {
-                  // console.log(d);
-                  const obj = { id };
-                  d.id = obj.id;
-                  for (const key in d) {
-                    if (d[key] === "") {
-                      delete d[key];
-                    }
-                  }
                   void toast.promise(
                     editAccommodation.mutateAsync(
                       d as RouterInputs["accommodation"]["edit"],
@@ -110,22 +101,30 @@ export default function EditAccommodation() {
                 <div className="w-full">
                   <label className="form-h2">Accommodation Name</label>
                   <input
-                    className="add-acc-input-text-field text-xl"
+                    className={`add-acc-input-text-field w-full ${
+                      errors.name ? "input-text-field-error" : ""
+                    }`}
                     defaultValue={oldData?.name ?? ""}
                     type="text"
+                    maxLength={30}
                     {...register("name")}
-                  ></input>
+                  />
                 </div>
+                {errors.name?.message && (
+                  <p className="text-red-500">{errors.name.message}</p>
+                )}
               </div>
               <h2 className="form-h2 px-3 pt-3">Type of Accommodation</h2>
               <div className="ml-5 flex flex-col justify-evenly gap-4 px-5 pt-2 sm:ml-0 sm:flex-row">
                 {tagCheckbox(
                   ["Dormitory", "Apartment", "Hotel", "Transient", "Bedspace"],
-
                   stalsDBstringArray(oldData?.typeArray),
                   register,
                 )}
               </div>
+              {errors.typeArray?.message && (
+                <p className="text-red-500">{errors.typeArray.message}</p>
+              )}
               <div className="grid grid-cols-1 gap-2 object-contain sm:grid-cols-2">
                 <div className="form-col-deets">
                   <div className="hidden">

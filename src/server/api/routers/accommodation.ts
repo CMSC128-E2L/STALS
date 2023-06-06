@@ -170,11 +170,9 @@ export const accommodationRouter = createTRPCRouter({
     .input(
       z.object({
         name: z.string().optional(),
-        address: z.string().optional(),
         location: z.string().optional(),
         landlord: z.string().optional(),
         barangay: z.string().optional(),
-        // tags: z.string().optional(),
         num_of_rooms: z.number().optional(),
         page: z.number().optional(),
         multiplier: z.number().optional(),
@@ -193,9 +191,6 @@ export const accommodationRouter = createTRPCRouter({
             {
               name: {
                 contains: input.name,
-              },
-              address: {
-                contains: input.address,
               },
               location: {
                 contains: input.location,
@@ -231,9 +226,6 @@ export const accommodationRouter = createTRPCRouter({
             {
               name: {
                 contains: input.name,
-              },
-              address: {
-                contains: input.address,
               },
               location: {
                 contains: input.location,
@@ -297,11 +289,9 @@ export const accommodationRouter = createTRPCRouter({
         where: { id },
         data: {
           name: input.name,
-          address: input.address,
           location: input.location,
           contact_number: input.contact_number,
           price: input.price ?? 0,
-          // tags: input.tags,
           // num_of_rooms: input.num_of_rooms,
           // is_archived: input.is_archived,
           contract_length: input.contract_length,
