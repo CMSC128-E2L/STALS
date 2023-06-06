@@ -51,7 +51,8 @@ export const reportRouter = createTRPCRouter({
           report: true,
           user: {
             select: {
-              username: true,
+              first_name: true,
+              last_name: true,
             },
           },
         },
