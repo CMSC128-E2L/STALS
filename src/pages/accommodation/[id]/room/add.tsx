@@ -87,8 +87,6 @@ export default function AddRoom() {
                 <input
                   className="add-acc-input-text-field"
                   placeholder="Price"
-                  pattern="^\d+(\.\d+)?$"
-                  type="text"
                   {...register("price", {
                     valueAsNumber: true,
                     // eslint-disable-next-line @typescript-eslint/no-unsafe-argument
@@ -101,8 +99,6 @@ export default function AddRoom() {
                 <input
                   className="add-acc-input-text-field"
                   placeholder="Number of Beds"
-                  pattern="[0-9]+"
-                  type="number"
                   {...register("num_of_beds", { valueAsNumber: true })}
                   required
                 ></input>
