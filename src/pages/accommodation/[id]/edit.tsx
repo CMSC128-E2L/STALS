@@ -160,7 +160,6 @@ export default function EditAccommodation() {
                     <input
                       className="add-acc-input-text-field"
                       type="text"
-                      pattern="(?:https?:\/\/)?(?:www\.)?(mbasic.facebook|m\.facebook|facebook|fb)\.(com|me)\/(?:(?:\w\.)*#!\/)?(?:pages\/)?(?:[\w\-\.]*\/)*([\w\-\.]*)"
                       {...register("fb_page")}
                       defaultValue={oldData?.fb_page ?? ""}
                     ></input>
@@ -186,7 +185,6 @@ export default function EditAccommodation() {
                     <input
                       className="add-acc-input-text-field"
                       defaultValue={oldData?.contact_number}
-                      pattern="^(09|\+639)[0-9]{9}"
                       type="text"
                       {...register("contact_number")}
                     ></input>
@@ -196,7 +194,6 @@ export default function EditAccommodation() {
                     <input
                       className="add-acc-input-text-field"
                       defaultValue={oldData?.price ?? ""}
-                      pattern="^\d+(\.\d+)?$+"
                       type="text"
                       title="Must be a positive float value."
                       {...register("price", {
