@@ -52,7 +52,15 @@ export default function AddAccommodation() {
     "Timugan",
   ];
 
-  const createAccommodation = api.accommodation.add.useMutation();
+  const createAccommodation = api.accommodation.add.useMutation({
+    onSuccess: () => {
+      toast.success("Successfully Added Accommodation!", {
+        position: "bottom-right",
+        duration: 3000,
+      });
+      resetFrom();
+    },
+  });
 
   const [tagGenders, settagGenders] = useState("Coed");
   const [tagKitchen, settagKitchen] = useState("Cooking Not Allowed");
@@ -102,19 +110,12 @@ export default function AddAccommodation() {
                   );
                   console.log(newAddAccomInputs);
                   createAccommodation.mutate(newAddAccomInputs);
-                  toast.success("Successfully Added Accommodation!", {
-                    position: "bottom-right",
-                    duration: 1000,
-                  });
-                  resetFrom();
-                  // router.back();
-                  // setTimeout(() => router.reload(), 50);
                 },
                 (error) => {
                   console.log(error);
                   toast.error("Cannot Add Accommodation!", {
                     position: "bottom-right",
-                    duration: 1000,
+                    duration: 2000,
                   });
                 },
               )}
