@@ -167,81 +167,89 @@ const RoomShow: React.FC<{
             </div>
           </div>
           {/* AVAILABILITY */}
-          <div className="mb-2 mt-2 rounded-xl border-2 bg-white px-5 py-1">
-            <div className="flex flex-row">
-              <div className="h-15 relative flex w-20 flex-col items-start rounded-full">
-                <Image
-                  src={iconavail}
-                  className="object-scale-down object-left"
-                  alt="Availability Icon"
-                  fill
-                />
-              </div>
-              <div className="px-4">
-                <h1 className="text-2xl font-bold text-p-dviolet">
+
+          {isLandlordViewing && (
+            <div className="mb-2 mt-2 rounded-xl border-2 bg-white px-5 py-1">
+              <div className="flex flex-row">
+                <div className="relative flex h-20 w-20 flex-col items-start rounded-full">
+                  <Image
+                    src={iconavail}
+                    className=" object-left"
+                    alt="Availability Icon"
+                    fill
+                  />
+                </div>
+                <h1 className="align-center flex w-[50%] flex-row items-center px-4 text-2xl font-bold text-p-dviolet">
                   Availability
                 </h1>
-                <h1 className="text-xl">
-                  {roomOccupied ? "Occupied" : "Unoccupied"}
+                <h1 className="flex items-center justify-center justify-between text-2xl font-extrabold">
+                  {roomOccupied ? "✕" : "✓"}
                 </h1>
               </div>
             </div>
-          </div>
+          )}
           {/* AIRCONDITIONER */}
-          <div className="mb-2 mt-2 rounded-xl border-2 bg-white px-5 py-1">
-            <div className="flex flex-row">
-              <div className="h-15 relative flex w-20 flex-col items-start rounded-full">
-                <Image
-                  src={iconaircon}
-                  className="object-scale-down object-left"
-                  alt="Aiconditioner Icon"
-                  fill
-                />
-              </div>
-              <div className="px-4">
-                <h1 className="text-2xl font-bold text-p-dviolet">
+
+          {isLandlordViewing && (
+            <div className="mb-2 mt-2 rounded-xl border-2 bg-white px-5 py-1">
+              <div className="flex flex-row">
+                <div className="relative flex h-20 w-20 flex-col items-start rounded-full">
+                  <Image
+                    src={iconaircon}
+                    className="object-left"
+                    alt="Aiconditioner Icon"
+                    fill
+                  />
+                </div>
+                <h1 className="align-center flex w-[50%] flex-row items-center px-4 text-2xl font-bold text-p-dviolet">
                   Airconditioner
                 </h1>
-                <h1 className="text-xl">{roomAircon ? "With" : "Without"}</h1>
+                <h1 className="flex items-center justify-center justify-between text-2xl font-extrabold">
+                  {roomAircon ? "✓" : "✕"}
+                </h1>
               </div>
             </div>
-          </div>
+          )}
           {/* UTILITIES */}
-          <div className="mb-2 mt-2 rounded-xl border-2 bg-white px-5 py-1">
-            <div className="flex flex-row">
-              <div className="h-15 relative flex w-20 flex-col items-start rounded-full">
-                <Image
-                  src={iconutils}
-                  className="object-scale-down object-left"
-                  alt="Ulitities Icon"
-                  fill
-                />
-              </div>
-              <div className="px-4">
-                <h1 className="text-2xl font-bold text-p-dviolet">Utilities</h1>
-                <h1 className="text-xl">{roomUtils ? "With" : "Without"}</h1>
+          {isLandlordViewing && (
+            <div className="mb-2 mt-2 rounded-xl border-2 bg-white px-5 py-1">
+              <div className="flex flex-row">
+                <div className="relative flex h-20 w-20 flex-col items-start rounded-full">
+                  <Image
+                    src={iconutils}
+                    className="object-left"
+                    alt="Ulitities Icon"
+                    fill
+                  />
+                </div>
+                <h1 className="align-center flex w-[50%] flex-row items-center px-4 text-2xl font-bold text-p-dviolet">
+                  Utilities
+                </h1>
+                <h1 className="flex items-center justify-center justify-between text-2xl font-extrabold">
+                  {roomUtils ? "✓" : "✕"}
+                </h1>
               </div>
             </div>
-          </div>
+          )}
           {/* ARCHIVED */}
           {/* if landlord ka you will see it, otherwise no */}
           {isLandlordViewing && (
             <div className="mb-2 mt-2 rounded-xl border-2 bg-white px-5 py-1">
               <div className="flex flex-row">
-                <div className="h-15 relative flex w-20 flex-col items-start rounded-full">
+                <div className="relative flex h-20 w-20 flex-col items-start rounded-full">
                   <Image
                     src={iconarchive}
-                    className="object-scale-down object-left"
+                    className=" object-left"
                     alt="Archived Icon"
                     fill
                   />
                 </div>
-                <div className="px-4">
-                  <h1 className="text-2xl font-bold text-p-dviolet">
-                    Archived
-                  </h1>
-                  <h1 className="text-xl">{roomArchive ? "Yes" : "No"}</h1>
-                </div>
+                <h1 className="align-center flex w-[50%] flex-row items-center px-4 text-2xl font-bold text-p-dviolet">
+                  Archived
+                </h1>
+                <h1 className="flex items-center justify-center justify-between text-2xl font-extrabold">
+                  {roomArchive ? "✓" : "✕"}
+                </h1>
               </div>
             </div>
           )}
