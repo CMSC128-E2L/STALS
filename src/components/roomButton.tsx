@@ -1,7 +1,5 @@
-import Link from "next/link";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import RoomShow from "./roomShow";
-import { useSession } from "next-auth/react";
 
 const RoomButton: React.FC<{
   id: string;
@@ -29,8 +27,6 @@ const RoomButton: React.FC<{
   roomArchive,
 }) => {
   const [showRooms, setShowRooms] = useState(false);
-
-  const { data: sessionData } = useSession();
 
   // Must accept variables: int n and get whether the room is occupied or not
   if (!hidden) {
@@ -70,7 +66,7 @@ const RoomButton: React.FC<{
         {/* POPUP HELPER */}
         {showRooms && (
           <div className="fixed inset-0 z-[2] mt-10 flex items-center justify-center bg-black bg-opacity-50">
-            <div className="flex w-1/3 flex-col rounded-xl bg-white p-8">
+            <div className="flex w-full flex-col rounded-xl bg-white p-8 md:w-1/2">
               <RoomShow
                 roomID={id}
                 roomAccID={roomAccID}
@@ -82,7 +78,7 @@ const RoomButton: React.FC<{
                 roomArchive={roomArchive}
               />
               <button
-                className="mt-4 w-[15%] rounded bg-p-dviolet p-2 text-white hover:bg-p-dbviolet"
+                className="mt-4 w-fit rounded bg-p-dviolet p-2 text-white hover:bg-p-dbviolet"
                 onClick={() => setShowRooms(false)}
               >
                 Close
