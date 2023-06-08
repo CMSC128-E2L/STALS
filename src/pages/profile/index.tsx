@@ -85,9 +85,9 @@ export default function Profile() {
               <div>Error occurred while fetching reports.</div>
             ) : (
               <div>
-                {reports.map((report) => {
+                {reports.map((report, index) => {
                   return (
-                    <div key={report.id} className="mb-6">
+                    <div key={index} className="mb-6">
                       <div className="mb-2 flex flex-row">
                         <div className="relative flex h-[2.5rem] w-[2.5rem] flex-col">
                           <Image
