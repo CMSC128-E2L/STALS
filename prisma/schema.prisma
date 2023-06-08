@@ -120,10 +120,10 @@ model Accommodation {
 
   tagArray  Json? // TODO: required
   typeArray Json? // TODO: required
-  
-  Review    Review[]
-  Room      Room[]
-  Favorite  Favorite[]
+
+  Review   Review[]
+  Room     Room[]
+  Favorite Favorite[]
 
   //  remove this
   tags    String
@@ -155,7 +155,6 @@ enum TypeReported {
 }
 
 model Report {
-  id     String @id @default(cuid())
   user   User   @relation(fields: [userId], references: [id], onDelete: Cascade)
   userId String
 
@@ -164,6 +163,7 @@ model Report {
   reported_name String?
   report        String
 
+  @@unique([userId, reported_id])
   @@index([userId])
 }
 
