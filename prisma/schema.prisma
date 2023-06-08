@@ -163,7 +163,9 @@ model Report {
   reported_name String?
   report        String
 
-  @@unique([userId, reported_id])
+  createdAt DateTime @default(now())
+
+  @@unique([userId, reported_id], name: "ReportID")
   @@index([userId])
 }
 
