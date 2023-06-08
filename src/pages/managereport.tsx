@@ -77,9 +77,9 @@ export default function ManageReport() {
               <div>Error occurred while fetching reports.</div>
             ) : (
               <div>
-                {accomm_reports.map((report) => {
+                {accomm_reports.map((report, index) => {
                   return (
-                    <div key={report.id} className="mb-6">
+                    <div key={index} className="mb-6">
                       <Link href="">
                         <div className="float-right">
                           <button
@@ -90,7 +90,10 @@ export default function ManageReport() {
                                 id: report.reported_id,
                                 is_archived: false,
                               });
-                              delReport.mutate(report.id);
+                              delReport.mutate({
+                                userId: report.userId,
+                                reported_id: report.reported_id,
+                              });
                             }}
                           >
                             <svg
@@ -149,9 +152,9 @@ export default function ManageReport() {
               <div>Error occurred while fetching reports.</div>
             ) : (
               <div>
-                {review_reports.map((report) => {
+                {review_reports.map((report, index) => {
                   return (
-                    <div key={report.id} className="mb-6">
+                    <div key={index} className="mb-6">
                       <Link href="">
                         <div className="float-right">
                           <button
@@ -161,7 +164,10 @@ export default function ManageReport() {
                               archiveReview.mutate({
                                 id: report.reported_id,
                               });
-                              delReport.mutate(report.id);
+                              delReport.mutate({
+                                userId: report.userId,
+                                reported_id: report.reported_id,
+                              });
                             }}
                           >
                             <svg
