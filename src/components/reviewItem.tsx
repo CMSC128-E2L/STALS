@@ -12,13 +12,14 @@ import StarRating from "./StarRating";
 
 const ReviewItem: React.FC<{
   id: string;
+  accommodationId: string;
   user: User;
   date: string | null;
   time: string | null;
   review: string | null;
   rating: number;
   refetch: () => void;
-}> = ({ id, user, date, time, review, rating, refetch }) => {
+}> = ({ id, accommodationId, user, date, time, review, rating, refetch }) => {
   const { data: userSession } = useSession();
   const [showDelPrompt, setShowDelPrompt] = useState(false);
   const [editMode, setEditMode] = useState(false);
@@ -125,6 +126,8 @@ const ReviewItem: React.FC<{
                 onConfirm={() => {
                   archiveRev.mutate({
                     id: id,
+                    accommodationId: accommodationId,
+                    rating: rating,
                   });
                 }}
                 onCancel={() => setShowDelPrompt(false)}
