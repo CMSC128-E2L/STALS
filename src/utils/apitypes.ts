@@ -133,7 +133,7 @@ export const reviewEditSchema = z.object({
 export const reviewArchiveSchema = z.object({
   id: z.string(),
   accommodationId: z.string().optional(),
-  rating: z.number(),
+  rating: z.number().optional(),
 });
 
 export const reviewGetManySchema = z.object({

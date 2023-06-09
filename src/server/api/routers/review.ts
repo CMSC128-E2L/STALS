@@ -120,6 +120,7 @@ export const reviewRouter = createTRPCRouter({
     .mutation(async ({ ctx, input }) => {
       const id = input.id;
       const accommodationId = input.accommodationId;
+      const rating = input.rating!;
 
       const oldvalues = await ctx.prisma.accommodation.findUnique({
         select: {
@@ -135,7 +136,7 @@ export const reviewRouter = createTRPCRouter({
       let count = oldvalues?.total_reviews ?? 0;
 
       count += 1;
-      avg = avg + (input.rating - avg) / count;
+      avg = avg + (rating - avg) / count;
 
       await ctx.prisma.accommodation.update({
         where: { id: accommodationId },
