@@ -46,18 +46,21 @@ export const ReviewList: React.FC<{
         reviews?.pages.map((page, i: number) =>
           page && page?.items.length != 0 ? (
             <>
-              {page?.items?.map(({ id, user, date, time, review, rating }) => (
-                <ReviewItem
-                  key={id}
-                  id={id}
-                  user={user}
-                  date={date}
-                  time={time}
-                  review={review}
-                  rating={rating}
-                  refetch={RefetchUserInputs}
-                />
-              ))}
+              {page?.items?.map(
+                ({ id, accommodationId, user, date, time, review, rating }) => (
+                  <ReviewItem
+                    key={id}
+                    id={id}
+                    accommodationId={accommodationId}
+                    user={user}
+                    date={date}
+                    time={time}
+                    review={review}
+                    rating={rating}
+                    refetch={RefetchUserInputs}
+                  />
+                ),
+              )}
             </>
           ) : (
             <div

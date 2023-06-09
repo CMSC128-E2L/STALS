@@ -11,6 +11,7 @@ import {
   reviewEditSchema,
   reviewGetManySchema,
   reviewGetInfSchema,
+  reviewArchiveSchema,
 } from "~/utils/apitypes";
 
 export const reviewRouter = createTRPCRouter({
@@ -86,6 +87,7 @@ export const reviewRouter = createTRPCRouter({
     .input(reviewEditSchema)
     .mutation(({ ctx, input }) => {
       const id = input.id;
+
       return ctx.prisma.review.update({
         where: { id },
         data: {
@@ -114,16 +116,45 @@ export const reviewRouter = createTRPCRouter({
     }),
 
   archive: protectedProcedure
-    .input(z.object({ id: z.string() }))
-    .mutation(({ ctx, input }) => {
+    .input(reviewArchiveSchema)
+    .mutation(async ({ ctx, input }) => {
       const id = input.id;
-      // const archived = input.is_archived;
-      return ctx.prisma.review.update({
+      const accommodationId = input.accommodationId;
+
+      const oldvalues = await ctx.prisma.accommodation.findUnique({
+        select: {
+          average_rating: true,
+          total_reviews: true,
+        },
+        where: {
+          id: input.accommodationId,
+        },
+      });
+
+      let avg = oldvalues?.average_rating ?? 0;
+      let count = oldvalues?.total_reviews ?? 0;
+
+      count += 1;
+      avg = avg + (input.rating - avg) / count;
+
+      await ctx.prisma.accommodation.update({
+        where: { id: accommodationId },
+        data: {
+          total_reviews: {
+            decrement: 1,
+          },
+          average_rating: avg,
+        },
+      });
+
+      const archive = ctx.prisma.review.update({
         where: { id },
         data: {
           is_archived: true,
         },
       });
+
+      return archive;
     }),
 
   // getArchives: publicProcedure.query(async ({ ctx }) => {

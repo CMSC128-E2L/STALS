@@ -130,6 +130,12 @@ export const reviewEditSchema = z.object({
   rating: z.number().optional(),
 });
 
+export const reviewArchiveSchema = z.object({
+  id: z.string(),
+  accommodationId: z.string().optional(),
+  rating: z.number(),
+});
+
 export const reviewGetManySchema = z.object({
   accommodationId: z.string().optional(),
   page: z.number(),
