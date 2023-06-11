@@ -498,7 +498,29 @@ export default function HomePage() {
                 </button>
                 {showPriceDropdown && (
                   <div>
-                    {Object.keys(priceRangesNew).map((key, index) => (
+                    <input
+                      id="price-slider"
+                      type="range"
+                      min={0}
+                      max={8000}
+                      step={1000}
+                      className="h-2 w-full cursor-pointer appearance-none rounded-lg bg-gray-200"
+                      onChange={(event) => {
+                        const slider = document.getElementById("price-slider");
+                        const sliderElement = slider as HTMLInputElement;
+                        const minValue = parseInt(sliderElement.min);
+                        const maxValue = parseInt(sliderElement.value);
+
+                        setUserInputs((prevInputs) => ({
+                          ...prevInputs,
+                          price_min: minValue,
+                          price_max: maxValue,
+                        }));
+                        setSelectedPrice(event.target.value);
+                      }}
+                    />
+
+                    {/* {Object.keys(priceRangesNew).map((key, index) => (
                       <div className="mb-1 mt-2 flex items-center" key={index}>
                         <input
                           id={key}
@@ -525,7 +547,7 @@ export default function HomePage() {
                           {priceRangesNew[key]?.label}
                         </label>
                       </div>
-                    ))}
+                    ))} */}
                   </div>
                 )}
                 <button className="filter-header" onClick={toggleSortDropdown}>
