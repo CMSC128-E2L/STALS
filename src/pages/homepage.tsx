@@ -14,6 +14,7 @@ import { useSession } from "next-auth/react";
 import bgpic from "public/images/background_home.png";
 import { stalsDBstringArray, titleCase } from "~/utils/helpers";
 import { AccommodationType } from "@prisma/client";
+import { type } from "os";
 
 const priceRangeKeys = {
   all: "all",
@@ -55,6 +56,7 @@ export default function HomePage() {
   ];
 
   const [selectedPrice, setSelectedPrice] = useState("all");
+  const [selectedMax, setSelectedMax] = useState(5000);
   const [selectedSort, setSelectedSort] = useState("NONE");
 
   const [showTypeDropdown, setTypeDropdown] = useState(true);
@@ -502,23 +504,23 @@ export default function HomePage() {
                       id="price-slider"
                       type="range"
                       min={0}
-                      max={8000}
+                      max={10000}
                       step={1000}
                       className="h-2 w-full cursor-pointer appearance-none rounded-lg bg-gray-200"
                       onChange={(event) => {
-                        const slider = document.getElementById("price-slider");
-                        const sliderElement = slider as HTMLInputElement;
-                        const minValue = parseInt(sliderElement.min);
-                        const maxValue = parseInt(sliderElement.value);
-
                         setUserInputs((prevInputs) => ({
                           ...prevInputs,
-                          price_min: minValue,
-                          price_max: maxValue,
+                          price_min: 0,
+                          price_max: selectedMax,
                         }));
-                        setSelectedPrice(event.target.value);
+                        setSelectedMax(parseInt(event.target.value));
                       }}
                     />
+                    <div className="flex items-center justify-center">
+                      <label className="text-center text-xs">
+                        Maximum: {selectedMax}
+                      </label>
+                    </div>
 
                     {/* {Object.keys(priceRangesNew).map((key, index) => (
                       <div className="mb-1 mt-2 flex items-center" key={index}>
