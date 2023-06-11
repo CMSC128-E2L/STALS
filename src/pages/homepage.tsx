@@ -589,7 +589,12 @@ export default function HomePage() {
                         <label htmlFor="NAME-ASC" className="filter-text">
                           <svg
                             xmlns="http://www.w3.org/2000/svg"
-                            className="icon icon-tabler icon-tabler-arrow-narrow-up cursor-pointer"
+                            // className="icon icon-tabler icon-tabler-arrow-narrow-up cursor-pointer"
+                            className={`icon icon-tabler icon-tabler-arrow-narrow-up cursor-pointer ${
+                              "NAME-ASC" === selectedSort
+                                ? "text-p-bviolet"
+                                : "text-black"
+                            }`}
                             width="20"
                             height="20"
                             viewBox="0 0 24 24"
@@ -623,7 +628,11 @@ export default function HomePage() {
                         <label htmlFor="NAME-DESC" className="filter-text">
                           <svg
                             xmlns="http://www.w3.org/2000/svg"
-                            className="icon icon-tabler icon-tabler-arrow-narrow-down cursor-pointer"
+                            className={`icon icon-tabler icon-tabler-arrow-narrow-down cursor-pointer ${
+                              "NAME-DESC" === selectedSort
+                                ? "text-p-bviolet"
+                                : "text-black"
+                            }`}
                             width="20"
                             height="20"
                             viewBox="0 0 24 24"
@@ -664,7 +673,11 @@ export default function HomePage() {
                         <label htmlFor="PRICE-ASC" className="filter-text">
                           <svg
                             xmlns="http://www.w3.org/2000/svg"
-                            className="icon icon-tabler icon-tabler-arrow-narrow-up cursor-pointer"
+                            className={`icon icon-tabler icon-tabler-arrow-narrow-up cursor-pointer ${
+                              "PRICE-ASC" === selectedSort
+                                ? "text-p-bviolet"
+                                : "text-black"
+                            }`}
                             width="20"
                             height="20"
                             viewBox="0 0 24 24"
@@ -698,7 +711,11 @@ export default function HomePage() {
                         <label htmlFor="PRICE-DESC" className="filter-text">
                           <svg
                             xmlns="http://www.w3.org/2000/svg"
-                            className="icon icon-tabler icon-tabler-arrow-narrow-down cursor-pointer"
+                            className={`icon icon-tabler icon-tabler-arrow-narrow-down cursor-pointer ${
+                              "PRICE-DESC" === selectedSort
+                                ? "text-p-bviolet"
+                                : "text-black"
+                            }`}
                             width="20"
                             height="20"
                             viewBox="0 0 24 24"
@@ -739,7 +756,11 @@ export default function HomePage() {
                         <label htmlFor="RATING-ASC" className="filter-text">
                           <svg
                             xmlns="http://www.w3.org/2000/svg"
-                            className="icon icon-tabler icon-tabler-arrow-narrow-up cursor-pointer"
+                            className={`icon icon-tabler icon-tabler-arrow-narrow-up cursor-pointer ${
+                              "RATING-ASC" === selectedSort
+                                ? "text-p-bviolet"
+                                : "text-black"
+                            }`}
                             width="20"
                             height="20"
                             viewBox="0 0 24 24"
@@ -776,7 +797,11 @@ export default function HomePage() {
                         <label htmlFor="RATING-DESC" className="filter-text">
                           <svg
                             xmlns="http://www.w3.org/2000/svg"
-                            className="icon icon-tabler icon-tabler-arrow-narrow-down cursor-pointer"
+                            className={`icon icon-tabler icon-tabler-arrow-narrow-down cursor-pointer ${
+                              "RATING-DESC" === selectedSort
+                                ? "text-p-bviolet"
+                                : "text-black"
+                            }`}
                             width="20"
                             height="20"
                             viewBox="0 0 24 24"
