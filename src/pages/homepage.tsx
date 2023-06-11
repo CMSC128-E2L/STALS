@@ -56,7 +56,7 @@ export default function HomePage() {
   ];
 
   const [selectedPrice, setSelectedPrice] = useState("all");
-  const [selectedMax, setSelectedMax] = useState(7000);
+  const [selectedMax, setSelectedMax] = useState(8000);
   const [selectedSort, setSelectedSort] = useState("NONE");
 
   const [showTypeDropdown, setTypeDropdown] = useState(true);
