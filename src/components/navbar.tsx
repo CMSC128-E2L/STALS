@@ -79,7 +79,7 @@ export const NavBar: React.FC<NavBarProps> = ({ register, name, showBack }) => {
                 />
                 <button className="rounded-r-full bg-white py-2 pl-2 pr-3 text-white outline outline-1 outline-white">
                   <svg
-                    className="h-6 w-6 pb-0.5 text-p-dviolet opacity-50 hover:text-p-rblue"
+                    className="h-6 w-6 pb-0.5 text-p-dviolet opacity-50 hover:text-p-bviolet"
                     viewBox="0 0 24 24"
                     fill="none"
                     stroke="currentColor"
@@ -139,7 +139,7 @@ const ProfileButton: React.FC = () => {
     } else {
       return (
         <div className="block w-full rounded-lg p-2 text-left">
-          <p className="text-lg font-bold text-p-rblue">Guest</p>
+          <p className="text-lg font-bold text-p-bviolet">Guest</p>
           <p className="mb-1 overflow-hidden truncate text-sm italic text-gray-400">
             Unregistered user
           </p>
