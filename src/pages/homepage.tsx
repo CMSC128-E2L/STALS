@@ -56,7 +56,7 @@ export default function HomePage() {
   ];
 
   const [selectedPrice, setSelectedPrice] = useState("all");
-  const [selectedMax, setSelectedMax] = useState(5000);
+  const [selectedMax, setSelectedMax] = useState(7000);
   const [selectedSort, setSelectedSort] = useState("NONE");
 
   const [showTypeDropdown, setTypeDropdown] = useState(true);
@@ -504,7 +504,7 @@ export default function HomePage() {
                       id="price-slider"
                       type="range"
                       min={0}
-                      max={10000}
+                      max={15000}
                       step={1000}
                       className="h-2 w-full cursor-pointer appearance-none rounded-lg bg-gray-200"
                       onChange={(event) => {
