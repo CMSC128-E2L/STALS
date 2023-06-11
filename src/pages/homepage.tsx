@@ -551,7 +551,226 @@ export default function HomePage() {
                 </button>
                 {showSortDropdown && (
                   <div>
-                    {sortTypes.map((range, index) => (
+                    {/* Sort by name */}
+                    <div className="flex text-xs">
+                      <div className="-mx-1 flex items-center" key="NAME-ASC">
+                        <input
+                          id="NAME-ASC"
+                          type="radio"
+                          name="sort"
+                          value="NAME-ASC"
+                          onChange={handleSortTypeChange}
+                          checked={"NAME-ASC" === selectedSort}
+                          className="filter-radio hidden"
+                        />
+                        <label htmlFor="NAME-ASC" className="filter-text">
+                          <svg
+                            xmlns="http://www.w3.org/2000/svg"
+                            className="icon icon-tabler icon-tabler-arrow-narrow-up cursor-pointer"
+                            width="20"
+                            height="20"
+                            viewBox="0 0 24 24"
+                            stroke-width="2"
+                            stroke="currentColor"
+                            fill="none"
+                            stroke-linecap="round"
+                            stroke-linejoin="round"
+                          >
+                            <path
+                              stroke="none"
+                              d="M0 0h24v24H0z"
+                              fill="none"
+                            ></path>
+                            <path d="M12 5l0 14"></path>
+                            <path d="M16 9l-4 -4"></path>
+                            <path d="M8 9l4 -4"></path>
+                          </svg>
+                        </label>
+                      </div>
+                      <div className="-mx-1 flex items-center" key="NAME-DESC">
+                        <input
+                          id="NAME-DESC"
+                          type="radio"
+                          name="sort"
+                          value="NAME-DESC"
+                          onChange={handleSortTypeChange}
+                          checked={"NAME-DESC" === selectedSort}
+                          className="filter-radio hidden"
+                        />
+                        <label htmlFor="NAME-DESC" className="filter-text">
+                          <svg
+                            xmlns="http://www.w3.org/2000/svg"
+                            className="icon icon-tabler icon-tabler-arrow-narrow-down cursor-pointer"
+                            width="20"
+                            height="20"
+                            viewBox="0 0 24 24"
+                            stroke-width="2"
+                            stroke="currentColor"
+                            fill="none"
+                            stroke-linecap="round"
+                            stroke-linejoin="round"
+                          >
+                            <path
+                              stroke="none"
+                              d="M0 0h24v24H0z"
+                              fill="none"
+                            ></path>
+                            <path d="M12 5l0 14"></path>
+                            <path d="M16 15l-4 4"></path>
+                            <path d="M8 15l4 4"></path>
+                          </svg>
+                        </label>
+                      </div>
+                      <label className="mx-2 mt-1">Name</label>
+                    </div>
+                    {/* Sort by price */}
+                    <div className="flex text-xs">
+                      <div className="-mx-1 flex items-center" key="PRICE-ASC">
+                        <input
+                          id="PRICE-ASC"
+                          type="radio"
+                          name="sort"
+                          value="PRICE-ASC"
+                          onChange={handleSortTypeChange}
+                          checked={"PRICE-ASC" === selectedSort}
+                          className="filter-radio hidden"
+                        />
+                        <label htmlFor="PRICE-ASC" className="filter-text">
+                          <svg
+                            xmlns="http://www.w3.org/2000/svg"
+                            className="icon icon-tabler icon-tabler-arrow-narrow-up cursor-pointer"
+                            width="20"
+                            height="20"
+                            viewBox="0 0 24 24"
+                            stroke-width="2"
+                            stroke="currentColor"
+                            fill="none"
+                            stroke-linecap="round"
+                            stroke-linejoin="round"
+                          >
+                            <path
+                              stroke="none"
+                              d="M0 0h24v24H0z"
+                              fill="none"
+                            ></path>
+                            <path d="M12 5l0 14"></path>
+                            <path d="M16 9l-4 -4"></path>
+                            <path d="M8 9l4 -4"></path>
+                          </svg>
+                        </label>
+                      </div>
+                      <div className="-mx-1 flex items-center" key="PRICE-DESC">
+                        <input
+                          id="PRICE-DESC"
+                          type="radio"
+                          name="sort"
+                          value="PRICE-DESC"
+                          onChange={handleSortTypeChange}
+                          checked={"PRICE-DESC" === selectedSort}
+                          className="filter-radio hidden"
+                        />
+                        <label htmlFor="PRICE-DESC" className="filter-text">
+                          <svg
+                            xmlns="http://www.w3.org/2000/svg"
+                            className="icon icon-tabler icon-tabler-arrow-narrow-down cursor-pointer"
+                            width="20"
+                            height="20"
+                            viewBox="0 0 24 24"
+                            stroke-width="2"
+                            stroke="currentColor"
+                            fill="none"
+                            stroke-linecap="round"
+                            stroke-linejoin="round"
+                          >
+                            <path
+                              stroke="none"
+                              d="M0 0h24v24H0z"
+                              fill="none"
+                            ></path>
+                            <path d="M12 5l0 14"></path>
+                            <path d="M16 15l-4 4"></path>
+                            <path d="M8 15l4 4"></path>
+                          </svg>
+                        </label>
+                      </div>
+                      <label className="mx-2 mt-1">Price</label>
+                    </div>
+                    {/* Sort by rating */}
+                    <div className="flex text-xs">
+                      <div className="-mx-1 flex items-center" key="RATING-ASC">
+                        <input
+                          id="RATING-ASC"
+                          type="radio"
+                          name="sort"
+                          value="RATING-ASC"
+                          onChange={handleSortTypeChange}
+                          checked={"RATING-ASC" === selectedSort}
+                          className="filter-radio hidden"
+                        />
+                        <label htmlFor="RATING-ASC" className="filter-text">
+                          <svg
+                            xmlns="http://www.w3.org/2000/svg"
+                            className="icon icon-tabler icon-tabler-arrow-narrow-up cursor-pointer"
+                            width="20"
+                            height="20"
+                            viewBox="0 0 24 24"
+                            stroke-width="2"
+                            stroke="currentColor"
+                            fill="none"
+                            stroke-linecap="round"
+                            stroke-linejoin="round"
+                          >
+                            <path
+                              stroke="none"
+                              d="M0 0h24v24H0z"
+                              fill="none"
+                            ></path>
+                            <path d="M12 5l0 14"></path>
+                            <path d="M16 9l-4 -4"></path>
+                            <path d="M8 9l4 -4"></path>
+                          </svg>
+                        </label>
+                      </div>
+                      <div
+                        className="-mx-1 flex items-center"
+                        key="RATING-DESC"
+                      >
+                        <input
+                          id="RATING-DESC"
+                          type="radio"
+                          name="sort"
+                          value="RATING-DESC"
+                          onChange={handleSortTypeChange}
+                          checked={"RATING-DESC" === selectedSort}
+                          className="filter-radio hidden"
+                        />
+                        <label htmlFor="RATING-DESC" className="filter-text">
+                          <svg
+                            xmlns="http://www.w3.org/2000/svg"
+                            className="icon icon-tabler icon-tabler-arrow-narrow-down cursor-pointer"
+                            width="20"
+                            height="20"
+                            viewBox="0 0 24 24"
+                            stroke-width="2"
+                            stroke="currentColor"
+                            fill="none"
+                            stroke-linecap="round"
+                            stroke-linejoin="round"
+                          >
+                            <path
+                              stroke="none"
+                              d="M0 0h24v24H0z"
+                              fill="none"
+                            ></path>
+                            <path d="M12 5l0 14"></path>
+                            <path d="M16 15l-4 4"></path>
+                            <path d="M8 15l4 4"></path>
+                          </svg>
+                        </label>
+                      </div>
+                      <label className="mx-2 mt-1">Rating</label>
+                    </div>
+                    {/* {sortTypes.map((range, index) => (
                       <div
                         className="mb-1 mt-2 flex items-center"
                         key={range.id}
@@ -569,7 +788,7 @@ export default function HomePage() {
                           {range.label}
                         </label>
                       </div>
-                    ))}
+                    ))} */}
                   </div>
                 )}
 
