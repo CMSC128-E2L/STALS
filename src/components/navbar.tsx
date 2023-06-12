@@ -67,7 +67,7 @@ export const NavBar: React.FC<NavBarProps> = ({ register, name, showBack }) => {
         </div>
 
         {/* Right side */}
-        <div className="flex grow items-center justify-end p-4 font-medium sm:flex-col md:mt-0 md:flex-row md:space-x-5 md:border-0 md:p-0">
+        <div className="flex grow flex-row items-center justify-end p-4 font-medium sm:space-x-5 sm:p-0 md:border-0">
           <div>
             {register && name ? (
               <div className="mr-3 flex items-center sm:mr-0">
