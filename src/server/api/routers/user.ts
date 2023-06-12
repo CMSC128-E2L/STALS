@@ -107,6 +107,7 @@ export const userRouter = createTRPCRouter({
             name: true,
             price: true,
             barangay: true,
+            average_rating: true,
             tagArray: true,
             typeArray: true,
           },
