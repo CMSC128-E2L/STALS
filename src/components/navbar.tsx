@@ -230,7 +230,7 @@ const ProfileButton: React.FC = () => {
               </svg>
               <Link href={"/login"}>Sign In</Link>
             </div>
-            <div className="dropdown-buttons">
+            {/* <div className="dropdown-buttons">
               <svg
                 xmlns="http://www.w3.org/2000/svg"
                 className="icon icon-tabler icon-tabler-user-plus -ml-1 mr-2"
@@ -250,7 +250,7 @@ const ProfileButton: React.FC = () => {
                 <path d="M6 21v-2a4 4 0 0 1 4 -4h4"></path>
               </svg>
               <Link href={"/login"}>Sign Up</Link>
-            </div>
+            </div> */}
           </div>
         </div>
       );
