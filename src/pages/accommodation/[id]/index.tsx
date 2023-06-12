@@ -26,6 +26,8 @@ export default function Accommodation() {
   const isUserViewing = userSession?.profile.type === UserType.USER;
   const isGuest = userSession === null;
 
+  const isAdminViewing = userSession?.profile.type === UserType.ADMIN;
+
   const [isFavorite, setIsFavorite] = useState(false);
 
   const {
@@ -33,6 +35,10 @@ export default function Accommodation() {
     isLoading: accommLoading,
     refetch: refetchaccommData,
   } = api.accommodation.getOneRelations.useQuery(id);
+  const isLandlordViewing =
+    (userSession?.profile.type === UserType.LANDLORD ||
+      userSession?.profile.type === UserType.ADMIN) &&
+    accommData?.landlord === userSession?.user?.id;
 
   const refetchAccomData = () => {
     void refetchaccommData();
@@ -106,10 +112,6 @@ export default function Accommodation() {
       setIsFavorite(isFavorite);
     }
   }, [favorites, accommData?.id, isGuest]);
-
-  const isLandlordViewing =
-    userSession?.profile.type === UserType.LANDLORD &&
-    accommData?.landlord === userSession?.user?.id;
 
   const calledOnce = useRef(false);
   const [pdfdownload, setpdfdownload] = useState(false);
@@ -364,9 +366,10 @@ export default function Accommodation() {
                 </>
               )}
 
-              {!accommData?.is_archived && isLandlordViewing && (
-                <label className="cursor-pointer">
-                  {/* <button
+              {!accommData?.is_archived &&
+                (isLandlordViewing || isAdminViewing) && (
+                  <label className="cursor-pointer">
+                    {/* <button
                       data-modal-target="popup-modal"
                       data-modal-toggle="popup-modal"
                       className="accPButton sr-only mx-3 mb-2 self-end px-3 text-lg"
@@ -377,40 +380,88 @@ export default function Accommodation() {
                         });
                       }} 
                     /> */}
-                  <button
-                    className="flex flex-row space-x-2"
-                    onClick={() => setShowDelPrompt(true)}
-                  ></button>
-                  {showDelPrompt && (
-                    <ConfirmationPrompt
-                      onConfirm={() => {
+                    <button
+                      className="flex flex-row space-x-2"
+                      onClick={() => setShowDelPrompt(true)}
+                    ></button>
+                    {showDelPrompt && (
+                      <ConfirmationPrompt
+                        onConfirm={() => {
+                          archiveAccom.mutate({
+                            id: id,
+                            is_archived: accommData!.is_archived,
+                          });
+                        }}
+                        onCancel={() => setShowDelPrompt(false)}
+                        message="Are you sure you want to archive this accommodation? "
+                        submessage=""
+                        // submessage="This action cannot be undone."
+                      />
+                    )}
+                    <svg
+                      xmlns="http://www.w3.org/2000/svg"
+                      fill="none"
+                      viewBox="0 0 24 24"
+                      strokeWidth="1.5"
+                      stroke="currentColor"
+                      className="h-8 w-8"
+                    >
+                      <path
+                        strokeLinecap="round"
+                        strokeLinejoin="round"
+                        d="M20.25 7.5l-.625 10.632a2.25 2.25 0 01-2.247 2.118H6.622a2.25 2.25 0 01-2.247-2.118L3.75 7.5M10 11.25h4M3.375 7.5h17.25c.621 0 1.125-.504 1.125-1.125v-1.5c0-.621-.504-1.125-1.125-1.125H3.375c-.621 0-1.125.504-1.125 1.125v1.5c0 .621.504 1.125 1.125 1.125z"
+                      />
+                    </svg>
+                  </label>
+                )}
+              {accommData?.is_archived &&
+                (isLandlordViewing || isAdminViewing) && (
+                  <label className="cursor-pointer">
+                    {/* <button
+                      data-modal-target="popup-modal"
+                      data-modal-toggle="popup-modal"
+                      className="accPButton sr-only mx-3 mb-2 self-end px-3 text-lg"
+                      onClick={() => {
                         archiveAccom.mutate({
                           id: id,
-                          is_archived: accommData.is_archived,
+                          is_archived: accommData!.is_archived,
                         });
-                      }}
-                      onCancel={() => setShowDelPrompt(false)}
-                      message="Are you sure you want to archive this accommodation? "
-                      submessage=""
-                      // submessage="This action cannot be undone."
-                    />
-                  )}
-                  <svg
-                    xmlns="http://www.w3.org/2000/svg"
-                    fill="none"
-                    viewBox="0 0 24 24"
-                    strokeWidth="1.5"
-                    stroke="currentColor"
-                    className="h-8 w-8"
-                  >
-                    <path
-                      strokeLinecap="round"
-                      strokeLinejoin="round"
-                      d="M20.25 7.5l-.625 10.632a2.25 2.25 0 01-2.247 2.118H6.622a2.25 2.25 0 01-2.247-2.118L3.75 7.5m6 4.125l2.25 2.25m0 0l2.25 2.25M12 13.875l2.25-2.25M12 13.875l-2.25 2.25M3.375 7.5h17.25c.621 0 1.125-.504 1.125-1.125v-1.5c0-.621-.504-1.125-1.125-1.125H3.375c-.621 0-1.125.504-1.125 1.125v1.5c0 .621.504 1.125 1.125 1.125z"
-                    />
-                  </svg>
-                </label>
-              )}
+                      }} 
+                    /> */}
+                    <button
+                      className="flex flex-row space-x-2"
+                      onClick={() => setShowDelPrompt(true)}
+                    ></button>
+                    {showDelPrompt && (
+                      <ConfirmationPrompt
+                        onConfirm={() => {
+                          archiveAccom.mutate({
+                            id: id,
+                            is_archived: accommData.is_archived,
+                          });
+                        }}
+                        onCancel={() => setShowDelPrompt(false)}
+                        message="Are you sure you want to unarchive this accommodation? "
+                        submessage=""
+                        // submessage="This action cannot be undone."
+                      />
+                    )}
+                    <svg
+                      xmlns="http://www.w3.org/2000/svg"
+                      fill="none"
+                      viewBox="0 0 24 24"
+                      strokeWidth="1.5"
+                      stroke="currentColor"
+                      className="h-8 w-8"
+                    >
+                      <path
+                        strokeLinecap="round"
+                        strokeLinejoin="round"
+                        d="M20.25 7.5l-.625 10.632a2.25 2.25 0 01-2.247 2.118H6.622a2.25 2.25 0 01-2.247-2.118L3.75 7.5m6 4.125l2.25 2.25m0 0l2.25 2.25M12 13.875l2.25-2.25M12 13.875l-2.25 2.25M3.375 7.5h17.25c.621 0 1.125-.504 1.125-1.125v-1.5c0-.621-.504-1.125-1.125-1.125H3.375c-.621 0-1.125.504-1.125 1.125v1.5c0 .621.504 1.125 1.125 1.125z"
+                      />
+                    </svg>
+                  </label>
+                )}
             </div>
           </div>
         </div>
