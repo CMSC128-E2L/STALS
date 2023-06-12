@@ -2,6 +2,8 @@ import Link from "next/link";
 import { useState } from "react";
 import Image from "next/image";
 import placeholder from "public/images/stals_purple_logo.png";
+import StarRow from "./starRow";
+import { api } from "~/utils/api";
 
 export const SearchItem: React.FC<{
   id: string;
@@ -15,6 +17,12 @@ export const SearchItem: React.FC<{
     // `https://stals-worker.p0lbang.workers.dev/${id}.jpg`,
     `https://stals-worker.p0lbang.workers.dev/api/v2/${id}/${id}`,
   );
+
+  const {
+    data: accommData,
+    isLoading: accommLoading,
+    refetch: refetchaccommData,
+  } = api.accommodation.getOneRelations.useQuery(id);
 
   return (
     <div className="m-4 flex justify-center self-stretch">
@@ -37,30 +45,72 @@ export const SearchItem: React.FC<{
 
           <div className="w-full flex-col p-4">
             <div className="py-p px-6 ">
-              <div className="mb-2 text-xl font-bold">{name}</div>
+              <div className="mb-2 text-xl font-bold text-p-dviolet">
+                {name}
+              </div>
+
               {type &&
                 type
                   .filter((type) => type !== "")
-                  .splice(0, 5)
                   .map((type, index) => (
                     <span
                       key={index}
-                      className="mb-2 mr-2 inline-block text-sm text-gray-500"
+                      className="text-md mb-2 mr-2 inline-block font-semibold text-p-dviolet/50"
                     >
                       {type}
                     </span>
                   ))}
-              <p className="text-xl">₱ {priceCommas(price)}</p>
-              <p className="mb-4 text-xl">{location}</p>
+              <StarRow
+                class="justify-left -ml-0.5 mb-2"
+                rating={accommData?.average_rating ?? 0}
+              />
+              <div className="flex">
+                <div className="flex">
+                  <svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    className="icon icon-tabler icon-tabler-currency-peso -ml-1 mr-1.5 mt-0.5"
+                    width="20"
+                    height="20"
+                    viewBox="0 0 24 24"
+                    stroke-width="2"
+                    stroke="currentColor"
+                    fill="none"
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                  >
+                    <path stroke="none" d="M0 0h24v24H0z" fill="none"></path>
+                    <path d="M8 19v-14h3.5a4.5 4.5 0 1 1 0 9h-3.5"></path>
+                    <path d="M18 8h-12"></path>
+                    <path d="M18 11h-12"></path>
+                  </svg>
+                  <p className="text-md font-semibold text-p-black">
+                    {priceCommas(price)}
+                  </p>
+                </div>
+                <div className="ml-4 flex">
+                  <svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    className="icon icon-tabler icon-tabler-map-pin mr-1.5 mt-0.5"
+                    width="20"
+                    height="20"
+                    viewBox="0 0 24 24"
+                    stroke-width="2"
+                    stroke="currentColor"
+                    fill="none"
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                  >
+                    <path stroke="none" d="M0 0h24v24H0z" fill="none"></path>
+                    <path d="M9 11a3 3 0 1 0 6 0a3 3 0 0 0 -6 0"></path>
+                    <path d="M17.657 16.657l-4.243 4.243a2 2 0 0 1 -2.827 0l-4.244 -4.243a8 8 0 1 1 11.314 0z"></path>
+                  </svg>
+                  <p className="text-md mb-4 font-semibold text-p-black">
+                    {location}
+                  </p>
+                </div>
+              </div>
             </div>
             <div className="w-full pl-5">
-              <span className="object-contain">
-                {tags && tags.length > 5 && (
-                  <span className="mb-2 mr-2 inline-block rounded-full bg-p-lviolet px-3 py-1 text-center text-sm font-semibold text-gray-700 shadow shadow-p-vdviolet/30">
-                    {tags.length - 5} more..
-                  </span>
-                )}
-              </span>
               <span className="object-contain">
                 {tags &&
                   tags

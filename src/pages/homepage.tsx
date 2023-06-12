@@ -970,7 +970,7 @@ const Tags: React.FC<{
             }
           }}
           className="filter-search text-p-dviolet"
-          placeholder="e.g. cooking"
+          placeholder="e.g. aircon"
         />
       </div>
     </div>
