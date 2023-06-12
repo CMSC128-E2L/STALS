@@ -4,8 +4,8 @@ export default function StarRow(props: {
   rating: number | undefined | null;
   class?: string;
 }) {
-  const filledStars = Math.floor(props.rating || 0); // Number of filled stars based on the rating
-  const remainingStar = 5 - filledStars; // Number of empty stars
+  const filledStars = Math.min(Math.floor(props.rating ?? 0), 5); // Number of filled stars based on the rating
+  const remainingStar = Math.max(5 - filledStars, 0); // Number of empty stars
 
   return (
     <>
