@@ -174,9 +174,7 @@ const ProfileButton: React.FC = () => {
                   <path d="M5 12v7a2 2 0 0 0 2 2h10a2 2 0 0 0 2 -2v-7"></path>
                   <path d="M9 21v-6a2 2 0 0 1 2 -2h2a2 2 0 0 1 2 2v6"></path>
                 </svg>
-                <Link href={"/accommodation/management"}>
-                  My Accommodations
-                </Link>
+                <Link href={"/accommodation/management"}>Management</Link>
               </div>
             )}
             <div className="dropdown-buttons">

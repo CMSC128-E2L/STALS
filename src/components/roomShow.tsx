@@ -193,7 +193,7 @@ const RoomShow: React.FC<{
 
           {/* ICONS */}
           {[
-            { icon: iconavail, name: "Availability", boolvalue: roomOccupied },
+            { icon: iconavail, name: "Occupied", boolvalue: roomOccupied },
             { icon: iconaircon, name: "Airconditioner", boolvalue: roomAircon },
             { icon: iconutils, name: "Utilities", boolvalue: roomUtils },
           ].map((item, index) => (

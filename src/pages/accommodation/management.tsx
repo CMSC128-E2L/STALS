@@ -1,6 +1,5 @@
-import { UserType, type Accommodation } from "@prisma/client";
+import { UserType } from "@prisma/client";
 import { useSession } from "next-auth/react";
-import Image from "next/image";
 import NavBar from "~/components/navbar";
 import { api } from "~/utils/api";
 import { notAuthenticated, stalsDBstringArray } from "~/utils/helpers";
@@ -13,9 +12,17 @@ import bg from "public/images/background_management.png";
 export default function Delete_Archive_Accomm() {
   const userSession = useSession({ required: true });
 
-  const { data, isLoading, refetch } = api.accommodation.getMany.useQuery({
-    landlord: userSession.data?.user.id,
-  });
+  const isUserAdmin = userSession?.data?.profile.type === UserType.ADMIN;
+
+  const { data, isLoading, refetch } = isUserAdmin
+    ? api.accommodation.getAll.useQuery()
+    : api.accommodation.getMany.useQuery({
+        landlord: userSession?.data?.user.id,
+      });
+
+  const refetchData = () => {
+    void refetch();
+  };
 
   if (notAuthenticated(userSession.status)) {
     return <LoadingSpinner />;
@@ -36,7 +43,7 @@ export default function Delete_Archive_Accomm() {
 
       <main className="z-30 py-5">
         <p className="mb-6 text-center text-3xl font-extrabold text-white drop-shadow-sm">
-          My Accommodations
+          Management
         </p>
 
         <div className="mb-4 flex justify-center">
@@ -63,31 +70,31 @@ export default function Delete_Archive_Accomm() {
         </div>
 
         {userSession.data?.user &&
-          data?.map((accomm: Accommodation) => (
-            <>
-              <div className="flex">
-                <div className="flex w-full flex-row justify-center space-x-2">
-                  {/* TODO: Display each accommodation with the component "accomm_segment.tsx" */}
-                  <Accomm_Segment
-                    id={accomm.id}
-                    name={accomm.name}
-                    price={
-                      accomm.price !== undefined && accomm.price !== null
-                        ? priceCommas(accomm.price.toFixed(2))
-                        : ""
-                    }
-                    num_of_rooms={accomm.num_of_rooms}
-                    barangay={accomm.barangay}
-                    typeArray={stalsDBstringArray(accomm.typeArray)}
-                    tagArray={stalsDBstringArray(accomm.tagArray)}
-                    is_archived={accomm.is_archived}
-                    location={accomm.location}
-                    refetch={refetch}
-                  />
-                </div>
-                <br />
+          data?.map((accomm, index) => (
+            <div key={index} className="flex">
+              <div className="flex w-full flex-row justify-center space-x-2">
+                {/* TODO: Display each accommodation with the component "accomm_segment.tsx" */}
+                <Accomm_Segment
+                  id={accomm.id}
+                  name={accomm.name}
+                  price={
+                    accomm.price !== undefined && accomm.price !== null
+                      ? priceCommas(accomm.price.toFixed(2))
+                      : ""
+                  }
+                  rooms={accomm.Room}
+                  landlord={accomm.landlordUser}
+                  num_of_rooms={accomm.num_of_rooms}
+                  barangay={accomm.barangay}
+                  typeArray={stalsDBstringArray(accomm.typeArray)}
+                  tagArray={stalsDBstringArray(accomm.tagArray)}
+                  is_archived={accomm.is_archived}
+                  location={accomm.location}
+                  refetch={refetchData}
+                />
               </div>
-            </>
+              <br />
+            </div>
           ))}
       </main>
     </div>
