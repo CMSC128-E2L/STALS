@@ -10,7 +10,8 @@ import bgpic from "public/images/signup_bg.png";
 import { useSession } from "next-auth/react";
 import { api } from "~/utils/api";
 import { UserType } from "@prisma/client";
-import { useState } from "react";
+import { useState, useRef, useEffect } from "react";
+import jsPDF from "jspdf";
 
 export default function Profile() {
   const { data: sessionData } = useSession();
@@ -29,9 +30,33 @@ export default function Profile() {
         <section className="h-min w-full rounded-3xl bg-white shadow-lg">
           <div className="flex w-full flex-col p-6">
             <div className="flex flex-row justify-center text-center">
-              <h1 className="text-2xl font-bold text-p-dbviolet">
+              <h1 className="w-full object-left text-2xl font-bold text-p-dbviolet">
                 My Favorites
               </h1>
+              <div
+                className="relative flex cursor-pointer object-right text-sm"
+                onClick={() => {
+                  // setpdfdownload(true);
+                }}
+              >
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  className="icon icon-tabler icon-tabler-download ml-3 mr-1"
+                  width="auto"
+                  height="30"
+                  viewBox="0 0 24 24"
+                  strokeWidth="2"
+                  stroke="currentColor"
+                  fill="none"
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                >
+                  <path stroke="none" d="M0 0h24v24H0z" fill="none"></path>
+                  <path d="M4 17v2a2 2 0 0 0 2 2h12a2 2 0 0 0 2 -2v-2"></path>
+                  <path d="M7 11l5 5l5 -5"></path>
+                  <path d="M12 4l0 12"></path>
+                </svg>
+              </div>
             </div>
             <div className="flex items-center drop-shadow-md">
               <div className="flex flex-wrap">
