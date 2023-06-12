@@ -4,10 +4,9 @@ import { dynamicRouteID, notAuthenticated } from "~/utils/helpers";
 import { accommodationEditSchema } from "~/utils/apitypes";
 import { type UseFormRegister, useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { type RouterInputs, api } from "~/utils/api";
+import { api } from "~/utils/api";
 import bgpic from "public/images/background_addedit_accom.png";
 import toast from "react-hot-toast";
-import Link from "next/link";
 import { useSession } from "next-auth/react";
 import LoadingSpinner from "~/components/loadingSpinner";
 import Error404 from "~/pages/404";
@@ -15,29 +14,40 @@ import Error from "~/pages/_error";
 import { type z } from "zod";
 import { stalsDBstringArray } from "~/utils/helpers";
 import FormError from "~/components/formError";
+import { type Prisma } from "@prisma/client";
+import { useEffect } from "react";
 
 export default function EditAccommodation() {
   const userSession = useSession({ required: true });
   const { id } = dynamicRouteID(useRouter());
   const router = useRouter();
 
-  const { data: oldData, isLoading: oldDataLoading } =
-    api.accommodation.getOne.useQuery(id);
+  const {
+    data: oldData,
+    isLoading: oldDataLoading,
+    refetch,
+    isStale,
+  } = api.accommodation.getOne.useQuery(id);
+
+  useEffect(() => {
+    void refetch();
+  }, [userSession, isStale, refetch]);
 
   const {
     register,
     handleSubmit,
-
     formState: { errors },
   } = useForm<z.infer<typeof accommodationEditSchema>>({
     resolver: zodResolver(accommodationEditSchema),
     defaultValues: {
       id: id,
+      typeArray: stalsDBstringArray(oldData?.typeArray),
     },
   });
 
   const editAccommodation = api.accommodation.edit.useMutation({
     onSuccess: () => {
+      void refetch();
       router.back();
     },
   });
@@ -78,9 +88,10 @@ export default function EditAccommodation() {
                     new Promise((resolve) => {
                       setTimeout(() => {
                         resolve(
-                          editAccommodation.mutate(
-                            d as RouterInputs["accommodation"]["edit"],
-                          ),
+                          editAccommodation.mutate({
+                            ...d,
+                            id,
+                          }),
                         );
                       }, 1);
                     }),
@@ -123,7 +134,7 @@ export default function EditAccommodation() {
               <div className="ml-5 flex flex-col justify-evenly gap-4 px-5 pt-2 sm:ml-0 sm:flex-row">
                 {tagCheckbox(
                   ["Dormitory", "Apartment", "Hotel", "Transient", "Bedspace"],
-                  stalsDBstringArray(oldData?.typeArray),
+                  oldData?.typeArray,
                   register,
                 )}
               </div>
@@ -151,11 +162,8 @@ export default function EditAccommodation() {
                       {...register("contract_length")}
                       defaultValue={oldData?.contract_length ?? ""}
                     >
-                      <option selected disabled hidden>
-                        {oldData?.contract_length}
-                      </option>
-                      <option>1 ACADEMIC YEAR</option>
-                      <option>1 SEMESTER</option>
+                      <option value="1 ACADEMIC YEAR">1 Academic Year</option>
+                      <option value="1 SEMESTER">1 Semester</option>
                     </select>
                   </div>
                   <div>
@@ -175,13 +183,10 @@ export default function EditAccommodation() {
                     <select
                       className="form-dropdown shadow shadow-p-black/50"
                       {...register("location")}
-                      value={oldData?.location ?? ""}
+                      defaultValue={oldData?.location ?? ""}
                     >
-                      <option selected disabled hidden>
-                        {oldData?.location ?? ""}
-                      </option>
-                      <option>Within UPLB</option>
-                      <option>Outside UPLB</option>
+                      <option value="WITHIN UPLB">Within UPLB</option>
+                      <option value="OUTSIDE UPLB">Outside UPLB</option>
                     </select>
                   </div>
                   <div>
@@ -241,21 +246,30 @@ export default function EditAccommodation() {
 
 function tagCheckbox(
   array: string[],
-  oldData: any,
+  oldData: Prisma.JsonValue | undefined,
   register: UseFormRegister<z.infer<typeof accommodationEditSchema>>,
 ) {
-  //for backend
-  const isArray = Array.isArray(oldData);
+  const typearray = stalsDBstringArray(oldData);
 
   return array.map((value: string) => (
     <div key={value} className="flex flex-row gap-2">
-      <input
-        id={value}
-        type="checkbox"
-        value={value}
-        defaultChecked={isArray && oldData.includes(value)}
-        {...register("typeArray")}
-      />
+      {typearray.includes(value) ? (
+        <input
+          id={value}
+          type="checkbox"
+          value={value}
+          defaultChecked
+          {...register("typeArray", { required: true })}
+        />
+      ) : (
+        <input
+          id={value}
+          type="checkbox"
+          value={value}
+          {...register("typeArray", { required: true })}
+        />
+      )}
+
       <label htmlFor={value}>{value}</label>
     </div>
   ));
