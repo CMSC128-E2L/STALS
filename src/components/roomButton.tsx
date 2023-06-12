@@ -39,10 +39,11 @@ const RoomButton: React.FC<{
             onClick={() => setShowRooms(true)}
           >
             <label className="bold self-center text-lg text-white">
-              Room {String(roomIndex + 1)}
+              {/* Room {String(roomIndex + 1)} */}
+              {status ? "Occupied Room" : "Unoccupied Room"}
             </label>
             <p className="text-md self-center whitespace-nowrap px-1 italic text-white">
-              {status ? "Occupied" : "Unoccupied"} <br /> ₱{" "}
+              {/* {status ? "Occupied" : "Unoccupied"} <br />  */}₱{" "}
               {priceCommas(roomPrice)}
             </p>
           </button>
@@ -54,11 +55,13 @@ const RoomButton: React.FC<{
             onClick={() => setShowRooms(true)}
           >
             <label className="bold self-center text-lg">
-              Room {String(roomIndex + 1)}
+              {/* Room {String(roomIndex + 1)} */}
+              {status ? "Occupied Room" : "Unoccupied Room"}
             </label>
             <p className="text-md self-center whitespace-nowrap px-1 italic">
-              {status ? "Occupied" : "Unoccupied"} <br /> ₱{" "}
-              {priceCommas(roomPrice)}
+              {/* {status ? "Occupied" : "Unoccupied"} <br /> ₱{" "}
+              {priceCommas(roomPrice)} */}
+              ₱ {priceCommas(roomPrice)}
             </p>
           </button>
         )}
