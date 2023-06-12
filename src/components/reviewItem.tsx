@@ -7,7 +7,6 @@ import toast from "react-hot-toast";
 import { api } from "~/utils/api";
 import { useSession } from "next-auth/react";
 import ConfirmationPrompt from "./prompt";
-import { useRouter } from "next/router";
 import StarRating from "./StarRating";
 
 const ReviewItem: React.FC<{
@@ -27,7 +26,18 @@ const ReviewItem: React.FC<{
   const [editedRating, setEditedRating] = useState(rating || 0);
   const isUserViewing = userSession?.profile.type === UserType.USER;
 
-  const reportAccomm = api.report.add.useMutation();
+  const reportReview = api.report.add.useMutation({
+    onSuccess: () => {
+      toast.success(
+        "Thank you for reporting this review.\nAn alert has been sent to the administrators.",
+        {
+          position: "bottom-center",
+          duration: 4000,
+        },
+      );
+    },
+  });
+
   const deleteRev = api.review.delete.useMutation({
     onSuccess: () => {
       void refetch();
@@ -50,9 +60,9 @@ const ReviewItem: React.FC<{
     setEditMode(true);
   };
 
-  const handleSaveClick = async () => {
+  const handleSaveClick = () => {
     try {
-      await editRev.mutateAsync({
+      editRev.mutate({
         id: id,
         review: editedReview,
         rating: editedRating,
@@ -148,7 +158,7 @@ const ReviewItem: React.FC<{
               {editMode ? (
                 <button
                   className="flex flex-row space-x-2"
-                  onClick={void handleSaveClick}
+                  onClick={handleSaveClick}
                 >
                   Save
                 </button>
@@ -193,7 +203,7 @@ const ReviewItem: React.FC<{
             <button
               className="flex flex-row space-x-10"
               onClick={() => {
-                reportAccomm.mutate({
+                reportReview.mutate({
                   reported_id: id,
                   reported_name:
                     review !== ""
@@ -208,13 +218,6 @@ const ReviewItem: React.FC<{
                   report: "",
                   type_reported: "REVIEW",
                 });
-                toast.success(
-                  "Thank you for reporting this review.\nAn alert has been sent to the administrators.",
-                  {
-                    position: "bottom-center",
-                    duration: 4000,
-                  },
-                );
               }}
             >
               Report this review
