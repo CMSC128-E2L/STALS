@@ -5,11 +5,8 @@ const ConfirmationPrompt: React.FC<{
   submessage: string;
 }> = ({ onConfirm, onCancel, message, submessage }) => {
   return (
-    <center>
-      <div
-        id="prompt"
-        className="fixed z-50 h-[calc(100%-1rem)] max-h-full overflow-y-auto overflow-x-hidden p-4 backdrop-blur-sm md:inset-0"
-      >
+    <center className="fixed left-0 top-0 z-50 h-full w-full p-4 backdrop-blur-sm md:inset-0">
+      <div id="prompt">
         <div className="relative max-h-full w-full max-w-md">
           <div className="relative rounded-lg bg-white shadow dark:bg-gray-700">
             <button
