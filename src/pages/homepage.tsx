@@ -15,49 +15,8 @@ import bgpic from "public/images/background_home.png";
 import { stalsDBstringArray, titleCase } from "~/utils/helpers";
 import { AccommodationType } from "@prisma/client";
 
-const priceRangeKeys = {
-  all: "all",
-  below1000: "below-1000",
-  onetotwo: "one-to-two",
-  twotothree: "two-to-three",
-  threetofour: "three-to-four",
-  abovefour: "above-four",
-};
-
-type priceRangeKeys = (typeof priceRangeKeys)[keyof typeof priceRangeKeys];
-
-type priceRangeType = {
-  [key in priceRangeKeys]: {
-    min: number | undefined;
-    max: number | undefined;
-    label: string;
-  };
-};
-
-const priceRangesNew: priceRangeType = {
-  all: { min: undefined, max: undefined, label: "All" },
-  "below-1000": { min: undefined, max: 1000, label: "Under ₱ 1,001.00" },
-  "one-to-two": { min: 1001, max: 2000, label: "₱ 1,001.00 – ₱ 2,000.00" },
-  "two-to-three": { min: 2001, max: 3000, label: "₱ 2,001.00 – ₱ 3,000.00" },
-  "three-to-four": { min: 3001, max: 4000, label: "₱ 3,001.00 – ₱ 4,000.00" },
-  "above-four": { min: 4001, max: undefined, label: "Above ₱ 4,001.00" },
-};
-
 export default function HomePage() {
-  const sortTypes = [
-    { id: "NONE", value: "NONE", label: "None" },
-    { id: "NAME-ASC", value: "NAME-ASC", label: "Name (ascending)" },
-    { id: "NAME-DESC", value: "NAME-DESC", label: "Name (descending)" },
-    { id: "PRICE-ASC", value: "PRICE-ASC", label: "Price (ascending)" },
-    { id: "PRICE-DESC", value: "PRICE-DESC", label: "Price (descending)" },
-    { id: "RATING-ASC", value: "RATING-ASC", label: "Rating (ascending)" },
-    { id: "RATING-DESC", value: "RATING-DESC", label: "Rating (descending)" },
-  ];
-
-  const [selectedPrice, setSelectedPrice] = useState("all");
-  const [selectedMax, setSelectedMax] = useState(8000);
   const [selectedSort, setSelectedSort] = useState("NONE");
-
   const [showTypeDropdown, setTypeDropdown] = useState(true);
   const [showPriceDropdown, setPriceDropdown] = useState(true);
   const [showSortDropdown, setSortDropdown] = useState(true);
@@ -517,81 +476,56 @@ export default function HomePage() {
                   ></path>
                 </svg>
               </button>
-              <div>
-                <input
-                  id="min-price-slider"
-                  type="range"
-                  min={0}
-                  max={15000}
-                  step={1000}
-                  value={userInputs.price_min}
-                  className="h-2 w-full cursor-pointer appearance-none rounded-lg bg-gray-200"
-                  onChange={(event) => {
-                    const minValue = parseInt(event.target.value);
-                    if (minValue <= userInputs.price_max!) {
-                      setUserInputs((prevInputs) => ({
-                        ...prevInputs,
-                        price_min: minValue,
-                      }));
-                    }
-                  }}
-                />
-                <div className="flex items-center justify-center">
-                  <label className="text-center text-xs">
-                    Minimum: {userInputs.price_min}
-                  </label>
+              {showPriceDropdown && (
+                <div>
+                  <input
+                    id="min-price-slider"
+                    type="range"
+                    min={0}
+                    max={15000}
+                    step={1000}
+                    value={userInputs.price_min}
+                    className="h-2 w-full cursor-pointer appearance-none rounded-lg bg-gray-200"
+                    onChange={(event) => {
+                      const minValue = parseInt(event.target.value);
+                      if (minValue <= userInputs.price_max!) {
+                        setUserInputs((prevInputs) => ({
+                          ...prevInputs,
+                          price_min: minValue,
+                        }));
+                      }
+                    }}
+                  />
+                  <div className="flex items-center justify-center">
+                    <label className="text-center text-xs">
+                      Minimum: {userInputs.price_min}
+                    </label>
+                  </div>
+                  <input
+                    id="max-price-slider"
+                    type="range"
+                    min={0}
+                    max={15000}
+                    step={1000}
+                    value={userInputs.price_max}
+                    className="h-2 w-full cursor-pointer appearance-none rounded-lg bg-gray-200"
+                    onChange={(event) => {
+                      const maxValue = parseInt(event.target.value);
+                      if (maxValue >= userInputs.price_min!) {
+                        setUserInputs((prevInputs) => ({
+                          ...prevInputs,
+                          price_max: maxValue,
+                        }));
+                      }
+                    }}
+                  />
+                  <div className="flex items-center justify-center">
+                    <label className="text-center text-xs">
+                      Maximum: {userInputs.price_max}
+                    </label>
+                  </div>
                 </div>
-                <input
-                  id="max-price-slider"
-                  type="range"
-                  min={0}
-                  max={15000}
-                  step={1000}
-                  value={userInputs.price_max}
-                  className="h-2 w-full cursor-pointer appearance-none rounded-lg bg-gray-200"
-                  onChange={(event) => {
-                    const maxValue = parseInt(event.target.value);
-                    if (maxValue >= userInputs.price_min!) {
-                      setUserInputs((prevInputs) => ({
-                        ...prevInputs,
-                        price_max: maxValue,
-                      }));
-                    }
-                  }}
-                />
-                <div className="flex items-center justify-center">
-                  <label className="text-center text-xs">
-                    Maximum: {userInputs.price_max}
-                  </label>
-                </div>
-
-                {/* {Object.keys(priceRangesNew).map((key, index) => (
-                    <div className="mb-1 mt-2 flex items-center" key={index}>
-                      <input
-                        id={key}
-                        type="radio"
-                        name="price_range"
-                        value={key}
-                        onChange={(event) => {
-                          const { value, checked } = event.target;
-                          if (checked) {
-                            setUserInputs((prevInputs) => ({
-                              ...prevInputs,
-                              price_min: priceRangesNew[value]?.min,
-                              price_max: priceRangesNew[value]?.max,
-                            }));
-                          }
-                          setSelectedPrice(event.target.value);
-                        }}
-                        className="filter-radio inline-block"
-                        checked={key === selectedPrice}
-                      />
-                      <label htmlFor={key} className="filter-text">
-                        {priceRangesNew[key]?.label}
-                      </label>
-                    </div>
-                  ))} */}
-              </div>
+              )}
               <hr className="filter-border"></hr>
 
               <button className="filter-header" onClick={toggleSortDropdown}>
@@ -867,25 +801,6 @@ export default function HomePage() {
                     </div>
                     <label className="mx-2 mt-1">Rating</label>
                   </div>
-                  {/* {sortTypes.map((range, index) => (
-                    <div
-                      className="mb-1 mt-2 flex items-center"
-                      key={range.id}
-                    >
-                      <input
-                        id={range.id}
-                        type="radio"
-                        name="sort"
-                        value={range.value}
-                        onChange={handleSortTypeChange}
-                        checked={range.value === selectedSort}
-                        className="filter-radio inline-block"
-                      />
-                      <label htmlFor={range.id} className="filter-text">
-                        {range.label}
-                      </label>
-                    </div>
-                  ))} */}
                 </div>
               )}
               <hr className="filter-border"></hr>
