@@ -30,8 +30,15 @@ export default function Accommodation() {
 
   const [isFavorite, setIsFavorite] = useState(false);
 
-  const { data: accommData, isLoading: accommLoading } =
-    api.accommodation.getOneRelations.useQuery(id);
+  const {
+    data: accommData,
+    isLoading: accommLoading,
+    refetch: refetchaccommData,
+  } = api.accommodation.getOneRelations.useQuery(id);
+
+  const refetchAccomData = () => {
+    void refetchaccommData();
+  };
 
   const { data: ImageList, isLoading: imageLoading } =
     api.file.getAccommImages.useQuery({ id });
@@ -703,7 +710,7 @@ export default function Accommodation() {
             <OverAllRating />
           </div>
           <div className="w-full px-4 sm:col-span-2">
-            <ReviewGroup />
+            <ReviewGroup reloadAccom={refetchAccomData} />
           </div>
         </div>
       </div>

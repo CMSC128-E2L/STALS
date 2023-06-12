@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import { type z } from "zod";
-import { type RouterOutputs, api } from "~/utils/api";
+import { api } from "~/utils/api";
 import { type reviewGetInfSchema } from "~/utils/apitypes";
 import ReviewItem from "./reviewItem";
 import LoadingSpinner from "./loadingSpinner";
@@ -8,7 +8,8 @@ import LoadingSpinner from "./loadingSpinner";
 export const ReviewList: React.FC<{
   accomId: string;
   refreshComponent: number;
-}> = ({ accomId, refreshComponent }) => {
+  refreshComponentFunction: () => void;
+}> = ({ accomId, refreshComponent, refreshComponentFunction }) => {
   const [userInputs, setUserInputs] = useState<
     z.infer<typeof reviewGetInfSchema>
   >({
@@ -34,11 +35,12 @@ export const ReviewList: React.FC<{
       limit: 5,
     });
     void refetch();
+    void refreshComponentFunction();
   };
 
   useEffect(() => {
     void RefetchUserInputs();
-  }, [accomId, refetch, refreshComponent]);
+  }, [accomId, refreshComponent]);
 
   return (
     <div className="h-full">
