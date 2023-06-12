@@ -33,8 +33,6 @@ export default function Accommodation() {
   const { data: accommData, isLoading: accommLoading } =
     api.accommodation.getOneRelations.useQuery(id);
 
-  const { data: accomm } = api.accommodation.getOne.useQuery(id);
-
   const { data: ImageList, isLoading: imageLoading } =
     api.file.getAccommImages.useQuery({ id });
 
@@ -644,7 +642,7 @@ export default function Accommodation() {
                   onClick={() => {
                     reportAccomm.mutate({
                       reported_id: id,
-                      reported_name: accomm!.name,
+                      reported_name: accommData!.name,
                       report: "",
                       type_reported: "ACCOMMODATION",
                     });
