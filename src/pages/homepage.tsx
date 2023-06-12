@@ -864,7 +864,7 @@ export default function HomePage() {
               </div>
             </aside>
             <div
-              className={`h-fit w-full rounded-b-2xl bg-p-lviolet shadow-2xl sm:mt-16 sm:w-fit sm:rounded-bl-none sm:rounded-br-2xl sm:rounded-tr-2xl sm:px-2.5 sm:py-3`}
+              className={`h-fit w-full rounded-b-2xl bg-p-lviolet sm:mt-16 sm:w-fit sm:rounded-bl-none sm:rounded-br-2xl sm:rounded-tr-2xl sm:px-2.5 sm:py-3`}
               onClick={handleSidebarChange}
             >
               <svg
