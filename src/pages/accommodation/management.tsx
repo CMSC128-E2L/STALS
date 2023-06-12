@@ -9,6 +9,12 @@ import Link from "next/link";
 import Error401 from "~/pages/401";
 import bg from "public/images/background_management.png";
 
+function priceCommas(x: string) {
+  const pattern = /(-?\d+)(\d{3})/;
+  while (pattern.test(x)) x = x.replace(pattern, "$1,$2");
+  return x;
+}
+
 export default function Delete_Archive_Accomm() {
   const userSession = useSession({ required: true });
 
@@ -20,22 +26,47 @@ export default function Delete_Archive_Accomm() {
         landlord: userSession?.data?.user.id,
       });
 
+  const methods = api.accommodation.getManyExperiment.useInfiniteQuery(
+    {
+      showAll: undefined,
+      limit: 10,
+      typeArray: [],
+      tagArray: [],
+    },
+    {
+      getNextPageParam: (lastPage) => lastPage.nextCursor,
+    },
+  );
+
+  const {
+    isLoading: queryLoading,
+    data: accommodationEntries,
+    fetchNextPage,
+    isFetchingNextPage,
+    hasNextPage,
+    refetch: refetchAccoms,
+  } = methods;
+
   const refetchData = () => {
     void refetch();
   };
 
   if (notAuthenticated(userSession.status)) {
-    return <LoadingSpinner />;
+    return (
+      <div className="min-h-[80vh]">
+        <img className="site-background" src={bg.src} alt="background" />
+        <NavBar />
+        <div className="flex h-screen w-full grow justify-center self-stretch">
+          <LoadingSpinner />
+        </div>
+      </div>
+    );
   }
+
   if (userSession?.data?.profile.type === UserType.USER) {
     return Error401();
   }
 
-  function priceCommas(x: string) {
-    const pattern = /(-?\d+)(\d{3})/;
-    while (pattern.test(x)) x = x.replace(pattern, "$1,$2");
-    return x;
-  }
   return (
     <div className="min-h-[80vh]">
       <img className="site-background" src={bg.src} alt="background" />
@@ -69,33 +100,63 @@ export default function Delete_Archive_Accomm() {
           </Link>
         </div>
 
-        {userSession.data?.user &&
-          data?.map((accomm, index) => (
-            <div key={index} className="flex">
-              <div className="flex w-full flex-row justify-center space-x-2">
-                {/* TODO: Display each accommodation with the component "accomm_segment.tsx" */}
-                <Accomm_Segment
-                  id={accomm.id}
-                  name={accomm.name}
-                  price={
-                    accomm.price !== undefined && accomm.price !== null
-                      ? priceCommas(accomm.price.toFixed(2))
-                      : ""
-                  }
-                  rooms={accomm.Room}
-                  landlord={accomm.landlordUser}
-                  num_of_rooms={accomm.num_of_rooms}
-                  barangay={accomm.barangay}
-                  typeArray={stalsDBstringArray(accomm.typeArray)}
-                  tagArray={stalsDBstringArray(accomm.tagArray)}
-                  is_archived={accomm.is_archived}
-                  location={accomm.location}
-                  refetch={refetchData}
-                />
-              </div>
-              <br />
-            </div>
-          ))}
+        {queryLoading ? (
+          <div className="flex h-screen w-full grow justify-center self-stretch">
+            <LoadingSpinner />
+          </div>
+        ) : (
+          accommodationEntries &&
+          accommodationEntries?.pages.map(
+            (pages) =>
+              pages &&
+              pages.items.length > 0 &&
+              pages.items.map((accomm, index) => (
+                <div key={index} className="flex">
+                  <div className="flex w-full flex-row justify-center space-x-2">
+                    {/* TODO: Display each accommodation with the component "accomm_segment.tsx" */}
+                    <Accomm_Segment
+                      id={accomm.id}
+                      name={accomm.name}
+                      price={
+                        accomm.price !== undefined && accomm.price !== null
+                          ? priceCommas(accomm.price.toFixed(2))
+                          : ""
+                      }
+                      rooms={accomm.Room}
+                      landlord={accomm.landlordUser}
+                      num_of_rooms={accomm.num_of_rooms}
+                      barangay={accomm.barangay}
+                      typeArray={stalsDBstringArray(accomm.typeArray)}
+                      tagArray={stalsDBstringArray(accomm.tagArray)}
+                      is_archived={accomm.is_archived}
+                      location={accomm.location}
+                      refetch={refetchData}
+                    />
+                  </div>
+                  <br />
+                </div>
+              )),
+          )
+        )}
+        {isFetchingNextPage ? (
+          <div className="">
+            <LoadingSpinner />
+          </div>
+        ) : hasNextPage ? (
+          <div className="w-full text-center">
+            <button
+              className="button-style m-5 w-[50%]"
+              onClick={() => {
+                void fetchNextPage();
+              }}
+              disabled={!hasNextPage || isFetchingNextPage}
+            >
+              Load More
+            </button>
+          </div>
+        ) : (
+          ""
+        )}
       </main>
     </div>
   );
