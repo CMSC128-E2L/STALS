@@ -326,6 +326,7 @@ const Accomm_Segment: React.FC<{
                 deleteAccomm.mutate({
                   id: id,
                 });
+                setShowDelPrompt(false);
               }}
               onCancel={() => setShowDelPrompt(false)}
               message="Are you sure you want to delete this accommodation? "
