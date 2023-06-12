@@ -35,7 +35,7 @@ const RoomButton: React.FC<{
         {/* if unoccupied */}
         {!status && (
           <button
-            className="flex flex-none flex-col rounded-md bg-p-dviolet px-5 px-8 py-1 text-sm shadow shadow-p-dblue/50 hover:bg-p-dbviolet"
+            className="flex flex-none flex-col rounded-md bg-p-dviolet px-8 py-1 text-sm shadow shadow-p-dblue/50 hover:bg-p-dbviolet"
             onClick={() => setShowRooms(true)}
           >
             <label className="bold self-center text-lg text-white">

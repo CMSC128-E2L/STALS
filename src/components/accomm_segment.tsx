@@ -61,13 +61,13 @@ const Accomm_Segment: React.FC<{
       userSession?.profile.type === UserType.ADMIN) &&
     landlord.id === userSession?.user?.id;
   return (
-    <div className="w-[1000px] justify-self-center p-4">
+    <div className="w-screen min-w-[300px] justify-self-center p-4 sm:w-[1000px]">
       <div className="mx-auto rounded-xl border-2 bg-white p-2 shadow-md">
         <Link href={`/accommodation/${id}`}>
-          <div className="mx-2 mt-2 flex flex-row space-x-2 ">
-            <div className="aspect-square w-[30%]">
+          <div className="mx-2 mt-2 flex flex-col space-x-2 sm:flex-row ">
+            <div className="aspect-square sm:w-[30%]">
               <img
-                className=" aspect-square w-full object-contain"
+                className="aspect-square w-full object-cover"
                 src={imgSrc}
                 alt="placeholder img"
                 onError={() => {
@@ -102,12 +102,12 @@ const Accomm_Segment: React.FC<{
               </div>
 
               <div className="flex flex-col gap-1 text-xl ">
-                <div className="flex flex-row">
-                  <label className="w-[30%] font-bold">Price</label>
+                <div className="flex flex-row space-x-2">
+                  <label className="font-bold sm:w-[30%]">Price</label>
                   <p className="">₱{price}</p>
                 </div>
-                <div className="flex flex-row">
-                  <label className="w-[30%] font-bold">Location</label>
+                <div className="flex flex-row space-x-2">
+                  <label className="font-bold sm:w-[30%]">Location</label>
                   <p className="">{location}</p>
                 </div>
               </div>
@@ -326,6 +326,7 @@ const Accomm_Segment: React.FC<{
                 deleteAccomm.mutate({
                   id: id,
                 });
+                setShowDelPrompt(false);
               }}
               onCancel={() => setShowDelPrompt(false)}
               message="Are you sure you want to delete this accommodation? "

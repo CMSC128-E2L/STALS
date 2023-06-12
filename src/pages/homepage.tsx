@@ -85,9 +85,8 @@ export default function HomePage() {
     cursor: null,
     typeArray: [],
     tagArray: [],
-    price_min: undefined,
+    price_min: 0,
     price_max: undefined,
-    is_archived: false,
     sortByName: null,
     sortByRating: null,
     sortByPrice: null,
@@ -518,31 +517,55 @@ export default function HomePage() {
                   ></path>
                 </svg>
               </button>
-              {showPriceDropdown && (
-                <div>
-                  <input
-                    id="price-slider"
-                    type="range"
-                    min={0}
-                    max={15000}
-                    step={1000}
-                    className="h-2 w-full cursor-pointer appearance-none rounded-lg bg-gray-200"
-                    onChange={(event) => {
+              <div>
+                <input
+                  id="min-price-slider"
+                  type="range"
+                  min={0}
+                  max={15000}
+                  step={1000}
+                  value={userInputs.price_min}
+                  className="h-2 w-full cursor-pointer appearance-none rounded-lg bg-gray-200"
+                  onChange={(event) => {
+                    const minValue = parseInt(event.target.value);
+                    if (minValue <= userInputs.price_max!) {
                       setUserInputs((prevInputs) => ({
                         ...prevInputs,
-                        price_min: 0,
-                        price_max: selectedMax,
+                        price_min: minValue,
                       }));
-                      setSelectedMax(parseInt(event.target.value));
-                    }}
-                  />
-                  <div className="flex items-center justify-center">
-                    <label className="text-center text-xs">
-                      Maximum: {selectedMax}
-                    </label>
-                  </div>
+                    }
+                  }}
+                />
+                <div className="flex items-center justify-center">
+                  <label className="text-center text-xs">
+                    Minimum: {userInputs.price_min}
+                  </label>
+                </div>
+                <input
+                  id="max-price-slider"
+                  type="range"
+                  min={0}
+                  max={15000}
+                  step={1000}
+                  value={userInputs.price_max}
+                  className="h-2 w-full cursor-pointer appearance-none rounded-lg bg-gray-200"
+                  onChange={(event) => {
+                    const maxValue = parseInt(event.target.value);
+                    if (maxValue >= userInputs.price_min!) {
+                      setUserInputs((prevInputs) => ({
+                        ...prevInputs,
+                        price_max: maxValue,
+                      }));
+                    }
+                  }}
+                />
+                <div className="flex items-center justify-center">
+                  <label className="text-center text-xs">
+                    Maximum: {userInputs.price_max}
+                  </label>
+                </div>
 
-                  {/* {Object.keys(priceRangesNew).map((key, index) => (
+                {/* {Object.keys(priceRangesNew).map((key, index) => (
                     <div className="mb-1 mt-2 flex items-center" key={index}>
                       <input
                         id={key}
@@ -568,8 +591,7 @@ export default function HomePage() {
                       </label>
                     </div>
                   ))} */}
-                </div>
-              )}
+              </div>
               <hr className="filter-border"></hr>
 
               <button className="filter-header" onClick={toggleSortDropdown}>
