@@ -29,8 +29,8 @@ export default function SignIn({
           </div>
 
           <div className="flex justify-center pb-4 drop-shadow-md">
-            <p className="text-md mt-2 italic text-gray-400">
-              Select an account to continue
+            <p className="text-md mt-1 italic text-gray-400">
+              Select a provider to continue
             </p>
           </div>
           <div className="py-2"></div>
