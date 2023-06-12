@@ -15,7 +15,7 @@ export default function ManageReport() {
     data: accomm_reports,
     isLoading: queryLoading,
     isError: queryError,
-    refetch,
+    refetch: accomRefetch,
   } = api.report.getAllType.useQuery({ type: "ACCOMMODATION" });
 
   const archiveAccom = api.accommodation.archive.useMutation({
@@ -24,7 +24,7 @@ export default function ManageReport() {
         position: "bottom-right",
         duration: 3000,
       });
-      void refetch();
+      void accomRefetch();
     },
   });
 
@@ -34,19 +34,21 @@ export default function ManageReport() {
         position: "bottom-right",
         duration: 3000,
       });
-      void refetch();
+      void reviewRefetch();
     },
   });
 
   const delReport = api.report.deleteReport.useMutation({
     onSuccess: () => {
-      void refetch();
+      void accomRefetch();
+      void reviewRefetch();
     },
   });
 
   useEffect(() => {
     if (!queryLoading && accomm_reports) {
-      void refetch();
+      void accomRefetch();
+      void reviewRefetch();
     }
   }, [queryLoading, accomm_reports]);
 
@@ -54,6 +56,7 @@ export default function ManageReport() {
     data: review_reports,
     isLoading: queryLoading1,
     isError: queryError1,
+    refetch: reviewRefetch,
   } = api.report.getAllType.useQuery({ type: "REVIEW" });
 
   if (userSession?.data?.profile.type === UserType.USER) {

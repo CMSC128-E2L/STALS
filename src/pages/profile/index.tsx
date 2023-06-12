@@ -24,13 +24,17 @@ export default function Profile() {
     data: reports,
     isLoading: queryLoading,
     isError: queryError,
+    refetch: refetchReports,
+    isFetching,
   } = api.report.getAll.useQuery({ page: 0, multiplier: 4 });
 
-  const {
-    data: favorites,
-    isLoading: favqueryLoading,
-    refetch,
-  } = api.user.getFavorites.useQuery();
+  useEffect(() => {
+    if (!queryLoading && sessionData) {
+      void refetchReports();
+    }
+  }, [queryLoading, sessionData]);
+
+  const { data: favorites } = api.user.getFavorites.useQuery();
 
   const [showEdit, setShowEdit] = useState(false);
 
@@ -207,7 +211,9 @@ export default function Profile() {
               <div>Loading...</div>
             ) : queryError ? (
               <div>Error occurred while fetching reports.</div>
-            ) : (
+            ) : isFetching ? (
+              <div>Loading...</div>
+            ) : reports.length > 0 ? (
               <div>
                 {reports.map((report, index) => {
                   return (
@@ -241,6 +247,10 @@ export default function Profile() {
                   );
                 })}
               </div>
+            ) : (
+              <p className="justify center mb-4 mt-5 text-sm italic text-gray-400">
+                No new notifications.
+              </p>
             )}
 
             <div className="w-full">
