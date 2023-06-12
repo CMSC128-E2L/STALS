@@ -67,12 +67,12 @@ const Signup: NextPage = () => {
         <div className="w-fit rounded-xl bg-white px-10 py-10">
           <div className="item-center flex justify-center px-2 pb-0 pt-0 drop-shadow-md">
             <h1 className="text-5xl font-extrabold text-p-dbviolet">
-              Welcome!
+              Welcome to STALS!
             </h1>
           </div>
 
           <div className="flex justify-center pb-6 drop-shadow-md">
-            <p className="text-sm italic text-gray-400">
+            <p className="mt-1 text-sm italic text-gray-400">
               Create an account to get started
             </p>
           </div>
