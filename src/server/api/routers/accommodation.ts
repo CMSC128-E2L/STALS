@@ -123,7 +123,12 @@ export const accommodationRouter = createTRPCRouter({
     }),
 
   getAll: protectedProcedure.query(({ ctx }) => {
-    return ctx.prisma.accommodation.findMany();
+    return ctx.prisma.accommodation.findMany({
+      include: {
+        Room: { orderBy: { occupied: "asc" } },
+        landlordUser: true,
+      },
+    });
   }),
 
   // Search an accommodation
@@ -144,6 +149,7 @@ export const accommodationRouter = createTRPCRouter({
       return ctx.prisma.accommodation.findMany({
         skip: input.page,
         take: input.multiplier,
+        include: { landlordUser: true, Room: { orderBy: { occupied: "asc" } } },
         where: {
           ...(input.is_archived !== undefined
             ? { is_archived: input.is_archived }
