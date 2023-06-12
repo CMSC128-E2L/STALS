@@ -127,7 +127,7 @@ export const reviewAddSchema = z.object({
 export const reviewEditSchema = z.object({
   id: z.string(),
   review: z.string().optional(),
-  rating: z.number().optional(),
+  rating: z.number().gte(1, { message: "Rating must be atleast 1!" }).lte(5),
 });
 
 export const reviewArchiveSchema = z.object({
