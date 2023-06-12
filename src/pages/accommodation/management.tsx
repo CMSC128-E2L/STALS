@@ -26,8 +26,6 @@ export default function Delete_Archive_Accomm() {
   const [queryInput, setQueryInput] = useState<
     z.infer<typeof accommodationGetManyExperiementSchema>
   >({
-    showAll: true,
-    ...(isUserAdmin ? {} : { landlord: userSession?.data?.user.id }),
     limit: 10,
     name: undefined,
     address: undefined,
@@ -37,7 +35,7 @@ export default function Delete_Archive_Accomm() {
     num_of_rooms: undefined,
     price_min: undefined,
     price_max: undefined,
-    typeArray: [],
+    typeArray: ["NONE"],
     tagArray: [],
     sortByName: null,
     sortByRating: null,
@@ -58,7 +56,9 @@ export default function Delete_Archive_Accomm() {
   useEffect(() => {
     setQueryInput((prev) => ({
       ...prev,
+      showAll: true,
       ...(isUserAdmin ? {} : { landlord: userSession?.data?.user.id }),
+      typeArray: [],
     }));
   }, [isUserAdmin, userSession]);
 
