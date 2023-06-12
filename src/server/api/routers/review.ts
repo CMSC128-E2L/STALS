@@ -129,11 +129,12 @@ export const reviewRouter = createTRPCRouter({
         count: removecount,
         accommodationId,
       } = await removeReview(id);
+
       await ctx.prisma.accommodation.update({
         where: { id: accommodationId },
         data: {
-          total_reviews: removeavg,
-          average_rating: removecount,
+          total_reviews: removecount,
+          average_rating: removeavg,
         },
       });
 
@@ -141,12 +142,12 @@ export const reviewRouter = createTRPCRouter({
       await ctx.prisma.accommodation.update({
         where: { id: accommodationId },
         data: {
-          total_reviews: avg,
-          average_rating: count,
+          total_reviews: count,
+          average_rating: avg,
         },
       });
 
-      return ctx.prisma.review.update({
+      return await ctx.prisma.review.update({
         where: { id },
         data: {
           rating,
