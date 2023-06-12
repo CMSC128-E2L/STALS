@@ -49,10 +49,6 @@ export const SearchItem: React.FC<{
                 {name}
               </div>
 
-              <StarRow
-                class="justify-left -ml-0.5 mb-2"
-                rating={accommData?.average_rating ?? 0}
-              />
               {type &&
                 type
                   .filter((type) => type !== "")
@@ -64,6 +60,10 @@ export const SearchItem: React.FC<{
                       {type}
                     </span>
                   ))}
+              <StarRow
+                class="justify-left -ml-0.5 mb-2"
+                rating={accommData?.average_rating ?? 0}
+              />
               <div className="flex">
                 <div className="flex">
                   <svg
