@@ -15,7 +15,7 @@ interface NavBarProps {
 }
 
 export const NavBar: React.FC<NavBarProps> = ({ register, name, showBack }) => {
-  const router = useRouter();
+  // const router = useRouter();
   return (
     <>
       {/* Navigation bar */}
@@ -24,7 +24,7 @@ export const NavBar: React.FC<NavBarProps> = ({ register, name, showBack }) => {
         className="sticky top-0 z-50 flex w-full flex-wrap items-center justify-between bg-p-dviolet p-4 py-1 sm:flex-row"
       >
         {/* Left side */}
-        {showBack && (
+        {/* {showBack && (
           <div
             className="flex cursor-pointer items-center"
             onClick={() => {
@@ -48,7 +48,7 @@ export const NavBar: React.FC<NavBarProps> = ({ register, name, showBack }) => {
               </svg>
             </div>
           </div>
-        )}
+        )} */}
         <div className="flex grow items-center justify-center sm:grow-0">
           {/* div button hack again */}
           <Link href="/homepage" className="flex items-center">
