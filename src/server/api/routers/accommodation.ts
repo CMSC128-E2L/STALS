@@ -54,7 +54,8 @@ export const accommodationRouter = createTRPCRouter({
     const id = input;
     return ctx.prisma.accommodation.findUnique({
       include: {
-        Room: { orderBy: { occupied: "asc" } },
+        // Room: { orderBy: { occupied: "asc" } },
+        Room: true,
         Review: true,
         landlordUser: true,
       },
