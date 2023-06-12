@@ -12,42 +12,6 @@ import {
 } from "~/utils/apitypes";
 
 export const accommodationRouter = createTRPCRouter({
-  // TODO: Remove.  Example implementaion only
-  getInfiniteExample: publicProcedure
-    .input(
-      z.object({
-        limit: z.number().min(1).max(100).nullish(),
-        cursor: z.string().nullish(), // <-- "cursor" needs to exist, but can be any type
-      }),
-    )
-    .query(async (opts) => {
-      const { input, ctx } = opts;
-      const limit = input.limit ?? 50;
-      const { cursor } = input;
-      const items = await ctx.prisma.accommodation.findMany({
-        take: limit + 1,
-        cursor: cursor ? { id: cursor } : undefined,
-        select: {
-          id: true,
-          name: true,
-          location: true,
-        },
-        orderBy: {
-          location: "asc",
-        },
-      });
-
-      let nextCursor: typeof cursor | undefined = undefined;
-      if (items.length > limit) {
-        const nextItem = items.pop();
-        nextCursor = nextItem?.id;
-      }
-      return {
-        items,
-        nextCursor,
-      };
-    }),
-
   getBarangays: publicProcedure.query(async ({ ctx }) => {
     try {
       return await ctx.prisma.accommodation.findMany({
@@ -61,16 +25,6 @@ export const accommodationRouter = createTRPCRouter({
     }
   }),
 
-  // getAvgRatings: publicProcedure.input(z.string()).query(({ ctx, input }) => {
-  //   const id = input;
-  //   return ctx.prisma.accommodation.findUnique({
-  //     where: { id },
-  //     select: {
-  //       average_rating: true
-  //     }
-  //   });
-  // }),
-
   getAvgRatings: publicProcedure
     .input(
       z.object({
@@ -78,7 +32,6 @@ export const accommodationRouter = createTRPCRouter({
       }),
     )
     .query(({ ctx, input }) => {
-      //const id = input;
       return ctx.prisma.accommodation.findUnique({
         where: { id: input.id },
         select: {
@@ -319,4 +272,31 @@ export const accommodationRouter = createTRPCRouter({
         },
       });
     }),
+  updateAllReviews: protectedProcedure.mutation(async ({ ctx }) => {
+    const accoms = await ctx.prisma.accommodation.findMany();
+    accoms.map(async (accomData) => {
+      const allreview = await ctx.prisma.review.aggregate({
+        where: {
+          accommodationId: accomData.id,
+          is_archived: false,
+        },
+        _avg: {
+          rating: true,
+        },
+        _count: {
+          rating: true,
+        },
+      });
+
+      await ctx.prisma.accommodation.update({
+        where: {
+          id: accomData.id,
+        },
+        data: {
+          average_rating: allreview._avg.rating,
+          total_reviews: allreview._count.rating,
+        },
+      });
+    });
+  }),
 });
