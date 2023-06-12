@@ -180,7 +180,7 @@ const Accomm_Segment: React.FC<{
           </div>
         </div>
         {/* ARCHIVE, EDIT, & DELETE  BUTTONS */}
-        <div className="flex justify-end space-x-2">
+        <div className="flex flex-row flex-wrap justify-end gap-2">
           {/* Images */}
           {isLandlordViewing && (
             <Link className="management-buttons" href={`${id}/images`}>
