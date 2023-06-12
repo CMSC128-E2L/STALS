@@ -895,13 +895,17 @@ const Tags: React.FC<{
           onChange={handleChange}
           onKeyDown={(evt) => {
             if (evt.key == "Enter") {
-              const searchString = `${value
-                .substring(0, 1)
-                .toUpperCase()}${value.substring(1).toLowerCase()}`;
+              const searchArray = [] as string[];
+              const inputtagarray = value.split(",");
+              inputtagarray
+                .filter((tag) => tag !== "")
+                .forEach((tag) => {
+                  searchArray.push(titleCase(tag.trim()));
+                });
               // eslint-disable-next-line
-              setUserInputs((prevInputs: Object) => ({
+              setUserInputs((prevInputs: any) => ({
                 ...prevInputs,
-                tagArray: [searchString],
+                tagArray: searchArray,
               }));
             }
           }}
