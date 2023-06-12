@@ -4,28 +4,28 @@ import bg from "public/images/background_management.png";
 {
   /* DEV PICS */
 }
-import van from "public/images/devs/van.png";
+import van from "public/images/devs/Van.png";
 import alphonse from "public/images/devs/Alphonse.png";
 import alfred from "public/images/devs/Alfred.jpg";
 import asha from "public/images/devs/Asha.jpg";
 import jomi from "public/images/devs/Jomi.jpg";
 import joseph from "public/images/devs/Joseph.jpg";
-import joshua from "public/images/devs/joshua.jpeg";
+import joshua from "public/images/devs/Joshua.jpeg";
 import kath from "public/images/devs/Kath.jpg";
 import kurt from "public/images/devs/Kurt.jpg";
 import marian from "public/images/devs/Marian.jpg";
 import oliver from "public/images/devs/Oliver.jpg";
 import clarissa from "public/images/devs/Clarissa.jpg";
 import grendel from "public/images/devs/Grendel.jpg";
-import will from "public/images/devs/will.jpg";
-import sadie from "public/images/devs/sadie.jpg";
-import jamie from "public/images/devs/jamie.jpg";
-import kong from "public/images/devs/kong.jpg";
-import ash from "public/images/devs/ash.jpg";
+import will from "public/images/devs/Will.jpg";
+import sadie from "public/images/devs/Sadie.jpg";
+import jamie from "public/images/devs/Jamie.jpg";
+import kong from "public/images/devs/Kong.jpg";
+import ash from "public/images/devs/Ash.jpg";
 import sircarl from "public/images/devs/sircarl.png";
 import sirreg from "public/images/devs/sirreg.png";
 
-export default function Delete_Archive_Accomm() {
+export default function DevsPage() {
   return (
     <div>
       <NavBar />
@@ -37,7 +37,7 @@ export default function Delete_Archive_Accomm() {
             PROJECT LEADERS
           </h2>
         </div>
-        <div className="pad-4 mt-1 flex flex-row items-center justify-center">
+        <div className="pad-4 mt-1 flex flex-col items-center justify-center gap-2 sm:flex-row">
           <div className="w-lg mx-2 transform rounded-lg bg-white p-5 shadow-md duration-300 hover:scale-105">
             <img
               className="mx-auto h-60 w-60 rounded-full object-scale-down shadow-sm"
@@ -98,7 +98,7 @@ export default function Delete_Archive_Accomm() {
             FRONT END
           </h2>
         </div>
-        <div className="pad-4 mt-1 flex flex-row items-center justify-center">
+        <div className="pad-4 mt-1 flex flex-col items-center justify-center  gap-2 sm:flex-row">
           <div className="w-sm mx-2 transform rounded-lg bg-white p-5 shadow-md duration-300 hover:scale-105">
             <img
               className="mx-auto h-60 w-60 rounded-full object-scale-down shadow-sm"
@@ -139,7 +139,7 @@ export default function Delete_Archive_Accomm() {
             </p>
           </div>
         </div>
-        <div className="pad-4 mt-4 flex flex-row items-center justify-center">
+        <div className="pad-4 mt-4 flex flex-col items-center justify-center gap-2 sm:flex-row">
           <div className="mx-2 max-w-sm transform rounded-lg bg-white p-5 shadow-md duration-300 hover:scale-105">
             <img
               className="mx-auto h-60 w-60 rounded-full object-scale-down shadow-sm"
@@ -186,7 +186,7 @@ export default function Delete_Archive_Accomm() {
             BACK END
           </h2>
         </div>
-        <div className="pad-4 mt-1 flex flex-row items-center justify-center">
+        <div className="pad-4 mt-1 flex flex-col items-center justify-center gap-2 sm:flex-row">
           <div className="mx-2 max-w-sm transform rounded-lg bg-white p-5 shadow-md duration-300 hover:scale-105">
             <img
               className="mx-auto h-60 w-60 rounded-full object-scale-down shadow-sm"
@@ -227,7 +227,7 @@ export default function Delete_Archive_Accomm() {
             </p>
           </div>
         </div>
-        <div className="pad-4 mt-4 flex flex-row items-center justify-center">
+        <div className="pad-4 mt-4 flex  flex-col items-center justify-center  gap-2 sm:flex-row">
           <div className="mx-2 max-w-sm transform rounded-lg bg-white p-5 shadow-md duration-300 hover:scale-105">
             <img
               className="mx-auto h-60 w-60 rounded-full object-scale-down shadow-sm"
@@ -274,7 +274,7 @@ export default function Delete_Archive_Accomm() {
             DATABASE
           </h2>
         </div>
-        <div className="pad-4 mt-1 flex flex-row items-center justify-center">
+        <div className="pad-4 mt-1 flex flex-col items-center justify-center gap-2 sm:flex-row">
           <div className="mx-2 max-w-sm transform rounded-lg bg-white p-5 shadow-md duration-300 hover:scale-105">
             <img
               className="mx-auto h-60 w-60 rounded-full object-cover shadow-sm"
@@ -315,7 +315,7 @@ export default function Delete_Archive_Accomm() {
             </p>
           </div>
         </div>
-        <div className="pad-4 mt-4 flex flex-row items-center justify-center">
+        <div className="pad-4 mt-4 flex  flex-col items-center justify-center gap-2 sm:flex-row">
           <div className="mx-2 max-w-sm transform rounded-lg bg-white p-5 shadow-md duration-300 hover:scale-105">
             <img
               className="mx-auto h-60 w-60 rounded-full object-scale-down shadow-sm"
@@ -350,7 +350,7 @@ export default function Delete_Archive_Accomm() {
           INSTRUCTORS
         </h2>
       </div>
-      <div className="pad-4 mb-12 mt-1 flex flex-row items-center justify-center">
+      <div className="pad-4 mb-12 mt-1 flex flex-col items-center  justify-center gap-2 sm:flex-row">
         <div className="w-sm mx-2 transform rounded-lg bg-white p-5 shadow-md duration-300 hover:scale-105">
           <img
             className="mx-auto h-60 w-60 rounded-full object-scale-down shadow-sm"
