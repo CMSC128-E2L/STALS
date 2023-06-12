@@ -13,9 +13,13 @@ import bg from "public/images/background_management.png";
 export default function Delete_Archive_Accomm() {
   const userSession = useSession({ required: true });
 
-  const { data, isLoading, refetch } = api.accommodation.getMany.useQuery({
-    landlord: userSession.data?.user.id,
-  });
+  const isUserAdmin = userSession?.data?.profile.type === UserType.ADMIN;
+
+  const { data, isLoading, refetch } = isUserAdmin
+    ? api.accommodation.getAll.useQuery()
+    : api.accommodation.getMany.useQuery({
+        landlord: userSession?.data?.user.id,
+      });
 
   if (notAuthenticated(userSession.status)) {
     return <LoadingSpinner />;
@@ -36,7 +40,7 @@ export default function Delete_Archive_Accomm() {
 
       <main className="z-30 py-5">
         <p className="mb-6 text-center text-3xl font-extrabold text-white drop-shadow-sm">
-          My Accommodations
+          Management
         </p>
 
         <div className="mb-4 flex justify-center">

@@ -121,6 +121,10 @@ export const accommodationRouter = createTRPCRouter({
       });
     }),
 
+  getAll: protectedProcedure.query(({ ctx }) => {
+    return ctx.prisma.accommodation.findMany();
+  }),
+
   // Search an accommodation
   getMany: publicProcedure
     .input(
