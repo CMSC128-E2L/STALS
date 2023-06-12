@@ -14,7 +14,6 @@ import { useSession } from "next-auth/react";
 import bgpic from "public/images/background_home.png";
 import { stalsDBstringArray, titleCase } from "~/utils/helpers";
 import { AccommodationType } from "@prisma/client";
-import { type } from "os";
 
 const priceRangeKeys = {
   all: "all",
@@ -1076,19 +1075,30 @@ const SearchAccoms: React.FC<{
   if (items && items.length != 0) {
     return (
       <>
-        {items?.map(({ id, name, price, barangay, typeArray, tagArray }) => (
-          <SearchItem
-            key={id + name}
-            id={id}
-            name={name}
-            type={stalsDBstringArray(typeArray)}
-            price={
-              price !== undefined && price !== null ? price.toFixed(2) : ""
-            }
-            location={barangay}
-            tags={stalsDBstringArray(tagArray)}
-          />
-        ))}
+        {items?.map(
+          ({
+            id,
+            name,
+            price,
+            barangay,
+            average_rating,
+            typeArray,
+            tagArray,
+          }) => (
+            <SearchItem
+              key={id + name}
+              id={id}
+              name={name}
+              price={
+                price !== undefined && price !== null ? price.toFixed(2) : ""
+              }
+              location={barangay}
+              average_rating={average_rating ?? 0}
+              type={stalsDBstringArray(typeArray)}
+              tags={stalsDBstringArray(tagArray)}
+            />
+          ),
+        )}
       </>
     );
   }
