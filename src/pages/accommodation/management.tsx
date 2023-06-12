@@ -20,15 +20,10 @@ export default function Delete_Archive_Accomm() {
 
   const isUserAdmin = userSession?.data?.profile.type === UserType.ADMIN;
 
-  const { data, isLoading, refetch } = isUserAdmin
-    ? api.accommodation.getAll.useQuery()
-    : api.accommodation.getMany.useQuery({
-        landlord: userSession?.data?.user.id,
-      });
-
   const methods = api.accommodation.getManyExperiment.useInfiniteQuery(
     {
-      showAll: undefined,
+      showAll: true,
+      ...(!isUserAdmin ? { landlord: userSession?.data?.user.id } : {}),
       limit: 10,
       typeArray: [],
       tagArray: [],
@@ -48,7 +43,7 @@ export default function Delete_Archive_Accomm() {
   } = methods;
 
   const refetchData = () => {
-    void refetch();
+    void refetchAccoms();
   };
 
   if (notAuthenticated(userSession.status)) {

@@ -185,7 +185,11 @@ export const accommodationRouter = createTRPCRouter({
         cursor: cursor ? { id: cursor } : undefined,
         include: { landlordUser: true, Room: { orderBy: { occupied: "asc" } } },
         where: {
-          ...(input.showAll !== undefined ? {} : { is_archived: false }),
+          ...(input.showAll == undefined
+            ? { is_archived: false }
+            : input.showAll
+            ? {}
+            : { is_archived: false }),
           OR: [
             {
               name: {
