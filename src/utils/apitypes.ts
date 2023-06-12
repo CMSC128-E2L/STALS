@@ -56,15 +56,11 @@ export const accommodationAddSchema = z.object({
     }),
   fb_page: z
     .string()
-    .optional()
-    .or(
-      z
-        .string()
-        .regex(
-          /(?:https?:\/\/)?(?:www\.)?(mbasic.facebook|m\.facebook|facebook|fb)\.(com|me)\/(?:(?:\w\.)*#!\/)?(?:pages\/)?(?:[\w\-\.]*\/)*([\w\-\.]*)/,
-          { message: "Must be a valid facebook link." },
-        ),
-    ),
+    .regex(
+      /(?:https?:\/\/)?(?:www\.)?(mbasic.facebook|m\.facebook|facebook|fb)\.(com|me)\/(?:(?:\w\.)*#!\/)?(?:pages\/)?(?:[\w\-\.]*\/)*([\w\-\.]*)/,
+      { message: "Must be a valid facebook link." },
+    )
+    .nullish(),
   type: z.nativeEnum(AccommodationType),
   typeArray: z
     .array(z.string())
@@ -88,15 +84,11 @@ export const accommodationEditSchema = z.object({
   }),
   fb_page: z
     .string()
-    .optional()
-    .or(
-      z
-        .string()
-        .regex(
-          /(?:https?:\/\/)?(?:www\.)?(mbasic.facebook|m\.facebook|facebook|fb)\.(com|me)\/(?:(?:\w\.)*#!\/)?(?:pages\/)?(?:[\w\-\.]*\/)*([\w\-\.]*)/,
-          { message: "Must be a valid facebook link." },
-        ),
-    ),
+    .regex(
+      /(?:https?:\/\/)?(?:www\.)?(mbasic.facebook|m\.facebook|facebook|fb)\.(com|me)\/(?:(?:\w\.)*#!\/)?(?:pages\/)?(?:[\w\-\.]*\/)*([\w\-\.]*)/,
+      { message: "Must be a valid facebook link." },
+    )
+    .nullish(),
   price: z
     .string()
     .min(1, { message: "Price must contain at least 1 digit(s)" })

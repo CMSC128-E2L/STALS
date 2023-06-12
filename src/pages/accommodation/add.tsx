@@ -266,6 +266,7 @@ export default function AddAccommodation() {
                         {...register("fb_page")}
                         title="Please enter a valid Facebook Page Link."
                       ></input>
+                      <FormError error={errors.fb_page?.message} />
                     </div>
                   </div>
                   <div className="form-col-deets">

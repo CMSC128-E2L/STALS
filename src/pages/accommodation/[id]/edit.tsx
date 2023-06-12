@@ -166,6 +166,7 @@ export default function EditAccommodation() {
                       {...register("fb_page")}
                       defaultValue={oldData?.fb_page ?? ""}
                     ></input>
+                    <FormError error={errors.fb_page?.message} />
                   </div>
                 </div>
                 <div className="form-col-deets">
