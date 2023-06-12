@@ -166,7 +166,7 @@ export default function AddRoom() {
             <div>
               <div className="py-2">
                 <button className="flex w-full justify-center rounded-full bg-p-dviolet px-4 py-2 font-bold text-white shadow shadow-gray-400/100">
-                  Confirm
+                  Submit
                 </button>
               </div>
 
