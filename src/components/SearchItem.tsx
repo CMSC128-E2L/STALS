@@ -3,26 +3,20 @@ import { useState } from "react";
 import Image from "next/image";
 import placeholder from "public/images/stals_purple_logo.png";
 import StarRow from "./starRow";
-import { api } from "~/utils/api";
 
 export const SearchItem: React.FC<{
   id: string;
   name: string;
   price: string;
   location: string | null;
+  average_rating?: number | undefined;
   type: string[];
   tags: string[];
-}> = ({ id, name, price, location, type, tags }) => {
+}> = ({ id, name, price, location, average_rating, type, tags }) => {
   const [imgSrc, setImgSrc] = useState(
     // `https://stals-worker.p0lbang.workers.dev/${id}.jpg`,
     `https://stals-worker.p0lbang.workers.dev/api/v2/${id}/${id}`,
   );
-
-  const {
-    data: accommData,
-    isLoading: accommLoading,
-    refetch: refetchaccommData,
-  } = api.accommodation.getOneRelations.useQuery(id);
 
   return (
     <div className="m-4 flex justify-center self-stretch">
@@ -60,10 +54,12 @@ export const SearchItem: React.FC<{
                       {type}
                     </span>
                   ))}
-              <StarRow
-                class="justify-left -ml-0.5 mb-2"
-                rating={accommData?.average_rating ?? 0}
-              />
+              {average_rating && (
+                <StarRow
+                  class="justify-left -ml-0.5 mb-2"
+                  rating={average_rating}
+                />
+              )}
               <div className="flex">
                 <div className="flex">
                   <svg
