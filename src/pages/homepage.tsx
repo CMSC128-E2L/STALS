@@ -1061,11 +1061,12 @@ const SearchAccoms: React.FC<{
   if (items && items.length != 0) {
     return (
       <>
-        {items?.map(({ id, name, price, barangay, tagArray }) => (
+        {items?.map(({ id, name, price, barangay, typeArray, tagArray }) => (
           <SearchItem
             key={id + name}
             id={id}
             name={name}
+            type={stalsDBstringArray(typeArray)}
             price={
               price !== undefined && price !== null ? price.toFixed(2) : ""
             }
