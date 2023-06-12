@@ -174,7 +174,10 @@ export default function HomePage() {
         page?.items?.map((i) => {
           info.push([
             i.name,
-            i.address ?? "",
+            `${i?.street_number ?? ""} ${i?.subdivision ?? ""} ${
+              i?.barangay ? ` Brgy. ${i?.barangay}` : ""
+            }`,
+            // i.address ?? "",
             `${i.landlordUser.first_name ?? ""}  ${
               i.landlordUser.last_name ?? ""
             }`,
