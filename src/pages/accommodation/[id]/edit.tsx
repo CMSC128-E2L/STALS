@@ -186,7 +186,9 @@ export default function EditAccommodation() {
                   <div>
                     <label className="form-h2">Contact No.</label>
                     <input
-                      className="add-acc-input-text-field"
+                      className={`add-acc-input-text-field w-full ${
+                        errors.contact_number ? "input-text-field-error" : ""
+                      }`}
                       defaultValue={oldData?.contact_number}
                       type="text"
                       {...register("contact_number")}
@@ -196,16 +198,16 @@ export default function EditAccommodation() {
                   <div>
                     <label className="form-h2"> Price of Accommodation</label>
                     <input
-                      className="add-acc-input-text-field"
+                      className={`add-acc-input-text-field w-full ${
+                        errors.price ? "input-text-field-error" : ""
+                      }`}
                       defaultValue={oldData?.price ?? ""}
-                      type="number"
                       title="Must be a positive float value."
                       {...register("price", {
-                        valueAsNumber: true,
-                        // eslint-disable-next-line @typescript-eslint/no-unsafe-argument
-                        setValueAs: (value: string) => parseFloat(value),
+                        setValueAs: (value) => String(value),
                       })}
                     />
+
                     <FormError error={errors.price?.message} />
                   </div>
                 </div>

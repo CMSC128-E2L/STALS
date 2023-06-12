@@ -5,7 +5,7 @@ import {
   publicProcedure,
   protectedProcedure,
 } from "~/server/api/trpc";
-import { roomAddSchema } from "~/utils/apitypes";
+import { roomAddSchema, roomEditSchema } from "~/utils/apitypes";
 
 export const roomRouter = createTRPCRouter({
   getMany: publicProcedure
@@ -88,9 +88,9 @@ export const roomRouter = createTRPCRouter({
         data: {
           accommodation: { connect: { id: accommodationId } },
           occupied: occupied,
-          num_of_beds: num_of_beds,
+          num_of_beds: parseInt(num_of_beds),
           with_aircon: with_aircon,
-          price: price,
+          price: parseFloat(price),
           with_utilities: with_utilities,
           is_archived: false,
         },
@@ -117,28 +117,19 @@ export const roomRouter = createTRPCRouter({
     }),
 
   // Edit Room
-  edit: protectedProcedure
-    .input(
-      z.object({
-        id: z.string(),
-        occupied: z.boolean().optional(),
-        num_of_beds: z.number().optional(),
-        with_aircon: z.boolean().optional(),
-        price: z.number().optional(),
-        with_utilities: z.boolean().optional(),
-      }),
-    )
-    .mutation(({ ctx, input }) => {
-      const id = input.id;
-      return ctx.prisma.room.update({
-        where: { id },
-        data: {
-          occupied: input.occupied,
-          num_of_beds: input.num_of_beds,
-          with_aircon: input.with_aircon,
-          price: input.price,
-          with_utilities: input.with_utilities,
-        },
-      });
-    }),
+  edit: protectedProcedure.input(roomEditSchema).mutation(({ ctx, input }) => {
+    const id = input.id;
+    const price = parseFloat(input.price);
+    const num_of_beds = parseInt(input.num_of_beds);
+    return ctx.prisma.room.update({
+      where: { id },
+      data: {
+        occupied: input.occupied,
+        num_of_beds,
+        with_aircon: input.with_aircon,
+        price,
+        with_utilities: input.with_utilities,
+      },
+    });
+  }),
 });

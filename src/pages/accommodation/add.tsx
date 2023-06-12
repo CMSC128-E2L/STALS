@@ -245,16 +245,13 @@ export default function AddAccommodation() {
                           errors.price ? "input-text-field-error" : ""
                         } `}
                         placeholder="Price"
-                        type="number"
                         {...register("price", {
-                          valueAsNumber: true,
-                          // eslint-disable-next-line @typescript-eslint/no-unsafe-argument
-                          setValueAs: (value: string) =>
-                            parseFloat(value).toFixed(2),
+                          setValueAs: (value) => String(value),
                         })}
                         title="Must be a positive float value."
                       />
-                      <FormError error={errors.subdivision?.message} />
+
+                      <FormError error={errors.price?.message} />
                     </div>
 
                     {/* FB page link*/}

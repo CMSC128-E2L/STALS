@@ -67,16 +67,18 @@ export const accommodationRouter = createTRPCRouter({
     .input(accommodationAddSchema)
     .mutation(({ ctx, input }) => {
       const userId = ctx.session.user.id;
+      const { price, tagArray, typeArray, ...restInput } = input;
       return ctx.prisma.accommodation.create({
         data: {
-          ...input,
+          ...restInput,
+          price: parseFloat(price),
           num_of_rooms: 0,
           average_rating: 0,
           total_reviews: 0,
           is_archived: false,
           landlordUser: { connect: { id: userId } },
-          tagArray: { values: input.tagArray },
-          typeArray: { values: input.typeArray },
+          tagArray: { values: tagArray },
+          typeArray: { values: typeArray },
           tags: "",
         },
       });
@@ -239,13 +241,14 @@ export const accommodationRouter = createTRPCRouter({
     .input(accommodationEditSchema)
     .mutation(({ ctx, input }) => {
       const id = input.id;
+      const price = parseFloat(input.price);
       return ctx.prisma.accommodation.update({
         where: { id },
         data: {
           name: input.name,
           location: input.location,
           contact_number: input.contact_number,
-          price: input.price ?? 0,
+          price: price,
           // num_of_rooms: input.num_of_rooms,
           // is_archived: input.is_archived,
           contract_length: input.contract_length,
