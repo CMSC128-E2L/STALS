@@ -2,6 +2,8 @@ import Link from "next/link";
 import { useState } from "react";
 import Image from "next/image";
 import placeholder from "public/images/stals_purple_logo.png";
+import StarRow from "./starRow";
+import { api } from "~/utils/api";
 
 export const SearchItem: React.FC<{
   id: string;
@@ -15,6 +17,12 @@ export const SearchItem: React.FC<{
     // `https://stals-worker.p0lbang.workers.dev/${id}.jpg`,
     `https://stals-worker.p0lbang.workers.dev/api/v2/${id}/${id}`,
   );
+
+  const {
+    data: accommData,
+    isLoading: accommLoading,
+    refetch: refetchaccommData,
+  } = api.accommodation.getOneRelations.useQuery(id);
 
   return (
     <div className="m-4 flex justify-center self-stretch">
@@ -40,6 +48,11 @@ export const SearchItem: React.FC<{
               <div className="mb-2 text-xl font-bold text-p-dviolet">
                 {name}
               </div>
+
+              <StarRow
+                class="justify-left -ml-0.5 mb-2"
+                rating={accommData?.average_rating ?? 0}
+              />
               {type &&
                 type
                   .filter((type) => type !== "")
