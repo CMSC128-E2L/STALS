@@ -88,24 +88,33 @@ export default function AddRoom() {
               <div>
                 <h2 className="form-h2 form-field-required">Price</h2>
                 <input
-                  className="add-acc-input-text-field"
+                  className={`add-acc-input-text-field ${
+                    errors.price ? "input-text-field-error" : ""
+                  } `}
                   placeholder="Price"
                   {...register("price", {
-                    valueAsNumber: true,
-                    setValueAs: (value: string) => parseFloat(value).toFixed(2),
+                    setValueAs: (value) => String(value),
                   })}
+                  title="Must be a positive float value."
                 />
+
                 <FormError error={errors.price?.message} />
               </div>
               <div>
                 <h2 className="form-h2 form-field-required">Number of Beds</h2>
                 <input
-                  className="add-acc-input-text-field"
+                  className={`add-acc-input-text-field ${
+                    errors.num_of_beds ? "input-text-field-error" : ""
+                  } `}
                   placeholder="Number of Beds"
-                  {...register("num_of_beds", { valueAsNumber: true })}
+                  {...register("num_of_beds", {
+                    setValueAs: (value) => String(value),
+                  })}
+                  title="Must be a positive int value."
                 />
                 <FormError error={errors.num_of_beds?.message} />
               </div>
+
               {/* yung tatlong dropdown */}
               <div>
                 <h2 className="form-h2 form-field-required">Availability</h2>

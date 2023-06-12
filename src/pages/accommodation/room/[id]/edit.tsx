@@ -97,8 +97,7 @@ export default function EditRoom() {
                   title="Must be a positive float value."
                   defaultValue={firstData?.price}
                   {...register("price", {
-                    valueAsNumber: true,
-                    setValueAs: (value: string) => parseFloat(value).toFixed(2),
+                    setValueAs: (value) => String(value), // Keep the value as string
                   })}
                 />
                 <FormError error={errors.price?.message} />
@@ -109,8 +108,11 @@ export default function EditRoom() {
                 <input
                   className="w-full rounded-xl px-2 py-2 shadow shadow-gray-400/100"
                   placeholder="Number of Beds"
+                  title="Must be a positive int value."
                   defaultValue={firstData?.num_of_beds}
-                  {...register("num_of_beds", { valueAsNumber: true })}
+                  {...register("num_of_beds", {
+                    setValueAs: (value) => String(value),
+                  })}
                 />
                 <FormError error={errors.num_of_beds?.message} />
               </div>
