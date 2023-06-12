@@ -4,12 +4,15 @@ import { api } from "~/utils/api";
 import { type reviewGetInfSchema } from "~/utils/apitypes";
 import ReviewItem from "./reviewItem";
 import LoadingSpinner from "./loadingSpinner";
+import { useSession } from "next-auth/react";
 
 export const ReviewList: React.FC<{
   accomId: string;
   refreshComponent: number;
   refreshComponentFunction: () => void;
 }> = ({ accomId, refreshComponent, refreshComponentFunction }) => {
+  const { data: userSession } = useSession();
+
   const [userInputs, setUserInputs] = useState<
     z.infer<typeof reviewGetInfSchema>
   >({
@@ -81,19 +84,21 @@ export const ReviewList: React.FC<{
         <LoadingSpinner />
       ) : hasNextPage ? (
         <div className="w-full text-center">
-          <button
-            className="button-style m-5 w-[50%]"
-            onClick={() => {
-              void fetchNextPage();
-              // eslint-disable-next-line
-              setUserInputs((prevInputs: any) => ({
-                ...prevInputs,
-              }));
-            }}
-            disabled={!hasNextPage || isFetchingNextPage}
-          >
-            Load More
-          </button>
+          {userSession && (
+            <button
+              className="button-style m-5 w-[50%]"
+              onClick={() => {
+                void fetchNextPage();
+                // eslint-disable-next-line
+                setUserInputs((prevInputs: any) => ({
+                  ...prevInputs,
+                }));
+              }}
+              disabled={!hasNextPage || isFetchingNextPage}
+            >
+              Load More
+            </button>
+          )}
         </div>
       ) : (
         ""
