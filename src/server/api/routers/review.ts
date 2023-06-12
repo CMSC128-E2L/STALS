@@ -22,7 +22,7 @@ const removeReview = async (id: string) => {
     },
   });
 
-  const accommodationId = review?.accommodationId;
+  const accommodationId = review?.accommodationId ?? "";
   const review_rating = review?.rating ?? 0;
 
   const oldvalues = await prisma.accommodation.findUnique({
@@ -121,14 +121,36 @@ export const reviewRouter = createTRPCRouter({
 
   edit: protectedProcedure
     .input(reviewEditSchema)
-    .mutation(({ ctx, input }) => {
-      const id = input.id;
+    .mutation(async ({ ctx, input }) => {
+      const { id, rating, review } = input;
+
+      const {
+        avg: removeavg,
+        count: removecount,
+        accommodationId,
+      } = await removeReview(id);
+      await ctx.prisma.accommodation.update({
+        where: { id: accommodationId },
+        data: {
+          total_reviews: removeavg,
+          average_rating: removecount,
+        },
+      });
+
+      const { avg, count } = await addReview(accommodationId, rating);
+      await ctx.prisma.accommodation.update({
+        where: { id: accommodationId },
+        data: {
+          total_reviews: avg,
+          average_rating: count,
+        },
+      });
 
       return ctx.prisma.review.update({
         where: { id },
         data: {
-          review: input.review,
-          rating: input.rating,
+          rating,
+          review,
         },
       });
     }),
