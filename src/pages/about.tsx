@@ -25,7 +25,7 @@ import ash from "public/images/devs/Ash.jpg";
 import sircarl from "public/images/devs/sircarl.png";
 import sirreg from "public/images/devs/sirreg.png";
 
-export default function Delete_Archive_Accomm() {
+export default function AboutPage() {
   return (
     <div>
       <NavBar />
