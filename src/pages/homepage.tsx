@@ -172,6 +172,14 @@ export default function HomePage() {
 
       accommodationEntries?.pages.map((page, nyom: number) => {
         page?.items?.map((i) => {
+          let roomnum = 0;
+
+          i?.Room.map((room, n) => {
+            if (i.is_archived == false) {
+              roomnum++;
+            }
+          });
+
           info.push([
             i.name,
             `${i?.street_number ?? ""} ${i?.subdivision ?? ""} ${
@@ -182,7 +190,7 @@ export default function HomePage() {
               i.landlordUser.last_name ?? ""
             }`,
             i.contact_number,
-            i.num_of_rooms,
+            roomnum,
           ]);
         });
       });
