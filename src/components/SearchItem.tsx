@@ -9,7 +9,7 @@ export const SearchItem: React.FC<{
   name: string;
   price: string;
   location: string | null;
-  average_rating?: number | undefined;
+  average_rating: number;
   type: string[];
   tags: string[];
 }> = ({ id, name, price, location, average_rating, type, tags }) => {
@@ -54,12 +54,10 @@ export const SearchItem: React.FC<{
                       {type}
                     </span>
                   ))}
-              {average_rating && (
-                <StarRow
-                  class="justify-left -ml-0.5 mb-2"
-                  rating={average_rating}
-                />
-              )}
+              <StarRow
+                class="justify-left -ml-0.5 mb-2"
+                rating={average_rating}
+              />
               <div className="flex">
                 <div className="flex">
                   <svg
