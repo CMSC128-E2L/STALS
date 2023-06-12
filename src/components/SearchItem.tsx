@@ -8,8 +8,9 @@ export const SearchItem: React.FC<{
   name: string;
   price: string;
   location: string | null;
+  type: string[];
   tags: string[];
-}> = ({ id, name, price, location, tags }) => {
+}> = ({ id, name, price, location, type, tags }) => {
   const [imgSrc, setImgSrc] = useState(
     // `https://stals-worker.p0lbang.workers.dev/${id}.jpg`,
     `https://stals-worker.p0lbang.workers.dev/api/v2/${id}/${id}`,
@@ -37,10 +38,29 @@ export const SearchItem: React.FC<{
           <div className="w-full flex-col p-4">
             <div className="py-p px-6 ">
               <div className="mb-2 text-xl font-bold">{name}</div>
+              {type &&
+                type
+                  .filter((type) => type !== "")
+                  .splice(0, 5)
+                  .map((type, index) => (
+                    <span
+                      key={index}
+                      className="mb-2 mr-2 inline-block text-sm text-gray-500"
+                    >
+                      {type}
+                    </span>
+                  ))}
               <p className="text-xl">₱ {priceCommas(price)}</p>
               <p className="mb-4 text-xl">{location}</p>
             </div>
             <div className="w-full pl-5">
+              <span className="object-contain">
+                {tags && tags.length > 5 && (
+                  <span className="mb-2 mr-2 inline-block rounded-full bg-p-lviolet px-3 py-1 text-center text-sm font-semibold text-gray-700 shadow shadow-p-vdviolet/30">
+                    {tags.length - 5} more..
+                  </span>
+                )}
+              </span>
               <span className="object-contain">
                 {tags &&
                   tags

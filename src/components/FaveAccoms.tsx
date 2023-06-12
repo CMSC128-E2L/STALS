@@ -36,6 +36,7 @@ export const FaveAccoms: React.FC = () => {
                     : ""
                 }
                 location={favorite.accommodation.barangay}
+                type={stalsDBstringArray(favorite.accommodation.typeArray)}
                 tags={stalsDBstringArray(favorite.accommodation.tagArray)}
               />
             ))}

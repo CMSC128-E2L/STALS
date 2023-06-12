@@ -867,7 +867,7 @@ export default function HomePage() {
               </div>
             </aside>
             <div
-              className={`h-fit w-full rounded-b-2xl bg-p-lviolet shadow-2xl sm:mt-16 sm:w-fit sm:rounded-bl-none sm:rounded-br-2xl sm:rounded-tr-2xl sm:px-2.5 sm:py-3`}
+              className={`h-fit w-full rounded-b-2xl bg-p-lviolet sm:mt-16 sm:w-fit sm:rounded-bl-none sm:rounded-br-2xl sm:rounded-tr-2xl sm:px-2.5 sm:py-3`}
               onClick={handleSidebarChange}
             >
               <svg
@@ -1064,11 +1064,12 @@ const SearchAccoms: React.FC<{
   if (items && items.length != 0) {
     return (
       <>
-        {items?.map(({ id, name, price, barangay, tagArray }) => (
+        {items?.map(({ id, name, price, barangay, typeArray, tagArray }) => (
           <SearchItem
             key={id + name}
             id={id}
             name={name}
+            type={stalsDBstringArray(typeArray)}
             price={
               price !== undefined && price !== null ? price.toFixed(2) : ""
             }
