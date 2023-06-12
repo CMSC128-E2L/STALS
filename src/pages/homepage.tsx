@@ -87,7 +87,6 @@ export default function HomePage() {
     tagArray: [],
     price_min: undefined,
     price_max: undefined,
-    is_archived: false,
     sortByName: null,
     sortByRating: null,
     sortByPrice: null,
