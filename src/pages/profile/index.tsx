@@ -12,9 +12,13 @@ import { api } from "~/utils/api";
 import { UserType } from "@prisma/client";
 import { useState, useRef, useEffect } from "react";
 import jsPDF from "jspdf";
+import autoTable from "jspdf-autotable";
 
 export default function Profile() {
   const { data: sessionData } = useSession();
+  const calledOnce = useRef(false);
+  const [pdfdownload, setpdfdownload] = useState(false);
+  const pdf = new jsPDF();
 
   const {
     data: reports,
@@ -22,7 +26,96 @@ export default function Profile() {
     isError: queryError,
   } = api.report.getAll.useQuery({ page: 0, multiplier: 4 });
 
+  const {
+    data: favorites,
+    isLoading: favqueryLoading,
+    refetch,
+  } = api.user.getFavorites.useQuery();
+
   const [showEdit, setShowEdit] = useState(false);
+
+  useEffect(() => {
+    if (calledOnce.current) {
+      calledOnce.current = false;
+      return;
+    }
+
+    const info: (string | number)[][] = [];
+    if (pdfdownload) {
+      calledOnce.current = true;
+      setpdfdownload(false);
+
+      favorites?.map((favorite) => {
+        let roomnum = 0;
+
+        favorite.accommodation?.Room.map((room, n) => {
+          if (room.is_archived == false) {
+            roomnum++;
+          }
+        });
+        info.push([
+          favorite.accommodation.name,
+          `${favorite.accommodation?.street_number ?? ""} ${
+            favorite.accommodation?.subdivision ?? ""
+          } ${
+            favorite.accommodation?.barangay
+              ? ` Brgy. ${favorite.accommodation?.barangay}`
+              : ""
+          }`,
+          `${favorite.accommodation.landlordUser.first_name ?? ""} ${
+            favorite.accommodation.landlordUser.last_name ?? ""
+          }`,
+          favorite.accommodation.contact_number,
+          roomnum,
+        ]);
+      });
+    }
+
+    const headcolor = {
+      fillColor: "#292076",
+    };
+
+    autoTable(pdf, {
+      headStyles: headcolor,
+      didDrawPage: function (data) {
+        pdf.setFillColor(32, 4, 68);
+        pdf.rect(10, 10, pdf.internal.pageSize.width - 20, 15, "F");
+        pdf.setFont("helvetica", "bold");
+        pdf.setFontSize(18);
+        pdf.setTextColor(255, 255, 255);
+        const textX = 20;
+        const textY = 20;
+        pdf.text("STALS", textX, textY);
+      },
+      margin: { top: 25 },
+      columnStyles: { 0: { cellWidth: 30 } },
+    });
+
+    autoTable(pdf, {
+      head: [["Name", "Address", "Landlord", "Contact", "Rooms"]],
+      body: info,
+      headStyles: headcolor,
+      didDrawPage: function (data) {
+        const pageCount = pdf.getNumberOfPages();
+        const footerStr = `Page ${data.pageNumber} of ${pageCount}`;
+
+        pdf.setFontSize(10);
+        pdf.setTextColor(0, 0, 0);
+        pdf.text(
+          footerStr,
+          data.settings.margin.left,
+          pdf.internal.pageSize.height - 10,
+        );
+      },
+      columnStyles: {
+        0: { cellWidth: 30 },
+        1: { cellWidth: 60 },
+        2: { cellWidth: 40 },
+      },
+    });
+    if (calledOnce.current) pdf.save("STALS_favorites.pdf");
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [pdfdownload]);
 
   const USERBODY = () => {
     return (
@@ -36,7 +129,7 @@ export default function Profile() {
               <div
                 className="relative flex cursor-pointer object-right text-sm"
                 onClick={() => {
-                  // setpdfdownload(true);
+                  setpdfdownload(true);
                 }}
               >
                 <svg
