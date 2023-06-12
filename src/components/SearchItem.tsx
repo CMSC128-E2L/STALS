@@ -99,13 +99,6 @@ export const SearchItem: React.FC<{
             </div>
             <div className="w-full pl-5">
               <span className="object-contain">
-                {tags && tags.length > 5 && (
-                  <span className="mb-2 mr-2 inline-block rounded-full bg-p-lviolet px-3 py-1 text-center text-sm font-semibold text-gray-700 shadow shadow-p-vdviolet/30">
-                    {tags.length - 5} more..
-                  </span>
-                )}
-              </span>
-              <span className="object-contain">
                 {tags &&
                   tags
                     .filter((tag) => tag !== "")
