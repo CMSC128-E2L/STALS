@@ -407,20 +407,21 @@ export default function HomePage() {
       >
         <NavBar register={register} name={"name"} />
 
-        <div
-          className={`flex flex-col sm:flex-row`}
-          style={{
-            transform: toggleSidebar ? "translateX(0)" : "translateX(-200px)",
-            transition: "transform 1000ms ease",
-          }}
-        >
+        <div className={`flex flex-col sm:flex-row`}>
           {/* Sidebar */}
-          <div className="flex flex-col sm:sticky sm:top-16 sm:h-[100vh] sm:flex-row">
+          <div
+            className={`flex flex-col transition-all duration-300 sm:sticky sm:top-16 sm:h-[100vh] sm:flex-row ${
+              toggleSidebar
+                ? "max-h-[10000px] max-w-[10000px]"
+                : "max-h-8 sm:max-w-0"
+            }`}
+          >
             <aside
-              className={`bg-p-lviolet px-5 py-3 shadow-2xl sm:h-full sm:min-h-full sm:w-[200px] sm:min-w-[200px] ${
-                toggleSidebar ? "visible" : "hidden"
+              className={`overflow-hidden bg-p-lviolet shadow-2xl transition-all duration-300 sm:h-full sm:min-h-full sm:w-[200px] ${
+                toggleSidebar
+                  ? "max-h-[1000px] max-w-[1000px] px-5 py-3"
+                  : "max-h-0 sm:max-w-0"
               }`}
-              style={{ transform: toggleSidebar ? "translateX(0px)" : "" }}
             >
               {/* Location */}
               <div className="mb-1">
@@ -864,11 +865,6 @@ export default function HomePage() {
             </aside>
             <div
               className={`h-fit w-full rounded-b-2xl bg-p-lviolet shadow-2xl sm:mt-16 sm:w-fit sm:rounded-bl-none sm:rounded-br-2xl sm:rounded-tr-2xl sm:px-2.5 sm:py-3`}
-              style={{
-                transform: toggleSidebar
-                  ? "translateX(0)"
-                  : "translateX(200px)",
-              }}
               onClick={handleSidebarChange}
             >
               <svg
@@ -917,14 +913,7 @@ export default function HomePage() {
               </div>
             </div>
           </div>
-          <div
-            className="flex grow flex-col items-center"
-            style={{
-              transform: toggleSidebar
-                ? "translateX(0px)"
-                : "translateX(200px)",
-            }}
-          >
+          <div className="flex grow flex-col items-center">
             <AccommodationsList control={control} />
           </div>
         </div>
