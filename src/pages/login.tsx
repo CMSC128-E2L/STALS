@@ -24,12 +24,14 @@ export default function SignIn({
         <div className="rounded-xl px-16 py-8">
           <div className="item-center flex justify-center px-2 pb-0 pt-0 drop-shadow-md">
             <h1 className="text-5xl font-extrabold text-[#420EB3]">
-              Welcome to STALS!
+              Welcome back!
             </h1>
           </div>
 
           <div className="flex justify-center pb-4 drop-shadow-md">
-            <p className="text-sm italic text-gray-400">Sign in to continue</p>
+            <p className="text-md mt-1 italic text-gray-400">
+              Select a provider to continue
+            </p>
           </div>
           <div className="py-2"></div>
 
