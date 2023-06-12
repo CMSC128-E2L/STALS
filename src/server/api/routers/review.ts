@@ -188,9 +188,12 @@ export const reviewRouter = createTRPCRouter({
     .input(reviewArchiveSchema)
     .mutation(async ({ ctx, input }) => {
       const id = input.id;
-      const accommodationId = input.accommodationId;
-
-      const { avg, count } = await removeReview(id);
+      const {
+        avg,
+        count,
+        accommodationId: removeaccomid,
+      } = await removeReview(id);
+      const accommodationId = input.accommodationId ?? removeaccomid;
 
       await ctx.prisma.accommodation.update({
         where: { id: accommodationId },
