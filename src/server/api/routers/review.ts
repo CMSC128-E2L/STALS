@@ -5,13 +5,64 @@ import {
   publicProcedure,
   protectedProcedure,
 } from "~/server/api/trpc";
+import { prisma } from "~/server/db";
 
 import {
   reviewAddSchema,
   reviewEditSchema,
   reviewGetManySchema,
   reviewGetInfSchema,
+  reviewArchiveSchema,
 } from "~/utils/apitypes";
+
+const removeReview = async (id: string) => {
+  const review = await prisma.review.findUnique({
+    where: {
+      id,
+    },
+  });
+
+  const accommodationId = review?.accommodationId ?? "";
+  const review_rating = review?.rating ?? 0;
+
+  const oldvalues = await prisma.accommodation.findUnique({
+    select: {
+      average_rating: true,
+      total_reviews: true,
+    },
+    where: {
+      id: accommodationId,
+    },
+  });
+
+  let avg = oldvalues?.average_rating ?? 0;
+  let count = oldvalues?.total_reviews ?? 0;
+
+  count -= 1;
+  avg = avg + (avg - review_rating) / count;
+
+  return { avg, count, accommodationId };
+};
+
+const addReview = async (accommodationId: string, rating: number) => {
+  const oldvalues = await prisma.accommodation.findUnique({
+    select: {
+      average_rating: true,
+      total_reviews: true,
+    },
+    where: {
+      id: accommodationId,
+    },
+  });
+
+  let avg = oldvalues?.average_rating ?? 0;
+  let count = oldvalues?.total_reviews ?? 0;
+
+  count += 1;
+  avg = avg + (rating - avg) / count;
+
+  return { avg, count };
+};
 
 export const reviewRouter = createTRPCRouter({
   add: protectedProcedure
@@ -53,21 +104,7 @@ export const reviewRouter = createTRPCRouter({
         },
       });
 
-      const oldvalues = await ctx.prisma.accommodation.findUnique({
-        select: {
-          average_rating: true,
-          total_reviews: true,
-        },
-        where: {
-          id: input.accommodationId,
-        },
-      });
-
-      let avg = oldvalues?.average_rating ?? 0;
-      let count = oldvalues?.total_reviews ?? 0;
-
-      count += 1;
-      avg = avg + (input.rating - avg) / count;
+      const { avg, count } = await addReview(accommodationId, rating);
 
       await ctx.prisma.accommodation.update({
         where: {
@@ -84,21 +121,55 @@ export const reviewRouter = createTRPCRouter({
 
   edit: protectedProcedure
     .input(reviewEditSchema)
-    .mutation(({ ctx, input }) => {
-      const id = input.id;
+    .mutation(async ({ ctx, input }) => {
+      const { id, rating, review } = input;
+
+      const {
+        avg: removeavg,
+        count: removecount,
+        accommodationId,
+      } = await removeReview(id);
+      await ctx.prisma.accommodation.update({
+        where: { id: accommodationId },
+        data: {
+          total_reviews: removeavg,
+          average_rating: removecount,
+        },
+      });
+
+      const { avg, count } = await addReview(accommodationId, rating);
+      await ctx.prisma.accommodation.update({
+        where: { id: accommodationId },
+        data: {
+          total_reviews: avg,
+          average_rating: count,
+        },
+      });
+
       return ctx.prisma.review.update({
         where: { id },
         data: {
-          review: input.review,
-          rating: input.rating,
+          rating,
+          review,
         },
       });
     }),
 
   delete: protectedProcedure
     .input(z.object({ id: z.string() }))
-    .mutation(({ ctx, input }) => {
+    .mutation(async ({ ctx, input }) => {
       const { id } = input;
+
+      const { avg, count, accommodationId } = await removeReview(id);
+
+      await ctx.prisma.accommodation.update({
+        where: { id: accommodationId },
+        data: {
+          total_reviews: count,
+          average_rating: avg,
+        },
+      });
+
       return ctx.prisma.review.delete({
         where: { id },
       });
@@ -114,16 +185,32 @@ export const reviewRouter = createTRPCRouter({
     }),
 
   archive: protectedProcedure
-    .input(z.object({ id: z.string() }))
-    .mutation(({ ctx, input }) => {
+    .input(reviewArchiveSchema)
+    .mutation(async ({ ctx, input }) => {
       const id = input.id;
-      // const archived = input.is_archived;
-      return ctx.prisma.review.update({
+      const {
+        avg,
+        count,
+        accommodationId: removeaccomid,
+      } = await removeReview(id);
+      const accommodationId = input.accommodationId ?? removeaccomid;
+
+      await ctx.prisma.accommodation.update({
+        where: { id: accommodationId },
+        data: {
+          total_reviews: count,
+          average_rating: avg,
+        },
+      });
+
+      const archive = ctx.prisma.review.update({
         where: { id },
         data: {
           is_archived: true,
         },
       });
+
+      return archive;
     }),
 
   // getArchives: publicProcedure.query(async ({ ctx }) => {

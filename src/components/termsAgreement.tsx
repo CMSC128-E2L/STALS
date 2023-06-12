@@ -1,7 +1,7 @@
 export default function TermsCondition() {
   return (
     <div className="">
-      <h2 className="mb-4 text-3xl font-bold text-blue-700">
+      <h2 className="mb-4 text-center text-3xl font-bold text-p-dviolet">
         Terms and Conditions
       </h2>
       <div className="mb-4 h-60 max-w-xl overflow-y-scroll px-1">

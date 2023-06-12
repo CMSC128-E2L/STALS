@@ -4,7 +4,7 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { AccommodationType, UserType } from "@prisma/client";
 import { api } from "~/utils/api";
 import { accommodationAddSchema } from "~/utils/apitypes";
-import bgpic from "public/images/addaccom_bg.png";
+import bgpic from "public/images/background_addedit_accom.png";
 import toast from "react-hot-toast";
 import { useSession } from "next-auth/react";
 import LoadingSpinner from "~/components/loadingSpinner";
@@ -13,6 +13,7 @@ import { type z } from "zod";
 import { useState } from "react";
 import Error401 from "~/pages/401";
 import { useRouter } from "next/router";
+import FormError from "~/components/formError";
 
 export default function AddAccommodation() {
   const userSession = useSession({ required: true });
@@ -27,7 +28,9 @@ export default function AddAccommodation() {
     defaultValues: {
       tagArray: [],
       typeArray: [],
-      is_archived: false,
+      barangay: "Anos",
+      street_number: "",
+      subdivision: "",
     },
   });
 
@@ -35,7 +38,7 @@ export default function AddAccommodation() {
     "Anos",
     "Bagong Silang",
     "Bambang",
-    " Malake",
+    "Batong Malake",
     "Baybayin",
     "Bayog",
     "Lalakay",
@@ -48,7 +51,15 @@ export default function AddAccommodation() {
     "Timugan",
   ];
 
-  const createAccommodation = api.accommodation.add.useMutation();
+  const createAccommodation = api.accommodation.add.useMutation({
+    onSuccess: () => {
+      toast.success("Successfully Added Accommodation!", {
+        position: "bottom-right",
+        duration: 3000,
+      });
+      resetFrom();
+    },
+  });
 
   const [tagGenders, settagGenders] = useState("Coed");
   const [tagKitchen, settagKitchen] = useState("Cooking Not Allowed");
@@ -74,14 +85,11 @@ export default function AddAccommodation() {
     <div className="">
       <img className="site-background" src={bgpic.src} alt="background" />
       <NavBar />
-      <div className="block px-2 py-2 sm:px-0">
+      <div className="px-2 py-2 sm:px-0">
         <div className="inset-x-0 flex items-center justify-center">
-          <div className="shadow-md/50 my-14 flex w-full flex-col items-center justify-center gap-1 rounded-md bg-white p-10 sm:w-[60%]">
+          <div className="my-14 flex w-full flex-col items-center justify-center gap-1 rounded-md sm:p-10 md:w-1/2">
             <div>
-              <h1 className="form-h1 pb-2 font-extrabold text-p-dbviolet">
-                {" "}
-                Add Accommodation
-              </h1>
+              <h1 className="form-h1 pb-2"> Add Accommodation</h1>
             </div>
             <form
               // eslint-disable-next-line
@@ -97,43 +105,38 @@ export default function AddAccommodation() {
                   );
                   console.log(newAddAccomInputs);
                   createAccommodation.mutate(newAddAccomInputs);
-                  toast.success("Successfully Added Accommodation!", {
-                    position: "bottom-right",
-                    duration: 1000,
-                  });
-                  resetFrom();
-                  // router.back();
-                  // setTimeout(() => router.reload(), 50);
                 },
                 (error) => {
                   console.log(error);
                   toast.error("Cannot Add Accommodation!", {
                     position: "bottom-right",
-                    duration: 1000,
+                    duration: 2000,
                   });
                 },
               )}
-              className="w-full   justify-items-stretch"
+              className="w-full justify-items-stretch"
             >
               <div>
-                <h2 className="form-h3 pb-2 text-center text-p-dbviolet">
-                  Background
-                </h2>
+                <h2 className="form-h3 pb-2">Background</h2>
 
                 <div className="px-3">
                   {/* Lodging name */}
-                  <label className="form-h2 form-field-required text-p-dviolet">
+                  <label className="form-h2 form-field-required ">
                     Accommodation Name
                   </label>
                   <input
-                    className="add-acc-input-text-field w-full"
+                    className={`add-acc-input-text-field w-full ${
+                      errors.name ? "input-text-field-error" : ""
+                    }`}
                     placeholder="Name of Accommodation"
-                    pattern="[\w\s]+"
-                    {...register("name", { required: true })}
-                    required
-                  ></input>
+                    maxLength={30}
+                    type="text"
+                    id="name"
+                    {...register("name")}
+                  />
+                  <FormError error={errors.name?.message} />
                 </div>
-                <h2 className="form-h2 form-field-required px-3 pt-3 text-p-dviolet">
+                <h2 className="form-h2 form-field-required px-3 pt-3 ">
                   Type of Accommodation
                 </h2>
                 <div className="ml-5 flex flex-col justify-evenly gap-4 px-5 pt-2 sm:ml-0 sm:flex-row">
@@ -148,45 +151,55 @@ export default function AddAccommodation() {
                     register,
                   )}
                 </div>
-                {errors.typeArray?.message && (
-                  <p className="text-red-500">{errors.typeArray.message}</p>
-                )}
+                <FormError error={errors.typeArray?.message} />
                 <div className="px-3">
-                  <label className="form-h2 form-field-required text-p-dviolet">
+                  <label className="form-h2 form-field-required ">
                     Address
                   </label>
 
                   <div className="flex flex-col gap-2 sm:flex-row">
-                    <input
-                      className="add-acc-input-text-field sm:w-1/3"
-                      placeholder="St."
-                      {...register("street_number")}
-                      required
-                    ></input>
-                    <input
-                      className="add-acc-input-text-field sm:w-2/3"
-                      placeholder="Subdivision"
-                      {...register("subdivision")}
-                      required
-                    ></input>
-                    <select placeholder="barangay" className="form-dropdown">
-                      {barangayDropdown(barangays)}
-                    </select>
-                    <input
-                      className=" add-acc-input-text-field hidden"
-                      placeholder="Barangay"
-                      {...register("barangay")}
-                      required
-                    ></input>
+                    <div className="flex flex-col sm:w-1/3">
+                      <input
+                        className={`add-acc-input-text-field grow ${
+                          errors.street_number ? "input-text-field-error" : ""
+                        }  `}
+                        placeholder="St."
+                        maxLength={4}
+                        {...register("street_number")}
+                      />
+                      <FormError error={errors.street_number?.message} />
+                    </div>
+                    <div className="flex flex-col sm:w-2/3">
+                      <input
+                        className={`add-acc-input-text-field ${
+                          errors.subdivision ? "input-text-field-error" : ""
+                        } `}
+                        placeholder="Subdivision"
+                        {...register("subdivision")}
+                        maxLength={20}
+                      />
+                      <FormError error={errors.subdivision?.message} />
+                    </div>
+
+                    <div>
+                      <select
+                        className="form-dropdown"
+                        {...register("barangay")}
+                        required
+                      >
+                        <option value="" disabled selected>
+                          Select Barangay
+                        </option>
+                        {barangayDropdown(barangays)}
+                      </select>
+                    </div>
                   </div>
                 </div>
 
                 <div className="grid grid-cols-1 gap-2 object-contain p-3 sm:grid-cols-2">
                   <div className="form-col-deets">
                     <div className="hidden">
-                      <label className="form-h2 text-p-dviolet">
-                        Type of Accommodation
-                      </label>
+                      <label className="form-h2 ">Type of Accommodation</label>
                       <div className="h-10 w-full items-center justify-items-stretch rounded-md bg-white">
                         <select
                           className="form-dropdown peer"
@@ -209,10 +222,9 @@ export default function AddAccommodation() {
                         </select>
                       </div>
                     </div>
+
                     <div className="">
-                      <label className="form-h2 text-p-dviolet">
-                        Contract Length
-                      </label>
+                      <label className="form-h2 ">Contract Length</label>
                       <select
                         className="form-dropdown"
                         placeholder="Contract Length"
@@ -225,34 +237,31 @@ export default function AddAccommodation() {
 
                     {/* Accommodation price input field */}
                     <div className="">
-                      <label className="form-h2 form-field-required text-p-dviolet">
-                        {" "}
+                      <label className="form-h2 form-field-required ">
                         Price of Accommodation
                       </label>
                       <input
-                        className="add-acc-input-text-field"
+                        className={`add-acc-input-text-field ${
+                          errors.price ? "input-text-field-error" : ""
+                        } `}
                         placeholder="Price"
-                        pattern="^\d+(\.\d+)?$"
-                        type="text"
                         {...register("price", {
-                          valueAsNumber: true,
-                          // eslint-disable-next-line @typescript-eslint/no-unsafe-argument
-                          setValueAs: (value: string) =>
-                            parseFloat(value).toFixed(2),
+                          setValueAs: (value) => String(value),
                         })}
                         title="Must be a positive float value."
-                        // eslint-disable-next-line @typescript-eslint/no-unsafe-argument
-                        required
-                      ></input>
+                      />
+
+                      <FormError error={errors.price?.message} />
                     </div>
 
                     {/* FB page link*/}
                     <div>
-                      <label className="form-h2 text-p-dviolet">FB Page</label>
+                      <label className="form-h2 ">FB Page</label>
                       <input
-                        className="add-acc-input-text-field"
+                        className={`add-acc-input-text-field  ${
+                          errors.fb_page ? "input-text-field-error" : ""
+                        }`}
                         placeholder="Facebook Page Link"
-                        pattern="(?:https?:\/\/)?(?:www\.)?(mbasic.facebook|m\.facebook|facebook|fb)\.(com|me)\/(?:(?:\w\.)*#!\/)?(?:pages\/)?(?:[\w\-\.]*\/)*([\w\-\.]*)"
                         type="text"
                         {...register("fb_page")}
                         title="Please enter a valid Facebook Page Link."
@@ -261,7 +270,7 @@ export default function AddAccommodation() {
                   </div>
                   <div className="form-col-deets">
                     <div className="flex flex-col">
-                      <label className="form-h2 text-p-dviolet">Location</label>
+                      <label className="form-h2 ">Location</label>
                       <div className="h-10 w-full items-center justify-items-stretch rounded-md bg-white">
                         <select
                           className="form-dropdown"
@@ -275,35 +284,29 @@ export default function AddAccommodation() {
                     </div>
                     {/* Contact No input field */}
                     <div className="">
-                      <label className="form-h2 form-field-required text-p-dviolet">
+                      <label className="form-h2 form-field-required ">
                         {" "}
                         Contact No.
                       </label>
                       <input
-                        className="add-acc-input-text-field"
+                        className={`add-acc-input-text-field ${
+                          errors.contact_number ? "input-text-field-error" : ""
+                        } `}
+                        maxLength={13}
                         placeholder="Contact No."
-                        pattern="(09|\+639)[0-9]{9}"
                         {...register("contact_number")}
                       ></input>
-                      {errors.contact_number?.message && (
-                        <p className="text-red-500">
-                          {errors.contact_number.message}
-                        </p>
-                      )}
+                      <FormError error={errors.contact_number?.message} />
                     </div>
                   </div>
                 </div>
                 <div>
-                  <h2 className="form-h3 py-2 text-center text-p-dbviolet">
-                    Tags
-                  </h2>
+                  <h2 className="form-h3 py-2 ">Tags</h2>
 
                   <div className="margin-40 grid grid-cols-1 gap-4 px-3 sm:grid-cols-3">
                     <div className="form-col-deets">
                       <div className="flex flex-col gap-1">
-                        <label className="form-h2 text-p-dviolet">
-                          Dorm Type
-                        </label>
+                        <label className="form-h2">Dorm Type</label>
                         <div className="h-10 w-full items-center justify-items-stretch rounded-md bg-white">
                           <select
                             className="form-dropdown"
@@ -321,9 +324,7 @@ export default function AddAccommodation() {
                       </div>
                       <div className="flex flex-col gap-1">
                         <div>
-                          <label className="form-h2 text-p-dviolet">
-                            Kitchen
-                          </label>
+                          <label className="form-h2 ">Kitchen</label>
                           <select
                             className="form-dropdown"
                             onChange={(e) => {
@@ -370,7 +371,7 @@ export default function AddAccommodation() {
                   </div>
                 </div>
                 <div className="px-3 py-5">
-                  <h2 className="form-h2 text-p-dviolet">Custom Tags</h2>
+                  <h2 className="form-h2 ">Custom Tags</h2>
                   <div className="flex flex-col gap-1">
                     <label>
                       Separate custom tags with commas (,). I.e: laundry,
@@ -386,78 +387,21 @@ export default function AddAccommodation() {
                     ></input>
                   </div>
                 </div>
-                {/* Manage gallery */}
-                <div className="hidden">
-                  <div className="pb-3 text-center">
-                    <label className="form-h3">
-                      Upload Accommodation Photos
-                    </label>
-                    <main className="container">
-                      <article
-                        aria-label="file Upload Modal"
-                        className="relative flex h-full flex-col rounded-md shadow-xl"
-                      >
-                        <section className="flex w-full flex-col gap-3 overflow-auto p-3">
-                          <header className="flex flex-col items-center justify-center rounded-md border border-dashed border-p-gray p-12">
-                            <p className="mb-3 flex flex-wrap justify-center font-semibold">
-                              <span>Drag and drop your</span>&nbsp;
-                              <span>files anywhere or</span>
-                            </p>
-                            <input
-                              id="hidden-input"
-                              type="file"
-                              multiple
-                              className="hidden"
-                            />
-                            <button
-                              id="button"
-                              className="focus:shadow-outline mt-2 rounded-sm bg-gray-200 px-3 py-1 hover:bg-gray-300 focus:outline-none"
-                            >
-                              Upload a file
-                            </button>
-                          </header>
-                          <div>
-                            <h1 className="form-h2 text-center">To Upload</h1>
 
-                            <ul
-                              id="gallery"
-                              className="-m-1 flex flex-1 flex-wrap"
-                            >
-                              <li
-                                id="empty"
-                                className="flex h-full w-full flex-col items-center justify-center text-center"
-                              >
-                                <img
-                                  className="mx-auto w-32"
-                                  src="https://user-images.githubusercontent.com/507615/54591670-ac0a0180-4a65-11e9-846c-e55ffce0fe7b.png"
-                                  alt="no data"
-                                />
-                                <span className="text-small text-gray-500">
-                                  No files selected
-                                </span>
-                              </li>
-                            </ul>
-                          </div>
-                        </section>
-                      </article>
-                    </main>
-                  </div>
-                </div>
                 <div className="flex flex-col gap-2">
                   <div>
                     <button type="submit" className="formConfirm">
                       Submit
                     </button>
                   </div>
-                  <button
-                    type="reset"
+                  <input
                     className="formReject"
+                    type="button"
+                    value="Cancel"
                     onClick={() => {
                       router.back();
                     }}
-                  >
-                    Cancel
-                  </button>
+                  />
                 </div>
               </div>
             </form>

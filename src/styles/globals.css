@@ -6,9 +6,12 @@
   .input-text-field {
     @apply rounded-xl px-3 py-3 shadow shadow-p-black/50;
   }
+  .input-text-field-error {
+    @apply border border-2 border-red-500;
+  }
 
   .site-background {
-    @apply fixed -z-10 h-full w-screen bg-cover bg-fixed bg-center;
+    @apply fixed -z-50 h-screen w-screen object-cover;
   }
 
   .add-acc-input-text-field {
@@ -20,7 +23,7 @@
   }
 
   .formReject {
-    @apply flex w-full justify-center rounded-full bg-slate-500 px-4 py-2 font-bold text-white shadow shadow-gray-400;
+    @apply flex w-full cursor-pointer justify-center rounded-full bg-slate-500 px-4 py-2 font-bold text-white shadow shadow-gray-400;
   }
 
   .accPButton {
@@ -44,15 +47,15 @@
   }
 
   .form-h1 {
-    @apply text-3xl font-bold text-p-rblue;
+    @apply text-3xl font-extrabold text-p-dbviolet;
   }
 
   .form-h2 {
-    @apply text-xl font-bold;
+    @apply text-xl font-bold text-p-dviolet;
   }
 
   .form-h3 {
-    @apply text-2xl font-bold text-p-rblue;
+    @apply text-center text-2xl font-bold text-p-dbviolet;
   }
 
   .form-field-required {
@@ -109,7 +112,11 @@
   }
 
   .button-style {
-    @apply cursor-pointer rounded-full bg-p-dbviolet py-1 text-center text-xl font-bold text-white;
+    @apply cursor-pointer rounded-full bg-p-dbviolet py-1 text-center text-xl font-bold text-white hover:bg-p-bviolet/80;
+  }
+
+  .filter-border {
+    @apply mt-4 border-p-dviolet/20;
   }
 }
 
@@ -131,6 +138,10 @@
 
   .scrollbar::-webkit-scrollbar-thumb:hover {
     background: #420eb3;
+  }
+
+  .management-buttons {
+    @apply flex rounded-full bg-p-dbviolet px-5 py-2 text-lg font-bold text-white shadow hover:bg-p-bviolet/80;
   }
 }
 

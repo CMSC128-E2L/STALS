@@ -2,50 +2,47 @@ import NavBar from "~/components/navbar";
 import { useRouter } from "next/router";
 import { dynamicRouteID, notAuthenticated } from "~/utils/helpers";
 import { accommodationEditSchema } from "~/utils/apitypes";
-import { UseFormRegister, useForm } from "react-hook-form";
+import { type UseFormRegister, useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { type RouterInputs, api } from "~/utils/api";
-import bgpic from "public/images/background_addaccom.png";
+import bgpic from "public/images/background_addedit_accom.png";
 import toast from "react-hot-toast";
 import Link from "next/link";
 import { useSession } from "next-auth/react";
 import LoadingSpinner from "~/components/loadingSpinner";
 import Error404 from "~/pages/404";
 import Error from "~/pages/_error";
-import UploadImageHeader, {
-  UploadImageMultiple,
-} from "~/components/uploadInput";
-import { z } from "zod";
+import { type z } from "zod";
 import { stalsDBstringArray } from "~/utils/helpers";
+import FormError from "~/components/formError";
 
 export default function EditAccommodation() {
   const userSession = useSession({ required: true });
   const { id } = dynamicRouteID(useRouter());
   const router = useRouter();
 
-  const { data: accommData, isLoading: accommLoading } =
-    api.accommodation.getOneRelations.useQuery(id);
-
   const { data: oldData, isLoading: oldDataLoading } =
     api.accommodation.getOne.useQuery(id);
 
-  //console.log(oldData)
   const {
     register,
     handleSubmit,
 
     formState: { errors },
-  } = useForm({
+  } = useForm<z.infer<typeof accommodationEditSchema>>({
     resolver: zodResolver(accommodationEditSchema),
-    // defaultValues:{
-    //   id: id,
-    //   //price: undefined
-    // }
+    defaultValues: {
+      id: id,
+    },
   });
 
-  const editAccommodation = api.accommodation.edit.useMutation();
+  const editAccommodation = api.accommodation.edit.useMutation({
+    onSuccess: () => {
+      router.back();
+    },
+  });
 
-  if (notAuthenticated(userSession.status) || accommLoading) {
+  if (notAuthenticated(userSession.status) || oldDataLoading) {
     return (
       <div className="min-h-[80vh]">
         <img className="site-background" src={bgpic.src} alt="background" />
@@ -55,25 +52,21 @@ export default function EditAccommodation() {
     );
   }
 
-  if (accommData === null) {
+  if (oldData === null) {
     return Error404();
   }
 
-  if (accommData?.landlord !== userSession.data?.user.id) {
+  if (oldData?.landlord !== userSession.data?.user.id) {
     return <Error statusCode={401} />;
   }
 
   return (
     <div className="">
-      <img
-        className="fixed -z-50 w-screen bg-cover bg-fixed bg-center"
-        src={bgpic.src}
-        alt="background"
-      />
+      <img className="site-background" src={bgpic.src} alt="background" />
       <NavBar />
-      <div className="block px-2 py-2 sm:px-0">
-        <div className="inset-x-0 flex items-center justify-center">
-          <div className="shadow-md/50 my-14 flex w-full flex-col items-center justify-center gap-1 rounded-md bg-white/70 p-10 sm:w-[60%]">
+      <div className="px-2 py-2 sm:px-0">
+        <div className="flex items-center justify-center">
+          <div className="my-14 flex w-full flex-col items-center justify-center gap-1 rounded-md sm:p-10 md:w-1/2">
             <div>
               <h1 className="form-h1">Edit Accommodation</h1>
             </div>
@@ -81,24 +74,25 @@ export default function EditAccommodation() {
               // eslint-disable-next-line @typescript-eslint/no-misused-promises
               onSubmit={handleSubmit(
                 (d) => {
-                  // console.log(d);
-                  const obj = { id };
-                  d.id = obj.id;
-                  for (const key in d) {
-                    if (d[key] === "") {
-                      delete d[key];
-                    }
-                  }
-                  // console.log(d`
-                  editAccommodation.mutate(
-                    d as RouterInputs["accommodation"]["edit"],
+                  void toast.promise(
+                    new Promise((resolve) => {
+                      setTimeout(() => {
+                        resolve(
+                          editAccommodation.mutate(
+                            d as RouterInputs["accommodation"]["edit"],
+                          ),
+                        );
+                      }, 1);
+                    }),
+                    {
+                      loading: "Editing Accommodation...",
+                      success: "Successfully Edited Accommodation!",
+                      error: "Editing Accommodation Failed!",
+                    },
+                    {
+                      position: "bottom-right",
+                    },
                   );
-                  toast.success("Successfully Edited Accommodation!", {
-                    position: "bottom-right",
-                    duration: 1000,
-                  });
-                  router.back();
-                  setTimeout(() => router.reload(), 50);
                 },
                 (errors) => {
                   console.log(errors);
@@ -114,22 +108,26 @@ export default function EditAccommodation() {
                 <div className="w-full">
                   <label className="form-h2">Accommodation Name</label>
                   <input
-                    className="add-acc-input-text-field text-xl"
+                    className={`add-acc-input-text-field w-full ${
+                      errors.name ? "input-text-field-error" : ""
+                    }`}
                     defaultValue={oldData?.name ?? ""}
                     type="text"
+                    maxLength={30}
                     {...register("name")}
-                  ></input>
+                  />
                 </div>
+                <FormError error={errors.name?.message} />
               </div>
               <h2 className="form-h2 px-3 pt-3">Type of Accommodation</h2>
               <div className="ml-5 flex flex-col justify-evenly gap-4 px-5 pt-2 sm:ml-0 sm:flex-row">
                 {tagCheckbox(
                   ["Dormitory", "Apartment", "Hotel", "Transient", "Bedspace"],
-
                   stalsDBstringArray(oldData?.typeArray),
                   register,
                 )}
               </div>
+              <FormError error={errors.typeArray?.message} />
               <div className="grid grid-cols-1 gap-2 object-contain sm:grid-cols-2">
                 <div className="form-col-deets">
                   <div className="hidden">
@@ -165,7 +163,6 @@ export default function EditAccommodation() {
                     <input
                       className="add-acc-input-text-field"
                       type="text"
-                      pattern="(?:https?:\/\/)?(?:www\.)?(mbasic.facebook|m\.facebook|facebook|fb)\.(com|me)\/(?:(?:\w\.)*#!\/)?(?:pages\/)?(?:[\w\-\.]*\/)*([\w\-\.]*)"
                       {...register("fb_page")}
                       defaultValue={oldData?.fb_page ?? ""}
                     ></input>
@@ -186,108 +183,36 @@ export default function EditAccommodation() {
                       <option>Outside UPLB</option>
                     </select>
                   </div>
-                  <div className="">
+                  <div>
                     <label className="form-h2">Contact No.</label>
                     <input
-                      className="add-acc-input-text-field"
+                      className={`add-acc-input-text-field w-full ${
+                        errors.contact_number ? "input-text-field-error" : ""
+                      }`}
                       defaultValue={oldData?.contact_number}
-                      pattern="^(09|\+639)[0-9]{9}"
                       type="text"
                       {...register("contact_number")}
-                    ></input>
+                    />
+                    <FormError error={errors.contact_number?.message} />
                   </div>
-                  <div className="">
+                  <div>
                     <label className="form-h2"> Price of Accommodation</label>
                     <input
-                      className="add-acc-input-text-field"
+                      className={`add-acc-input-text-field w-full ${
+                        errors.price ? "input-text-field-error" : ""
+                      }`}
                       defaultValue={oldData?.price ?? ""}
-                      pattern="^\d+(\.\d+)?$+"
-                      type="text"
                       title="Must be a positive float value."
                       {...register("price", {
-                        valueAsNumber: true,
-                        // eslint-disable-next-line @typescript-eslint/no-unsafe-argument
-                        setValueAs: (value: string) => parseFloat(value),
+                        setValueAs: (value) => String(value),
                       })}
-                    ></input>
+                    />
+
+                    <FormError error={errors.price?.message} />
                   </div>
                 </div>
               </div>
-              <div className="py-2">
-                {/* <label className="form-h2 ">Edit Tags</label>
-                <input
-                  className="add-acc-input-text-field"
-                  placeholder="Current tags"
-                  type="text"
-                ></input> */}
-              </div>
-
-              {/* Manage gallery */}
-              <div>
-                <div className="pb-3 text-center">
-                  <label className="form-h3">Manage Gallery</label>
-                  <main className="container">
-                    <article
-                      aria-label="file Upload Modal"
-                      className="relative flex h-full flex-col rounded-md shadow-xl"
-                    >
-                      <section className="flex w-full flex-col gap-3 overflow-auto p-3">
-                        <header className="flex flex-col items-center justify-center rounded-md border border-dashed border-p-gray p-12">
-                          {/* <p className="mb-3 flex flex-wrap justify-center font-semibold">
-                            <span>Drag and drop your</span>&nbsp;
-                            <span>files anywhere or</span>
-                          </p> */}
-                          {/* <input
-                            id="hidden-input"
-                            type="file"
-                            multiple
-                            className="hidden"
-                          />
-                          <button
-                            id="button"
-                            className="focus:shadow-outline mt-2 rounded-sm bg-gray-200 px-3 py-1 hover:bg-gray-300 focus:outline-none"
-                          >
-                            Upload a file
-                          </button> */}
-                          <p className="mb-3 flex flex-wrap justify-center font-semibold">
-                            <span>Accommodation Header</span>
-                          </p>
-                          <UploadImageHeader
-                            // className="focus:shadow-outline mt-2 rounded-sm bg-gray-200 px-3 py-1 hover:bg-gray-300 focus:outline-none"
-                            accomId={id}
-                          />
-                          <p className="mb-3 mt-3 flex flex-wrap justify-center font-semibold">
-                            <span>Accommodation Images</span>
-                          </p>
-                          <UploadImageMultiple accomId={id} />
-                        </header>
-                        {/* <div>
-                          <h1 className="form-h2 text-center">To Upload</h1>
-
-                          <ul
-                            id="gallery"
-                            className="-m-1 flex flex-1 flex-wrap"
-                          >
-                            <li
-                              id="empty"
-                              className="flex h-full w-full flex-col items-center justify-center text-center"
-                            >
-                              <img
-                                className="mx-auto w-32"
-                                src="https://user-images.githubusercontent.com/507615/54591670-ac0a0180-4a65-11e9-846c-e55ffce0fe7b.png"
-                                alt="no data"
-                              />
-                              <span className="text-small hidden text-gray-500">
-                                No files selected
-                              </span>
-                            </li>
-                          </ul>
-                        </div> */}
-                      </section>
-                    </article>
-                  </main>
-                </div>
-              </div>
+              <div className="py-2"></div>
               <div className="flex flex-col gap-2">
                 <div>
                   <button type="submit" className="formConfirm">
@@ -295,15 +220,14 @@ export default function EditAccommodation() {
                   </button>
                 </div>
                 <div>
-                  <button
-                    type="reset"
+                  <input
                     className="formReject"
+                    type="button"
+                    value="Cancel"
                     onClick={() => {
                       router.back();
                     }}
-                  >
-                    Cancel
-                  </button>
+                  />
                 </div>
               </div>
             </form>

@@ -11,7 +11,7 @@ import { useForm, useWatch, type Control } from "react-hook-form";
 import jsPDF from "jspdf";
 import autoTable from "jspdf-autotable";
 import { useSession } from "next-auth/react";
-import bgpic from "public/images/homepage_bg.png";
+import bgpic from "public/images/background_home.png";
 import { stalsDBstringArray, titleCase } from "~/utils/helpers";
 import { AccommodationType } from "@prisma/client";
 
@@ -36,11 +36,11 @@ type priceRangeType = {
 
 const priceRangesNew: priceRangeType = {
   all: { min: undefined, max: undefined, label: "All" },
-  "below-1000": { min: undefined, max: 1000, label: "Under ₱ 1001.00" },
-  "one-to-two": { min: 1001, max: 2000, label: "₱ 1001.00 – ₱ 2000.00" },
-  "two-to-three": { min: 2001, max: 3000, label: "₱ 2001.00 – ₱ 3000.00" },
-  "three-to-four": { min: 3001, max: 4000, label: "₱ 3001.00 – ₱ 4000.00" },
-  "above-four": { min: 4001, max: undefined, label: "Above ₱ 4001.00" },
+  "below-1000": { min: undefined, max: 1000, label: "Under ₱ 1,001.00" },
+  "one-to-two": { min: 1001, max: 2000, label: "₱ 1,001.00 – ₱ 2,000.00" },
+  "two-to-three": { min: 2001, max: 3000, label: "₱ 2,001.00 – ₱ 3,000.00" },
+  "three-to-four": { min: 3001, max: 4000, label: "₱ 3,001.00 – ₱ 4,000.00" },
+  "above-four": { min: 4001, max: undefined, label: "Above ₱ 4,001.00" },
 };
 
 export default function HomePage() {
@@ -54,8 +54,9 @@ export default function HomePage() {
     { id: "RATING-DESC", value: "RATING-DESC", label: "Rating (descending)" },
   ];
 
-  const [selectedPrice, setSelectedPrice] = useState("");
-  const [selectedSort, setSelectedSort] = useState("");
+  const [selectedPrice, setSelectedPrice] = useState("all");
+  const [selectedMax, setSelectedMax] = useState(8000);
+  const [selectedSort, setSelectedSort] = useState("NONE");
 
   const [showTypeDropdown, setTypeDropdown] = useState(true);
   const [showPriceDropdown, setPriceDropdown] = useState(true);
@@ -120,7 +121,7 @@ export default function HomePage() {
         >
           <svg
             xmlns="http://www.w3.org/2000/svg"
-            className="icon icon-tabler icon-tabler-download ml-3 mr-1"
+            className="icon icon-tabler icon-tabler-download ml-4 mr-1"
             width="20"
             height="18"
             viewBox="0 0 24 24"
@@ -170,18 +171,33 @@ export default function HomePage() {
 
       accommodationEntries?.pages.map((page, nyom: number) => {
         page?.items?.map((i) => {
+          let roomnum = 0;
+
+          i?.Room.map((room, n) => {
+            if (i.is_archived == false) {
+              roomnum++;
+            }
+          });
+
           info.push([
             i.name,
-            i.address ?? "",
+            `${i?.street_number ?? ""} ${i?.subdivision ?? ""} ${
+              i?.barangay ? ` Brgy. ${i?.barangay}` : ""
+            }`,
+            // i.address ?? "",
             `${i.landlordUser.first_name ?? ""}  ${
               i.landlordUser.last_name ?? ""
             }`,
             i.contact_number,
-            i.num_of_rooms,
+            roomnum,
           ]);
         });
       });
     }
+
+    const headcolor = {
+      fillColor: "#292076",
+    };
 
     autoTable(pdf, {
       head: [["Filter", "Value"]],
@@ -190,9 +206,10 @@ export default function HomePage() {
         ["Type", filters.accomType],
         ["Price Range", filters.priceRange],
       ],
+      headStyles: headcolor,
       didDrawPage: function (data) {
         // Page Header
-        pdf.setFillColor(29, 93, 154);
+        pdf.setFillColor(32, 4, 68);
         pdf.rect(10, 10, pdf.internal.pageSize.width - 20, 15, "F");
         pdf.setFont("helvetica", "bold");
         pdf.setFontSize(18);
@@ -208,7 +225,7 @@ export default function HomePage() {
     autoTable(pdf, {
       head: [["Name", "Address", "Landlord", "Contact", "Rooms"]],
       body: info,
-
+      headStyles: headcolor,
       didDrawPage: function (data) {
         const pageCount = pdf.getNumberOfPages();
         const footerStr = `Page ${data.pageNumber} of ${pageCount}`;
@@ -375,16 +392,17 @@ export default function HomePage() {
 
   const [toggleSidebar, setToggleSidebar] = useState(true);
 
-  function handleSidebarChange() {
+  const handleSidebarChange = () => {
     setToggleSidebar(!toggleSidebar);
-
-    // alert(toggleSidebar);
-  }
-  // setToggleSidebar
+  };
 
   return (
     <div>
-      <img className="site-background" src={bgpic.src} alt="background" />
+      <img
+        className="site-background opacity-30"
+        src={bgpic.src}
+        alt="background"
+      />
       <form
         // eslint-disable-next-line @typescript-eslint/no-misused-promises
         onSubmit={handleSubmit(
@@ -399,194 +417,468 @@ export default function HomePage() {
       >
         <NavBar register={register} name={"name"} />
 
-        <div className="flex flex-col sm:flex-row">
+        <div className={`flex flex-col sm:flex-row`}>
           {/* Sidebar */}
-          <div className="flex flex-col sm:sticky sm:top-16 sm:h-[100vh] sm:flex-row">
-            {toggleSidebar && (
-              <aside className="bg-p-lviolet px-5 py-3 sm:h-full sm:min-h-full sm:w-[200px] sm:min-w-[200px]">
-                {/* Location */}
-                <div className="mb-1">
-                  <h2 className="filter-header">Location</h2>
-                  <Location setUserInputs={setUserInputs} methods={methods} />
-                </div>
-                {/* Accommodation Type */}
-                <button
-                  className="filter-header mb-2"
-                  onClick={toggleTypeDropdown}
+          <div
+            className={`flex flex-col transition-all duration-300 sm:sticky sm:top-16 sm:h-[100vh] sm:flex-row ${
+              toggleSidebar
+                ? "max-h-[10000px] max-w-[10000px]"
+                : "max-h-8 sm:max-w-0"
+            }`}
+          >
+            <aside
+              className={`overflow-hidden bg-p-lviolet shadow-2xl transition-all duration-300 sm:h-full sm:min-h-full sm:w-[200px] ${
+                toggleSidebar
+                  ? "max-h-[1000px] max-w-[1000px] px-5 py-3"
+                  : "max-h-0 sm:max-w-0"
+              }`}
+            >
+              {/* Location */}
+              <div className="mb-1">
+                <h2 className="filter-header mb-1">Barangay</h2>
+                <Location setUserInputs={setUserInputs} methods={methods} />
+              </div>
+              <hr className="filter-border"></hr>
+              {/* Accommodation Type */}
+              <button
+                className="filter-header mb-2"
+                onClick={toggleTypeDropdown}
+              >
+                Types
+                <div className="mr-2"></div>
+                <svg
+                  className={`h-5 w-5 ${
+                    showTypeDropdown ? "" : "rotate-[-90deg]"
+                  }  duration-250 transition-transform`}
+                  aria-hidden="true"
+                  fill="none"
+                  stroke="currentColor"
+                  viewBox="0 0 24 24"
+                  xmlns="http://www.w3.org/2000/svg"
                 >
-                  Type
-                  <div className="mr-2"></div>
-                  <svg
-                    className={`h-5 w-5 ${
-                      showTypeDropdown ? "" : "rotate-[-90deg]"
-                    }  duration-250 transition-transform`}
-                    aria-hidden="true"
-                    fill="none"
-                    stroke="currentColor"
-                    viewBox="0 0 24 24"
-                    xmlns="http://www.w3.org/2000/svg"
-                  >
-                    <path
-                      strokeLinecap="round"
-                      strokeLinejoin="round"
-                      strokeWidth="2"
-                      d="M19 9l-7 7-7-7"
-                    ></path>
-                  </svg>
-                </button>
-                {showTypeDropdown && (
-                  <div>
-                    {Object.values(AccommodationType).map((value: string) => (
-                      <div key={value} className="flex flex-row">
-                        <input
-                          id={value}
-                          type="checkbox"
-                          value={titleCase(value)}
-                          {...register("typeArray", {
-                            onChange: () => {
-                              setUserInputs(
-                                (
-                                  prevInputs: z.infer<
-                                    typeof accommodationGetManyExperiementSchema
-                                  >,
-                                ) => ({
-                                  ...prevInputs,
-                                  typeArray: getValues("typeArray") as string[],
-                                }),
-                              );
-                            },
-                          })}
-                        />
-                        <label htmlFor={value} className="filter-text my-1">
-                          {value[0]}
-                          {value.substring(1).toLowerCase()}
-                        </label>
-                      </div>
-                    ))}
-                  </div>
-                )}
-                {/* Price Range */}
-                <button className="filter-header" onClick={togglePriceDropdown}>
-                  Price Range
-                  <div className="mr-2"></div>
-                  <svg
-                    className={`h-5 w-5 ${
-                      showPriceDropdown ? "" : "rotate-[-90deg]"
-                    }  duration-250 transition-transform`}
-                    aria-hidden="true"
-                    fill="none"
-                    stroke="currentColor"
-                    viewBox="0 0 24 24"
-                    xmlns="http://www.w3.org/2000/svg"
-                  >
-                    <path
-                      strokeLinecap="round"
-                      strokeLinejoin="round"
-                      strokeWidth="2"
-                      d="M19 9l-7 7-7-7"
-                    ></path>
-                  </svg>
-                </button>
-                {showPriceDropdown && (
-                  <div>
-                    {Object.keys(priceRangesNew).map((key, index) => (
-                      <div className="mb-1 mt-2 flex items-center" key={index}>
-                        <input
-                          id={key}
-                          type="radio"
-                          name="price_range"
-                          value={key}
-                          onChange={(event) => {
-                            const { value, checked } = event.target;
-
-                            if (checked) {
-                              setUserInputs((prevInputs) => ({
+                  <path
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                    strokeWidth="2"
+                    d="M19 9l-7 7-7-7"
+                  ></path>
+                </svg>
+              </button>
+              {showTypeDropdown && (
+                <div>
+                  {Object.values(AccommodationType).map((value: string) => (
+                    <div key={value} className="flex flex-row">
+                      <input
+                        id={value}
+                        type="checkbox"
+                        value={titleCase(value)}
+                        {...register("typeArray", {
+                          onChange: () => {
+                            setUserInputs(
+                              (
+                                prevInputs: z.infer<
+                                  typeof accommodationGetManyExperiementSchema
+                                >,
+                              ) => ({
                                 ...prevInputs,
-                                price_min: priceRangesNew[value]?.min,
-                                price_max: priceRangesNew[value]?.max,
-                              }));
-                            }
-
-                            setSelectedPrice(event.target.value);
-                          }}
-                          className="filter-radio inline-block"
-                          checked={
-                            key === selectedPrice ||
-                            (index === 0 && selectedPrice === "")
-                          }
-                        />
-                        <label htmlFor={key} className="filter-text">
-                          {priceRangesNew[key]?.label}
-                        </label>
-                      </div>
-                    ))}
-                  </div>
-                )}
-                <button className="filter-header" onClick={toggleSortDropdown}>
-                  Sort By
-                  <div className="mr-2"></div>
-                  <svg
-                    className={`h-5 w-5 ${
-                      showSortDropdown ? "" : "rotate-[-90deg]"
-                    }  duration-250 transition-transform`}
-                    aria-hidden="true"
-                    fill="none"
-                    stroke="currentColor"
-                    viewBox="0 0 24 24"
-                    xmlns="http://www.w3.org/2000/svg"
-                  >
-                    <path
-                      strokeLinecap="round"
-                      strokeLinejoin="round"
-                      strokeWidth="2"
-                      d="M19 9l-7 7-7-7"
-                    ></path>
-                  </svg>
-                </button>
-                {showSortDropdown && (
-                  <div>
-                    {sortTypes.map((range, index) => (
-                      <div
-                        className="mb-1 mt-2 flex items-center"
-                        key={range.id}
-                      >
-                        <input
-                          id={range.id}
-                          type="radio"
-                          name="sort"
-                          value={range.value}
-                          onChange={handleSortTypeChange}
-                          checked={
-                            range.value === selectedSort ||
-                            (index === 0 && selectedPrice === "")
-                          }
-                          className="filter-radio inline-block"
-                        />
-                        <label htmlFor={range.id} className="filter-text">
-                          {range.label}
-                        </label>
-                      </div>
-                    ))}
-                  </div>
-                )}
-
-                {/* Include */}
-                <div className="mb-4">
-                  <h2 className="filter-header">Include</h2>
-                  {/* <input
-                    className="filter-search"
-                    placeholder="Type for suggestions..."
-                  ></input> */}
-                  <Tags setUserInputs={setUserInputs} methods={methods} />
+                                typeArray: getValues("typeArray") as string[],
+                              }),
+                            );
+                          },
+                        })}
+                      />
+                      <label htmlFor={value} className="filter-text my-1">
+                        {value[0]}
+                        {value.substring(1).toLowerCase()}
+                      </label>
+                    </div>
+                  ))}
                 </div>
-                {/* Button will not show up for guests */}
-                <div className="mt-3">
-                  <DownloadPDFButton />
+              )}
+              <hr className="filter-border"></hr>
+              {/* Price Range */}
+              <button className="filter-header" onClick={togglePriceDropdown}>
+                Price Range
+                <div className="mr-2"></div>
+                <svg
+                  className={`h-5 w-5 ${
+                    showPriceDropdown ? "" : "rotate-[-90deg]"
+                  }  duration-250 transition-transform`}
+                  aria-hidden="true"
+                  fill="none"
+                  stroke="currentColor"
+                  viewBox="0 0 24 24"
+                  xmlns="http://www.w3.org/2000/svg"
+                >
+                  <path
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                    strokeWidth="2"
+                    d="M19 9l-7 7-7-7"
+                  ></path>
+                </svg>
+              </button>
+              {showPriceDropdown && (
+                <div>
+                  <input
+                    id="price-slider"
+                    type="range"
+                    min={0}
+                    max={15000}
+                    step={1000}
+                    className="h-2 w-full cursor-pointer appearance-none rounded-lg bg-gray-200"
+                    onChange={(event) => {
+                      setUserInputs((prevInputs) => ({
+                        ...prevInputs,
+                        price_min: 0,
+                        price_max: selectedMax,
+                      }));
+                      setSelectedMax(parseInt(event.target.value));
+                    }}
+                  />
+                  <div className="flex items-center justify-center">
+                    <label className="text-center text-xs">
+                      Maximum: {selectedMax}
+                    </label>
+                  </div>
+
+                  {/* {Object.keys(priceRangesNew).map((key, index) => (
+                    <div className="mb-1 mt-2 flex items-center" key={index}>
+                      <input
+                        id={key}
+                        type="radio"
+                        name="price_range"
+                        value={key}
+                        onChange={(event) => {
+                          const { value, checked } = event.target;
+                          if (checked) {
+                            setUserInputs((prevInputs) => ({
+                              ...prevInputs,
+                              price_min: priceRangesNew[value]?.min,
+                              price_max: priceRangesNew[value]?.max,
+                            }));
+                          }
+                          setSelectedPrice(event.target.value);
+                        }}
+                        className="filter-radio inline-block"
+                        checked={key === selectedPrice}
+                      />
+                      <label htmlFor={key} className="filter-text">
+                        {priceRangesNew[key]?.label}
+                      </label>
+                    </div>
+                  ))} */}
                 </div>
-              </aside>
-            )}
+              )}
+              <hr className="filter-border"></hr>
+
+              <button className="filter-header" onClick={toggleSortDropdown}>
+                Sort By
+                <div className="mr-2"></div>
+                <svg
+                  className={`h-5 w-5 ${
+                    showSortDropdown ? "" : "rotate-[-90deg]"
+                  }  duration-250 transition-transform`}
+                  aria-hidden="true"
+                  fill="none"
+                  stroke="currentColor"
+                  viewBox="0 0 24 24"
+                  xmlns="http://www.w3.org/2000/svg"
+                >
+                  <path
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                    strokeWidth="2"
+                    d="M19 9l-7 7-7-7"
+                  ></path>
+                </svg>
+              </button>
+              {showSortDropdown && (
+                <div>
+                  {/* Sort by name */}
+                  <div className="flex text-xs">
+                    <div
+                      className="-mx-1 -ml-2 flex items-center"
+                      key="NAME-ASC"
+                    >
+                      <input
+                        id="NAME-ASC"
+                        type="radio"
+                        name="sort"
+                        value="NAME-ASC"
+                        onChange={handleSortTypeChange}
+                        checked={"NAME-ASC" === selectedSort}
+                        className="filter-radio hidden"
+                      />
+                      <label htmlFor="NAME-ASC" className="filter-text">
+                        <svg
+                          xmlns="http://www.w3.org/2000/svg"
+                          // className="icon icon-tabler icon-tabler-arrow-narrow-up cursor-pointer"
+                          className={`icon icon-tabler icon-tabler-arrow-narrow-up cursor-pointer ${
+                            "NAME-ASC" === selectedSort
+                              ? "text-p-bviolet"
+                              : "text-black"
+                          }`}
+                          width="20"
+                          height="20"
+                          viewBox="0 0 24 24"
+                          strokeWidth="2"
+                          stroke="currentColor"
+                          fill="none"
+                          strokeLinecap="round"
+                          strokeLinejoin="round"
+                        >
+                          <path
+                            stroke="none"
+                            d="M0 0h24v24H0z"
+                            fill="none"
+                          ></path>
+                          <path d="M12 5l0 14"></path>
+                          <path d="M16 9l-4 -4"></path>
+                          <path d="M8 9l4 -4"></path>
+                        </svg>
+                      </label>
+                    </div>
+                    <div className="-mx-1 flex items-center" key="NAME-DESC">
+                      <input
+                        id="NAME-DESC"
+                        type="radio"
+                        name="sort"
+                        value="NAME-DESC"
+                        onChange={handleSortTypeChange}
+                        checked={"NAME-DESC" === selectedSort}
+                        className="filter-radio hidden"
+                      />
+                      <label htmlFor="NAME-DESC" className="filter-text">
+                        <svg
+                          xmlns="http://www.w3.org/2000/svg"
+                          className={`icon icon-tabler icon-tabler-arrow-narrow-down cursor-pointer ${
+                            "NAME-DESC" === selectedSort
+                              ? "text-p-bviolet"
+                              : "text-black"
+                          }`}
+                          width="20"
+                          height="20"
+                          viewBox="0 0 24 24"
+                          strokeWidth="2"
+                          stroke="currentColor"
+                          fill="none"
+                          strokeLinecap="round"
+                          strokeLinejoin="round"
+                        >
+                          <path
+                            stroke="none"
+                            d="M0 0h24v24H0z"
+                            fill="none"
+                          ></path>
+                          <path d="M12 5l0 14"></path>
+                          <path d="M16 15l-4 4"></path>
+                          <path d="M8 15l4 4"></path>
+                        </svg>
+                      </label>
+                    </div>
+                    <label className="mx-2 mt-1">Name</label>
+                  </div>
+                  {/* Sort by price */}
+                  <div className="flex text-xs">
+                    <div
+                      className="-mx-1 -ml-2 flex items-center"
+                      key="PRICE-ASC"
+                    >
+                      <input
+                        id="PRICE-ASC"
+                        type="radio"
+                        name="sort"
+                        value="PRICE-ASC"
+                        onChange={handleSortTypeChange}
+                        checked={"PRICE-ASC" === selectedSort}
+                        className="filter-radio hidden"
+                      />
+                      <label htmlFor="PRICE-ASC" className="filter-text">
+                        <svg
+                          xmlns="http://www.w3.org/2000/svg"
+                          className={`icon icon-tabler icon-tabler-arrow-narrow-up cursor-pointer ${
+                            "PRICE-ASC" === selectedSort
+                              ? "text-p-bviolet"
+                              : "text-black"
+                          }`}
+                          width="20"
+                          height="20"
+                          viewBox="0 0 24 24"
+                          strokeWidth="2"
+                          stroke="currentColor"
+                          fill="none"
+                          strokeLinecap="round"
+                          strokeLinejoin="round"
+                        >
+                          <path
+                            stroke="none"
+                            d="M0 0h24v24H0z"
+                            fill="none"
+                          ></path>
+                          <path d="M12 5l0 14"></path>
+                          <path d="M16 9l-4 -4"></path>
+                          <path d="M8 9l4 -4"></path>
+                        </svg>
+                      </label>
+                    </div>
+                    <div className="-mx-1 flex items-center" key="PRICE-DESC">
+                      <input
+                        id="PRICE-DESC"
+                        type="radio"
+                        name="sort"
+                        value="PRICE-DESC"
+                        onChange={handleSortTypeChange}
+                        checked={"PRICE-DESC" === selectedSort}
+                        className="filter-radio hidden"
+                      />
+                      <label htmlFor="PRICE-DESC" className="filter-text">
+                        <svg
+                          xmlns="http://www.w3.org/2000/svg"
+                          className={`icon icon-tabler icon-tabler-arrow-narrow-down cursor-pointer ${
+                            "PRICE-DESC" === selectedSort
+                              ? "text-p-bviolet"
+                              : "text-black"
+                          }`}
+                          width="20"
+                          height="20"
+                          viewBox="0 0 24 24"
+                          strokeWidth="2"
+                          stroke="currentColor"
+                          fill="none"
+                          strokeLinecap="round"
+                          strokeLinejoin="round"
+                        >
+                          <path
+                            stroke="none"
+                            d="M0 0h24v24H0z"
+                            fill="none"
+                          ></path>
+                          <path d="M12 5l0 14"></path>
+                          <path d="M16 15l-4 4"></path>
+                          <path d="M8 15l4 4"></path>
+                        </svg>
+                      </label>
+                    </div>
+                    <label className="mx-2 mt-1">Price</label>
+                  </div>
+                  {/* Sort by rating */}
+                  <div className="flex text-xs">
+                    <div
+                      className="-mx-1 -ml-2 flex items-center"
+                      key="RATING-ASC"
+                    >
+                      <input
+                        id="RATING-ASC"
+                        type="radio"
+                        name="sort"
+                        value="RATING-ASC"
+                        onChange={handleSortTypeChange}
+                        checked={"RATING-ASC" === selectedSort}
+                        className="filter-radio hidden"
+                      />
+                      <label htmlFor="RATING-ASC" className="filter-text">
+                        <svg
+                          xmlns="http://www.w3.org/2000/svg"
+                          className={`icon icon-tabler icon-tabler-arrow-narrow-up cursor-pointer ${
+                            "RATING-ASC" === selectedSort
+                              ? "text-p-bviolet"
+                              : "text-black"
+                          }`}
+                          width="20"
+                          height="20"
+                          viewBox="0 0 24 24"
+                          strokeWidth="2"
+                          stroke="currentColor"
+                          fill="none"
+                          strokeLinecap="round"
+                          strokeLinejoin="round"
+                        >
+                          <path
+                            stroke="none"
+                            d="M0 0h24v24H0z"
+                            fill="none"
+                          ></path>
+                          <path d="M12 5l0 14"></path>
+                          <path d="M16 9l-4 -4"></path>
+                          <path d="M8 9l4 -4"></path>
+                        </svg>
+                      </label>
+                    </div>
+                    <div className="-mx-1 flex items-center" key="RATING-DESC">
+                      <input
+                        id="RATING-DESC"
+                        type="radio"
+                        name="sort"
+                        value="RATING-DESC"
+                        onChange={handleSortTypeChange}
+                        checked={"RATING-DESC" === selectedSort}
+                        className="filter-radio hidden"
+                      />
+                      <label htmlFor="RATING-DESC" className="filter-text">
+                        <svg
+                          xmlns="http://www.w3.org/2000/svg"
+                          className={`icon icon-tabler icon-tabler-arrow-narrow-down cursor-pointer ${
+                            "RATING-DESC" === selectedSort
+                              ? "text-p-bviolet"
+                              : "text-black"
+                          }`}
+                          width="20"
+                          height="20"
+                          viewBox="0 0 24 24"
+                          strokeWidth="2"
+                          stroke="currentColor"
+                          fill="none"
+                          strokeLinecap="round"
+                          strokeLinejoin="round"
+                        >
+                          <path
+                            stroke="none"
+                            d="M0 0h24v24H0z"
+                            fill="none"
+                          ></path>
+                          <path d="M12 5l0 14"></path>
+                          <path d="M16 15l-4 4"></path>
+                          <path d="M8 15l4 4"></path>
+                        </svg>
+                      </label>
+                    </div>
+                    <label className="mx-2 mt-1">Rating</label>
+                  </div>
+                  {/* {sortTypes.map((range, index) => (
+                    <div
+                      className="mb-1 mt-2 flex items-center"
+                      key={range.id}
+                    >
+                      <input
+                        id={range.id}
+                        type="radio"
+                        name="sort"
+                        value={range.value}
+                        onChange={handleSortTypeChange}
+                        checked={range.value === selectedSort}
+                        className="filter-radio inline-block"
+                      />
+                      <label htmlFor={range.id} className="filter-text">
+                        {range.label}
+                      </label>
+                    </div>
+                  ))} */}
+                </div>
+              )}
+              <hr className="filter-border"></hr>
+              {/* Include */}
+              <div className="mb-4">
+                <h2 className="filter-header mb-1">Tags</h2>
+                <Tags setUserInputs={setUserInputs} methods={methods} />
+              </div>
+              {/* Button will not show up for guests */}
+              <div className="mt-3">
+                <DownloadPDFButton />
+              </div>
+            </aside>
             <div
-              className="h-fit w-full rounded-b-2xl bg-p-lviolet p-1 sm:mt-16 sm:w-fit sm:rounded-bl-none sm:rounded-br-2xl sm:rounded-tr-2xl sm:p-5"
+              className={`h-fit w-full rounded-b-2xl bg-p-lviolet sm:mt-16 sm:w-fit sm:rounded-bl-none sm:rounded-br-2xl sm:rounded-tr-2xl sm:px-2.5 sm:py-3`}
               onClick={handleSidebarChange}
             >
               <svg
@@ -666,15 +958,18 @@ const Tags: React.FC<{
           onChange={handleChange}
           onKeyDown={(evt) => {
             if (evt.key == "Enter") {
+              const searchString = `${value
+                .substring(0, 1)
+                .toUpperCase()}${value.substring(1).toLowerCase()}`;
               // eslint-disable-next-line
-              setUserInputs((prevInputs: any) => ({
+              setUserInputs((prevInputs: Object) => ({
                 ...prevInputs,
-                tagArray: [value],
+                tagArray: [searchString],
               }));
             }
           }}
           className="filter-search text-p-dviolet"
-          placeholder="Enter tag (e.g. cooking)"
+          placeholder="e.g. aircon"
         />
       </div>
     </div>
@@ -732,7 +1027,7 @@ const Location: React.FC<{
             }
           }}
           className="filter-search text-p-dviolet"
-          placeholder="Type for suggestions..."
+          placeholder="e.g. Batong Malake"
         />
         {showSuggestions && (
           <ul className="absolute mt-1 flex w-full flex-col space-y-1 rounded-xl bg-white p-3 text-black shadow-lg dark:bg-white dark:text-black">
@@ -780,18 +1075,30 @@ const SearchAccoms: React.FC<{
   if (items && items.length != 0) {
     return (
       <>
-        {items?.map(({ id, name, price, barangay, tagArray }) => (
-          <SearchItem
-            key={id + name}
-            id={id}
-            name={name}
-            price={
-              price !== undefined && price !== null ? price.toFixed(2) : ""
-            }
-            location={barangay}
-            tags={stalsDBstringArray(tagArray)}
-          />
-        ))}
+        {items?.map(
+          ({
+            id,
+            name,
+            price,
+            barangay,
+            average_rating,
+            typeArray,
+            tagArray,
+          }) => (
+            <SearchItem
+              key={id + name}
+              id={id}
+              name={name}
+              price={
+                price !== undefined && price !== null ? price.toFixed(2) : ""
+              }
+              location={barangay}
+              average_rating={average_rating ?? 0}
+              type={stalsDBstringArray(typeArray)}
+              tags={stalsDBstringArray(tagArray)}
+            />
+          ),
+        )}
       </>
     );
   }

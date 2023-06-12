@@ -1,11 +1,9 @@
 import NavBar from "~/components/navbar";
-import UserProfile from "~/components/userProfile";
 import StarRow from "~/components/starRow";
 import RoomButton from "~/components/roomButton";
 import Link from "next/link";
-import Image from "next/image";
 import { api } from "~/utils/api";
-import { useRouter } from "next/router";
+import router, { useRouter } from "next/router";
 import { dynamicRouteID, stalsDBstringArray } from "~/utils/helpers";
 import Error404 from "~/pages/404";
 import { useSession } from "next-auth/react";
@@ -19,6 +17,7 @@ import LoadingSpinner from "~/components/loadingSpinner";
 import jsPDF from "jspdf";
 import autoTable from "jspdf-autotable";
 import placeholder from "public/images/logo d-violet2.png";
+import ConfirmationPrompt from "~/components/prompt";
 
 export default function Accommodation() {
   const { id } = dynamicRouteID(useRouter());
@@ -29,10 +28,15 @@ export default function Accommodation() {
 
   const [isFavorite, setIsFavorite] = useState(false);
 
-  const { data: accommData, isLoading: accommLoading } =
-    api.accommodation.getOneRelations.useQuery(id);
+  const {
+    data: accommData,
+    isLoading: accommLoading,
+    refetch: refetchaccommData,
+  } = api.accommodation.getOneRelations.useQuery(id);
 
-  const { data: accomm } = api.accommodation.getOne.useQuery(id);
+  const refetchAccomData = () => {
+    void refetchaccommData();
+  };
 
   const { data: ImageList, isLoading: imageLoading } =
     api.file.getAccommImages.useQuery({ id });
@@ -41,6 +45,14 @@ export default function Accommodation() {
 
   const { data: favorites, isLoading: favoritesLoading } =
     api.user.getFavorites.useQuery();
+
+  const archiveAccom = api.accommodation.archive.useMutation({
+    onSuccess: () => {
+      router.reload();
+    },
+  });
+
+  const [showDelPrompt, setShowDelPrompt] = useState(false);
 
   const addFavorite = api.user.addFavorite.useMutation({
     onSuccess: () => {
@@ -95,11 +107,6 @@ export default function Accommodation() {
     }
   }, [favorites, accommData?.id, isGuest]);
 
-  // const { data: RoomList, isLoading: roomLoading } = api.room.getMany.useQuery({
-  //   id: id,
-  //   status: undefined,
-  // });
-
   const isLandlordViewing =
     userSession?.profile.type === UserType.LANDLORD &&
     accommData?.landlord === userSession?.user?.id;
@@ -117,6 +124,10 @@ export default function Accommodation() {
     if (pdfdownload) {
       calledOnce.current = true;
       setpdfdownload(false);
+
+      const headcolor = {
+        fillColor: "#292076",
+      };
 
       const roominfo: (string | number)[][] = [];
 
@@ -139,25 +150,24 @@ export default function Accommodation() {
           ["Name", accommData?.name ?? ""],
           [
             "Address",
-            `${accommData?.street_number ?? ""}${
+            `${accommData?.street_number ?? ""} ${
               accommData?.subdivision ?? ""
-            }${accommData?.barangay ? `Brgy. ${accommData?.barangay}` : ""}`,
+            } ${accommData?.barangay ? ` Brgy. ${accommData?.barangay}` : ""}`,
           ],
-          // `${accommData?.street_number ? `${accommData?.street_number} St. `:""}${accommData?.subdivision ? `${accommData?.subdivision} Subd. `:""}${accommData?.subdivision ?? ""}${accommData?.barangay ? `Brgy. ${accommData?.barangay}`:""}`],
           [
             "Type",
             (accommData?.type ||
-              stalsDBstringArray(accommData?.typeArray).toString()) ??
+              stalsDBstringArray(accommData?.typeArray).join(", ")) ??
               "",
           ],
           ["Price", accommData?.price ?? ""],
           ["Contract Length", accommData?.contract_length ?? "None specified"],
-          ["Tags", stalsDBstringArray(accommData?.tagArray).toString()],
+          ["Tags", stalsDBstringArray(accommData?.tagArray).join(", ")],
         ],
-
+        headStyles: headcolor,
         didDrawPage: function (data) {
           // Page Header
-          pdf.setFillColor(29, 93, 154);
+          pdf.setFillColor(32, 4, 68);
           pdf.rect(10, 10, pdf.internal.pageSize.width - 20, 15, "F");
           pdf.setFont("helvetica", "bold");
           pdf.setFontSize(18);
@@ -175,6 +185,7 @@ export default function Accommodation() {
           ["Room", "Price", "Occupied", "Beds", "Airconditioner", "Utilities"],
         ],
         body: roominfo,
+        headStyles: headcolor,
         margin: { top: 30 },
         columnStyles: { 0: { cellWidth: 30 } },
       });
@@ -189,14 +200,14 @@ export default function Accommodation() {
             }`,
           ],
           ["Contact Number", accommData?.landlordUser.contact_number ?? ""],
-          ["Email", accommData?.landlordUser.email_address ?? ""],
         ],
+        headStyles: headcolor,
         margin: { top: 30 },
         columnStyles: { 0: { cellWidth: 30 } },
       });
     }
 
-    if (calledOnce.current) pdf.save("STALS.pdf");
+    if (calledOnce.current) pdf.save(`${accommData?.name ?? "STALS"}.pdf`);
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [pdfdownload]);
 
@@ -325,6 +336,7 @@ export default function Accommodation() {
                   </Link>
                 </div>
               )}
+
               {!isGuest && (
                 <>
                   <label className="cursor-pointer">
@@ -349,29 +361,55 @@ export default function Accommodation() {
                       />
                     </svg>
                   </label>
-                  <label className="cursor-pointer">
-                    <button
+                </>
+              )}
+
+              {!accommData?.is_archived && isLandlordViewing && (
+                <label className="cursor-pointer">
+                  {/* <button
                       data-modal-target="popup-modal"
                       data-modal-toggle="popup-modal"
                       className="accPButton sr-only mx-3 mb-2 self-end px-3 text-lg"
+                      onClick={() => {
+                        archiveAccom.mutate({
+                          id: id,
+                          is_archived: accommData!.is_archived,
+                        });
+                      }} 
+                    /> */}
+                  <button
+                    className="flex flex-row space-x-2"
+                    onClick={() => setShowDelPrompt(true)}
+                  ></button>
+                  {showDelPrompt && (
+                    <ConfirmationPrompt
+                      onConfirm={() => {
+                        archiveAccom.mutate({
+                          id: id,
+                          is_archived: accommData.is_archived,
+                        });
+                      }}
+                      onCancel={() => setShowDelPrompt(false)}
+                      message="Are you sure you want to archive this accommodation? "
+                      submessage=""
+                      // submessage="This action cannot be undone."
                     />
-
-                    <svg
-                      xmlns="http://www.w3.org/2000/svg"
-                      fill="none"
-                      viewBox="0 0 24 24"
-                      stroke-width="1.5"
-                      stroke="currentColor"
-                      className="h-8 w-8"
-                    >
-                      <path
-                        stroke-linecap="round"
-                        stroke-linejoin="round"
-                        d="M20.25 7.5l-.625 10.632a2.25 2.25 0 01-2.247 2.118H6.622a2.25 2.25 0 01-2.247-2.118L3.75 7.5m6 4.125l2.25 2.25m0 0l2.25 2.25M12 13.875l2.25-2.25M12 13.875l-2.25 2.25M3.375 7.5h17.25c.621 0 1.125-.504 1.125-1.125v-1.5c0-.621-.504-1.125-1.125-1.125H3.375c-.621 0-1.125.504-1.125 1.125v1.5c0 .621.504 1.125 1.125 1.125z"
-                      />
-                    </svg>
-                  </label>
-                </>
+                  )}
+                  <svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    fill="none"
+                    viewBox="0 0 24 24"
+                    strokeWidth="1.5"
+                    stroke="currentColor"
+                    className="h-8 w-8"
+                  >
+                    <path
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
+                      d="M20.25 7.5l-.625 10.632a2.25 2.25 0 01-2.247 2.118H6.622a2.25 2.25 0 01-2.247-2.118L3.75 7.5m6 4.125l2.25 2.25m0 0l2.25 2.25M12 13.875l2.25-2.25M12 13.875l-2.25 2.25M3.375 7.5h17.25c.621 0 1.125-.504 1.125-1.125v-1.5c0-.621-.504-1.125-1.125-1.125H3.375c-.621 0-1.125.504-1.125 1.125v1.5c0 .621.504 1.125 1.125 1.125z"
+                    />
+                  </svg>
+                </label>
               )}
             </div>
           </div>
@@ -442,7 +480,7 @@ export default function Accommodation() {
               {!accommLoading ? (
                 <div className="">
                   {accommData?.price !== undefined && accommData?.price !== null
-                    ? accommData?.price.toFixed(2)
+                    ? priceCommas(accommData?.price.toFixed(2))
                     : ""}
                 </div>
               ) : (
@@ -537,8 +575,8 @@ export default function Accommodation() {
 
           {/* Rooms 
       TODO: This is gonna get the list of rooms in prisma/schema.prisma and load the component <RoomButton /> (components/RoomButton.tsx) with the room id.*/}
-          <div className="flex flex-shrink-0 justify-center">
-            <div className="scrollbar flex flex-row items-stretch space-x-3 overflow-x-scroll p-3">
+          <div className="flex flex-shrink-0 flex-col">
+            <div className="scrollbar flex flex-row items-stretch  space-x-3 overflow-x-scroll p-3">
               {accommData?.Room && accommData?.Room.length > 0 ? (
                 accommData?.Room.map((room, i: number) => (
                   <RoomButton
@@ -599,14 +637,59 @@ export default function Accommodation() {
                   </Link>
                 )}
             </div>
+            {/*Report button*/}
+            {!accommLoading && accommData && isUserViewing && (
+              <div className="m-3 mb-1 flex justify-end pb-1">
+                {" "}
+                {/*The report button will stick to the bottom left of the screen*/}
+                <button
+                  className="flex flex-row items-center gap-1 text-xs text-p-red"
+                  onClick={() => {
+                    reportAccomm.mutate({
+                      reported_id: id,
+                      reported_name: accommData.name,
+                      report: "",
+                      type_reported: "ACCOMMODATION",
+                    });
+                    toast.success(
+                      "Thank you for reporting this accommodation.\nAn alert has been sent to the administrators.",
+                      {
+                        position: "bottom-center",
+                        duration: 4000,
+                      },
+                    );
+                  }}
+                >
+                  <p>Report</p>
+                  <svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    fill="none"
+                    viewBox="0 0 24 24"
+                    strokeWidth="1.5"
+                    stroke="#D22B2B"
+                    className="h-4 w-4"
+                  >
+                    <path
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
+                      d="M12 9v3.75m-9.303 3.376c-.866 1.5.217 3.374 1.948 3.374h14.71c1.73 0 2.813-1.874 1.948-3.374L13.949 3.378c-.866-1.5-3.032-1.5-3.898 0L2.697 16.126zM12 15.75h.007v.008H12v-.008z"
+                    />
+                  </svg>
+                </button>
+              </div>
+            )}
           </div>
         </div>
-        <br />
         <div className="border-t border-black"></div>
       </div>
     );
   };
 
+  function priceCommas(x: string) {
+    const pattern = /(-?\d+)(\d{3})/;
+    while (pattern.test(x)) x = x.replace(pattern, "$1,$2");
+    return x;
+  }
   return (
     <div className="flex flex-col justify-center bg-p-ngray">
       {/* HEADER */}
@@ -614,7 +697,7 @@ export default function Accommodation() {
 
       {/* BODY */}
       <div className="mt-10 flex min-h-[80vh] px-0 md:px-24 2xl:px-52">
-        <div className="grid w-full min-w-full grid-cols-1 gap-x-4 sm:grid-cols-3">
+        <div className="grid h-fit w-full min-w-full grid-cols-1 gap-x-4 sm:grid-cols-3">
           <div className="w-full">
             <Gallery />
           </div>
@@ -625,50 +708,9 @@ export default function Accommodation() {
             <OverAllRating />
           </div>
           <div className="w-full px-4 sm:col-span-2">
-            <ReviewGroup />
+            <ReviewGroup reloadAccom={refetchAccomData} />
           </div>
         </div>
-        {/*Report button*/}
-        {userSession !== null && (
-          <div className="fixed bottom-1 left-0 m-3 mb-1">
-            {" "}
-            {/*The report button will stick to the bottom left of the screen*/}
-            <button
-              className="flex flex-row items-center gap-1 text-xs text-p-lviolet"
-              onClick={() => {
-                reportAccomm.mutate({
-                  reported_id: id,
-                  reported_name: accomm!.name,
-                  report: "",
-                  type_reported: "ACCOMMODATION",
-                });
-                toast.success(
-                  "Thank you for reporting this accommodation.\nAn alert has been sent to the administrators.",
-                  {
-                    position: "bottom-center",
-                    duration: 4000,
-                  },
-                );
-              }}
-            >
-              <p>Report Accommodation</p>
-              <svg
-                xmlns="http://www.w3.org/2000/svg"
-                fill="none"
-                viewBox="0 0 24 24"
-                strokeWidth="1.5"
-                stroke="#d6d1ff"
-                className="h-4 w-4"
-              >
-                <path
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                  d="M12 9v3.75m-9.303 3.376c-.866 1.5.217 3.374 1.948 3.374h14.71c1.73 0 2.813-1.874 1.948-3.374L13.949 3.378c-.866-1.5-3.032-1.5-3.898 0L2.697 16.126zM12 15.75h.007v.008H12v-.008z"
-                />
-              </svg>
-            </button>
-          </div>
-        )}
       </div>
     </div>
   );

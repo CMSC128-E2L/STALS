@@ -15,7 +15,7 @@ interface NavBarProps {
 }
 
 export const NavBar: React.FC<NavBarProps> = ({ register, name, showBack }) => {
-  const router = useRouter();
+  // const router = useRouter();
   return (
     <>
       {/* Navigation bar */}
@@ -24,7 +24,7 @@ export const NavBar: React.FC<NavBarProps> = ({ register, name, showBack }) => {
         className="sticky top-0 z-50 flex w-full flex-wrap items-center justify-between bg-p-dviolet p-4 py-1 sm:flex-row"
       >
         {/* Left side */}
-        {showBack && (
+        {/* {showBack && (
           <div
             className="flex cursor-pointer items-center"
             onClick={() => {
@@ -48,7 +48,7 @@ export const NavBar: React.FC<NavBarProps> = ({ register, name, showBack }) => {
               </svg>
             </div>
           </div>
-        )}
+        )} */}
         <div className="flex grow items-center justify-center sm:grow-0">
           {/* div button hack again */}
           <Link href="/homepage" className="flex items-center">
@@ -139,7 +139,7 @@ const ProfileButton: React.FC = () => {
     } else {
       return (
         <div className="block w-full rounded-lg p-2 text-left">
-          <p className="text-lg font-bold text-p-rblue">Guest</p>
+          <p className="text-lg font-bold text-p-bviolet">Guest</p>
           <p className="mb-1 overflow-hidden truncate text-sm italic text-gray-400">
             Unregistered user
           </p>
@@ -230,7 +230,7 @@ const ProfileButton: React.FC = () => {
               </svg>
               <Link href={"/login"}>Sign In</Link>
             </div>
-            <div className="dropdown-buttons">
+            {/* <div className="dropdown-buttons">
               <svg
                 xmlns="http://www.w3.org/2000/svg"
                 className="icon icon-tabler icon-tabler-user-plus -ml-1 mr-2"
@@ -250,7 +250,7 @@ const ProfileButton: React.FC = () => {
                 <path d="M6 21v-2a4 4 0 0 1 4 -4h4"></path>
               </svg>
               <Link href={"/login"}>Sign Up</Link>
-            </div>
+            </div> */}
           </div>
         </div>
       );

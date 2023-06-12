@@ -14,7 +14,9 @@ import FormError from "./formError";
 import { type z } from "zod";
 import { UserType } from "@prisma/client";
 
-export default function ReviewGroup() {
+export const ReviewGroup: React.FC<{
+  reloadAccom: () => void;
+}> = ({ reloadAccom }) => {
   const { id } = dynamicRouteID(useRouter());
   const router = useRouter();
   const {
@@ -31,11 +33,16 @@ export default function ReviewGroup() {
     },
   });
 
-  useEffect(() => {
-    setValue("accommodationId", id);
-  }, [id, setValue]);
-
   const [refreshReviewComponent, setrefreshReviewComponent] = useState(0);
+
+  const reloadEverything = () => {
+    setValue("accommodationId", id);
+    reloadAccom();
+  };
+
+  useEffect(() => {
+    reloadEverything();
+  }, [id, setValue]);
 
   const addReview = api.review.add.useMutation({
     onSuccess: () => {
@@ -46,6 +53,7 @@ export default function ReviewGroup() {
       void reset();
       setRating(0);
       setValue("rating", 0);
+      reloadEverything();
       setrefreshReviewComponent((prev) => prev + 1);
     },
     onError: () => {
@@ -81,7 +89,6 @@ export default function ReviewGroup() {
                 date?: string | undefined;
               }) => {
                 addReview.mutate(data);
-                setTimeout(() => router.reload(), 50);
               },
               (error) => {
                 // console.log(error);
@@ -121,7 +128,6 @@ export default function ReviewGroup() {
                   totalStars={5}
                   initialRating={rating}
                   onChange={handleRatingChange}
-                  refreshComponent={refreshReviewComponent}
                 />
                 <FormError error={errors.rating?.message} />
               </div>
@@ -151,8 +157,14 @@ export default function ReviewGroup() {
         ) : (
           <h1 className="text-2xl font-bold text-p-dbviolet">Reviews</h1>
         )}
-        <ReviewList accomId={id} refreshComponent={refreshReviewComponent} />
+        <ReviewList
+          accomId={id}
+          refreshComponent={refreshReviewComponent}
+          refreshComponentFunction={reloadAccom}
+        />
       </div>
     </div>
   );
-}
+};
+
+export default ReviewGroup;

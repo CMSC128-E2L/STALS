@@ -1,18 +1,19 @@
 import NavBar from "~/components/navbar";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { type RouterInputs, api } from "~/utils/api";
+import { api } from "~/utils/api";
 import { roomEditSchema } from "~/utils/apitypes";
 import { useRouter } from "next/router";
 import { dynamicRouteID, notAuthenticated } from "~/utils/helpers";
 import { useEffect } from "react";
-import Link from "next/link";
 import bgpic from "public/images/addaccom_bg.png";
 import toast from "react-hot-toast";
 import { useSession } from "next-auth/react";
 import LoadingSpinner from "~/components/loadingSpinner";
 import Error404 from "~/pages/404";
 import Error from "~/pages/_error";
+import { type z } from "zod";
+import FormError from "~/components/formError";
 
 export default function EditRoom() {
   const userSession = useSession({ required: true });
@@ -23,10 +24,10 @@ export default function EditRoom() {
     handleSubmit,
     setValue,
     formState: { errors },
-  } = useForm<RouterInputs["room"]["edit"]>({
+  } = useForm<z.infer<typeof roomEditSchema>>({
     resolver: zodResolver(roomEditSchema),
     defaultValues: {
-      id: "",
+      id: id,
     },
   });
 
@@ -34,7 +35,14 @@ export default function EditRoom() {
     setValue("id", id);
   }, [id, setValue]);
 
-  const editRoom = api.room.edit.useMutation();
+  const editRoom = api.room.edit.useMutation({
+    onSuccess: () => {
+      toast.success("Successfully Edited Room!", {
+        position: "bottom-right",
+        duration: 3000,
+      });
+    },
+  });
 
   const { data: firstData, isLoading: queryLoading } =
     api.room.getOne.useQuery(id);
@@ -54,12 +62,9 @@ export default function EditRoom() {
   return (
     <div className="">
       <img className="site-background" src={bgpic.src} alt="background" />
-
-      {/* className="absolute bottom-1 right-1/2 h-[100%] translate-x-1/2 opacity-70" */}
-
       <NavBar />
-      <div className="inset-x-0 flex h-screen items-center justify-center">
-        <div className="shadow-md/50 w-1/3 rounded-xl bg-white px-10 py-10">
+      <div className="flex min-h-[90vh] items-center justify-center">
+        <div className="shadow-md/50 w-full rounded-xl bg-white/70 px-10 py-10 shadow sm:w-2/3 md:w-2/4">
           <div className="item-center flex justify-center px-2 pb-0 pt-0 drop-shadow-md">
             <h1 className="text-3xl font-bold text-p-dviolet">Edit Room</h1>
           </div>
@@ -73,12 +78,6 @@ export default function EditRoom() {
             onSubmit={handleSubmit(
               (d) => {
                 editRoom.mutate(d);
-                toast.success("Successfully Edited Room!", {
-                  position: "bottom-right",
-                  duration: 1000,
-                });
-                router.back();
-                setTimeout(() => router.reload(), 50);
               },
               (error) => {
                 console.log(error);
@@ -91,32 +90,31 @@ export default function EditRoom() {
           >
             <div className="flex flex-col space-y-2.5">
               <div>
+                <h2 className="form-h2 form-field-required">Price</h2>
                 <input
                   className="w-full rounded-xl px-2 py-2 shadow shadow-gray-400/100"
                   placeholder="Price"
-                  pattern="^\d+(\.\d+)?$"
-                  type="text"
                   title="Must be a positive float value."
                   defaultValue={firstData?.price}
-                  // eslint-disable-next-line @typescript-eslint/no-unsafe-argument
                   {...register("price", {
-                    valueAsNumber: true,
-                    // eslint-disable-next-line @typescript-eslint/no-unsafe-argument
-                    setValueAs: (value: string) => parseFloat(value).toFixed(2),
+                    setValueAs: (value) => String(value), // Keep the value as string
                   })}
-                  // eslint-disable-next-line @typescript-eslint/no-unsafe-argument
-                ></input>
+                />
+                <FormError error={errors.price?.message} />
               </div>
 
               <div>
+                <h2 className="form-h2 form-field-required">Number of Beds</h2>
                 <input
                   className="w-full rounded-xl px-2 py-2 shadow shadow-gray-400/100"
                   placeholder="Number of Beds"
-                  pattern="[0-9]+"
-                  type="number"
+                  title="Must be a positive int value."
                   defaultValue={firstData?.num_of_beds}
-                  {...register("num_of_beds", { valueAsNumber: true })}
-                ></input>
+                  {...register("num_of_beds", {
+                    setValueAs: (value) => String(value),
+                  })}
+                />
+                <FormError error={errors.num_of_beds?.message} />
               </div>
               {/* yung tatlong dropdown */}
               <div>
@@ -198,14 +196,14 @@ export default function EditRoom() {
               </div>
 
               <div>
-                <button
-                  className="group relative flex w-full justify-center rounded-full bg-gray-500 px-4 py-2 font-bold text-white opacity-75 shadow shadow-gray-400/100"
+                <input
+                  className="group relative flex w-full cursor-pointer justify-center rounded-full bg-gray-500 px-4 py-2 font-bold text-white opacity-75 shadow shadow-gray-400/100"
+                  type="button"
+                  value="Cancel"
                   onClick={() => {
                     router.back();
                   }}
-                >
-                  Cancel
-                </button>
+                />
               </div>
             </div>
           </form>

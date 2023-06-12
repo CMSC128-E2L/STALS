@@ -6,7 +6,7 @@ import Link from "next/link";
 import Edit from "./edit";
 import Profile1 from "~/components/profile";
 import FaveAccoms from "~/components/FaveAccoms";
-import bgpic from "public/images/signup_bg.png";
+import bgpic from "public/images/background_user.png";
 import { useSession } from "next-auth/react";
 import { api } from "~/utils/api";
 import { UserType } from "@prisma/client";
@@ -90,16 +90,22 @@ export default function Profile() {
         {/* admin settings and notification */}
         <section className="w-full">
           <div className="mb-4 rounded-3xl bg-white p-10 shadow-lg">
+            <MyAccom showArchived={false} />
+          </div>
+          <div className="mb-4 rounded-3xl bg-white p-10 shadow-lg">
+            <MyAccom showArchived={true} />
+          </div>
+          {/* <div className="mb-4 rounded-3xl bg-white p-10 shadow-lg">
             <h1 className="text-center text-xl font-bold text-p-dbviolet">
               Admin Settings
             </h1>
             <p className="b mb-2 mt-2 w-1/2 text-sm text-gray-400">
-              <Link href="">Manage Reviews</Link>
+              <Link href="managereport">Manage Reviews</Link>
             </p>
             <p className="mb-2 mt-2 text-sm text-gray-400">
               <Link href="accommodation/management">Manage Accommodations</Link>
             </p>
-          </div>
+          </div> */}
           <div className="rounded-3xl bg-white p-10 shadow-lg">
             <h1 className="mb-10 text-center text-xl font-bold text-p-dbviolet  ">
               Notifications
@@ -110,9 +116,9 @@ export default function Profile() {
               <div>Error occurred while fetching reports.</div>
             ) : (
               <div>
-                {reports.map((report) => {
+                {reports.map((report, index) => {
                   return (
-                    <div key={report.id} className="mb-6">
+                    <div key={index} className="mb-6">
                       <div className="mb-2 flex flex-row">
                         <div className="relative flex h-[2.5rem] w-[2.5rem] flex-col">
                           <Image
@@ -125,7 +131,8 @@ export default function Profile() {
                         <div className="ml-4">
                           <p className="mb-1 flex text-sm font-semibold">
                             {report.user.first_name} {report.user.middle_name}{" "}
-                            {report.user.last_name} {report.user.Suffix}
+                            {report.user.last_name} {report.user.Suffix}{" "}
+                            reported {report.reported_name}
                           </p>
                           <p className="flex text-xs text-gray-400">
                             {report.type_reported}
@@ -133,9 +140,9 @@ export default function Profile() {
                         </div>
                       </div>
                       <div className="mb-2 ml-14 flex">
-                        <p className="flex text-base">
+                        {/* <p className="flex text-base">
                           reported {report.reported_name}
-                        </p>
+                        </p> */}
                       </div>
                     </div>
                   );

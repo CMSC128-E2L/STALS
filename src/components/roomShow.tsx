@@ -1,15 +1,12 @@
 import Link from "next/link";
-import Image from "next/image";
+import Image, { type StaticImageData } from "next/image";
 import { api } from "~/utils/api";
 import { useRouter } from "next/router";
 import { useSession } from "next-auth/react";
-import { dynamicRouteID } from "~/utils/helpers";
 import iconavail from "public/images/icon_avail.png";
 import iconaircon from "public/images/icon_aircon.png";
 import iconutils from "public/images/icon_utils.png";
 import iconarchive from "public/images/icon_archive.png";
-import { UserType } from "@prisma/client";
-import Error404 from "~/pages/404";
 import { useState } from "react";
 import toast from "react-hot-toast";
 
@@ -44,9 +41,36 @@ const RoomShow: React.FC<{
       roomData ? roomData?.accommodationId : "",
     );
 
-  const archiveRoom = api.room.archive.useMutation();
-  const unarchiveRoom = api.room.unarchive.useMutation();
-  const deleteRoom = api.room.delete.useMutation();
+  const archiveRoom = api.room.archive.useMutation({
+    onSuccess: () => {
+      toast.success("Successfully Archived Room!", {
+        position: "bottom-right",
+        duration: 2000,
+      });
+      setShowPopUpArchive(false);
+      router.reload();
+    },
+  });
+  const unarchiveRoom = api.room.unarchive.useMutation({
+    onSuccess: () => {
+      toast.success("Successfully Unarchived Room!", {
+        position: "bottom-right",
+        duration: 2000,
+      });
+      setShowPopUpUnarchive(false);
+      router.reload();
+    },
+  });
+  const deleteRoom = api.room.delete.useMutation({
+    onSuccess: () => {
+      setShowPopUpDelete(false);
+      toast.success("Successfully Deleted Room!", {
+        position: "bottom-right",
+        duration: 2000,
+      });
+      router.reload();
+    },
+  });
 
   const [showPopUpArchive, setShowPopUpArchive] = useState(false);
   const [showPopUpUnarchive, setShowPopUpUnarchive] = useState(false);
@@ -166,84 +190,29 @@ const RoomShow: React.FC<{
               <h2 className="text-xl font-bold text-white">{roomBeds}</h2>
             </div>
           </div>
-          {/* AVAILABILITY */}
-          <div className="mb-2 mt-2 rounded-xl border-2 bg-white px-5 py-1">
-            <div className="flex flex-row">
-              <div className="h-15 relative flex w-20 flex-col items-start rounded-full">
-                <Image
-                  src={iconavail}
-                  className="object-scale-down object-left"
-                  alt="Availability Icon"
-                  fill
-                />
-              </div>
-              <div className="px-4">
-                <h1 className="text-2xl font-bold text-p-dviolet">
-                  Availability
-                </h1>
-                <h1 className="text-xl">
-                  {roomOccupied ? "Occupied" : "Unoccupied"}
-                </h1>
-              </div>
-            </div>
-          </div>
-          {/* AIRCONDITIONER */}
-          <div className="mb-2 mt-2 rounded-xl border-2 bg-white px-5 py-1">
-            <div className="flex flex-row">
-              <div className="h-15 relative flex w-20 flex-col items-start rounded-full">
-                <Image
-                  src={iconaircon}
-                  className="object-scale-down object-left"
-                  alt="Aiconditioner Icon"
-                  fill
-                />
-              </div>
-              <div className="px-4">
-                <h1 className="text-2xl font-bold text-p-dviolet">
-                  Airconditioner
-                </h1>
-                <h1 className="text-xl">{roomAircon ? "With" : "Without"}</h1>
-              </div>
-            </div>
-          </div>
-          {/* UTILITIES */}
-          <div className="mb-2 mt-2 rounded-xl border-2 bg-white px-5 py-1">
-            <div className="flex flex-row">
-              <div className="h-15 relative flex w-20 flex-col items-start rounded-full">
-                <Image
-                  src={iconutils}
-                  className="object-scale-down object-left"
-                  alt="Ulitities Icon"
-                  fill
-                />
-              </div>
-              <div className="px-4">
-                <h1 className="text-2xl font-bold text-p-dviolet">Utilities</h1>
-                <h1 className="text-xl">{roomUtils ? "With" : "Without"}</h1>
-              </div>
-            </div>
-          </div>
+
+          {/* ICONS */}
+          {[
+            { icon: iconavail, name: "Availability", boolvalue: roomOccupied },
+            { icon: iconaircon, name: "Airconditioner", boolvalue: roomAircon },
+            { icon: iconutils, name: "Utilities", boolvalue: roomUtils },
+          ].map((item, index) => (
+            <RoomRow
+              key={index}
+              icon={item.icon}
+              name={item.name}
+              boolvalue={item.boolvalue}
+            />
+          ))}
+
           {/* ARCHIVED */}
           {/* if landlord ka you will see it, otherwise no */}
           {isLandlordViewing && (
-            <div className="mb-2 mt-2 rounded-xl border-2 bg-white px-5 py-1">
-              <div className="flex flex-row">
-                <div className="h-15 relative flex w-20 flex-col items-start rounded-full">
-                  <Image
-                    src={iconarchive}
-                    className="object-scale-down object-left"
-                    alt="Archived Icon"
-                    fill
-                  />
-                </div>
-                <div className="px-4">
-                  <h1 className="text-2xl font-bold text-p-dviolet">
-                    Archived
-                  </h1>
-                  <h1 className="text-xl">{roomArchive ? "Yes" : "No"}</h1>
-                </div>
-              </div>
-            </div>
+            <RoomRow
+              icon={iconarchive}
+              name={"Archived"}
+              boolvalue={roomArchive}
+            />
           )}
         </div>
       </div>
@@ -258,14 +227,8 @@ const RoomShow: React.FC<{
             <div className="flex flex-row">
               <button
                 className="mx-2 mt-4 rounded bg-p-dviolet px-4 py-2 text-white hover:bg-p-dbviolet"
-                onClick={(d) => {
+                onClick={() => {
                   archiveRoom.mutate(roomID);
-                  toast.success("Successfully Archived Room!", {
-                    position: "bottom-right",
-                    duration: 1000,
-                  });
-                  setShowPopUpArchive(false);
-                  router.reload();
                 }}
               >
                 Yes
@@ -288,14 +251,8 @@ const RoomShow: React.FC<{
             <div className="flex flex-row">
               <button
                 className="mx-2 mt-4 rounded bg-p-dviolet px-4 py-2 text-white hover:bg-p-dbviolet"
-                onClick={(d) => {
+                onClick={() => {
                   unarchiveRoom.mutate(roomID);
-                  toast.success("Successfully Unarchived Room!", {
-                    position: "bottom-right",
-                    duration: 1000,
-                  });
-                  setShowPopUpUnarchive(false);
-                  router.reload();
                 }}
               >
                 Yes
@@ -318,14 +275,8 @@ const RoomShow: React.FC<{
             <div className="flex flex-row">
               <button
                 className="mx-2 mt-4 rounded bg-p-dviolet px-4 py-2 text-white hover:bg-p-dbviolet"
-                onClick={(d) => {
+                onClick={() => {
                   deleteRoom.mutate(roomID);
-                  setShowPopUpDelete(false);
-                  toast.success("Successfully Deleted Room!", {
-                    position: "bottom-right",
-                    duration: 1000,
-                  });
-                  router.reload();
                 }}
               >
                 Yes
@@ -346,3 +297,30 @@ const RoomShow: React.FC<{
 };
 
 export default RoomShow;
+
+const RoomRow: React.FC<{
+  name: string;
+  icon: StaticImageData;
+  boolvalue: boolean;
+}> = ({ name, icon, boolvalue }) => {
+  return (
+    <div className="mb-2 mt-2 rounded-xl border-2 bg-white px-5 py-1">
+      <div className="flex flex-row">
+        <div className="relative flex h-12 w-12 flex-col items-start rounded-full sm:h-20 sm:w-20">
+          <Image src={icon} className="object-left" alt={`${name} Icon`} fill />
+        </div>
+        <div className="flex grow flex-row items-center">
+          <h1 className="w-[50%] min-w-fit px-4 text-2xl font-bold text-p-dviolet">
+            {name}
+          </h1>
+
+          {boolvalue ? (
+            <h1 className="text-2xl font-extrabold text-green-600">✓</h1>
+          ) : (
+            <h1 className="text-2xl font-extrabold text-red-600">✕</h1>
+          )}
+        </div>
+      </div>
+    </div>
+  );
+};

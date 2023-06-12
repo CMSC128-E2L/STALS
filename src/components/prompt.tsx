@@ -5,11 +5,8 @@ const ConfirmationPrompt: React.FC<{
   submessage: string;
 }> = ({ onConfirm, onCancel, message, submessage }) => {
   return (
-    <center>
-      <div
-        id="prompt"
-        className="fixed z-50 h-[calc(100%-1rem)] max-h-full overflow-y-auto overflow-x-hidden p-4 backdrop-blur-sm md:inset-0"
-      >
+    <center className="fixed left-0 top-0 z-50 h-full w-full p-4 backdrop-blur-sm md:inset-0">
+      <div id="prompt">
         <div className="relative max-h-full w-full max-w-md">
           <div className="relative rounded-lg bg-white shadow dark:bg-gray-700">
             <button
@@ -49,10 +46,10 @@ const ConfirmationPrompt: React.FC<{
                   d="M12 8v4m0 4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"
                 ></path>
               </svg>
-              <h3 className="mb-2 text-lg font-bold text-white dark:text-white">
+              <h3 className="mb-2 text-lg font-bold text-black dark:text-white">
                 {message}
               </h3>
-              <p className="mb-5 text-start font-normal text-gray-500 dark:text-gray-400">
+              <p className="mb-5 text-center font-normal text-gray-500 dark:text-gray-400">
                 {submessage}
               </p>
               <button

@@ -7,12 +7,13 @@ import { useRouter } from "next/router";
 import { dynamicRouteID, notAuthenticated } from "~/utils/helpers";
 import { useEffect } from "react";
 import Link from "next/link";
-import bgpic from "public/images/addaccom_bg.png";
+import bgpic from "public/images/background_addedit_accom.png";
 import toast from "react-hot-toast";
 import { useSession } from "next-auth/react";
 import LoadingSpinner from "~/components/loadingSpinner";
 import Error401 from "~/pages/401";
 import { UserType } from "@prisma/client";
+import FormError from "~/components/formError";
 
 export default function AddRoom() {
   const userSession = useSession({ required: true });
@@ -23,10 +24,11 @@ export default function AddRoom() {
     handleSubmit,
     setValue,
     formState: { errors },
+    reset: resetForm,
   } = useForm<RouterInputs["room"]["add"]>({
     resolver: zodResolver(roomAddSchema),
     defaultValues: {
-      accommodationId: "",
+      accommodationId: id,
     },
   });
 
@@ -34,7 +36,16 @@ export default function AddRoom() {
     setValue("accommodationId", id);
   }, [id, setValue]);
 
-  const addRoom = api.room.add.useMutation();
+  const addRoom = api.room.add.useMutation({
+    onSuccess: () => {
+      toast.success("Successfully Added Room!", {
+        position: "bottom-right",
+        duration: 3000,
+      });
+      resetForm();
+      setValue("accommodationId", id);
+    },
+  });
 
   if (notAuthenticated(userSession.status)) {
     return <LoadingSpinner />;
@@ -48,8 +59,8 @@ export default function AddRoom() {
     <div className="">
       <img className="site-background" src={bgpic.src} alt="background" />
       <NavBar />
-      <div className="inset-x-0 flex h-screen items-center justify-center">
-        <div className="shadow-md/50 w-1/3 rounded-xl bg-white/70 px-10 py-10 shadow">
+      <div className="flex min-h-[90vh] items-center justify-center">
+        <div className="shadow-md/50 w-full rounded-xl bg-white/70 px-10 py-10 shadow sm:w-2/3 md:w-2/4">
           <div className="item-center flex justify-center px-2 pb-0 pt-0 drop-shadow-md">
             <h1 className="text-3xl font-bold text-p-dviolet">Add Room</h1>
           </div>
@@ -63,50 +74,50 @@ export default function AddRoom() {
             onSubmit={handleSubmit(
               (d) => {
                 addRoom.mutate(d);
-                toast.success("Successfully Added Room!", {
-                  position: "bottom-right",
-                  duration: 1000,
-                });
-                router.back();
-                setTimeout(() => router.reload(), 50);
               },
               (error) => {
                 console.log(error);
                 toast.error("Cannot Add Room!", {
                   position: "bottom-right",
-                  duration: 1000,
+                  duration: 2000,
                 });
               },
             )}
           >
             <div className="flex flex-col space-y-2.5">
               <div>
+                <h2 className="form-h2 form-field-required">Price</h2>
                 <input
-                  className="add-acc-input-text-field"
+                  className={`add-acc-input-text-field ${
+                    errors.price ? "input-text-field-error" : ""
+                  } `}
                   placeholder="Price"
-                  pattern="^\d+(\.\d+)?$"
-                  type="text"
                   {...register("price", {
-                    valueAsNumber: true,
-                    // eslint-disable-next-line @typescript-eslint/no-unsafe-argument
-                    setValueAs: (value: string) => parseFloat(value).toFixed(2),
+                    setValueAs: (value) => String(value),
                   })}
-                  required
-                ></input>
+                  title="Must be a positive float value."
+                />
+
+                <FormError error={errors.price?.message} />
               </div>
               <div>
+                <h2 className="form-h2 form-field-required">Number of Beds</h2>
                 <input
-                  className="add-acc-input-text-field"
+                  className={`add-acc-input-text-field ${
+                    errors.num_of_beds ? "input-text-field-error" : ""
+                  } `}
                   placeholder="Number of Beds"
-                  pattern="[0-9]+"
-                  type="number"
-                  {...register("num_of_beds", { valueAsNumber: true })}
-                  required
-                ></input>
+                  {...register("num_of_beds", {
+                    setValueAs: (value) => String(value),
+                  })}
+                  title="Must be a positive int value."
+                />
+                <FormError error={errors.num_of_beds?.message} />
               </div>
+
               {/* yung tatlong dropdown */}
               <div>
-                <h2 className="form-h2">Availability</h2>
+                <h2 className="form-h2 form-field-required">Availability</h2>
                 <select
                   className="form-dropdown peer"
                   placeholder="Type"
@@ -121,7 +132,7 @@ export default function AddRoom() {
                 </select>
               </div>
               <div>
-                <h2 className="form-h2">Airconditioning</h2>
+                <h2 className="form-h2 form-field-required">Airconditioning</h2>
                 <select
                   className="form-dropdown peer"
                   placeholder="Type"
@@ -136,7 +147,7 @@ export default function AddRoom() {
                 </select>
               </div>
               <div>
-                <h2 className="form-h2">Utilities</h2>
+                <h2 className="form-h2 form-field-required">Utilities</h2>
                 <select
                   className="form-dropdown peer"
                   placeholder="Type"
@@ -160,14 +171,14 @@ export default function AddRoom() {
               </div>
 
               <div>
-                <button
-                  className="flex w-full justify-center rounded-full bg-gray-500 px-4 py-2 font-bold text-white opacity-75 shadow shadow-gray-400"
+                <input
+                  className="flex w-full cursor-pointer justify-center rounded-full bg-gray-500 px-4 py-2 font-bold text-white opacity-75 shadow shadow-gray-400"
+                  type="button"
+                  value="Cancel"
                   onClick={() => {
                     router.back();
                   }}
-                >
-                  Cancel
-                </button>
+                />
               </div>
             </div>
           </form>
