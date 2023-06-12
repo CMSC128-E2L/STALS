@@ -139,7 +139,7 @@ const ProfileButton: React.FC = () => {
     } else {
       return (
         <div className="block w-full rounded-lg p-2 text-left">
-          <p className="text-lg font-bold text-p-rblue">Guest</p>
+          <p className="text-lg font-bold text-p-bviolet">Guest</p>
           <p className="mb-1 overflow-hidden truncate text-sm italic text-gray-400">
             Unregistered user
           </p>
