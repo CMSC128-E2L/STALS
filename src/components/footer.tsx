@@ -24,7 +24,7 @@ export default function FooterComponent() {
             <Link href="../homepage" className="hover:underline">
               STALS
             </Link>
-            . All Rights Reserved.
+            . <Link href="/devs">All Rights Reserved.</Link>
           </span>
           <div className="mt-4 flex space-x-6 sm:mt-0 sm:justify-center">
             <a
