@@ -8,6 +8,9 @@ import LoadingSpinner from "~/components/loadingSpinner";
 import Link from "next/link";
 import Error401 from "~/pages/401";
 import bg from "public/images/background_management.png";
+import { useEffect, useState } from "react";
+import { type accommodationGetManyExperiementSchema } from "~/utils/apitypes";
+import { type z } from "zod";
 
 function priceCommas(x: string) {
   const pattern = /(-?\d+)(\d{3})/;
@@ -20,30 +23,26 @@ export default function Delete_Archive_Accomm() {
 
   const isUserAdmin = userSession?.data?.profile.type === UserType.ADMIN;
 
-  const methods = api.accommodation.getManyExperiment.useInfiniteQuery(
-    {
-      showAll: true,
-      ...(!isUserAdmin ? { landlord: userSession?.data?.user.id } : {}),
-      limit: 10,
-
-      name: undefined,
-      address: undefined,
-      location: undefined,
-      landlord: undefined,
-      barangay: undefined,
-      num_of_rooms: undefined,
-      price_min: undefined,
-      price_max: undefined,
-      typeArray: [],
-      tagArray: [],
-      sortByName: null,
-      sortByRating: null,
-      sortByPrice: null,
-    },
-    {
-      getNextPageParam: (lastPage) => lastPage.nextCursor,
-    },
-  );
+  const [queryInput, setQueryInput] = useState<
+    z.infer<typeof accommodationGetManyExperiementSchema>
+  >({
+    showAll: true,
+    ...(isUserAdmin ? {} : { landlord: userSession?.data?.user.id }),
+    limit: 10,
+    name: undefined,
+    address: undefined,
+    location: undefined,
+    landlord: undefined,
+    barangay: undefined,
+    num_of_rooms: undefined,
+    price_min: undefined,
+    price_max: undefined,
+    typeArray: [],
+    tagArray: [],
+    sortByName: null,
+    sortByRating: null,
+    sortByPrice: null,
+  });
 
   const {
     isLoading: queryLoading,
@@ -52,7 +51,16 @@ export default function Delete_Archive_Accomm() {
     isFetchingNextPage,
     hasNextPage,
     refetch: refetchAccoms,
-  } = methods;
+  } = api.accommodation.getManyExperiment.useInfiniteQuery(queryInput, {
+    getNextPageParam: (lastPage) => lastPage.nextCursor,
+  });
+
+  useEffect(() => {
+    setQueryInput((prev) => ({
+      ...prev,
+      ...(isUserAdmin ? {} : { landlord: userSession?.data?.user.id }),
+    }));
+  }, [isUserAdmin, userSession]);
 
   const refetchData = () => {
     void refetchAccoms();
