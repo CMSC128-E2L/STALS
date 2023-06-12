@@ -1,9 +1,7 @@
 import NavBar from "~/components/navbar";
-import UserProfile from "~/components/userProfile";
 import StarRow from "~/components/starRow";
 import RoomButton from "~/components/roomButton";
 import Link from "next/link";
-import Image from "next/image";
 import { api } from "~/utils/api";
 import router, { useRouter } from "next/router";
 import { dynamicRouteID, stalsDBstringArray } from "~/utils/helpers";
@@ -640,7 +638,7 @@ export default function Accommodation() {
                 )}
             </div>
             {/*Report button*/}
-            {isUserViewing && (
+            {!accommLoading && accommData && isUserViewing && (
               <div className="m-3 mb-1 flex justify-end pb-1">
                 {" "}
                 {/*The report button will stick to the bottom left of the screen*/}
@@ -649,7 +647,7 @@ export default function Accommodation() {
                   onClick={() => {
                     reportAccomm.mutate({
                       reported_id: id,
-                      reported_name: accommData!.name,
+                      reported_name: accommData.name,
                       report: "",
                       type_reported: "ACCOMMODATION",
                     });
