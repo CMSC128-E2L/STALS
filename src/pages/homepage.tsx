@@ -425,7 +425,7 @@ export default function HomePage() {
             >
               {/* Location */}
               <div className="mb-1">
-                <h2 className="filter-header">Barangay</h2>
+                <h2 className="filter-header mb-1">Barangay</h2>
                 <Location setUserInputs={setUserInputs} methods={methods} />
               </div>
               <hr className="filter-border"></hr>
@@ -434,7 +434,7 @@ export default function HomePage() {
                 className="filter-header mb-2"
                 onClick={toggleTypeDropdown}
               >
-                Type
+                Types
                 <div className="mr-2"></div>
                 <svg
                   className={`h-5 w-5 ${
@@ -859,7 +859,7 @@ export default function HomePage() {
               <hr className="filter-border"></hr>
               {/* Include */}
               <div className="mb-4">
-                <h2 className="filter-header">Include</h2>
+                <h2 className="filter-header mb-1">Tags</h2>
                 <Tags setUserInputs={setUserInputs} methods={methods} />
               </div>
               {/* Button will not show up for guests */}
