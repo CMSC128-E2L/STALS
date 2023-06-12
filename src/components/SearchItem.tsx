@@ -52,47 +52,49 @@ export const SearchItem: React.FC<{
                     </span>
                   ))}
               <div className="flex">
-                <svg
-                  xmlns="http://www.w3.org/2000/svg"
-                  className="icon icon-tabler icon-tabler-currency-peso mr-1.5 mt-0.5"
-                  width="20"
-                  height="20"
-                  viewBox="0 0 24 24"
-                  stroke-width="2"
-                  stroke="currentColor"
-                  fill="none"
-                  stroke-linecap="round"
-                  stroke-linejoin="round"
-                >
-                  <path stroke="none" d="M0 0h24v24H0z" fill="none"></path>
-                  <path d="M8 19v-14h3.5a4.5 4.5 0 1 1 0 9h-3.5"></path>
-                  <path d="M18 8h-12"></path>
-                  <path d="M18 11h-12"></path>
-                </svg>
-                <p className="text-md font-semibold text-p-black">
-                  {priceCommas(price)}
-                </p>
-              </div>
-              <div className="flex">
-                <svg
-                  xmlns="http://www.w3.org/2000/svg"
-                  className="icon icon-tabler icon-tabler-map-pin mr-1.5 mt-0.5"
-                  width="20"
-                  height="20"
-                  viewBox="0 0 24 24"
-                  stroke-width="2"
-                  stroke="currentColor"
-                  fill="none"
-                  stroke-linecap="round"
-                  stroke-linejoin="round"
-                >
-                  <path stroke="none" d="M0 0h24v24H0z" fill="none"></path>
-                  <path d="M9 11a3 3 0 1 0 6 0a3 3 0 0 0 -6 0"></path>
-                  <path d="M17.657 16.657l-4.243 4.243a2 2 0 0 1 -2.827 0l-4.244 -4.243a8 8 0 1 1 11.314 0z"></path>
-                </svg>
-                <p className="text-md mb-4 font-semibold text-p-black">
-                  {location}
-                </p>
+                <div className="flex">
+                  <svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    className="icon icon-tabler icon-tabler-currency-peso -ml-1 mr-1.5 mt-0.5"
+                    width="20"
+                    height="20"
+                    viewBox="0 0 24 24"
+                    stroke-width="2"
+                    stroke="currentColor"
+                    fill="none"
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                  >
+                    <path stroke="none" d="M0 0h24v24H0z" fill="none"></path>
+                    <path d="M8 19v-14h3.5a4.5 4.5 0 1 1 0 9h-3.5"></path>
+                    <path d="M18 8h-12"></path>
+                    <path d="M18 11h-12"></path>
+                  </svg>
+                  <p className="text-md font-semibold text-p-black">
+                    {priceCommas(price)}
+                  </p>
+                </div>
+                <div className="ml-4 flex">
+                  <svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    className="icon icon-tabler icon-tabler-map-pin mr-1.5 mt-0.5"
+                    width="20"
+                    height="20"
+                    viewBox="0 0 24 24"
+                    stroke-width="2"
+                    stroke="currentColor"
+                    fill="none"
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                  >
+                    <path stroke="none" d="M0 0h24v24H0z" fill="none"></path>
+                    <path d="M9 11a3 3 0 1 0 6 0a3 3 0 0 0 -6 0"></path>
+                    <path d="M17.657 16.657l-4.243 4.243a2 2 0 0 1 -2.827 0l-4.244 -4.243a8 8 0 1 1 11.314 0z"></path>
+                  </svg>
+                  <p className="text-md mb-4 font-semibold text-p-black">
+                    {location}
+                  </p>
+                </div>
               </div>
             </div>
             <div className="w-full pl-5">
