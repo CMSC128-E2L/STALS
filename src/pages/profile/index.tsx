@@ -65,16 +65,22 @@ export default function Profile() {
         {/* admin settings and notification */}
         <section className="w-full">
           <div className="mb-4 rounded-3xl bg-white p-10 shadow-lg">
+            <MyAccom showArchived={false} />
+          </div>
+          <div className="mb-4 rounded-3xl bg-white p-10 shadow-lg">
+            <MyAccom showArchived={true} />
+          </div>
+          {/* <div className="mb-4 rounded-3xl bg-white p-10 shadow-lg">
             <h1 className="text-center text-xl font-bold text-p-dbviolet">
               Admin Settings
             </h1>
             <p className="b mb-2 mt-2 w-1/2 text-sm text-gray-400">
-              <Link href="">Manage Reviews</Link>
+              <Link href="managereport">Manage Reviews</Link>
             </p>
             <p className="mb-2 mt-2 text-sm text-gray-400">
               <Link href="accommodation/management">Manage Accommodations</Link>
             </p>
-          </div>
+          </div> */}
           <div className="rounded-3xl bg-white p-10 shadow-lg">
             <h1 className="mb-10 text-center text-xl font-bold text-p-dbviolet  ">
               Notifications
