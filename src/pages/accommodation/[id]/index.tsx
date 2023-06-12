@@ -204,7 +204,7 @@ export default function Accommodation() {
       });
     }
 
-    if (calledOnce.current) pdf.save("STALS.pdf");
+    if (calledOnce.current) pdf.save(`${accommData?.name ?? "STALS"}.pdf`);
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [pdfdownload]);
 
