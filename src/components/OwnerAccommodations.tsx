@@ -21,18 +21,23 @@ export const OwnerAccommodations: React.FC<{ showArchived: boolean }> = ({
       <>
         {firstData ? (
           <>
-            {firstData?.map(({ id, name, price, barangay, tagArray }) => (
-              <SearchItem
-                key={id + name}
-                id={id}
-                name={name}
-                price={
-                  price !== undefined && price !== null ? price.toFixed(2) : ""
-                }
-                location={barangay}
-                tags={stalsDBstringArray(tagArray)}
-              />
-            ))}
+            {firstData?.map(
+              ({ id, name, price, barangay, typeArray, tagArray }) => (
+                <SearchItem
+                  key={id + name}
+                  id={id}
+                  name={name}
+                  price={
+                    price !== undefined && price !== null
+                      ? price.toFixed(2)
+                      : ""
+                  }
+                  location={barangay}
+                  type={stalsDBstringArray(typeArray)}
+                  tags={stalsDBstringArray(tagArray)}
+                />
+              ),
+            )}
           </>
         ) : (
           <p>No content</p>
