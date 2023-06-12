@@ -10,10 +10,10 @@ export const FaveAccoms: React.FC = () => {
     data: favorites,
     isLoading: queryLoading,
     refetch,
+    isFetching,
   } = api.user.getFavorites.useQuery();
 
   useEffect(() => {
-    // Refetch favorites data whenever the favorites change
     if (!queryLoading && session.data) {
       void refetch();
     }
@@ -22,7 +22,14 @@ export const FaveAccoms: React.FC = () => {
   if (!queryLoading && session.data) {
     return (
       <>
-        {favorites && favorites.length > 0 ? (
+        {isFetching ? (
+          <>
+            <div className="-z-30 ml-4 mr-4 mt-4 h-64 w-64 animate-pulse rounded-xl border bg-p-gray"></div>
+            <div className="ml-4h-64 -z-30 mr-4 mt-4 w-64 animate-pulse rounded-xl border bg-p-gray"></div>
+            <div className="-z-30 ml-4 mr-4 mt-4 h-64 w-64 animate-pulse rounded-xl border bg-p-gray"></div>
+            <div className="-z-30 ml-4 mr-4 mt-4 h-64 w-64 animate-pulse rounded-xl border bg-p-gray"></div>
+          </>
+        ) : favorites && favorites.length > 0 ? (
           <>
             {favorites?.map((favorite) => (
               <SearchItem
