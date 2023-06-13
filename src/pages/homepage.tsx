@@ -953,7 +953,9 @@ const Location: React.FC<{
           onChange={handleChange}
           onKeyDown={(evt) => {
             if (evt.key == "Enter") {
-              if (barangayEntries && barangayEntries?.length > 0) {
+              if (evt.currentTarget.value == "") {
+                handleSuggestionClick("");
+              } else if (barangayEntries && barangayEntries?.length > 0) {
                 barangayEntries.reverse().forEach((entry) => {
                   if (
                     entry.barangay &&
@@ -962,6 +964,8 @@ const Location: React.FC<{
                     handleSuggestionClick(entry.barangay);
                     console.log("proc");
                     return;
+                  } else {
+                    handleSuggestionClick(evt.currentTarget.value);
                   }
                 });
               }
