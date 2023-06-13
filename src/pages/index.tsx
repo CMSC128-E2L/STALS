@@ -69,10 +69,10 @@ const Home: NextPage = () => {
               id="up"
             >
               <div className="container mx-auto flex flex-col items-center justify-between py-4 lg:flex-row">
-                <div className="mb-4 flex items-center lg:mb-0">
+                <a href="homepage" className="mb-4 flex items-center lg:mb-0">
                   <Image src={logo} alt="Logo" className="mr-2 h-8 w-8" />
                   <span className="text-xl font-bold">STALS</span>
-                </div>
+                </a>
 
                 <nav className="flex items-center font-bold">
                   <a
@@ -98,7 +98,7 @@ const Home: NextPage = () => {
             </header>
           </div>
 
-          <section className="">
+          <section className="mt-16">
             <div className="absolute inset-0 z-20 flex flex-col items-center justify-center">
               <p
                 className={`text-3xl font-extrabold tracking-tight lg:text-6xl xl:text-8xl ${
