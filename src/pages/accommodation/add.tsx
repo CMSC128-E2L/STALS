@@ -58,6 +58,7 @@ export default function AddAccommodation() {
         duration: 3000,
       });
       resetFrom();
+      router.back();
     },
   });
 
