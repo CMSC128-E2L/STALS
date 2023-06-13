@@ -964,10 +964,10 @@ const Location: React.FC<{
                     handleSuggestionClick(entry.barangay);
                     console.log("proc");
                     return;
-                  } else {
-                    handleSuggestionClick(evt.currentTarget.value);
                   }
                 });
+              } else {
+                handleSuggestionClick(evt.currentTarget.value);
               }
             }
           }}
