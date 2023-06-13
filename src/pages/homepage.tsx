@@ -953,6 +953,7 @@ const Location: React.FC<{
           onChange={handleChange}
           onKeyDown={(evt) => {
             if (evt.key == "Enter") {
+              let selected = false;
               if (evt.currentTarget.value == "") {
                 handleSuggestionClick("");
               } else if (barangayEntries && barangayEntries?.length > 0) {
@@ -962,12 +963,13 @@ const Location: React.FC<{
                     entry.barangay.toLowerCase().includes(value.toLowerCase())
                   ) {
                     handleSuggestionClick(entry.barangay);
-                    console.log("proc");
+                    selected = true;
                     return;
                   }
                 });
-              } else {
-                handleSuggestionClick(evt.currentTarget.value);
+                if (!selected) {
+                  handleSuggestionClick(evt.currentTarget.value);
+                }
               }
             }
           }}
