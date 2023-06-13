@@ -2,6 +2,7 @@ import { type RouterInputs, api } from "~/utils/api";
 import { useSession } from "next-auth/react";
 import SearchItem from "./SearchItem";
 import { stalsDBstringArray } from "~/utils/helpers";
+import { useEffect } from "react";
 
 export const OwnerAccommodations: React.FC<{ showArchived: boolean }> = ({
   showArchived,
@@ -12,8 +13,17 @@ export const OwnerAccommodations: React.FC<{ showArchived: boolean }> = ({
     is_archived: showArchived,
   };
 
-  const { data: firstData, isLoading: queryLoading } =
-    api.accommodation.getMany.useQuery(query);
+  const {
+    data: firstData,
+    isLoading: queryLoading,
+    refetch,
+  } = api.accommodation.getMany.useQuery(query);
+
+  useEffect(() => {
+    if (!queryLoading && session.data) {
+      void refetch();
+    }
+  }, [queryLoading, session.data]);
 
   if (!queryLoading && session.data) {
     return (
