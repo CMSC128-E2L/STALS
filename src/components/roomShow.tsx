@@ -76,7 +76,10 @@ const RoomShow: React.FC<{
   const [showPopUpUnarchive, setShowPopUpUnarchive] = useState(false);
   const [showPopUpDelete, setShowPopUpDelete] = useState(false);
 
-  const isLandlordViewing = accommData?.landlord === sessionData?.user?.id;
+  const isLandlordViewing =
+    accommData !== null &&
+    accommData !== undefined &&
+    accommData?.landlord === sessionData?.user?.id;
 
   return (
     <div className="flex flex-col">
@@ -306,7 +309,7 @@ const RoomRow: React.FC<{
   return (
     <div className="mb-2 mt-2 rounded-xl border-2 bg-white px-5 py-1">
       <div className="flex flex-row">
-        <div className="relative flex h-12 w-12 flex-col items-start rounded-full sm:h-20 sm:w-20">
+        <div className="relative flex h-12 w-12 flex-col items-start rounded-full">
           <Image src={icon} className="object-left" alt={`${name} Icon`} fill />
         </div>
         <div className="flex grow flex-row items-center">
