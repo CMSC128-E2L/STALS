@@ -371,7 +371,7 @@ export default function DevsPage() {
           <h2 className="mt-3 text-center text-xl font-semibold">
             Reginald Recario
           </h2>
-          <p className="mt-1 text-center text-gray-600">Instructor</p>
+          <p className="mt-1 text-center text-gray-600">Assistant Professor</p>
         </div>
       </div>
     </div>
