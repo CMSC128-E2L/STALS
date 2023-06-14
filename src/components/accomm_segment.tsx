@@ -6,6 +6,7 @@ import placeholder from "public/images/logo d-violet.png";
 import { useSession } from "next-auth/react";
 import ConfirmationPrompt from "./prompt";
 import { type Room, UserType, type User } from "@prisma/client";
+import { env } from "~/env.mjs";
 
 {
   /* TODO: Tweak data types to be displayed for each variable in the component */
@@ -39,8 +40,7 @@ const Accomm_Segment: React.FC<{
   refetch,
 }) => {
   const [imgSrc, setImgSrc] = useState(
-    // `https://stals-worker.p0lbang.workers.dev/${id}.jpg`,
-    `https://stals-worker.p0lbang.workers.dev/api/v2/${id}/${id}`,
+    `${env.CLOUDFLARE_WORKER_LINK}/api/v2/${id}/${id}`,
   );
   const { data: userSession } = useSession();
   const [showDelPrompt, setShowDelPrompt] = useState(false);

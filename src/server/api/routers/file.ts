@@ -1,15 +1,13 @@
 import { createTRPCRouter, publicProcedure } from "~/server/api/trpc";
-
 import { s3Client } from "~/utils/storage";
-
 import {
   DeleteObjectCommand,
   DeleteObjectsCommand,
   ListObjectsV2Command,
   type ObjectIdentifier,
 } from "@aws-sdk/client-s3";
-
 import { z } from "zod";
+import { env } from "~/env.mjs";
 
 export const fileRouter = createTRPCRouter({
   deleteOne: publicProcedure
@@ -55,7 +53,7 @@ export const fileRouter = createTRPCRouter({
     )
     .query(async ({ input, ctx }) => {
       const output = await fetch(
-        `https://stals-worker.p0lbang.workers.dev/getAll/${input.id}`,
+        `${env.CLOUDFLARE_WORKER_LINK}/getAll/${input.id}`,
       );
       const listimages: string[] = (await output.json()) as string[];
       return listimages;

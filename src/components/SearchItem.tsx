@@ -3,6 +3,7 @@ import { useState } from "react";
 import Image from "next/image";
 import placeholder from "public/images/stals_purple_logo.png";
 import StarRow from "./starRow";
+import { env } from "~/env.mjs";
 
 export const SearchItem: React.FC<{
   id: string;
@@ -14,8 +15,7 @@ export const SearchItem: React.FC<{
   tags: string[];
 }> = ({ id, name, price, location, average_rating, type, tags }) => {
   const [imgSrc, setImgSrc] = useState(
-    // `https://stals-worker.p0lbang.workers.dev/${id}.jpg`,
-    `https://stals-worker.p0lbang.workers.dev/api/v2/${id}/${id}`,
+    `${env.CLOUDFLARE_WORKER_LINK}/api/v2/${id}/${id}`,
   );
 
   return (
