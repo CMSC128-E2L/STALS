@@ -22,7 +22,6 @@ const server = z.object({
   R2_ACCOUNT_ID: z.string().min(1),
   R2_ACCESS_KEY: z.string().min(1),
   R2_SECRET_ACCESS_KEY: z.string().min(1),
-  NEXT_PUBLIC_CLOUDFLARE_WORKER_LINK: z.string().min(1),
   DISCORD_CLIENT_ID: z.string().optional(),
   DISCORD_CLIENT_SECRET: z.string().optional(),
   GOOGLE_CLIENT_ID: z.string().optional(),
@@ -34,6 +33,7 @@ const server = z.object({
  * built with invalid env vars. To expose them to the client, prefix them with `NEXT_PUBLIC_`.
  */
 const client = z.object({
+  NEXT_PUBLIC_CLOUDFLARE_WORKER_LINK: z.string().min(1),
   // NEXT_PUBLIC_CLIENTVAR: z.string().min(1),
 });
 
