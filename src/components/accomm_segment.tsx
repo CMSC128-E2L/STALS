@@ -40,7 +40,7 @@ const Accomm_Segment: React.FC<{
   refetch,
 }) => {
   const [imgSrc, setImgSrc] = useState(
-    `${env.CLOUDFLARE_WORKER_LINK}/api/v2/${id}/${id}`,
+    `${env.NEXT_PUBLIC_CLOUDFLARE_WORKER_LINK}/api/v2/${id}/${id}`,
   );
   const { data: userSession } = useSession();
   const [showDelPrompt, setShowDelPrompt] = useState(false);

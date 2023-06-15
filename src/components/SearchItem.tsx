@@ -15,7 +15,7 @@ export const SearchItem: React.FC<{
   tags: string[];
 }> = ({ id, name, price, location, average_rating, type, tags }) => {
   const [imgSrc, setImgSrc] = useState(
-    `${env.CLOUDFLARE_WORKER_LINK}/api/v2/${id}/${id}`,
+    `${env.NEXT_PUBLIC_CLOUDFLARE_WORKER_LINK}/api/v2/${id}/${id}`,
   );
 
   return (

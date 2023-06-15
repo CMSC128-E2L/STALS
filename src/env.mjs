@@ -22,7 +22,7 @@ const server = z.object({
   R2_ACCOUNT_ID: z.string().min(1),
   R2_ACCESS_KEY: z.string().min(1),
   R2_SECRET_ACCESS_KEY: z.string().min(1),
-  CLOUDFLARE_WORKER_LINK: z.string().min(1),
+  NEXT_PUBLIC_CLOUDFLARE_WORKER_LINK: z.string().min(1),
   DISCORD_CLIENT_ID: z.string().optional(),
   DISCORD_CLIENT_SECRET: z.string().optional(),
   GOOGLE_CLIENT_ID: z.string().optional(),
@@ -53,7 +53,8 @@ const processEnv = {
   R2_ACCOUNT_ID: process.env.R2_ACCOUNT_ID,
   R2_ACCESS_KEY: process.env.R2_ACCESS_KEY,
   R2_SECRET_ACCESS_KEY: process.env.R2_SECRET_ACCESS_KEY,
-  CLOUDFLARE_WORKER_LINK: process.env.CLOUDFLARE_WORKER_LINK,
+  NEXT_PUBLIC_CLOUDFLARE_WORKER_LINK:
+    process.env.NEXT_PUBLIC_CLOUDFLARE_WORKER_LINK,
   GOOGLE_CLIENT_ID: process.env.GOOGLE_CLIENT_ID,
   GOOGLE_CLIENT_SECRET: process.env.GOOGLE_CLIENT_SECRET,
   // NEXT_PUBLIC_CLIENTVAR: process.env.NEXT_PUBLIC_CLIENTVAR,

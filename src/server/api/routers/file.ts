@@ -53,7 +53,7 @@ export const fileRouter = createTRPCRouter({
     )
     .query(async ({ input, ctx }) => {
       const output = await fetch(
-        `${env.CLOUDFLARE_WORKER_LINK}/getAll/${input.id}`,
+        `${env.NEXT_PUBLIC_CLOUDFLARE_WORKER_LINK}/getAll/${input.id}`,
       );
       const listimages: string[] = (await output.json()) as string[];
       return listimages;
