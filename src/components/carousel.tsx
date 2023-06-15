@@ -56,20 +56,18 @@ const Carousel: React.FC<{ imageList: string[] }> = ({ imageList }) => {
         {isLoading && <LoadingSpinner />}
         <div className="absolute bottom-0 left-0 right-0 z-[2] mx-auto mb-4 flex list-none justify-center p-0">
           {filteredImages.map((_, index) => (
-            <>
-              <button
-                key={index}
-                type="button"
-                data-te-target="#carouselExampleIndicators"
-                data-te-slide-to={index}
-                onClick={() => handleIndicatorClick(index)}
-                className={`mx-[3px] box-content h-[3px] w-[30px] flex-initial cursor-pointer border-0 border-y-[10px] border-solid border-transparent bg-white bg-clip-padding p-0 -indent-[999px] ${
-                  index === activeIndex ? "opacity-100" : "opacity-50"
-                } transition-opacity duration-[600ms] ease-[cubic-bezier(0.25,0.1,0.25,1.0)] motion-reduce:transition-none`}
-                aria-current={index === activeIndex ? "true" : undefined}
-                aria-label={`Slide ${index + 1}`}
-              ></button>
-            </>
+            <button
+              key={index}
+              type="button"
+              data-te-target="#carouselExampleIndicators"
+              data-te-slide-to={index}
+              onClick={() => handleIndicatorClick(index)}
+              className={`mx-[3px] box-content h-[3px] w-[30px] flex-initial cursor-pointer border-0 border-y-[10px] border-solid border-transparent bg-white bg-clip-padding p-0 -indent-[999px] ${
+                index === activeIndex ? "opacity-100" : "opacity-50"
+              } transition-opacity duration-[600ms] ease-[cubic-bezier(0.25,0.1,0.25,1.0)] motion-reduce:transition-none`}
+              aria-current={index === activeIndex ? "true" : undefined}
+              aria-label={`Slide ${index + 1}`}
+            ></button>
           ))}
         </div>
 
@@ -152,20 +150,18 @@ const Carousel: React.FC<{ imageList: string[] }> = ({ imageList }) => {
           <div className="rounded bg-white p-3">
             <div className="absolute bottom-0 left-0 right-0 mx-auto mb-4 flex list-none justify-center p-0">
               {filteredImages.map((_, index) => (
-                <>
-                  <button
-                    key={index}
-                    type="button"
-                    data-te-target="#carouselExampleIndicators"
-                    data-te-slide-to={index}
-                    onClick={() => handleIndicatorClick(index)}
-                    className={`mx-[3px] box-content h-[3px] w-[30px] flex-initial cursor-pointer border-0 border-y-[10px] border-solid border-transparent bg-white bg-clip-padding p-0 -indent-[999px] ${
-                      index === activeIndex ? "opacity-100" : "opacity-50"
-                    } transition-opacity duration-[600ms] ease-[cubic-bezier(0.25,0.1,0.25,1.0)] motion-reduce:transition-none`}
-                    aria-current={index === activeIndex ? "true" : undefined}
-                    aria-label={`Slide ${index + 1}`}
-                  ></button>
-                </>
+                <button
+                  key={index}
+                  type="button"
+                  data-te-target="#carouselExampleIndicators"
+                  data-te-slide-to={index}
+                  onClick={() => handleIndicatorClick(index)}
+                  className={`mx-[3px] box-content h-[3px] w-[30px] flex-initial cursor-pointer border-0 border-y-[10px] border-solid border-transparent bg-white bg-clip-padding p-0 -indent-[999px] ${
+                    index === activeIndex ? "opacity-100" : "opacity-50"
+                  } transition-opacity duration-[600ms] ease-[cubic-bezier(0.25,0.1,0.25,1.0)] motion-reduce:transition-none`}
+                  aria-current={index === activeIndex ? "true" : undefined}
+                  aria-label={`Slide ${index + 1}`}
+                ></button>
               ))}
             </div>
 
