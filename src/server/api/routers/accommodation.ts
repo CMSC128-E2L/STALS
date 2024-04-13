@@ -207,11 +207,11 @@ export const accommodationRouter = createTRPCRouter({
               },
               num_of_rooms: input.num_of_rooms,
               tagArray: {
-                path: "$.values",
+                path: ["values"],
                 array_contains: input.tagArray ?? [],
               },
               typeArray: {
-                path: "$.values",
+                path: ["values"],
                 array_contains: input.typeArray ?? [],
               },
               price: {
